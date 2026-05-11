@@ -1,0 +1,22 @@
+{
+  "name": "@geopoto/geo-data",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/countries.ts",
+      "default": "./src/countries.ts"
+    },
+    "./map": {
+      "types": "./src/map.ts",
+      "default": "./src/map.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@geopoto/tsconfig": "workspace:*"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "printWidth": 80,
+  "sortImports": {
+    "customGroups": [
+      { "groupName": "@geopoto", "elementNamePattern": ["@geopoto/**"] }
+    ],
+    "groups": [
+      "side_effect",
+      "builtin",
+      "external",
+      "@geopoto",
+      ["internal", "subpath"],
+      ["parent", "sibling", "index"],
+      "style",
+      "unknown"
+    ],
+    "sortSideEffects": true
+  }
+}

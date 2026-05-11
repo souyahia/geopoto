@@ -1,0 +1,228 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/npm/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "plugins": ["typescript", "react", "unicorn", "import", "node", "oxc"],
+  "ignorePatterns": ["**/node_modules", "**/dist", "**/.next", "**/.expo"],
+  "rules": {
+    // -------------------------------------------------------
+    // Rules disabled
+    // -------------------------------------------------------
+
+    // React Native uses new JSX transform - no need for import React
+    "react/react-in-jsx-scope": "off",
+    // Too noisy with TS enums, type re-declarations, and callback params
+    "no-shadow": "off",
+    // Low-value: flags harmless escapes in regexes and strings
+    "no-useless-escape": "off",
+    // Conflicts with short-circuit patterns (e.g. `condition && doSomething()`)
+    "no-unused-expressions": "off",
+    // Style preference, not a correctness issue
+    "unicorn/no-array-sort": "off",
+    // Style preference - noisy outside tests too
+    "unicorn/consistent-function-scoping": "off",
+    // Style preference
+    "unicorn/prefer-add-event-listener": "off",
+    // Style preference
+    "unicorn/no-array-reverse": "off",
+    // Autofix rewrites logic (e.g. substituting caught error into unrelated expressions)
+    "preserve-caught-error": "off",
+
+    // -------------------------------------------------------
+    // Type-aware rules - disabled
+    // -------------------------------------------------------
+
+    // every `as` cast in the codebase
+    "typescript/no-unsafe-type-assertion": "off",
+    // Noisy with enum comparisons
+    "typescript/no-unsafe-enum-comparison": "off",
+    // `void expr` is common in fire-and-forget
+    "typescript/no-meaningless-void-operator": "off",
+    // Too noisy with method references
+    "typescript/unbound-method": "off",
+
+    // -------------------------------------------------------
+    // Severity fixes - categories give wrong level
+    // -------------------------------------------------------
+
+    "typescript/no-confusing-non-null-assertion": "error",
+    "typescript/no-duplicate-type-constituents": "error",
+    "no-unexpected-multiline": "error",
+    "typescript/no-unnecessary-type-constraint": "error",
+
+    // -------------------------------------------------------
+    // Core ESLint rules (pedantic/restriction/style)
+    // -------------------------------------------------------
+
+    "array-callback-return": "error",
+    "no-nested-ternary": "allow",
+    "default-case": "error",
+    "eqeqeq": "error",
+    "no-else-return": "warn",
+    "no-var": "error",
+    "prefer-const": "error",
+    "no-prototype-builtins": "error",
+    "no-case-declarations": "warn",
+    "no-fallthrough": "warn",
+    "no-regex-spaces": "error",
+    "no-console": "warn",
+    "no-empty": ["error", { "allowEmptyCatch": true }],
+    "prefer-rest-params": "error",
+    "prefer-spread": "error",
+    "no-array-constructor": "error",
+
+    // -------------------------------------------------------
+    // TypeScript plugin (pedantic/restriction/style)
+    // -------------------------------------------------------
+
+    "typescript/return-await": "error",
+    "typescript/prefer-promise-reject-errors": "error",
+    "typescript/ban-ts-comment": [
+      "warn",
+      {
+        "ts-ignore": "allow-with-description",
+        "ts-expect-error": "allow-with-description",
+        "ts-nocheck": true,
+        "ts-check": false,
+        "minimumDescriptionLength": 3
+      }
+    ],
+    "typescript/switch-exhaustiveness-check": "error",
+    "typescript/no-misused-promises": [
+      "warn",
+      { "checksVoidReturn": { "attributes": false } }
+    ],
+    "typescript/no-floating-promises": "error",
+    "typescript/no-base-to-string": "error",
+    "typescript/no-redundant-type-constituents": "error",
+    "typescript/restrict-template-expressions": "error",
+    "typescript/only-throw-error": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/no-explicit-any": "error",
+    "typescript/no-unsafe-function-type": "error",
+    "typescript/no-empty-object-type": "error",
+    "typescript/no-namespace": "error",
+    "typescript/no-require-imports": "error",
+    "typescript/prefer-includes": "error",
+    "typescript/require-await": "warn",
+    "typescript/restrict-plus-operands": "error",
+    "typescript/non-nullable-type-assertion-style": "error",
+    "typescript/consistent-type-imports": "error",
+    "typescript/consistent-type-assertions": "error",
+    "typescript/consistent-generic-constructors": "error",
+    "typescript/consistent-indexed-object-style": "error",
+    "typescript/no-inferrable-types": "error",
+    "typescript/prefer-function-type": "error",
+    "typescript/adjacent-overload-signatures": "error",
+    "typescript/ban-tslint-comment": "error",
+    "typescript/class-literal-property-style": "error",
+    "typescript/prefer-for-of": "error",
+    "typescript/dot-notation": "warn",
+    "typescript/prefer-find": "error",
+    "typescript/prefer-regexp-exec": "error",
+    "typescript/prefer-string-starts-ends-with": "error",
+    "typescript/consistent-type-definitions": "off",
+
+    // -------------------------------------------------------
+    // React plugin
+    // -------------------------------------------------------
+
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "error",
+    "react/jsx-curly-brace-presence": "error",
+    "react/jsx-no-useless-fragment": "off",
+
+    // -------------------------------------------------------
+    // Import plugin
+    // -------------------------------------------------------
+
+    "import/first": "error",
+    "import/no-duplicates": "warn",
+    "import/default": "off",
+    "import/namespace": "off",
+    "import/no-unassigned-import": "off",
+    "import/no-named-as-default": "off",
+    "import/no-named-as-default-member": "off",
+
+    // -------------------------------------------------------
+    // Node plugin
+    // -------------------------------------------------------
+
+    "node/no-process-env": "error",
+
+    // -------------------------------------------------------
+    // no-unused-vars with underscore ignore pattern
+    // -------------------------------------------------------
+
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "destructuredArrayIgnorePattern": "^_",
+        "fix": {
+          "imports": "fix",
+          "variables": "suggestion"
+        }
+      }
+    ],
+
+    // -------------------------------------------------------
+    // Oxlint-only rules - introduce gradually
+    // -------------------------------------------------------
+
+    "typescript/no-misused-spread": "warn",
+    "react/jsx-key": "warn",
+    "typescript/no-unnecessary-condition": "warn",
+
+    // -------------------------------------------------------
+    // Oxlint-only rules - disabled
+    // -------------------------------------------------------
+
+    "unicorn/no-new-array": "off",
+    "unicorn/no-useless-fallback-in-spread": "off",
+    "unicorn/no-useless-spread": "off",
+    "unicorn/no-empty-file": "off",
+    "unicorn/no-thenable": "off",
+    "no-useless-rename": "off",
+    "no-useless-constructor": "off",
+    "no-misleading-character-class": "off",
+    "react/no-children-prop": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/global.d.ts"],
+      "rules": {
+        "typescript/consistent-indexed-object-style": "off"
+      }
+    },
+    {
+      "files": [
+        "**/*.test.*",
+        "**/*.spec.*",
+        "**/scripts/**",
+        "tooling/**",
+        "**/*.config.*"
+      ],
+      "rules": {
+        "node/no-process-env": "off",
+        "no-console": "off"
+      }
+    },
+    {
+      "files": ["packages/env/**", "packages/logger/**"],
+      "rules": {
+        "node/no-process-env": "off"
+      }
+    },
+    {
+      "files": ["**/*.config.js"],
+      "rules": {
+        "typescript/no-require-imports": "off"
+      }
+    }
+  ]
+}

@@ -1,1 +1,36 @@
+node_modules/
+dist/
+.turbo/
+*.tsbuildinfo
+
+# Next.js
+.next/
+out/
+.open-next/
+
+# Expo / React Native
+.expo/
+ios/
+android/
+
+# Environment
+.env
+.env.local
+.env.*.local
+.dev.vars
+.wrangler/
+
+# IDE
+.idea/
+.vscode/**
+!.vscode/settings.example.json
+*.swp
+*.swo
+
+# Superpowers
+docs/superpowers/
 .superpowers/
+
+# OS
+.DS_Store
+Thumbs.db
