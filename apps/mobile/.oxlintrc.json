@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/npm/oxlint/configuration_schema.json",
+  "extends": ["../../.oxlintrc.json"],
+  "ignorePatterns": ["types/uniwind-types.d.ts"],
+  "rules": {
+    "react/style-prop-object": "off",
+    "no-process-env": "off",
+    "no-console": "off"
+  }
+}

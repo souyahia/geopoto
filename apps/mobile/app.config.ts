@@ -8,10 +8,10 @@ const config: ExpoConfig = {
   platforms: ["ios", "android"],
   plugins: ["expo-dev-client", "expo-router", "expo-localization"],
   ios: {
-    bundleIdentifier: "com.geopoto.app",
+    bundleIdentifier: "com.souyahia.geopoto",
   },
   android: {
-    package: "com.geopoto.app",
+    package: "com.souyahia.geopoto",
   },
   experiments: {
     typedRoutes: true,
