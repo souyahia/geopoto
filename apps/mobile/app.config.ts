@@ -6,7 +6,12 @@ const config: ExpoConfig = {
   scheme: "geopoto",
   version: "0.0.1",
   platforms: ["ios", "android"],
-  plugins: ["expo-dev-client", "expo-router", "expo-localization"],
+  plugins: [
+    "expo-dev-client",
+    "expo-router",
+    "expo-localization",
+    "expo-image",
+  ],
   ios: {
     bundleIdentifier: "com.souyahia.geopoto",
   },

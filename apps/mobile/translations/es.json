@@ -1,3 +1,8 @@
 {
-  "hello": "Hello world!"
+  "onboarding": {
+    "language": {
+      "description": "Esto afectará al idioma de la aplicación, pero también al idioma de la información geográfica y de las respuestas esperadas.",
+      "title": "Selecciona tu idioma"
+    }
+  }
 }

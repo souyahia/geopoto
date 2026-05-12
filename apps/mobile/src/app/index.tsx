@@ -1,13 +1,13 @@
-import { useRouter } from "expo-router";
-import { Button } from "heroui-native/button";
-import { View } from "react-native";
+import { Redirect } from "expo-router";
+
+import { useOnboardingCompletion } from "@/modules/onboarding/hooks/use-onboarding-completion";
 
 export default function HomeScreen() {
-  const router = useRouter();
+  const { isOnboardingCompleted } = useOnboardingCompletion();
 
-  return (
-    <View className="flex-1 items-center justify-center px-6">
-      <Button onPress={() => router.push("/backrooms")}>Backrooms</Button>
-    </View>
-  );
+  if (!isOnboardingCompleted) {
+    return <Redirect href="/onboarding" />;
+  }
+
+  return <Redirect href="/home" />;
 }
