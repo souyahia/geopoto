@@ -5,6 +5,17 @@
   "rules": {
     "react/style-prop-object": "off",
     "no-process-env": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "heroui-native",
+            "message": "Use modular HeroUI Native imports instead, like \"heroui-native/provider\" or \"heroui-native/[component-name]\". The list of available modular exports is available here: https://heroui.com/docs/native/getting-started/quick-start"
+          }
+        ]
+      }
+    ]
   }
 }
