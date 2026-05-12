@@ -1,7 +1,10 @@
 import { Slot, useRouter } from "expo-router";
 import { Button } from "heroui-native/button";
 import { Text } from "heroui-native/text";
+import { X } from "lucide-react-native/icons";
 import { View } from "react-native";
+
+import { ThemedIcon } from "@/services/theme/themed-icon";
 
 export default function BackroomsLayout() {
   const router = useRouter();
@@ -17,8 +20,13 @@ export default function BackroomsLayout() {
           <Text>Backrooms</Text>
         </View>
         {hasNavigationHistory && (
-          <Button size="sm" variant="ghost" onPress={() => router.back()}>
-            Go Back
+          <Button
+            size="sm"
+            variant="ghost"
+            isIconOnly
+            onPress={() => router.back()}
+          >
+            <ThemedIcon size={20} icon={X} />
           </Button>
         )}
       </View>
