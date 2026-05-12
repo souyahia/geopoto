@@ -1,12 +1,13 @@
-import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Button } from "heroui-native/button";
+import { View } from "react-native";
 
 export default function HomeScreen() {
-  const { t } = useTranslation();
+  const router = useRouter();
 
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-xl font-semibold text-zinc-950">{t("hello")}</Text>
+    <View className="flex-1 items-center justify-center px-6">
+      <Button onPress={() => router.push("/backrooms")}>Backrooms</Button>
     </View>
   );
 }

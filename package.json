@@ -2,6 +2,9 @@
   "name": "geopoto",
   "private": true,
   "scripts": {
+    "start": "pnpm -C apps/mobile start",
+    "start:local": "pnpm -C apps/mobile start:local",
+    "start:lan": "pnpm -C apps/mobile start:lan",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "lint": "oxlint --type-aware",

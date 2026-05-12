@@ -1,0 +1,135 @@
+test {
+  --test: #2c5175;
+  --test: #6a4747;
+}
+
+@theme {
+  /* Primitive Colors (Do not change between light and dark) */
+  --white: oklch(100% 0 0); /* #ffffff */
+  --black: oklch(0% 0 0); /* #000000 */
+
+  /* Border */
+  --border-width: 1px;
+  --field-border-width: 0px;
+
+  /* Base radius */
+  --radius: 0.5rem;
+  --field-radius: calc(var(--radius) * 1.5);
+
+  /* Opacity */
+  --opacity-disabled: 0.5;
+}
+
+@layer theme {
+  :root {
+    @variant light {
+      /* Base Colors */
+      --background: oklch(0.9757 0.0118 17.36); /* #fff4f4 */
+      --foreground: oklch(0.1978 0.056 45.54); /* #290b00 */
+
+      /* Surface */
+      --surface: oklch(0.9845 0.0075 17.28); /* #fff8f8 */
+      --surface-foreground: var(--foreground);
+
+      --surface-secondary: oklch(0.9934 0.0032 17.21); /* #fffcfc */
+      --surface-secondary-foreground: var(--foreground);
+
+      --surface-tertiary: oklch(1 0 0); /* #ffffff */
+      --surface-tertiary-foreground: var(--foreground);
+
+      /* Overlay */
+      --overlay: var(--white);
+      --overlay-foreground: var(--foreground);
+      --backdrop: oklch(0% 0 0 / 20%); /* #00000033 */
+
+      --muted: oklch(0.665 0.0759 19.27); /* #be8181 */
+
+      --default: oklch(0.9168 0.0221 17.56); /* #f2dede */
+      --default-foreground: var(--foreground);
+
+      --accent: oklch(0.8969 0.0529 247.55); /* #c2e1ff */
+      --accent-foreground: var(--foreground);
+
+      /* Form Fields */
+      --field-background: var(--white);
+      --field-foreground: var(--foreground);
+      --field-placeholder: var(--muted);
+      --field-border: transparent;
+
+      /* Status Colors */
+      --success: oklch(0.8473 0.1483 125.9); /* #b5de6d */
+      --success-foreground: var(--foreground);
+
+      --warning: oklch(0.8998 0.1575 94.82); /* #ffdc50 */
+      --warning-foreground: var(--foreground);
+
+      --danger: oklch(0.6467 0.1701 23.1); /* #e35b5b */
+      --danger-foreground: var(--foreground);
+
+      /* Component Colors */
+      --segment: var(--white);
+      --segment-foreground: var(--foreground);
+
+      /* Misc Colors */
+      --border: oklch(90% 0.004 286.32);
+      --separator: oklch(74% 0.004 286.32);
+      --focus: var(--accent);
+      --link: var(--foreground);
+    }
+
+    @variant dark {
+      /* Base Colors */
+      --background: oklch(0.1651 0.0079 346.35); /* #110d0f */
+      --foreground: oklch(0.9724 0.014 39.42); /* #fff3ef */
+
+      /* Surface */
+      --surface: oklch(0.2046 0 0); /* #171717 */
+      --surface-foreground: var(--foreground);
+
+      --surface-secondary: oklch(0.2606 0.006 17.55); /* #272323 */
+      --surface-secondary-foreground: var(--foreground);
+
+      --surface-tertiary: oklch(0.3501 0.0127 17.78); /* #413838 */
+      --surface-tertiary-foreground: var(--foreground);
+
+      /* Overlay */
+      --overlay: oklch(0.242 0.055 45.54);
+      --overlay-foreground: var(--foreground);
+      --backdrop: oklch(0% 0 0 / 20%);
+
+      --muted: oklch(0.2852 0.0059 17.5); /* #2d2929 */
+
+      --default: oklch(0.4371 0.0483 19.2); /* #6a4747 */
+      --default-foreground: var(--foreground);
+
+      --accent: oklch(0.4245 0.0738 249.35); /* #2c5175 */
+      --accent-foreground: var(--foreground);
+
+      /* Form Fields */
+      --field-background: oklch(0.242 0.055 45.54);
+      --field-foreground: var(--foreground);
+      --field-placeholder: var(--muted);
+      --field-border: transparent;
+
+      /* Status Colors */
+      --success: oklch(0.4991 0.098 138.45); /* #457037 */
+      --success-foreground: var(--foreground);
+
+      --warning: oklch(0.861 0.1616 86.83); /* #ffc937 */
+      --warning-foreground: var(--background);
+
+      --danger: oklch(0.4853 0.1501 24.68); /* #a33131 */
+      --danger-foreground: var(--foreground);
+
+      /* Component Colors */
+      --segment: oklch(0.33 0.043 45.54);
+      --segment-foreground: var(--foreground);
+
+      /* Misc Colors */
+      --border: oklch(0.381 0.041 45.54);
+      --separator: oklch(0.5 0.035 45.54);
+      --focus: var(--accent);
+      --link: var(--foreground);
+    }
+  }
+}

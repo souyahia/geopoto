@@ -13,6 +13,11 @@
           {
             "name": "heroui-native",
             "message": "Use modular HeroUI Native imports instead, like \"heroui-native/provider\" or \"heroui-native/[component-name]\". The list of available modular exports is available here: https://heroui.com/docs/native/getting-started/quick-start"
+          },
+          {
+            "name": "react-native",
+            "importNames": ["Text"],
+            "message": "Do not use React Native Text component. Use Text from heroui-native/text instead"
           }
         ]
       }
