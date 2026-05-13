@@ -4,5 +4,25 @@
       "description": "Questo influirà sulla lingua dell'app, ma anche sulla lingua delle informazioni geografiche e delle risposte attese.",
       "title": "Seleziona la tua lingua"
     }
+  },
+  "home": {
+    "settings": "Impostazioni",
+    "game-modes": {
+      "coming-soon": "Presto disponibile!",
+      "challenge": {
+        "title": "Sfida"
+      },
+      "train": {
+        "title": "Allenati",
+        "description": "Esercita le tue conoscenze geografiche."
+      },
+      "learn": {
+        "title": "Impara",
+        "description": "Esplora la base di conoscenze geografiche."
+      }
+    }
+  },
+  "settings": {
+    "title": "Impostazioni"
   }
 }

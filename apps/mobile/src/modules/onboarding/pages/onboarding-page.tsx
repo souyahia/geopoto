@@ -8,7 +8,7 @@ export function OnboardingPage() {
   const { t } = useTranslation();
 
   return (
-    <View className="flex-1 items-center justify-center gap-4 px-6 py-2">
+    <View className="flex-1 items-center justify-center gap-4 px-6 py-safe">
       <Text type="h2">{t("onboarding.language.title")}</Text>
       <Text type="body-sm" className="px-4">
         {t("onboarding.language.description")}

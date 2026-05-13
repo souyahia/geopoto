@@ -3,22 +3,24 @@ import { useResolveClassNames } from "uniwind";
 
 interface ThemedIconProps extends Omit<LucideProps, "color"> {
   icon: LucideIcon;
-  color?: string;
+  color?: LucideProps["color"];
+  colorClassName?: string;
 }
 
 export function ThemedIcon({
   icon: Icon,
   size = 24,
   strokeWidth = 2,
-  color = "accent-foreground",
+  color,
+  colorClassName = "text-foreground",
   ...props
 }: ThemedIconProps) {
-  const { accentColor } = useResolveClassNames(color);
+  const { color: resolvedColor } = useResolveClassNames(colorClassName);
 
   return (
     <Icon
       {...props}
-      color={accentColor}
+      color={color ?? resolvedColor}
       size={size}
       strokeWidth={strokeWidth}
     />

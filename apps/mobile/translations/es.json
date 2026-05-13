@@ -4,5 +4,25 @@
       "description": "Esto afectará al idioma de la aplicación, pero también al idioma de la información geográfica y de las respuestas esperadas.",
       "title": "Selecciona tu idioma"
     }
+  },
+  "home": {
+    "settings": "Ajustes",
+    "game-modes": {
+      "coming-soon": "¡Próximamente!",
+      "challenge": {
+        "title": "Desafío"
+      },
+      "train": {
+        "title": "Entrenar",
+        "description": "Practica tus conocimientos geográficos."
+      },
+      "learn": {
+        "title": "Aprender",
+        "description": "Explora la base de conocimientos geográficos."
+      }
+    }
+  },
+  "settings": {
+    "title": "Ajustes"
   }
 }
