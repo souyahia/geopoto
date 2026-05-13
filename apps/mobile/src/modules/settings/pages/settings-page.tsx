@@ -1,10 +1,13 @@
 import { Text } from "heroui-native/text";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 import { BackButton } from "@/components/back-button";
 import { BackroomsButton } from "@/components/backrooms-button";
 import { Header } from "@/components/header/header";
+
+import { LanguageSection } from "../components/language-section";
+import { ThemePreferenceSection } from "../components/theme-preference-section";
 
 export function SettingsPage() {
   const { t } = useTranslation();
@@ -22,9 +25,12 @@ export function SettingsPage() {
           <BackroomsButton />
         </Header.Right>
       </Header>
-      <View className="flex-1 items-center justify-center">
-        <Text>Settings</Text>
-      </View>
+      <ScrollView className="flex-1">
+        <View className="gap-4 px-6 pb-8 pt-4">
+          <ThemePreferenceSection />
+          <LanguageSection />
+        </View>
+      </ScrollView>
     </View>
   );
 }

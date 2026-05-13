@@ -11,6 +11,14 @@ export function isSupportedLocale(locale: unknown): locale is SupportedLocale {
 
 export const DEFAULT_LOCALE = "en" as const;
 
+export function resolveLocale(locale: unknown): SupportedLocale {
+  if (isSupportedLocale(locale)) {
+    return locale;
+  }
+
+  return DEFAULT_LOCALE;
+}
+
 export function getDeviceLanguage() {
   const deviceLanguage = getLocales()[0].languageCode;
   if (isSupportedLocale(deviceLanguage)) {

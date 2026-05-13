@@ -23,6 +23,26 @@
     }
   },
   "settings": {
-    "title": "Ajustes"
+    "title": "Ajustes",
+    "theme": {
+      "description": "Elige cómo se ve GeoPoto en este dispositivo.",
+      "options": {
+        "dark": "Oscuro",
+        "light": "Claro",
+        "system": "Sistema"
+      },
+      "title": "Tema"
+    },
+    "language": {
+      "title": "Idioma",
+      "description": "Elige el idioma de la aplicación.",
+      "placeholder": "Selecciona un idioma",
+      "select-label": "Idioma de la aplicación",
+      "geo-lang": {
+        "sync-label": "Sincronizar el idioma geográfico con el idioma de la aplicación",
+        "description": "Elige el idioma usado para los datos geográficos.",
+        "select-label": "Idioma geográfico"
+      }
+    }
   }
 }

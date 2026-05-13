@@ -88,7 +88,7 @@
       --surface-tertiary-foreground: var(--foreground);
 
       /* Overlay */
-      --overlay: oklch(0.242 0.055 45.54);
+      --overlay: oklch(0.286 0.0172 346.65); /* #31272c */
       --overlay-foreground: var(--foreground);
       --backdrop: oklch(0% 0 0 / 20%);
 
@@ -101,7 +101,7 @@
       --accent-foreground: var(--foreground);
 
       /* Form Fields */
-      --field-background: oklch(0.242 0.055 45.54);
+      --field-background: oklch(0.286 0.0172 346.65); /* #31272c */
       --field-foreground: var(--foreground);
       --field-placeholder: var(--muted);
       --field-border: transparent;

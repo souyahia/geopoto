@@ -1,20 +1,8 @@
 // eslint-disable no-require-imports
 
 import { Image, type ImageProps } from "expo-image";
-import { match } from "ts-pattern";
 
-import type { SupportedLocale } from "@/services/i18n/locale";
-
-export function getLanguageName(locale: SupportedLocale) {
-  return match(locale)
-    .with("de", () => "Deutsch")
-    .with("en", () => "English")
-    .with("es", () => "Español")
-    .with("fr", () => "Français")
-    .with("it", () => "Italiano")
-    .with("pt", () => "Português")
-    .exhaustive();
-}
+import { type SupportedLocale } from "@/services/i18n/locale";
 
 interface LangIconProps extends Omit<ImageProps, "source"> {
   lang: SupportedLocale;

@@ -3,9 +3,10 @@ import type { ButtonRootProps } from "heroui-native/button";
 import { Button } from "heroui-native/button";
 import { cn } from "heroui-native/utils";
 
+import { LangIcon } from "@/components/lang-icon";
 import { setLanguage } from "@/services/i18n/i18n";
 import type { SupportedLocale } from "@/services/i18n/locale";
-import { getLanguageName, LangIcon } from "@/utils/languages";
+import { getLanguageName } from "@/utils/language/language-name";
 
 import { useOnboardingCompletion } from "../hooks/use-onboarding-completion";
 
