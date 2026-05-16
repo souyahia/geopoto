@@ -1,0 +1,2537 @@
+{
+  "AD": {
+    "aspectRatio": 1.4285714285714286,
+    "code": "AD",
+    "png": {
+      "height": 630,
+      "width": 900
+    },
+    "svg": {
+      "height": 700,
+      "viewBox": "0 0 1000 700",
+      "width": 1000
+    }
+  },
+  "AE": {
+    "aspectRatio": 2,
+    "code": "AE",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 6,
+      "viewBox": "0 0 12 6",
+      "width": 12
+    }
+  },
+  "AF": {
+    "aspectRatio": 1.5,
+    "code": "AF",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "AG": {
+    "aspectRatio": 1.5,
+    "code": "AG",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 92,
+      "viewBox": "0 0 138 92",
+      "width": 138
+    }
+  },
+  "AL": {
+    "aspectRatio": 1.4,
+    "code": "AL",
+    "png": {
+      "height": 643,
+      "width": 900
+    },
+    "svg": {
+      "height": 700,
+      "viewBox": "0 0 980 700",
+      "width": 980
+    }
+  },
+  "AM": {
+    "aspectRatio": 2,
+    "code": "AM",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1200 600",
+      "width": 1200
+    }
+  },
+  "AO": {
+    "aspectRatio": 1.5,
+    "code": "AO",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "AR": {
+    "aspectRatio": 1.6,
+    "code": "AR",
+    "png": {
+      "height": 563,
+      "width": 900
+    },
+    "svg": {
+      "height": 500,
+      "viewBox": "0 0 800 500",
+      "width": 800
+    }
+  },
+  "AT": {
+    "aspectRatio": 1.5,
+    "code": "AT",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "AU": {
+    "aspectRatio": 2,
+    "code": "AU",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 5040,
+      "viewBox": "0 0 10080 5040",
+      "width": 10080
+    }
+  },
+  "AZ": {
+    "aspectRatio": 2,
+    "code": "AZ",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1200 600",
+      "width": 1200
+    }
+  },
+  "BA": {
+    "aspectRatio": 2,
+    "code": "BA",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 8,
+      "viewBox": "0 0 16 8",
+      "width": 16
+    }
+  },
+  "BB": {
+    "aspectRatio": 1.5,
+    "code": "BB",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 16000,
+      "viewBox": "0 0 24000 16000",
+      "width": 24000
+    }
+  },
+  "BD": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "BD",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 12,
+      "viewBox": "0 0 20 12",
+      "width": 20
+    }
+  },
+  "BE": {
+    "aspectRatio": 1.1538461538461537,
+    "code": "BE",
+    "png": {
+      "height": 780,
+      "width": 900
+    },
+    "svg": {
+      "height": 390,
+      "viewBox": "0 0 450 390",
+      "width": 450
+    }
+  },
+  "BF": {
+    "aspectRatio": 1.5,
+    "code": "BF",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "BG": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "BG",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 3,
+      "viewBox": "0 0 5 3",
+      "width": 5
+    }
+  },
+  "BH": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "BH",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 900,
+      "viewBox": "0 0 1500 900",
+      "width": 1500
+    }
+  },
+  "BI": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "BI",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 500 300",
+      "width": 500
+    }
+  },
+  "BJ": {
+    "aspectRatio": 1.5,
+    "code": "BJ",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 10,
+      "viewBox": "0 0 15 10",
+      "width": 15
+    }
+  },
+  "BN": {
+    "aspectRatio": 2,
+    "code": "BN",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 720,
+      "viewBox": "0 0 1440 720",
+      "width": 1440
+    }
+  },
+  "BO": {
+    "aspectRatio": 1.4666646509237142,
+    "code": "BO",
+    "png": {
+      "height": 614,
+      "width": 900
+    },
+    "svg": {
+      "height": 198.438,
+      "viewBox": "0 0 291.042 198.438",
+      "width": 291.042
+    }
+  },
+  "BR": {
+    "aspectRatio": 1.4285714285714286,
+    "code": "BR",
+    "png": {
+      "height": 630,
+      "width": 900
+    },
+    "svg": {
+      "height": 2940,
+      "viewBox": "-2100 -1470 4200 2940",
+      "width": 4200
+    }
+  },
+  "BS": {
+    "aspectRatio": 2,
+    "code": "BS",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 600 300",
+      "width": 600
+    }
+  },
+  "BT": {
+    "aspectRatio": 1.5,
+    "code": "BT",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "BW": {
+    "aspectRatio": 1.5,
+    "code": "BW",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 24,
+      "viewBox": "0 0 36 24",
+      "width": 36
+    }
+  },
+  "BY": {
+    "aspectRatio": 2,
+    "code": "BY",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 549,
+      "viewBox": "0 0 1098 549",
+      "width": 1098
+    }
+  },
+  "BZ": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "BZ",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1000 600",
+      "width": 1000
+    }
+  },
+  "CA": {
+    "aspectRatio": 2,
+    "code": "CA",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 4800,
+      "viewBox": "0 0 9600 4800",
+      "width": 9600
+    }
+  },
+  "CD": {
+    "aspectRatio": 1.3333333333333333,
+    "code": "CD",
+    "png": {
+      "height": 675,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 800 600",
+      "width": 800
+    }
+  },
+  "CF": {
+    "aspectRatio": 1.5,
+    "code": "CF",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 450 300",
+      "width": 450
+    }
+  },
+  "CG": {
+    "aspectRatio": 1.5,
+    "code": "CG",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 2,
+      "viewBox": "0 0 3 2",
+      "width": 3
+    }
+  },
+  "CH": {
+    "aspectRatio": 1,
+    "code": "CH",
+    "png": {
+      "height": 900,
+      "width": 900
+    },
+    "svg": {
+      "height": 320,
+      "viewBox": "0 0 320 320",
+      "width": 320
+    }
+  },
+  "CI": {
+    "aspectRatio": 1.5,
+    "code": "CI",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 450 300",
+      "width": 450
+    }
+  },
+  "CL": {
+    "aspectRatio": 1.5,
+    "code": "CL",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 16,
+      "viewBox": "-4 -4 24 16",
+      "width": 24
+    }
+  },
+  "CM": {
+    "aspectRatio": 1.5,
+    "code": "CM",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 60,
+      "viewBox": "0 0 90 60",
+      "width": 90
+    }
+  },
+  "CN": {
+    "aspectRatio": 1.5,
+    "code": "CN",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 20,
+      "viewBox": "0 0 30 20",
+      "width": 30
+    }
+  },
+  "CO": {
+    "aspectRatio": 1.5,
+    "code": "CO",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 4,
+      "viewBox": "0 0 6 4",
+      "width": 6
+    }
+  },
+  "CR": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "CR",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1000 600",
+      "width": 1000
+    }
+  },
+  "CU": {
+    "aspectRatio": 2,
+    "code": "CU",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 400,
+      "viewBox": "0 0 800 400",
+      "width": 800
+    }
+  },
+  "CV": {
+    "aspectRatio": 1.7,
+    "code": "CV",
+    "png": {
+      "height": 529,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 510 300",
+      "width": 510
+    }
+  },
+  "CY": {
+    "aspectRatio": 1.5,
+    "code": "CY",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "CZ": {
+    "aspectRatio": 1.5,
+    "code": "CZ",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "DE": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "DE",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 3,
+      "viewBox": "0 0 5 3",
+      "width": 5
+    }
+  },
+  "DJ": {
+    "aspectRatio": 1.5,
+    "code": "DJ",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 10,
+      "viewBox": "0 0 15 10",
+      "width": 15
+    }
+  },
+  "DK": {
+    "aspectRatio": 1.3214285714285714,
+    "code": "DK",
+    "png": {
+      "height": 681,
+      "width": 900
+    },
+    "svg": {
+      "height": 280,
+      "viewBox": "0 0 370 280",
+      "width": 370
+    }
+  },
+  "DM": {
+    "aspectRatio": 2,
+    "code": "DM",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1200 600",
+      "width": 1200
+    }
+  },
+  "DO": {
+    "aspectRatio": 1.5,
+    "code": "DO",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "DZ": {
+    "aspectRatio": 1.5,
+    "code": "DZ",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "EC": {
+    "aspectRatio": 1.5,
+    "code": "EC",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 960,
+      "viewBox": "0 0 1440 960",
+      "width": 1440
+    }
+  },
+  "EE": {
+    "aspectRatio": 1.5714285714285714,
+    "code": "EE",
+    "png": {
+      "height": 573,
+      "width": 900
+    },
+    "svg": {
+      "height": 21,
+      "viewBox": "0 0 33 21",
+      "width": 33
+    }
+  },
+  "EG": {
+    "aspectRatio": 1.5,
+    "code": "EG",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "ER": {
+    "aspectRatio": 2,
+    "code": "ER",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 500,
+      "viewBox": "0 0 1000 500",
+      "width": 1000
+    }
+  },
+  "ES": {
+    "aspectRatio": 1.5,
+    "code": "ES",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 500,
+      "viewBox": "0 0 750 500",
+      "width": 750
+    }
+  },
+  "ET": {
+    "aspectRatio": 2,
+    "code": "ET",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 360,
+      "viewBox": "0 0 720 360",
+      "width": 720
+    }
+  },
+  "FI": {
+    "aspectRatio": 1.6363636363636365,
+    "code": "FI",
+    "png": {
+      "height": 550,
+      "width": 900
+    },
+    "svg": {
+      "height": 1100,
+      "viewBox": "0 0 1800 1100",
+      "width": 1800
+    }
+  },
+  "FJ": {
+    "aspectRatio": 2,
+    "code": "FJ",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1200 600",
+      "width": 1200
+    }
+  },
+  "FM": {
+    "aspectRatio": 1.9,
+    "code": "FM",
+    "png": {
+      "height": 474,
+      "width": 900
+    },
+    "svg": {
+      "height": 20,
+      "viewBox": "-19 -10 38 20",
+      "width": 38
+    }
+  },
+  "FR": {
+    "aspectRatio": 1.5,
+    "code": "FR",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 2,
+      "viewBox": "0 0 3 2",
+      "width": 3
+    }
+  },
+  "GA": {
+    "aspectRatio": 1.3333333333333333,
+    "code": "GA",
+    "png": {
+      "height": 675,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 400 300",
+      "width": 400
+    }
+  },
+  "GB": {
+    "aspectRatio": 2,
+    "code": "GB",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 30,
+      "viewBox": "0 0 60 30",
+      "width": 60
+    }
+  },
+  "GD": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "GD",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 500 300",
+      "width": 500
+    }
+  },
+  "GE": {
+    "aspectRatio": 1.5,
+    "code": "GE",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 200,
+      "viewBox": "0 0 300 200",
+      "width": 300
+    }
+  },
+  "GH": {
+    "aspectRatio": 1.5,
+    "code": "GH",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 450 300",
+      "width": 450
+    }
+  },
+  "GM": {
+    "aspectRatio": 1.5,
+    "code": "GM",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 18,
+      "viewBox": "0 0 27 18",
+      "width": 27
+    }
+  },
+  "GN": {
+    "aspectRatio": 1.5,
+    "code": "GN",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 2,
+      "viewBox": "0 0 3 2",
+      "width": 3
+    }
+  },
+  "GQ": {
+    "aspectRatio": 1.5,
+    "code": "GQ",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 2400,
+      "viewBox": "0 0 3600 2400",
+      "width": 3600
+    }
+  },
+  "GR": {
+    "aspectRatio": 1.5,
+    "code": "GR",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 18,
+      "viewBox": "0 0 27 18",
+      "width": 27
+    }
+  },
+  "GT": {
+    "aspectRatio": 1.6,
+    "code": "GT",
+    "png": {
+      "height": 563,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 960 600",
+      "width": 960
+    }
+  },
+  "GW": {
+    "aspectRatio": 2,
+    "code": "GW",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 6,
+      "viewBox": "-2 -3 12 6",
+      "width": 12
+    }
+  },
+  "GY": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "GY",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 500 300",
+      "width": 500
+    }
+  },
+  "HN": {
+    "aspectRatio": 2,
+    "code": "HN",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 36,
+      "viewBox": "0 0 72 36",
+      "width": 72
+    }
+  },
+  "HR": {
+    "aspectRatio": 2,
+    "code": "HR",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1200 600",
+      "width": 1200
+    }
+  },
+  "HT": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "HT",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 500 300",
+      "width": 500
+    }
+  },
+  "HU": {
+    "aspectRatio": 2,
+    "code": "HU",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 3,
+      "viewBox": "0 0 6 3",
+      "width": 6
+    }
+  },
+  "ID": {
+    "aspectRatio": 1.5,
+    "code": "ID",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 2,
+      "viewBox": "0 0 3 2",
+      "width": 3
+    }
+  },
+  "IE": {
+    "aspectRatio": 2,
+    "code": "IE",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 600 300",
+      "width": 600
+    }
+  },
+  "IL": {
+    "aspectRatio": 1.375,
+    "code": "IL",
+    "png": {
+      "height": 655,
+      "width": 900
+    },
+    "svg": {
+      "height": 800,
+      "viewBox": "0 0 1100 800",
+      "width": 1100
+    }
+  },
+  "IN": {
+    "aspectRatio": 1.5,
+    "code": "IN",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 150,
+      "viewBox": "0 0 225 150",
+      "width": 225
+    }
+  },
+  "IQ": {
+    "aspectRatio": 1.5,
+    "code": "IQ",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "IR": {
+    "aspectRatio": 1.75,
+    "code": "IR",
+    "png": {
+      "height": 514,
+      "width": 900
+    },
+    "svg": {
+      "height": 360,
+      "viewBox": "0 0 630 360",
+      "width": 630
+    }
+  },
+  "IS": {
+    "aspectRatio": 1.3888888888888888,
+    "code": "IS",
+    "png": {
+      "height": 648,
+      "width": 900
+    },
+    "svg": {
+      "height": 1800,
+      "viewBox": "0 0 2500 1800",
+      "width": 2500
+    }
+  },
+  "IT": {
+    "aspectRatio": 1.5,
+    "code": "IT",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 2,
+      "viewBox": "0 0 3 2",
+      "width": 3
+    }
+  },
+  "JM": {
+    "aspectRatio": 2,
+    "code": "JM",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 6,
+      "viewBox": "0 0 12 6",
+      "width": 12
+    }
+  },
+  "JO": {
+    "aspectRatio": 2,
+    "code": "JO",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 420,
+      "viewBox": "0 0 840 420",
+      "width": 840
+    }
+  },
+  "JP": {
+    "aspectRatio": 1.5,
+    "code": "JP",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "KE": {
+    "aspectRatio": 1.5,
+    "code": "KE",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 160,
+      "viewBox": "-120 -80 240 160",
+      "width": 240
+    }
+  },
+  "KG": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "KG",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1000 600",
+      "width": 1000
+    }
+  },
+  "KH": {
+    "aspectRatio": 1.5625,
+    "code": "KH",
+    "png": {
+      "height": 576,
+      "width": 900
+    },
+    "svg": {
+      "height": 400,
+      "viewBox": "0 0 625 400",
+      "width": 625
+    }
+  },
+  "KI": {
+    "aspectRatio": 2,
+    "code": "KI",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 600 300",
+      "width": 600
+    }
+  },
+  "KM": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "KM",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 500 300",
+      "width": 500
+    }
+  },
+  "KN": {
+    "aspectRatio": 1.5,
+    "code": "KN",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 500,
+      "viewBox": "0 0 750 500",
+      "width": 750
+    }
+  },
+  "KP": {
+    "aspectRatio": 2,
+    "code": "KP",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 36,
+      "viewBox": "0 0 72 36",
+      "width": 72
+    }
+  },
+  "KR": {
+    "aspectRatio": 1.5,
+    "code": "KR",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 48,
+      "viewBox": "-36 -24 72 48",
+      "width": 72
+    }
+  },
+  "KW": {
+    "aspectRatio": 2,
+    "code": "KW",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 6,
+      "viewBox": "0 0 12 6",
+      "width": 12
+    }
+  },
+  "KZ": {
+    "aspectRatio": 2,
+    "code": "KZ",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 1000,
+      "viewBox": "0 0 2000 1000",
+      "width": 2000
+    }
+  },
+  "LA": {
+    "aspectRatio": 1.5,
+    "code": "LA",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 400,
+      "viewBox": "0 0 600 400",
+      "width": 600
+    }
+  },
+  "LB": {
+    "aspectRatio": 1.5,
+    "code": "LB",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 500,
+      "viewBox": "0 0 750 500",
+      "width": 750
+    }
+  },
+  "LC": {
+    "aspectRatio": 2,
+    "code": "LC",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 600 300",
+      "width": 600
+    }
+  },
+  "LI": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "LI",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1000 600",
+      "width": 1000
+    }
+  },
+  "LK": {
+    "aspectRatio": 2,
+    "code": "LK",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1200 600",
+      "width": 1200
+    }
+  },
+  "LR": {
+    "aspectRatio": 1.9,
+    "code": "LR",
+    "png": {
+      "height": 474,
+      "width": 900
+    },
+    "svg": {
+      "height": 110,
+      "viewBox": "0 0 209 110",
+      "width": 209
+    }
+  },
+  "LS": {
+    "aspectRatio": 1.5,
+    "code": "LS",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 450 300",
+      "width": 450
+    }
+  },
+  "LT": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "LT",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 3,
+      "viewBox": "0 0 5 3",
+      "width": 5
+    }
+  },
+  "LU": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "LU",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1000 600",
+      "width": 1000
+    }
+  },
+  "LV": {
+    "aspectRatio": 2,
+    "code": "LV",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1200 600",
+      "width": 1200
+    }
+  },
+  "LY": {
+    "aspectRatio": 2,
+    "code": "LY",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 480,
+      "viewBox": "0 0 960 480",
+      "width": 960
+    }
+  },
+  "MA": {
+    "aspectRatio": 1.5,
+    "code": "MA",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "MC": {
+    "aspectRatio": 1.25,
+    "code": "MC",
+    "png": {
+      "height": 720,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 750 600",
+      "width": 750
+    }
+  },
+  "MD": {
+    "aspectRatio": 2,
+    "code": "MD",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 900,
+      "viewBox": "0 0 1800 900",
+      "width": 1800
+    }
+  },
+  "ME": {
+    "aspectRatio": 2,
+    "code": "ME",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 320,
+      "viewBox": "0 0 640 320",
+      "width": 640
+    }
+  },
+  "MG": {
+    "aspectRatio": 1.5,
+    "code": "MG",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "MH": {
+    "aspectRatio": 1.9,
+    "code": "MH",
+    "png": {
+      "height": 474,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 570 300",
+      "width": 570
+    }
+  },
+  "MK": {
+    "aspectRatio": 2,
+    "code": "MK",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 28,
+      "viewBox": "0 0 56 28",
+      "width": 56
+    }
+  },
+  "ML": {
+    "aspectRatio": 1.5,
+    "code": "ML",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 450 300",
+      "width": 450
+    }
+  },
+  "MM": {
+    "aspectRatio": 1.5,
+    "code": "MM",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 12,
+      "viewBox": "0 0 18 12",
+      "width": 18
+    }
+  },
+  "MN": {
+    "aspectRatio": 2,
+    "code": "MN",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 2400,
+      "viewBox": "0 0 4800 2400",
+      "width": 4800
+    }
+  },
+  "MR": {
+    "aspectRatio": 1.5,
+    "code": "MR",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 96,
+      "viewBox": "-72 -28 144 96",
+      "width": 144
+    }
+  },
+  "MT": {
+    "aspectRatio": 1.5,
+    "code": "MT",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "MU": {
+    "aspectRatio": 1.5,
+    "code": "MU",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 4,
+      "viewBox": "0 0 6 4",
+      "width": 6
+    }
+  },
+  "MV": {
+    "aspectRatio": 1.5,
+    "code": "MV",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 480,
+      "viewBox": "0 0 720 480",
+      "width": 720
+    }
+  },
+  "MW": {
+    "aspectRatio": 1.5,
+    "code": "MW",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "-225 -114 450 300",
+      "width": 450
+    }
+  },
+  "MX": {
+    "aspectRatio": 1.75,
+    "code": "MX",
+    "png": {
+      "height": 514,
+      "width": 900
+    },
+    "svg": {
+      "height": 560,
+      "viewBox": "0 0 980 560",
+      "width": 980
+    }
+  },
+  "MY": {
+    "aspectRatio": 2,
+    "code": "MY",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 1400,
+      "viewBox": "0 0 2800 1400",
+      "width": 2800
+    }
+  },
+  "MZ": {
+    "aspectRatio": 1.5,
+    "code": "MZ",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "NA": {
+    "aspectRatio": 1.5,
+    "code": "NA",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 60,
+      "viewBox": "0 0 90 60",
+      "width": 90
+    }
+  },
+  "NE": {
+    "aspectRatio": 1.1666666666666667,
+    "code": "NE",
+    "png": {
+      "height": 771,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 700 600",
+      "width": 700
+    }
+  },
+  "NG": {
+    "aspectRatio": 2,
+    "code": "NG",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 3,
+      "viewBox": "0 0 6 3",
+      "width": 6
+    }
+  },
+  "NI": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "NI",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1000 600",
+      "width": 1000
+    }
+  },
+  "NL": {
+    "aspectRatio": 1.5,
+    "code": "NL",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 6,
+      "viewBox": "0 0 9 6",
+      "width": 9
+    }
+  },
+  "NO": {
+    "aspectRatio": 1.375,
+    "code": "NO",
+    "png": {
+      "height": 655,
+      "width": 900
+    },
+    "svg": {
+      "height": 800,
+      "viewBox": "0 0 1100 800",
+      "width": 1100
+    }
+  },
+  "NP": {
+    "aspectRatio": 0.8203356027783509,
+    "code": "NP",
+    "png": {
+      "height": 900,
+      "width": 738
+    },
+    "svg": {
+      "height": 87.246,
+      "viewBox": "-17.582 -4.664 71.571 87.246",
+      "width": 71.571
+    }
+  },
+  "NR": {
+    "aspectRatio": 2,
+    "code": "NR",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 600 300",
+      "width": 600
+    }
+  },
+  "NZ": {
+    "aspectRatio": 2,
+    "code": "NZ",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1200 600",
+      "width": 1200
+    }
+  },
+  "OM": {
+    "aspectRatio": 2,
+    "code": "OM",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1200 600",
+      "width": 1200
+    }
+  },
+  "PA": {
+    "aspectRatio": 1.5,
+    "code": "PA",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 24,
+      "viewBox": "0 0 36 24",
+      "width": 36
+    }
+  },
+  "PE": {
+    "aspectRatio": 1.5,
+    "code": "PE",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "PG": {
+    "aspectRatio": 1.3333333333333333,
+    "code": "PG",
+    "png": {
+      "height": 675,
+      "width": 900
+    },
+    "svg": {
+      "height": 576,
+      "viewBox": "0 0 768 576",
+      "width": 768
+    }
+  },
+  "PH": {
+    "aspectRatio": 2,
+    "code": "PH",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 90,
+      "viewBox": "0 0 180 90",
+      "width": 180
+    }
+  },
+  "PK": {
+    "aspectRatio": 1.5,
+    "code": "PK",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 80,
+      "viewBox": "-75 -40 120 80",
+      "width": 120
+    }
+  },
+  "PL": {
+    "aspectRatio": 1.6,
+    "code": "PL",
+    "png": {
+      "height": 563,
+      "width": 900
+    },
+    "svg": {
+      "height": 10,
+      "viewBox": "0 0 16 10",
+      "width": 16
+    }
+  },
+  "PT": {
+    "aspectRatio": 1.5,
+    "code": "PT",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 400,
+      "viewBox": "0 0 600 400",
+      "width": 600
+    }
+  },
+  "PW": {
+    "aspectRatio": 1.6,
+    "code": "PW",
+    "png": {
+      "height": 563,
+      "width": 900
+    },
+    "svg": {
+      "height": 500,
+      "viewBox": "0 0 800 500",
+      "width": 800
+    }
+  },
+  "PY": {
+    "aspectRatio": 1.8181818181818181,
+    "code": "PY",
+    "png": {
+      "height": 495,
+      "width": 900
+    },
+    "svg": {
+      "height": 330,
+      "viewBox": "0 0 600 330",
+      "width": 600
+    }
+  },
+  "QA": {
+    "aspectRatio": 2.5454545454545454,
+    "code": "QA",
+    "png": {
+      "height": 354,
+      "width": 900
+    },
+    "svg": {
+      "height": 550,
+      "viewBox": "0 0 1400 550",
+      "width": 1400
+    }
+  },
+  "RO": {
+    "aspectRatio": 1.5,
+    "code": "RO",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 2,
+      "viewBox": "0 0 3 2",
+      "width": 3
+    }
+  },
+  "RS": {
+    "aspectRatio": 1.5,
+    "code": "RS",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 900,
+      "viewBox": "0 0 1350 900",
+      "width": 1350
+    }
+  },
+  "RU": {
+    "aspectRatio": 1.5,
+    "code": "RU",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 6,
+      "viewBox": "0 0 9 6",
+      "width": 9
+    }
+  },
+  "RW": {
+    "aspectRatio": 1.5,
+    "code": "RW",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 720,
+      "viewBox": "0 0 1080 720",
+      "width": 1080
+    }
+  },
+  "SA": {
+    "aspectRatio": 1.5,
+    "code": "SA",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 500,
+      "viewBox": "0 0 750 500",
+      "width": 750
+    }
+  },
+  "SB": {
+    "aspectRatio": 2,
+    "code": "SB",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 400,
+      "viewBox": "0 0 800 400",
+      "width": 800
+    }
+  },
+  "SC": {
+    "aspectRatio": 2,
+    "code": "SC",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 450,
+      "viewBox": "0 0 900 450",
+      "width": 900
+    }
+  },
+  "SD": {
+    "aspectRatio": 2,
+    "code": "SD",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 6,
+      "viewBox": "0 0 12 6",
+      "width": 12
+    }
+  },
+  "SE": {
+    "aspectRatio": 1.6,
+    "code": "SE",
+    "png": {
+      "height": 563,
+      "width": 900
+    },
+    "svg": {
+      "height": 10,
+      "viewBox": "0 0 16 10",
+      "width": 16
+    }
+  },
+  "SG": {
+    "aspectRatio": 1.5,
+    "code": "SG",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 2880,
+      "viewBox": "0 0 4320 2880",
+      "width": 4320
+    }
+  },
+  "SI": {
+    "aspectRatio": 2,
+    "code": "SI",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 6,
+      "viewBox": "0 0 12 6",
+      "width": 12
+    }
+  },
+  "SK": {
+    "aspectRatio": 1.5,
+    "code": "SK",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 6,
+      "viewBox": "0 0 9 6",
+      "width": 9
+    }
+  },
+  "SL": {
+    "aspectRatio": 1.5,
+    "code": "SL",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 450 300",
+      "width": 450
+    }
+  },
+  "SM": {
+    "aspectRatio": 1.3333333333333333,
+    "code": "SM",
+    "png": {
+      "height": 675,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 800 600",
+      "width": 800
+    }
+  },
+  "SN": {
+    "aspectRatio": 1.5,
+    "code": "SN",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "SO": {
+    "aspectRatio": 1.5,
+    "code": "SO",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 54,
+      "viewBox": "0 0 81 54",
+      "width": 81
+    }
+  },
+  "SR": {
+    "aspectRatio": 1.5,
+    "code": "SR",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "SS": {
+    "aspectRatio": 2,
+    "code": "SS",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 10,
+      "viewBox": "0 0 20 10",
+      "width": 20
+    }
+  },
+  "ST": {
+    "aspectRatio": 2,
+    "code": "ST",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 1400,
+      "viewBox": "0 0 2800 1400",
+      "width": 2800
+    }
+  },
+  "SV": {
+    "aspectRatio": 1.7724867724867726,
+    "code": "SV",
+    "png": {
+      "height": 508,
+      "width": 900
+    },
+    "svg": {
+      "height": 567,
+      "viewBox": "0 0 1005 567",
+      "width": 1005
+    }
+  },
+  "SY": {
+    "aspectRatio": 1.5,
+    "code": "SY",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 120,
+      "viewBox": "0 0 180 120",
+      "width": 180
+    }
+  },
+  "SZ": {
+    "aspectRatio": 1.5,
+    "code": "SZ",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "TD": {
+    "aspectRatio": 1.5,
+    "code": "TD",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 450 300",
+      "width": 450
+    }
+  },
+  "TG": {
+    "aspectRatio": 1.618,
+    "code": "TG",
+    "png": {
+      "height": 556,
+      "width": 900
+    },
+    "svg": {
+      "height": 500,
+      "viewBox": "0 0 809 500",
+      "width": 809
+    }
+  },
+  "TH": {
+    "aspectRatio": 1.5,
+    "code": "TH",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "TJ": {
+    "aspectRatio": 2,
+    "code": "TJ",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 700,
+      "viewBox": "0 0 1400 700",
+      "width": 1400
+    }
+  },
+  "TL": {
+    "aspectRatio": 2,
+    "code": "TL",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1200 600",
+      "width": 1200
+    }
+  },
+  "TM": {
+    "aspectRatio": 1.5,
+    "code": "TM",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "TN": {
+    "aspectRatio": 1.5,
+    "code": "TN",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 80,
+      "viewBox": "-60 -40 120 80",
+      "width": 120
+    }
+  },
+  "TO": {
+    "aspectRatio": 2,
+    "code": "TO",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 48,
+      "viewBox": "0 0 96 48",
+      "width": 96
+    }
+  },
+  "TR": {
+    "aspectRatio": 1.5,
+    "code": "TR",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 800,
+      "viewBox": "0 0 1200 800",
+      "width": 1200
+    }
+  },
+  "TT": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "TT",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 18,
+      "viewBox": "0 0 30 18",
+      "width": 30
+    }
+  },
+  "TV": {
+    "aspectRatio": 2,
+    "code": "TV",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1200 600",
+      "width": 1200
+    }
+  },
+  "TZ": {
+    "aspectRatio": 1.5,
+    "code": "TZ",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 48,
+      "viewBox": "0 0 72 48",
+      "width": 72
+    }
+  },
+  "UA": {
+    "aspectRatio": 1.5,
+    "code": "UA",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 800,
+      "viewBox": "0 0 1200 800",
+      "width": 1200
+    }
+  },
+  "UG": {
+    "aspectRatio": 1.5,
+    "code": "UG",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 900 600",
+      "width": 900
+    }
+  },
+  "US": {
+    "aspectRatio": 1.9,
+    "code": "US",
+    "png": {
+      "height": 474,
+      "width": 900
+    },
+    "svg": {
+      "height": 3900,
+      "viewBox": "0 0 7410 3900",
+      "width": 7410
+    }
+  },
+  "UY": {
+    "aspectRatio": 1.5,
+    "code": "UY",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 18,
+      "viewBox": "-5 -5 27 18",
+      "width": 27
+    }
+  },
+  "UZ": {
+    "aspectRatio": 2,
+    "code": "UZ",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 250,
+      "viewBox": "0 0 500 250",
+      "width": 500
+    }
+  },
+  "VA": {
+    "aspectRatio": 1,
+    "code": "VA",
+    "png": {
+      "height": 900,
+      "width": 900
+    },
+    "svg": {
+      "height": 2500,
+      "viewBox": "0 0 2500 2500",
+      "width": 2500
+    }
+  },
+  "VC": {
+    "aspectRatio": 1.5,
+    "code": "VC",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 48,
+      "viewBox": "0 0 72 48",
+      "width": 72
+    }
+  },
+  "VE": {
+    "aspectRatio": 1.5,
+    "code": "VE",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 120,
+      "viewBox": "0 0 180 120",
+      "width": 180
+    }
+  },
+  "VN": {
+    "aspectRatio": 1.5,
+    "code": "VN",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 20,
+      "viewBox": "-15 -10 30 20",
+      "width": 30
+    }
+  },
+  "VU": {
+    "aspectRatio": 1.6666666666666667,
+    "code": "VU",
+    "png": {
+      "height": 540,
+      "width": 900
+    },
+    "svg": {
+      "height": 570,
+      "viewBox": "0 0 950 570",
+      "width": 950
+    }
+  },
+  "WS": {
+    "aspectRatio": 2,
+    "code": "WS",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 1440,
+      "viewBox": "0 0 2880 1440",
+      "width": 2880
+    }
+  },
+  "XK": {
+    "aspectRatio": 1.4,
+    "code": "XK",
+    "png": {
+      "height": 643,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 840 600",
+      "width": 840
+    }
+  },
+  "YE": {
+    "aspectRatio": 1.5,
+    "code": "YE",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 450 300",
+      "width": 450
+    }
+  },
+  "ZA": {
+    "aspectRatio": 1.5,
+    "code": "ZA",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 6,
+      "viewBox": "0 0 9 6",
+      "width": 9
+    }
+  },
+  "ZM": {
+    "aspectRatio": 1.5,
+    "code": "ZM",
+    "png": {
+      "height": 600,
+      "width": 900
+    },
+    "svg": {
+      "height": 1400,
+      "viewBox": "0 0 2100 1400",
+      "width": 2100
+    }
+  },
+  "ZW": {
+    "aspectRatio": 2,
+    "code": "ZW",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 126,
+      "viewBox": "0 0 252 126",
+      "width": 252
+    }
+  }
+}

@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@geopoto/geo-data": "workspace:*",
     "@gorhom/bottom-sheet": "^5.2.14",
     "expo": "55.0.23",
     "expo-constants": "~55.0.11",

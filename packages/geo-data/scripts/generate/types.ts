@@ -8,6 +8,16 @@ export interface GeneratedJsonFile {
   path: string;
 }
 
+export interface GeneratedBinaryFile {
+  content: Buffer;
+  path: string;
+}
+
+export interface GeneratedTextFile {
+  content: string;
+  path: string;
+}
+
 export interface RawGeometryProperties {
   name?: string;
 }

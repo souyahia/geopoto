@@ -1,6 +1,10 @@
 import { writeFile } from "node:fs/promises";
 
-import type { GeneratedJsonFile } from "./types.ts";
+import type {
+  GeneratedBinaryFile,
+  GeneratedJsonFile,
+  GeneratedTextFile,
+} from "./types.ts";
 
 const REGIONS_ARRAY_REGEX = /"regions": \[\n((?:\s+"[^"]+",?\n)+)\s+\]/g;
 const JSON_STRING_REGEX = /"[^"]+"/g;
@@ -41,4 +45,14 @@ export async function fetchJson(url: string): Promise<unknown> {
 
 export async function writeJsonFile(file: GeneratedJsonFile): Promise<void> {
   await writeFile(file.path, formatJson(file.data), "utf8");
+}
+
+export async function writeBinaryFile(
+  file: GeneratedBinaryFile,
+): Promise<void> {
+  await writeFile(file.path, file.content);
+}
+
+export async function writeTextFile(file: GeneratedTextFile): Promise<void> {
+  await writeFile(file.path, file.content, "utf8");
 }

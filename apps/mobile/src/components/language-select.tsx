@@ -36,6 +36,8 @@ const LANGUAGE_OPTIONS: LanguageOption[] = SUPPORTED_LOCALES.map((locale) => ({
   value: locale,
 }));
 
+const FLAG_ICON_WIDTH_PX = 24;
+
 export function LanguageSelect({
   value,
   onValueChange,
@@ -58,7 +60,7 @@ export function LanguageSelect({
       onValueChange={handleValueChange}
     >
       <Select.Trigger className="bg-surface-tertiary">
-        <LangIcon lang={selectedLocale} width={24} />
+        <LangIcon lang={selectedLocale} width={FLAG_ICON_WIDTH_PX} />
         <Select.Value placeholder={t("settings.language.placeholder")} />
         <Select.TriggerIndicator />
       </Select.Trigger>
@@ -76,7 +78,7 @@ export function LanguageSelect({
                 <PressableFeedback.Highlight />
                 <PressableFeedback.Ripple />
                 <View className="flex-1 flex-row items-center gap-3">
-                  <LangIcon lang={option.value} width={24} />
+                  <LangIcon lang={option.value} width={FLAG_ICON_WIDTH_PX} />
                   <Select.ItemLabel />
                 </View>
                 <Select.ItemIndicator className="pr-3">
