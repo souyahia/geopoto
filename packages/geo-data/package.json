@@ -5,12 +5,8 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./src/countries.ts",
-      "default": "./src/countries.ts"
-    },
-    "./map": {
-      "types": "./src/map.ts",
-      "default": "./src/map.ts"
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
     }
   },
   "scripts": {
