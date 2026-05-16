@@ -1,6 +1,6 @@
 import countriesData from "../generated/countries.json";
 import { type LocalizedText } from "./geo-language";
-import { type CountryMap, type MapRegionName } from "./map";
+import { type CountryMap, type MapRegionName } from "./map-definition";
 
 export const CONTINENTS = [
   "africa",
@@ -23,7 +23,7 @@ export interface Country {
   capital: LocalizedText;
   map: CountryMap;
   name: LocalizedText;
-  regions: MapRegionName[];
+  regions: readonly MapRegionName[];
 }
 
-export const countries: readonly Country[] = countriesData;
+export const COUNTRIES = countriesData as readonly Country[];
