@@ -10,9 +10,11 @@
     }
   },
   "scripts": {
+    "generate": "node --experimental-strip-types scripts/generate.ts",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@geopoto/tsconfig": "workspace:*"
+    "@geopoto/tsconfig": "workspace:*",
+    "@types/node": "^25.7.0"
   }
 }

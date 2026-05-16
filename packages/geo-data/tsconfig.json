@@ -2,7 +2,8 @@
   "extends": "@geopoto/tsconfig/node.json",
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "dist"
+    "outDir": "dist",
+    "types": ["node"]
   },
   "include": ["src/**/*.ts", "scripts/**/*.ts", "generated/**/*.json"],
   "exclude": ["node_modules", "dist"]

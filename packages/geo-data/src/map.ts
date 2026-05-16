@@ -1,3 +1,5 @@
+import mapRegionsData from "../generated/map-regions.json";
+
 export interface MapBounds {
   minX: number;
   minY: number;
@@ -31,3 +33,5 @@ export interface MapRegion {
   name: MapRegionName;
   bounds: MapBounds;
 }
+
+export const mapRegions: readonly MapRegion[] = mapRegionsData;
