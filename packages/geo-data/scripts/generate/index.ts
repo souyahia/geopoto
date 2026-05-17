@@ -1,6 +1,6 @@
 import { mkdir, rm } from "node:fs/promises";
 
-import { geoEqualEarth, geoPath } from "d3-geo";
+import { geoMercator, geoPath } from "d3-geo";
 
 import {
   GENERATED_DIRECTORY,
@@ -33,7 +33,7 @@ async function generateGeoData(): Promise<void> {
   const features = toCountryFeatures(topology);
   const featureByNumericId = createFeatureByNumericId(features);
   const featureByName = createFeatureByName(features);
-  const projection = geoEqualEarth().fitSize([1000, 500], { type: "Sphere" });
+  const projection = geoMercator().fitSize([1000, 500], { type: "Sphere" });
   const pathGenerator = geoPath(projection).digits(3);
   const countries = restCountries
     .map((restCountry) =>
