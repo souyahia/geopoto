@@ -22,6 +22,28 @@
       }
     }
   },
+  "learn": {
+    "title": "Aprender",
+    "settings": "Definições",
+    "modes": {
+      "map": {
+        "title": "Mapa",
+        "description": "Estude os países pela sua posição no mapa."
+      },
+      "flags": {
+        "title": "Bandeiras",
+        "description": "Reveja as bandeiras nacionais ao seu ritmo."
+      },
+      "countries": {
+        "title": "Países",
+        "description": "Explore os países e os seus dados principais."
+      },
+      "capitals": {
+        "title": "Capitais",
+        "description": "Memorize as capitais país a país."
+      }
+    }
+  },
   "settings": {
     "title": "Definições",
     "theme": {

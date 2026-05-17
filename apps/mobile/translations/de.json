@@ -22,6 +22,28 @@
       }
     }
   },
+  "learn": {
+    "title": "Lernen",
+    "settings": "Einstellungen",
+    "modes": {
+      "map": {
+        "title": "Karte",
+        "description": "Lerne Länder anhand ihrer Position auf der Karte."
+      },
+      "flags": {
+        "title": "Flaggen",
+        "description": "Wiederhole Nationalflaggen in deinem eigenen Tempo."
+      },
+      "countries": {
+        "title": "Länder",
+        "description": "Durchstöbere Länder und ihre wichtigsten Fakten."
+      },
+      "capitals": {
+        "title": "Hauptstädte",
+        "description": "Präge dir Hauptstädte Land für Land ein."
+      }
+    }
+  },
   "settings": {
     "title": "Einstellungen",
     "theme": {

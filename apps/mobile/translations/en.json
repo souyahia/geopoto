@@ -22,6 +22,28 @@
       }
     }
   },
+  "learn": {
+    "title": "Learn",
+    "settings": "Settings",
+    "modes": {
+      "map": {
+        "title": "Map",
+        "description": "Study countries from their position on the map."
+      },
+      "flags": {
+        "title": "Flags",
+        "description": "Review national flags at your own pace."
+      },
+      "countries": {
+        "title": "Countries",
+        "description": "Browse countries and their key facts."
+      },
+      "capitals": {
+        "title": "Capitals",
+        "description": "Memorize capital cities country by country."
+      }
+    }
+  },
   "settings": {
     "title": "Settings",
     "theme": {

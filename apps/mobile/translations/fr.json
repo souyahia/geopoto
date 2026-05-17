@@ -22,6 +22,28 @@
       }
     }
   },
+  "learn": {
+    "title": "Apprendre",
+    "settings": "Paramètres",
+    "modes": {
+      "map": {
+        "title": "Carte",
+        "description": "Étudiez les pays à partir de leur position sur la carte."
+      },
+      "flags": {
+        "title": "Drapeaux",
+        "description": "Révisez les drapeaux nationaux à votre rythme."
+      },
+      "countries": {
+        "title": "Pays",
+        "description": "Parcourez les pays et leurs informations clés."
+      },
+      "capitals": {
+        "title": "Capitales",
+        "description": "Mémorisez les capitales pays par pays."
+      }
+    }
+  },
   "settings": {
     "title": "Paramètres",
     "theme": {

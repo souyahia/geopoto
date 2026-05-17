@@ -53,6 +53,7 @@ export function HomePage() {
           icon={BookOpenText}
           title={t("home.game-modes.learn.title")}
           description={t("home.game-modes.learn.description")}
+          onPress={() => router.push("/learn")}
         />
       </View>
     </View>
