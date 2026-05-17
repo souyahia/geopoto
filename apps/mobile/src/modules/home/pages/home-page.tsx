@@ -6,9 +6,8 @@ import { View } from "react-native";
 
 import { AssetImage, ASSET_IMAGES } from "@/components/asset-image";
 import { BackroomsButton } from "@/components/backrooms-button";
+import { MenuCard } from "@/components/menu-card";
 import { ThemedIcon } from "@/services/theme/themed-icon";
-
-import { GameModeButton } from "../components/game-mode-button";
 
 export function HomePage() {
   const { t } = useTranslation();
@@ -38,18 +37,18 @@ export function HomePage() {
         />
       </View>
       <View className="flex-1 items-center px-10 py-4 justify-stretch gap-4">
-        <GameModeButton
+        <MenuCard
           icon={Trophy}
           title={t("home.game-modes.challenge.title")}
-          description=""
-          isComingSoon
+          description={t("home.game-modes.coming-soon")}
+          isDisabled
         />
-        <GameModeButton
+        <MenuCard
           icon={Dumbbell}
           title={t("home.game-modes.train.title")}
           description={t("home.game-modes.train.description")}
         />
-        <GameModeButton
+        <MenuCard
           icon={BookOpenText}
           title={t("home.game-modes.learn.title")}
           description={t("home.game-modes.learn.description")}

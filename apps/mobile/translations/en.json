@@ -25,7 +25,34 @@
   "learn": {
     "title": "Learn",
     "settings": "Settings",
-    "modes": {
+    "countries": {
+      "title": "Countries",
+      "search": {
+        "label": "Search countries",
+        "placeholder": "Search by country, code, capital...",
+        "clear": "Clear search"
+      },
+      "empty": "No countries found."
+    },
+    "country": {
+      "not-found": {
+        "title": "Country not found",
+        "description": "This country could not be found in the geography data."
+      },
+      "sections": {
+        "overview": "Overview",
+        "names": "Names",
+        "capitals": "Capitals"
+      },
+      "fields": {
+        "name": "Name",
+        "code": "Country code",
+        "capital": "Capital",
+        "continent": "Continent",
+        "regions": "World regions"
+      }
+    },
+    "menu-cards": {
       "map": {
         "title": "Map",
         "description": "Study countries from their position on the map."
@@ -65,6 +92,26 @@
         "description": "Choose the language used for geographic data.",
         "select-label": "Geographic language"
       }
+    }
+  },
+  "geo": {
+    "continents": {
+      "africa": "Africa",
+      "south-america": "South America",
+      "north-america": "North America",
+      "asia": "Asia",
+      "europe": "Europe",
+      "oceania": "Oceania"
+    },
+    "regions": {
+      "world": "World",
+      "africa": "Africa",
+      "south-america": "South America",
+      "north-america": "North America",
+      "asia": "Asia",
+      "europe": "Europe",
+      "oceania": "Oceania",
+      "caribbean": "Caribbean"
     }
   }
 }

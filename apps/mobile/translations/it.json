@@ -25,6 +25,51 @@
   "learn": {
     "title": "Impara",
     "settings": "Impostazioni",
+    "countries": {
+      "title": "Paesi",
+      "search": {
+        "label": "Cerca paesi",
+        "placeholder": "Cerca per paese, codice, capitale...",
+        "clear": "Cancella ricerca"
+      },
+      "empty": "Nessun paese trovato."
+    },
+    "country": {
+      "not-found": {
+        "title": "Paese non trovato",
+        "description": "Questo paese non è stato trovato nei dati geografici."
+      },
+      "sections": {
+        "overview": "Panoramica",
+        "names": "Nomi",
+        "capitals": "Capitali"
+      },
+      "fields": {
+        "name": "Nome",
+        "code": "Codice paese",
+        "capital": "Capitale",
+        "continent": "Continente",
+        "regions": "Regioni del mondo"
+      }
+    },
+    "continents": {
+      "africa": "Africa",
+      "south-america": "Sud America",
+      "north-america": "Nord America",
+      "asia": "Asia",
+      "europe": "Europa",
+      "oceania": "Oceania"
+    },
+    "regions": {
+      "world": "Mondo",
+      "africa": "Africa",
+      "south-america": "Sud America",
+      "north-america": "Nord America",
+      "asia": "Asia",
+      "europe": "Europa",
+      "oceania": "Oceania",
+      "caribbean": "Caraibi"
+    },
     "modes": {
       "map": {
         "title": "Mappa",

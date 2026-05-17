@@ -1,48 +1,11 @@
 import { useRouter } from "expo-router";
-import { Button } from "heroui-native/button";
-import { Text } from "heroui-native/text";
-import {
-  BookOpenText,
-  Building2,
-  Flag,
-  Map,
-  Settings,
-  type LucideIcon,
-} from "lucide-react-native";
+import { Building2, Flag, Map, ScrollText } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View } from "react-native";
 
-import { BackButton } from "@/components/back-button";
-import { Header } from "@/components/header/header";
-import { ThemedIcon } from "@/services/theme/themed-icon";
+import { MenuCard } from "@/components/menu-card";
 
-import { LearnModeCard } from "../components/learn-mode-card";
-
-type LearnModeKey = "map" | "flags" | "countries" | "capitals";
-
-interface LearnModeOption {
-  icon: LucideIcon;
-  key: LearnModeKey;
-}
-
-const LEARN_MODE_OPTIONS: readonly LearnModeOption[] = [
-  {
-    icon: Map,
-    key: "map",
-  },
-  {
-    icon: Flag,
-    key: "flags",
-  },
-  {
-    icon: BookOpenText,
-    key: "countries",
-  },
-  {
-    icon: Building2,
-    key: "capitals",
-  },
-];
+import { LearnHeader } from "../components/learn-header";
 
 export function LearnPage() {
   const { t } = useTranslation();
@@ -50,34 +13,33 @@ export function LearnPage() {
 
   return (
     <View className="flex-1 p-safe">
-      <Header className="px-2">
-        <Header.Left>
-          <BackButton />
-        </Header.Left>
-        <Header.Center>
-          <Text type="h2">{t("learn.title")}</Text>
-        </Header.Center>
-        <Header.Right>
-          <Button
-            variant="ghost"
-            aria-label={t("learn.settings")}
-            isIconOnly
-            onPress={() => router.push("/settings")}
-          >
-            <ThemedIcon icon={Settings} />
-          </Button>
-        </Header.Right>
-      </Header>
+      <LearnHeader title={t("learn.title")} />
       <ScrollView className="flex-1">
         <View className="gap-4 px-6 pb-8 pt-4">
-          {LEARN_MODE_OPTIONS.map((option) => (
-            <LearnModeCard
-              key={option.key}
-              icon={option.icon}
-              title={t(`learn.modes.${option.key}.title`)}
-              description={t(`learn.modes.${option.key}.description`)}
-            />
-          ))}
+          <MenuCard
+            icon={Map}
+            title={t("learn.menu-cards.map.title")}
+            description={t("learn.menu-cards.map.description")}
+            isDisabled
+          />
+          <MenuCard
+            icon={Flag}
+            title={t("learn.menu-cards.flags.title")}
+            description={t("learn.menu-cards.flags.description")}
+            isDisabled
+          />
+          <MenuCard
+            icon={ScrollText}
+            title={t("learn.menu-cards.countries.title")}
+            description={t("learn.menu-cards.countries.description")}
+            onPress={() => router.push("/learn/countries")}
+          />
+          <MenuCard
+            icon={Building2}
+            title={t("learn.menu-cards.capitals.title")}
+            description={t("learn.menu-cards.capitals.description")}
+            isDisabled
+          />
         </View>
       </ScrollView>
     </View>
