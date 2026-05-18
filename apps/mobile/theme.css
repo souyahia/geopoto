@@ -15,6 +15,10 @@
   --opacity-disabled: 0.5;
 }
 
+@theme inline static {
+  --color-map-background: var(--map-background);
+}
+
 @layer theme {
   :root {
     @variant light {
@@ -64,6 +68,13 @@
       /* Component Colors */
       --segment: var(--white);
       --segment-foreground: var(--foreground);
+
+      /* Map */
+      --map-background: #c6e5ff;
+      --map-country-background: #fef5ff;
+      --map-country-border: #b6a0b8;
+      --map-highlight-background: #fbbaff;
+      --map-highlight-border: #a572a9;
 
       /* Misc Colors */
       --border: oklch(90% 0.004 286.32);
@@ -119,6 +130,13 @@
       /* Component Colors */
       --segment: oklch(0.33 0.043 45.54);
       --segment-foreground: var(--foreground);
+
+      /* Map */
+      --map-background: #101923;
+      --map-country-background: #4b5e71;
+      --map-country-border: #7d97b4;
+      --map-highlight-background: #b568bc;
+      --map-highlight-border: #df9fc8;
 
       /* Misc Colors */
       --border: oklch(0.381 0.041 45.54);

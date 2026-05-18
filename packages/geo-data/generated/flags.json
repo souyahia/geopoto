@@ -675,6 +675,19 @@
       "width": 900
     }
   },
+  "EH": {
+    "aspectRatio": 2,
+    "code": "EH",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 300,
+      "viewBox": "0 0 600 300",
+      "width": 600
+    }
+  },
   "ER": {
     "aspectRatio": 2,
     "code": "ER",
@@ -1830,6 +1843,19 @@
       "height": 10,
       "viewBox": "0 0 16 10",
       "width": 16
+    }
+  },
+  "PS": {
+    "aspectRatio": 2,
+    "code": "PS",
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 3,
+      "viewBox": "0 0 6 3",
+      "width": 6
     }
   },
   "PT": {

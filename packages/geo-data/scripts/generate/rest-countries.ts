@@ -40,8 +40,17 @@ const REST_COUNTRIES_SCHEMA = z.array(REST_COUNTRY_SCHEMA);
 
 export type RestCountry = z.infer<typeof REST_COUNTRY_SCHEMA>;
 
+// Also include Palestine because FREE PALESTINE <3
+const ADDITIONAL_INCLUDED_COUNTRY_CODES: readonly string[] = ["EH", "PS"];
+
 function shouldIncludeCountry(country: RestCountry): boolean {
-  return country.independent === true || country.unMember;
+  const isRecognizedCountry = country.independent === true || country.unMember;
+
+  if (isRecognizedCountry) {
+    return true;
+  }
+
+  return ADDITIONAL_INCLUDED_COUNTRY_CODES.includes(country.cca2);
 }
 
 export async function loadRestCountries(): Promise<readonly RestCountry[]> {
