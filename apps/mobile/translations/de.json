@@ -55,25 +55,7 @@
         "regions": "Weltregionen"
       }
     },
-    "continents": {
-      "africa": "Afrika",
-      "south-america": "Südamerika",
-      "north-america": "Nordamerika",
-      "asia": "Asien",
-      "europe": "Europa",
-      "oceania": "Ozeanien"
-    },
-    "regions": {
-      "world": "Welt",
-      "africa": "Afrika",
-      "south-america": "Südamerika",
-      "north-america": "Nordamerika",
-      "asia": "Asien",
-      "europe": "Europa",
-      "oceania": "Ozeanien",
-      "caribbean": "Karibik"
-    },
-    "modes": {
+    "menu-cards": {
       "map": {
         "title": "Karte",
         "description": "Lerne Länder anhand ihrer Position auf der Karte."
@@ -113,6 +95,26 @@
         "description": "Wähle die Sprache für geografische Daten.",
         "select-label": "Geografische Sprache"
       }
+    }
+  },
+  "geo": {
+    "continents": {
+      "africa": "Afrika",
+      "south-america": "Südamerika",
+      "north-america": "Nordamerika",
+      "asia": "Asien",
+      "europe": "Europa",
+      "oceania": "Ozeanien"
+    },
+    "regions": {
+      "world": "Welt",
+      "africa": "Afrika",
+      "south-america": "Südamerika",
+      "north-america": "Nordamerika",
+      "asia": "Asien",
+      "europe": "Europa",
+      "oceania": "Ozeanien",
+      "caribbean": "Karibik"
     }
   }
 }
