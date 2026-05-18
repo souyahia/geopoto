@@ -22,6 +22,9 @@
       }
     }
   },
+  "map-viewer": {
+    "reset": "Repor vista do mapa"
+  },
   "learn": {
     "title": "Aprender",
     "settings": "Definições",

@@ -22,6 +22,9 @@
       }
     }
   },
+  "map-viewer": {
+    "reset": "Réinitialiser la vue de la carte"
+  },
   "learn": {
     "title": "Apprendre",
     "settings": "Paramètres",

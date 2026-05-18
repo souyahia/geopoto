@@ -29,13 +29,29 @@ export function useMapViewerViewport({
     buildInitialViewport({ aspectRatio, centersOn }),
   );
   const viewportRef = useRef(viewport);
+  const initialViewportRef = useRef(viewport);
+  const [hasViewportBeenUpdated, setHasViewportBeenUpdated] = useState(false);
   const resetSignature = `${getMapViewerCenterTargetKey(centersOn)}:${aspectRatio}`;
   const resetSignatureRef = useRef(resetSignature);
 
-  const applyViewport = useCallback((nextViewport: MapViewport) => {
+  const setCurrentViewport = useCallback((nextViewport: MapViewport) => {
     viewportRef.current = nextViewport;
     setViewport(nextViewport);
   }, []);
+
+  const applyViewport = useCallback(
+    (nextViewport: MapViewport) => {
+      setCurrentViewport(nextViewport);
+      setHasViewportBeenUpdated(true);
+    },
+    [setCurrentViewport],
+  );
+
+  const resetViewport = useCallback(() => {
+    gestureStateRef.current = null;
+    setCurrentViewport(initialViewportRef.current);
+    setHasViewportBeenUpdated(false);
+  }, [gestureStateRef, setCurrentViewport]);
 
   const handleLayout = useCallback((event: LayoutChangeEvent) => {
     const nextLayoutSize = {
@@ -63,13 +79,28 @@ export function useMapViewerViewport({
 
     resetSignatureRef.current = resetSignature;
     gestureStateRef.current = null;
-    applyViewport(buildInitialViewport({ aspectRatio, centersOn }));
-  }, [applyViewport, aspectRatio, centersOn, gestureStateRef, resetSignature]);
+    const nextInitialViewport = buildInitialViewport({
+      aspectRatio,
+      centersOn,
+    });
+
+    initialViewportRef.current = nextInitialViewport;
+    setCurrentViewport(nextInitialViewport);
+    setHasViewportBeenUpdated(false);
+  }, [
+    aspectRatio,
+    centersOn,
+    gestureStateRef,
+    resetSignature,
+    setCurrentViewport,
+  ]);
 
   return {
     applyViewport,
     handleLayout,
+    hasViewportBeenUpdated,
     layoutSize,
+    resetViewport,
     viewport,
     viewportRef,
   };
