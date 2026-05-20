@@ -9,16 +9,20 @@ import type { RestCountry } from "./rest-countries.ts";
 import type { CountryFeature } from "./types.ts";
 
 interface BuildCountryParams {
-  featureByName: ReadonlyMap<string, CountryFeature>;
-  featureByNumericId: ReadonlyMap<string, CountryFeature>;
+  highResolutionFeatureLookup: CountryFeatureLookup;
+  lowResolutionFeatureLookup: CountryFeatureLookup;
   pathGenerator: GeoPath;
   projection: GeoProjection;
   restCountry: RestCountry;
 }
 
+export interface CountryFeatureLookup {
+  byName: ReadonlyMap<string, CountryFeature>;
+  byNumericId: ReadonlyMap<string, CountryFeature>;
+}
+
 interface FindCountryFeatureParams {
-  featureByName: ReadonlyMap<string, CountryFeature>;
-  featureByNumericId: ReadonlyMap<string, CountryFeature>;
+  featureLookup: CountryFeatureLookup;
   restCountry: RestCountry;
 }
 
@@ -99,28 +103,28 @@ function toNumericCountryCode(country: RestCountry): string | null {
 }
 
 function findCountryFeature({
-  featureByName,
-  featureByNumericId,
+  featureLookup,
   restCountry,
 }: FindCountryFeatureParams): CountryFeature | null {
   const numericCountryCode = toNumericCountryCode(restCountry);
   const featureByCode =
     numericCountryCode === null
       ? null
-      : featureByNumericId.get(numericCountryCode);
+      : featureLookup.byNumericId.get(numericCountryCode);
 
   if (featureByCode !== undefined && featureByCode !== null) {
     return featureByCode;
   }
 
   return (
-    featureByName.get(normalizeCountryName(restCountry.name.common)) ?? null
+    featureLookup.byName.get(normalizeCountryName(restCountry.name.common)) ??
+    null
   );
 }
 
 export function buildCountry({
-  featureByName,
-  featureByNumericId,
+  highResolutionFeatureLookup,
+  lowResolutionFeatureLookup,
   pathGenerator,
   projection,
   restCountry,
@@ -131,9 +135,12 @@ export function buildCountry({
     return null;
   }
 
-  const feature = findCountryFeature({
-    featureByName,
-    featureByNumericId,
+  const highResolutionFeature = findCountryFeature({
+    featureLookup: highResolutionFeatureLookup,
+    restCountry,
+  });
+  const lowResolutionFeature = findCountryFeature({
+    featureLookup: lowResolutionFeatureLookup,
     restCountry,
   });
 
@@ -142,7 +149,8 @@ export function buildCountry({
     code: restCountry.cca2,
     continent,
     map: buildCountryMap({
-      feature,
+      highResolutionFeature,
+      lowResolutionFeature,
       pathGenerator,
       projection,
       restCountry,

@@ -7,7 +7,7 @@ import {
   GENERATED_FLAG_PNGS_DIRECTORY,
   GENERATED_FLAGS_DIRECTORY,
 } from "./config.ts";
-import { buildCountry } from "./country.ts";
+import { type CountryFeatureLookup, buildCountry } from "./country.ts";
 import { buildCountryFlags } from "./flags.ts";
 import { buildGeneratedData } from "./generated-files.ts";
 import {
@@ -18,28 +18,43 @@ import {
 } from "./json.ts";
 import { buildMapRegions } from "./map-regions.ts";
 import { loadRestCountries } from "./rest-countries.ts";
+import type { CountryFeature } from "./types.ts";
 import {
   createFeatureByName,
   createFeatureByNumericId,
-  loadWorldAtlasTopology,
+  loadWorldAtlasTopologies,
   toCountryFeatures,
 } from "./world-atlas.ts";
 
+function createCountryFeatureLookup(
+  features: readonly CountryFeature[],
+): CountryFeatureLookup {
+  return {
+    byName: createFeatureByName(features),
+    byNumericId: createFeatureByNumericId(features),
+  };
+}
+
 async function generateGeoData(): Promise<void> {
-  const [restCountries, topology] = await Promise.all([
+  const [restCountries, topologies] = await Promise.all([
     loadRestCountries(),
-    loadWorldAtlasTopology(),
+    loadWorldAtlasTopologies(),
   ]);
-  const features = toCountryFeatures(topology);
-  const featureByNumericId = createFeatureByNumericId(features);
-  const featureByName = createFeatureByName(features);
+  const highResolutionFeatures = toCountryFeatures(topologies.highResolution);
+  const lowResolutionFeatures = toCountryFeatures(topologies.lowResolution);
+  const highResolutionFeatureLookup = createCountryFeatureLookup(
+    highResolutionFeatures,
+  );
+  const lowResolutionFeatureLookup = createCountryFeatureLookup(
+    lowResolutionFeatures,
+  );
   const projection = geoMercator().fitSize([1000, 500], { type: "Sphere" });
   const pathGenerator = geoPath(projection).digits(3);
   const countries = restCountries
     .map((restCountry) =>
       buildCountry({
-        featureByName,
-        featureByNumericId,
+        highResolutionFeatureLookup,
+        lowResolutionFeatureLookup,
         pathGenerator,
         projection,
         restCountry,

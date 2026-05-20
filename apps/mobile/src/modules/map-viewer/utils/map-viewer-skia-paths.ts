@@ -24,7 +24,7 @@ export function getCountryMapPath({
     return countryMapPaths.get(country.code) ?? null;
   }
 
-  const path = Skia.Path.MakeFromSVGString(country.map.path);
+  const path = Skia.Path.MakeFromSVGString(country.map.paths.lowResolution);
   countryMapPaths.set(country.code, path);
 
   return path;

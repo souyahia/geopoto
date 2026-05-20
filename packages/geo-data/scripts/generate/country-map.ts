@@ -5,15 +5,29 @@ import type { RestCountry } from "./rest-countries.ts";
 import type { CountryFeature } from "./types.ts";
 
 interface BuildCountryMapParams {
-  feature: CountryFeature | null;
+  highResolutionFeature: CountryFeature | null;
+  lowResolutionFeature: CountryFeature | null;
   pathGenerator: GeoPath;
   projection: GeoProjection;
   restCountry: RestCountry;
 }
 
-interface SyntheticMapParams {
+interface BuildCountryMapPathParams {
+  fallbackMapPath: BuiltCountryMapPath | null;
+  feature: CountryFeature | null;
+  projection: GeoProjection;
+  pathGenerator: GeoPath;
+  restCountry: RestCountry;
+}
+
+interface SyntheticMapPathParams {
   projection: GeoProjection;
   restCountry: RestCountry;
+}
+
+interface BuiltCountryMapPath {
+  bounds: MapBounds;
+  path: string;
 }
 
 const SYNTHETIC_MAP_POINT_RADIUS = 1.5;
@@ -35,10 +49,10 @@ export function toMapBounds(
   };
 }
 
-function createSyntheticMap({
+function createSyntheticMapPath({
   projection,
   restCountry,
-}: SyntheticMapParams): CountryMap {
+}: SyntheticMapPathParams): BuiltCountryMapPath {
   if (restCountry.latlng === null) {
     throw new Error(`Missing map geometry and latlng for ${restCountry.cca2}`);
   }
@@ -71,19 +85,59 @@ function createSyntheticMap({
 }
 
 export function buildCountryMap({
-  feature,
+  highResolutionFeature,
+  lowResolutionFeature,
   pathGenerator,
   projection,
   restCountry,
 }: BuildCountryMapParams): CountryMap {
+  const highResolutionMapPath = buildCountryMapPath({
+    fallbackMapPath: null,
+    feature: highResolutionFeature,
+    pathGenerator,
+    projection,
+    restCountry,
+  });
+  const lowResolutionMapPath = buildCountryMapPath({
+    fallbackMapPath: highResolutionMapPath,
+    feature: lowResolutionFeature,
+    pathGenerator,
+    projection,
+    restCountry,
+  });
+
+  return {
+    bounds: highResolutionMapPath.bounds,
+    paths: {
+      highResolution: highResolutionMapPath.path,
+      lowResolution: lowResolutionMapPath.path,
+    },
+  };
+}
+
+function buildCountryMapPath({
+  fallbackMapPath,
+  feature,
+  pathGenerator,
+  projection,
+  restCountry,
+}: BuildCountryMapPathParams): BuiltCountryMapPath {
   if (feature === null) {
-    return createSyntheticMap({ projection, restCountry });
+    if (fallbackMapPath !== null) {
+      return fallbackMapPath;
+    }
+
+    return createSyntheticMapPath({ projection, restCountry });
   }
 
   const path = pathGenerator(feature);
 
   if (path === null) {
-    return createSyntheticMap({ projection, restCountry });
+    if (fallbackMapPath !== null) {
+      return fallbackMapPath;
+    }
+
+    return createSyntheticMapPath({ projection, restCountry });
   }
 
   return {

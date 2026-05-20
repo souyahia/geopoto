@@ -5,9 +5,14 @@ export interface MapBounds {
   maxY: number;
 }
 
+export interface CountryMapPaths {
+  highResolution: string;
+  lowResolution: string;
+}
+
 export interface CountryMap {
   bounds: MapBounds;
-  path: string;
+  paths: CountryMapPaths;
 }
 
 export const MAP_REGION_NAMES = [
