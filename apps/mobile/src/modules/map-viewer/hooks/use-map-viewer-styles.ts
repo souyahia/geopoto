@@ -9,7 +9,6 @@ import {
   getWorldMapPath,
 } from "../utils/map-viewer-skia-paths";
 import type { MapViewerHighlightTarget } from "../utils/map-viewer-viewport";
-import { useMapViewerColors } from "./use-map-viewer-colors";
 
 export interface MapViewerHighlight {
   target: MapViewerHighlightTarget;
@@ -18,89 +17,126 @@ export interface MapViewerHighlight {
 }
 
 interface UseMapViewerStylesParams {
+  activeTargets: readonly MapViewerHighlightTarget[];
   highlights: readonly MapViewerHighlight[];
   pathResolution: CountryMapPathResolution;
 }
 
 export function useMapViewerStyles({
+  activeTargets,
   highlights,
   pathResolution,
 }: UseMapViewerStylesParams) {
-  const mapViewerColors = useMapViewerColors();
   const basePath = useMemo(
     () => getWorldMapPath({ pathResolution }),
     [pathResolution],
   );
 
-  const defaultHighlightStyle = useMemo(
-    () => ({
-      backgroundColor: mapViewerColors.highlightBackgroundColor,
-      borderColor: mapViewerColors.highlightBorderColor,
-    }),
-    [
-      mapViewerColors.highlightBackgroundColor,
-      mapViewerColors.highlightBorderColor,
-    ],
+  const activePathGroups = useMemo(
+    () =>
+      buildActivePathGroups({
+        activeTargets,
+        pathResolution,
+      }),
+    [activeTargets, pathResolution],
   );
-
   const highlightPathGroups = useMemo(
     () =>
       buildHighlightPathGroups({
-        defaultHighlightStyle,
         highlights,
         pathResolution,
       }),
-    [defaultHighlightStyle, highlights, pathResolution],
+    [highlights, pathResolution],
   );
 
   return {
+    activePathGroups,
     basePath,
-    countryBackgroundColor: mapViewerColors.countryBackgroundColor,
-    countryBorderColor: mapViewerColors.countryBorderColor,
     highlightPathGroups,
   };
 }
 
-interface MapViewerHighlightStyle {
-  backgroundColor: string;
-  borderColor: string;
+interface MapViewerPathStyle {
+  backgroundColor?: string;
+  borderColor?: string;
+}
+
+interface BuildActivePathGroupsParams {
+  activeTargets: readonly MapViewerHighlightTarget[];
+  pathResolution: CountryMapPathResolution;
 }
 
 interface BuildHighlightPathGroupsParams {
-  defaultHighlightStyle: MapViewerHighlightStyle;
   highlights: readonly MapViewerHighlight[];
   pathResolution: CountryMapPathResolution;
 }
 
-interface HighlightedCountryStyle {
+interface StyledCountry {
   country: Country;
-  style: MapViewerHighlightStyle;
+  style: MapViewerPathStyle;
 }
 
-interface HighlightPathGroupState {
-  backgroundColor: string;
-  borderColor: string;
+interface MapViewerPathGroupState {
+  backgroundColor?: string;
+  borderColor?: string;
   countries: Country[];
   id: string;
+}
+
+function buildActivePathGroups(
+  params: BuildActivePathGroupsParams,
+): readonly MapViewerPathGroup[] {
+  const { activeTargets, pathResolution } = params;
+
+  if (activeTargets.length === 0) {
+    return [];
+  }
+
+  const countryStyles = COUNTRIES.map((country) =>
+    getActiveCountryStyle({
+      activeTargets,
+      country,
+    }),
+  ).filter(isStyledCountry);
+
+  return buildPathGroupsFromCountryStyles({
+    countryStyles,
+    pathResolution,
+  });
 }
 
 function buildHighlightPathGroups(
   params: BuildHighlightPathGroupsParams,
 ): readonly MapViewerPathGroup[] {
-  const { defaultHighlightStyle, highlights, pathResolution } = params;
+  const { highlights, pathResolution } = params;
 
   if (highlights.length === 0) {
     return [];
   }
 
-  const highlightedCountryStyles = COUNTRIES.map((country) =>
+  const countryStyles = COUNTRIES.map((country) =>
     getHighlightedCountryStyle({
       country,
-      defaultStyle: defaultHighlightStyle,
       highlights,
     }),
-  ).filter(isHighlightedCountryStyle);
-  const groups = buildHighlightPathGroupStates({ highlightedCountryStyles });
+  ).filter(isStyledCountry);
+
+  return buildPathGroupsFromCountryStyles({
+    countryStyles,
+    pathResolution,
+  });
+}
+
+interface BuildPathGroupsFromCountryStylesParams {
+  countryStyles: readonly StyledCountry[];
+  pathResolution: CountryMapPathResolution;
+}
+
+function buildPathGroupsFromCountryStyles({
+  countryStyles,
+  pathResolution,
+}: BuildPathGroupsFromCountryStylesParams): readonly MapViewerPathGroup[] {
+  const groups = buildPathGroupStates({ countryStyles });
 
   return groups
     .map((group) => {
@@ -123,20 +159,45 @@ function buildHighlightPathGroups(
     .filter(isMapViewerPathGroup);
 }
 
+interface GetActiveCountryStyleParams {
+  activeTargets: readonly MapViewerHighlightTarget[];
+  country: Country;
+}
+
+function getActiveCountryStyle({
+  activeTargets,
+  country,
+}: GetActiveCountryStyleParams): StyledCountry | null {
+  const isActiveCountry = activeTargets.some((target) =>
+    doesMapViewerTargetMatchCountry({
+      country,
+      target,
+    }),
+  );
+
+  if (!isActiveCountry) {
+    return null;
+  }
+
+  return {
+    country,
+    style: {},
+  };
+}
+
 interface GetCountryHighlightStyleParams {
   country: Country;
-  defaultStyle: MapViewerHighlightStyle;
   highlights: readonly MapViewerHighlight[];
 }
 
 function getCountryHighlightStyle(
   params: GetCountryHighlightStyleParams,
-): MapViewerHighlightStyle | null {
-  const { country, defaultStyle, highlights } = params;
+): MapViewerPathStyle | null {
+  const { country, highlights } = params;
 
-  return highlights.reduce<MapViewerHighlightStyle | null>(
+  return highlights.reduce<MapViewerPathStyle | null>(
     (matchedStyle, highlight) => {
-      const isMatchingHighlight = doesHighlightTargetCountry({
+      const isMatchingHighlight = doesMapViewerTargetMatchCountry({
         country,
         target: highlight.target,
       });
@@ -146,9 +207,8 @@ function getCountryHighlightStyle(
       }
 
       return {
-        backgroundColor:
-          highlight.backgroundColor ?? defaultStyle.backgroundColor,
-        borderColor: highlight.borderColor ?? defaultStyle.borderColor,
+        backgroundColor: highlight.backgroundColor,
+        borderColor: highlight.borderColor,
       };
     },
     null,
@@ -157,7 +217,7 @@ function getCountryHighlightStyle(
 
 function getHighlightedCountryStyle(
   params: GetCountryHighlightStyleParams,
-): HighlightedCountryStyle | null {
+): StyledCountry | null {
   const { country } = params;
   const style = getCountryHighlightStyle(params);
 
@@ -171,40 +231,38 @@ function getHighlightedCountryStyle(
   };
 }
 
-function isHighlightedCountryStyle(
-  value: HighlightedCountryStyle | null,
-): value is HighlightedCountryStyle {
+function isStyledCountry(value: StyledCountry | null): value is StyledCountry {
   return value !== null;
 }
 
-interface BuildHighlightPathGroupStatesParams {
-  highlightedCountryStyles: readonly HighlightedCountryStyle[];
+interface BuildPathGroupStatesParams {
+  countryStyles: readonly StyledCountry[];
 }
 
-function buildHighlightPathGroupStates({
-  highlightedCountryStyles,
-}: BuildHighlightPathGroupStatesParams): readonly HighlightPathGroupState[] {
-  const groups: HighlightPathGroupState[] = [];
+function buildPathGroupStates({
+  countryStyles,
+}: BuildPathGroupStatesParams): readonly MapViewerPathGroupState[] {
+  const groups: MapViewerPathGroupState[] = [];
 
-  for (const highlightedCountryStyle of highlightedCountryStyles) {
+  for (const countryStyle of countryStyles) {
     const group = groups.find((currentGroup) =>
-      doesHighlightPathGroupMatchStyle({
+      doesPathGroupMatchStyle({
         group: currentGroup,
-        style: highlightedCountryStyle.style,
+        style: countryStyle.style,
       }),
     );
 
     if (group !== undefined) {
-      group.countries.push(highlightedCountryStyle.country);
+      group.countries.push(countryStyle.country);
       continue;
     }
 
     groups.push({
-      backgroundColor: highlightedCountryStyle.style.backgroundColor,
-      borderColor: highlightedCountryStyle.style.borderColor,
-      countries: [highlightedCountryStyle.country],
-      id: getHighlightPathGroupId({
-        style: highlightedCountryStyle.style,
+      backgroundColor: countryStyle.style.backgroundColor,
+      borderColor: countryStyle.style.borderColor,
+      countries: [countryStyle.country],
+      id: getPathGroupId({
+        style: countryStyle.style,
       }),
     });
   }
@@ -212,29 +270,27 @@ function buildHighlightPathGroupStates({
   return groups;
 }
 
-interface DoesHighlightPathGroupMatchStyleParams {
-  group: HighlightPathGroupState;
-  style: MapViewerHighlightStyle;
+interface DoesPathGroupMatchStyleParams {
+  group: MapViewerPathGroupState;
+  style: MapViewerPathStyle;
 }
 
-function doesHighlightPathGroupMatchStyle({
+function doesPathGroupMatchStyle({
   group,
   style,
-}: DoesHighlightPathGroupMatchStyleParams): boolean {
+}: DoesPathGroupMatchStyleParams): boolean {
   return (
     group.backgroundColor === style.backgroundColor &&
     group.borderColor === style.borderColor
   );
 }
 
-interface GetHighlightPathGroupIdParams {
-  style: MapViewerHighlightStyle;
+interface GetPathGroupIdParams {
+  style: MapViewerPathStyle;
 }
 
-function getHighlightPathGroupId({
-  style,
-}: GetHighlightPathGroupIdParams): string {
-  return `${style.backgroundColor}:${style.borderColor}`;
+function getPathGroupId({ style }: GetPathGroupIdParams): string {
+  return `${style.backgroundColor ?? "default-background"}:${style.borderColor ?? "default-border"}`;
 }
 
 function isMapViewerPathGroup(
@@ -243,13 +299,13 @@ function isMapViewerPathGroup(
   return value !== null;
 }
 
-interface DoesHighlightTargetCountryParams {
+interface DoesMapViewerTargetMatchCountryParams {
   country: Country;
   target: MapViewerHighlightTarget;
 }
 
-function doesHighlightTargetCountry(
-  params: DoesHighlightTargetCountryParams,
+function doesMapViewerTargetMatchCountry(
+  params: DoesMapViewerTargetMatchCountryParams,
 ): boolean {
   const { country, target } = params;
 

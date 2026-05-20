@@ -6,18 +6,24 @@ import type { SharedValue } from "react-native-reanimated";
 import type { MapViewerRenderedPathLayer } from "../utils/map-viewer-path-layer";
 
 interface MapViewerCanvasProps {
+  activeCountryBackgroundColor: string;
+  activeCountryBorderColor: string;
   countryBackgroundColor: string;
   countryBorderColor: string;
-  highlightStrokeWidth: SharedValue<number>;
+  highlightBackgroundColor: string;
+  highlightBorderColor: string;
   mapTransform: SharedValue<Transforms3d>;
   pathLayers: readonly MapViewerRenderedPathLayer[];
   strokeWidth: SharedValue<number>;
 }
 
 export function MapViewerCanvas({
+  activeCountryBackgroundColor,
+  activeCountryBorderColor,
   countryBackgroundColor,
   countryBorderColor,
-  highlightStrokeWidth,
+  highlightBackgroundColor,
+  highlightBorderColor,
   mapTransform,
   pathLayers,
   strokeWidth,
@@ -27,7 +33,13 @@ export function MapViewerCanvas({
       <Canvas style={{ width: "100%", height: "100%" }}>
         <Group transform={mapTransform}>
           {pathLayers.map(
-            ({ basePath, highlightPathGroups, id: layerId, opacity }) => (
+            ({
+              activePathGroups,
+              basePath,
+              highlightPathGroups,
+              id: layerId,
+              opacity,
+            }) => (
               <Group key={layerId} opacity={opacity}>
                 {basePath !== null && (
                   <>
@@ -45,15 +57,37 @@ export function MapViewerCanvas({
                     />
                   </>
                 )}
-                {highlightPathGroups.map(
+                {activePathGroups.map(
                   ({ backgroundColor, borderColor, id: groupId, path }) => (
-                    <Group key={groupId}>
-                      <Path color={backgroundColor} path={path} style="fill" />
+                    <Group key={`active:${groupId}`}>
                       <Path
-                        color={borderColor}
+                        color={backgroundColor ?? activeCountryBackgroundColor}
+                        path={path}
+                        style="fill"
+                      />
+                      <Path
+                        color={borderColor ?? activeCountryBorderColor}
                         path={path}
                         strokeJoin="round"
-                        strokeWidth={highlightStrokeWidth}
+                        strokeWidth={strokeWidth}
+                        style="stroke"
+                      />
+                    </Group>
+                  ),
+                )}
+                {highlightPathGroups.map(
+                  ({ backgroundColor, borderColor, id: groupId, path }) => (
+                    <Group key={`highlight:${groupId}`}>
+                      <Path
+                        color={backgroundColor ?? highlightBackgroundColor}
+                        path={path}
+                        style="fill"
+                      />
+                      <Path
+                        color={borderColor ?? highlightBorderColor}
+                        path={path}
+                        strokeJoin="round"
+                        strokeWidth={strokeWidth}
                         style="stroke"
                       />
                     </Group>

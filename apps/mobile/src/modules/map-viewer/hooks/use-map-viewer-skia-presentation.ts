@@ -12,7 +12,6 @@ interface UseMapViewerSkiaPresentationParams {
 }
 
 interface MapViewerSkiaPresentation {
-  highlightStrokeWidth: SharedValue<number>;
   layoutSizeValue: SharedValue<LayoutSize>;
   mapTransform: SharedValue<Transforms3d>;
   strokeWidth: SharedValue<number>;
@@ -61,8 +60,6 @@ export function useMapViewerSkiaPresentation({
       0.08,
     ),
   );
-  const highlightStrokeWidth = useDerivedValue(() => strokeWidth.value * 2);
-
   useEffect(() => {
     layoutSizeValue.value = layoutSize;
     viewportValues.height.value = viewport.height;
@@ -72,7 +69,6 @@ export function useMapViewerSkiaPresentation({
   }, [layoutSize, layoutSizeValue, viewport, viewportValues]);
 
   return {
-    highlightStrokeWidth,
     layoutSizeValue,
     mapTransform,
     strokeWidth,
