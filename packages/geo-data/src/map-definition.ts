@@ -10,6 +10,8 @@ export interface CountryMapPaths {
   lowResolution: string;
 }
 
+export type CountryMapPathResolution = keyof CountryMapPaths;
+
 export interface CountryMap {
   bounds: MapBounds;
   paths: CountryMapPaths;

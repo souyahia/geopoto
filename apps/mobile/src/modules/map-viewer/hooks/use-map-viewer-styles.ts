@@ -1,9 +1,9 @@
-import type { SkPath } from "@shopify/react-native-skia";
 import { useMemo } from "react";
 
-import type { Country } from "@geopoto/geo-data";
+import type { Country, CountryMapPathResolution } from "@geopoto/geo-data";
 import { COUNTRIES } from "@geopoto/geo-data";
 
+import type { MapViewerPathGroup } from "../utils/map-viewer-path-layer";
 import {
   getAggregatedCountryMapPath,
   getWorldMapPath,
@@ -19,11 +19,18 @@ export interface MapViewerHighlight {
 
 interface UseMapViewerStylesParams {
   highlights: readonly MapViewerHighlight[];
+  pathResolution: CountryMapPathResolution;
 }
 
-export function useMapViewerStyles({ highlights }: UseMapViewerStylesParams) {
+export function useMapViewerStyles({
+  highlights,
+  pathResolution,
+}: UseMapViewerStylesParams) {
   const mapViewerColors = useMapViewerColors();
-  const basePath = useMemo(() => getWorldMapPath(), []);
+  const basePath = useMemo(
+    () => getWorldMapPath({ pathResolution }),
+    [pathResolution],
+  );
 
   const defaultHighlightStyle = useMemo(
     () => ({
@@ -41,8 +48,9 @@ export function useMapViewerStyles({ highlights }: UseMapViewerStylesParams) {
       buildHighlightPathGroups({
         defaultHighlightStyle,
         highlights,
+        pathResolution,
       }),
-    [defaultHighlightStyle, highlights],
+    [defaultHighlightStyle, highlights, pathResolution],
   );
 
   return {
@@ -61,13 +69,7 @@ interface MapViewerHighlightStyle {
 interface BuildHighlightPathGroupsParams {
   defaultHighlightStyle: MapViewerHighlightStyle;
   highlights: readonly MapViewerHighlight[];
-}
-
-interface MapViewerPathGroup {
-  backgroundColor: string;
-  borderColor: string;
-  id: string;
-  path: SkPath;
+  pathResolution: CountryMapPathResolution;
 }
 
 interface HighlightedCountryStyle {
@@ -85,7 +87,7 @@ interface HighlightPathGroupState {
 function buildHighlightPathGroups(
   params: BuildHighlightPathGroupsParams,
 ): readonly MapViewerPathGroup[] {
-  const { defaultHighlightStyle, highlights } = params;
+  const { defaultHighlightStyle, highlights, pathResolution } = params;
 
   if (highlights.length === 0) {
     return [];
@@ -104,6 +106,7 @@ function buildHighlightPathGroups(
     .map((group) => {
       const path = getAggregatedCountryMapPath({
         countries: group.countries,
+        pathResolution,
       });
 
       if (path === null) {

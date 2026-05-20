@@ -1,5 +1,6 @@
 import {
   type Country,
+  type CountryMapPathResolution,
   MAP_REGIONS,
   type MapRegionName,
   type MapBounds,
@@ -86,6 +87,7 @@ interface ClampViewportToBoundsParams {
 }
 
 const COUNTRY_TARGET_PADDING_RATIO = 0.42;
+const HIGH_RESOLUTION_VIEWPORT_AREA = 7_500;
 const REGION_TARGET_PADDING_RATIO = 0.08;
 const COUNTRY_TARGET_MINIMUM_HEIGHT = 34;
 const COUNTRY_TARGET_MINIMUM_WIDTH = 50;
@@ -169,6 +171,24 @@ export function getMapViewerCenterTargetKey(
     default:
       return `bounds:${getBoundsKey(WORLD_MAP_BOUNDS)}`;
   }
+}
+
+interface GetMapViewerPathResolutionParams {
+  viewport: MapViewport;
+}
+
+export function getMapViewerPathResolution({
+  viewport,
+}: GetMapViewerPathResolutionParams): CountryMapPathResolution {
+  if (getViewportArea(viewport) <= HIGH_RESOLUTION_VIEWPORT_AREA) {
+    return "highResolution";
+  }
+
+  return "lowResolution";
+}
+
+function getViewportArea(viewport: MapViewport): number {
+  return viewport.width * viewport.height;
 }
 
 function getBoundsKey(bounds: MapBounds): string {
