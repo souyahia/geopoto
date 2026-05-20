@@ -2,7 +2,8 @@ import { useLocalSearchParams } from "expo-router";
 import { Surface } from "heroui-native/surface";
 import { Text } from "heroui-native/text";
 import { useTranslation } from "react-i18next";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 import { CountryFlag } from "@/components/country-flag";
 import { MapViewer } from "@/modules/map-viewer/components/map-viewer";
@@ -10,9 +11,6 @@ import { MapViewer } from "@/modules/map-viewer/components/map-viewer";
 import { CountryInfoRow } from "../components/country-info-section";
 import { LearnHeader } from "../components/learn-header";
 import { useCountryDetails } from "../hooks/use-country-details";
-import { useDisableCountryScroll } from "../hooks/use-disable-country-scroll";
-
-const PALESTINE_COUNTRY_CODE = "PS";
 
 export function LearnCountryPage() {
   const params = useLocalSearchParams();
@@ -20,9 +18,6 @@ export function LearnCountryPage() {
 
   const countryCodeParam = getCountryCodeParam(params.countryCode);
   const countryDetails = useCountryDetails({ countryCode: countryCodeParam });
-
-  const { isMapViewerGestureActive, mapViewerInteractionHandlers } =
-    useDisableCountryScroll();
 
   if (countryDetails === null) {
     return (
@@ -46,12 +41,11 @@ export function LearnCountryPage() {
     regionNames,
     flagSize,
   } = countryDetails;
-  const isPalestine = countryCode === PALESTINE_COUNTRY_CODE;
 
   return (
     <View className="flex-1 p-safe">
       <LearnHeader title={countryName} />
-      <ScrollView className="flex-1" scrollEnabled={!isMapViewerGestureActive}>
+      <ScrollView className="flex-1">
         <View className="gap-4 px-6 pb-8 pt-4">
           <View className="items-center justify-center px-4 py-6">
             <CountryFlag
@@ -59,13 +53,11 @@ export function LearnCountryPage() {
               height={flagSize.height}
               width={flagSize.width}
             />
-            {isPalestine && <FreePalestineBadge />}
           </View>
           <MapViewer
             centersOn={mapViewerTarget}
             highlights={[{ target: mapViewerTarget }]}
             isInteractive
-            {...mapViewerInteractionHandlers}
           />
           <Surface variant="secondary" className="gap-4">
             <CountryInfoRow
@@ -92,17 +84,6 @@ export function LearnCountryPage() {
         </View>
       </ScrollView>
     </View>
-  );
-}
-
-function FreePalestineBadge() {
-  return (
-    <Text
-      type="body-sm"
-      className="font-bold text-accent-foreground mt-4 flex-row items-center gap-2 rounded-full bg-accent px-4 py-2"
-    >
-      ❤️ FREE PALESTINE ❤️
-    </Text>
   );
 }
 

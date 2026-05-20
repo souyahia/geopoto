@@ -85,17 +85,12 @@ interface ClampViewportToBoundsParams {
   viewport: MapViewport;
 }
 
-interface GetStrokeWidthParams {
-  layoutSize: LayoutSize;
-  viewport: MapViewport;
-}
-
 const COUNTRY_TARGET_PADDING_RATIO = 0.42;
 const REGION_TARGET_PADDING_RATIO = 0.08;
 const COUNTRY_TARGET_MINIMUM_HEIGHT = 34;
 const COUNTRY_TARGET_MINIMUM_WIDTH = 50;
 const WORLD_PADDING_RATIO = 0.06;
-const MINIMUM_INTERACTIVE_VIEWPORT_WIDTH = 3;
+export const MINIMUM_INTERACTIVE_VIEWPORT_WIDTH = 3;
 
 const FALLBACK_WORLD_BOUNDS: MapBounds = {
   maxX: 1052.695,
@@ -335,10 +330,4 @@ export function clampViewportToBounds(
       value: sizedViewport.y,
     }),
   };
-}
-
-export function getStrokeWidth(params: GetStrokeWidthParams): number {
-  const { layoutSize, viewport } = params;
-
-  return Math.max(viewport.width / Math.max(layoutSize.width, 1), 0.08);
 }

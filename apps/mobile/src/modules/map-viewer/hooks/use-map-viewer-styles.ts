@@ -1,14 +1,14 @@
+import type { SkPath } from "@shopify/react-native-skia";
 import { useMemo } from "react";
 
 import type { Country } from "@geopoto/geo-data";
 import { COUNTRIES } from "@geopoto/geo-data";
 
-import type {
-  LayoutSize,
-  MapViewerHighlightTarget,
-  MapViewport,
-} from "../utils/map-viewer-viewport";
-import { getStrokeWidth } from "../utils/map-viewer-viewport";
+import {
+  getAggregatedCountryMapPath,
+  getWorldMapPath,
+} from "../utils/map-viewer-skia-paths";
+import type { MapViewerHighlightTarget } from "../utils/map-viewer-viewport";
 import { useMapViewerColors } from "./use-map-viewer-colors";
 
 export interface MapViewerHighlight {
@@ -18,18 +18,12 @@ export interface MapViewerHighlight {
 }
 
 interface UseMapViewerStylesParams {
-  layoutSize: LayoutSize;
-  viewport: MapViewport;
   highlights: readonly MapViewerHighlight[];
 }
 
-export function useMapViewerStyles({
-  highlights,
-  layoutSize,
-  viewport,
-}: UseMapViewerStylesParams) {
+export function useMapViewerStyles({ highlights }: UseMapViewerStylesParams) {
   const mapViewerColors = useMapViewerColors();
-  const strokeWidth = getStrokeWidth({ layoutSize, viewport });
+  const basePath = useMemo(() => getWorldMapPath(), []);
 
   const defaultHighlightStyle = useMemo(
     () => ({
@@ -42,26 +36,20 @@ export function useMapViewerStyles({
     ],
   );
 
-  const countryStyles = useMemo(
+  const highlightPathGroups = useMemo(
     () =>
-      buildCountryMapStyles({
-        countryBackgroundColor: mapViewerColors.countryBackgroundColor,
-        countryBorderColor: mapViewerColors.countryBorderColor,
+      buildHighlightPathGroups({
         defaultHighlightStyle,
         highlights,
-        strokeWidth,
       }),
-    [
-      defaultHighlightStyle,
-      highlights,
-      mapViewerColors.countryBackgroundColor,
-      mapViewerColors.countryBorderColor,
-      strokeWidth,
-    ],
+    [defaultHighlightStyle, highlights],
   );
 
   return {
-    countryStyles,
+    basePath,
+    countryBackgroundColor: mapViewerColors.countryBackgroundColor,
+    countryBorderColor: mapViewerColors.countryBorderColor,
+    highlightPathGroups,
   };
 }
 
@@ -70,47 +58,66 @@ interface MapViewerHighlightStyle {
   borderColor: string;
 }
 
-interface BuildCountryMapStylesParams {
-  countryBackgroundColor: string;
-  countryBorderColor: string;
+interface BuildHighlightPathGroupsParams {
   defaultHighlightStyle: MapViewerHighlightStyle;
   highlights: readonly MapViewerHighlight[];
-  strokeWidth: number;
 }
 
-interface CountryMapStyle {
+interface MapViewerPathGroup {
   backgroundColor: string;
   borderColor: string;
-  borderWidth: number;
-  country: Country;
+  id: string;
+  path: SkPath;
 }
 
-function buildCountryMapStyles(
-  params: BuildCountryMapStylesParams,
-): readonly CountryMapStyle[] {
-  const {
-    countryBackgroundColor,
-    countryBorderColor,
-    defaultHighlightStyle,
-    highlights,
-    strokeWidth,
-  } = params;
+interface HighlightedCountryStyle {
+  country: Country;
+  style: MapViewerHighlightStyle;
+}
 
-  return COUNTRIES.map((country) => {
-    const highlightStyle = getCountryHighlightStyle({
+interface HighlightPathGroupState {
+  backgroundColor: string;
+  borderColor: string;
+  countries: Country[];
+  id: string;
+}
+
+function buildHighlightPathGroups(
+  params: BuildHighlightPathGroupsParams,
+): readonly MapViewerPathGroup[] {
+  const { defaultHighlightStyle, highlights } = params;
+
+  if (highlights.length === 0) {
+    return [];
+  }
+
+  const highlightedCountryStyles = COUNTRIES.map((country) =>
+    getHighlightedCountryStyle({
       country,
       defaultStyle: defaultHighlightStyle,
       highlights,
-    });
+    }),
+  ).filter(isHighlightedCountryStyle);
+  const groups = buildHighlightPathGroupStates({ highlightedCountryStyles });
 
-    return {
-      backgroundColor:
-        highlightStyle?.backgroundColor ?? countryBackgroundColor,
-      borderColor: highlightStyle?.borderColor ?? countryBorderColor,
-      borderWidth: highlightStyle === null ? strokeWidth : strokeWidth * 2,
-      country,
-    };
-  });
+  return groups
+    .map((group) => {
+      const path = getAggregatedCountryMapPath({
+        countries: group.countries,
+      });
+
+      if (path === null) {
+        return null;
+      }
+
+      return {
+        backgroundColor: group.backgroundColor,
+        borderColor: group.borderColor,
+        id: group.id,
+        path,
+      };
+    })
+    .filter(isMapViewerPathGroup);
 }
 
 interface GetCountryHighlightStyleParams {
@@ -143,6 +150,94 @@ function getCountryHighlightStyle(
     },
     null,
   );
+}
+
+function getHighlightedCountryStyle(
+  params: GetCountryHighlightStyleParams,
+): HighlightedCountryStyle | null {
+  const { country } = params;
+  const style = getCountryHighlightStyle(params);
+
+  if (style === null) {
+    return null;
+  }
+
+  return {
+    country,
+    style,
+  };
+}
+
+function isHighlightedCountryStyle(
+  value: HighlightedCountryStyle | null,
+): value is HighlightedCountryStyle {
+  return value !== null;
+}
+
+interface BuildHighlightPathGroupStatesParams {
+  highlightedCountryStyles: readonly HighlightedCountryStyle[];
+}
+
+function buildHighlightPathGroupStates({
+  highlightedCountryStyles,
+}: BuildHighlightPathGroupStatesParams): readonly HighlightPathGroupState[] {
+  const groups: HighlightPathGroupState[] = [];
+
+  for (const highlightedCountryStyle of highlightedCountryStyles) {
+    const group = groups.find((currentGroup) =>
+      doesHighlightPathGroupMatchStyle({
+        group: currentGroup,
+        style: highlightedCountryStyle.style,
+      }),
+    );
+
+    if (group !== undefined) {
+      group.countries.push(highlightedCountryStyle.country);
+      continue;
+    }
+
+    groups.push({
+      backgroundColor: highlightedCountryStyle.style.backgroundColor,
+      borderColor: highlightedCountryStyle.style.borderColor,
+      countries: [highlightedCountryStyle.country],
+      id: getHighlightPathGroupId({
+        style: highlightedCountryStyle.style,
+      }),
+    });
+  }
+
+  return groups;
+}
+
+interface DoesHighlightPathGroupMatchStyleParams {
+  group: HighlightPathGroupState;
+  style: MapViewerHighlightStyle;
+}
+
+function doesHighlightPathGroupMatchStyle({
+  group,
+  style,
+}: DoesHighlightPathGroupMatchStyleParams): boolean {
+  return (
+    group.backgroundColor === style.backgroundColor &&
+    group.borderColor === style.borderColor
+  );
+}
+
+interface GetHighlightPathGroupIdParams {
+  style: MapViewerHighlightStyle;
+}
+
+function getHighlightPathGroupId({
+  style,
+}: GetHighlightPathGroupIdParams): string {
+  return `${style.backgroundColor}:${style.borderColor}`;
+}
+
+function isMapViewerPathGroup(
+  value: MapViewerPathGroup | null,
+): value is MapViewerPathGroup {
+  return value !== null;
 }
 
 interface DoesHighlightTargetCountryParams {
