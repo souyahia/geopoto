@@ -1,43 +1,65 @@
-import {
-  LegendList,
-  type LegendListRef,
-  type LegendListRenderItemProps,
-} from "@legendapp/list";
 import { useRouter } from "expo-router";
 import { SearchField } from "heroui-native/search-field";
 import { Text } from "heroui-native/text";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { FlatList, View, type ListRenderItemInfo } from "react-native";
 
-import { COUNTRIES, type Country } from "@geopoto/geo-data";
+import {
+  COUNTRY_SUMMARIES_BY_NAME,
+  type CountrySummary,
+} from "@geopoto/geo-data/country-summaries";
 
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 
-import { CountryListItem } from "../components/country-list-item";
+import {
+  COUNTRY_LIST_ITEM_SEPARATOR_HEIGHT,
+  COUNTRY_LIST_ITEM_TOTAL_HEIGHT,
+  CountryListItem,
+} from "../components/country-list-item";
 import { LearnHeader } from "../components/learn-header";
 import { filterCountries } from "../utils/country-search";
 
-const COUNTRY_LIST_ITEM_ESTIMATED_SIZE = 84;
+const COUNTRY_LIST_INITIAL_ITEMS = 12;
+const COUNTRY_LIST_WINDOW_SIZE = 7;
+const COUNTRY_LIST_CONTENT_CONTAINER_STYLE = {
+  paddingBottom: 32,
+  paddingHorizontal: 24,
+};
+const COUNTRY_LIST_SEPARATOR_STYLE = {
+  height: COUNTRY_LIST_ITEM_SEPARATOR_HEIGHT,
+};
 
-function getCountryKey(country: Country) {
+function getCountryKey(country: CountrySummary) {
   return country.code;
 }
 
+function getCountryListItemLayout(
+  _data: ArrayLike<CountrySummary> | null | undefined,
+  index: number,
+) {
+  return {
+    index,
+    length: COUNTRY_LIST_ITEM_TOTAL_HEIGHT,
+    offset: COUNTRY_LIST_ITEM_TOTAL_HEIGHT * index,
+  };
+}
+
 function CountryListSeparator() {
-  return <View className="h-2" />;
+  return <View style={COUNTRY_LIST_SEPARATOR_STYLE} />;
 }
 
 export function LearnCountriesPage() {
   const { t } = useTranslation();
   const router = useRouter();
   const { geoLang } = useGeoLangStore();
-  const listRef = useRef<LegendListRef>(null);
+  const listRef = useRef<FlatList<CountrySummary>>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const sortedCountries = COUNTRY_SUMMARIES_BY_NAME[geoLang];
 
   const countries = useMemo(
-    () => filterCountries({ countries: COUNTRIES, geoLang, searchQuery }),
-    [geoLang, searchQuery],
+    () => filterCountries({ countries: sortedCountries, searchQuery }),
+    [searchQuery, sortedCountries],
   );
 
   useEffect(() => {
@@ -45,14 +67,13 @@ export function LearnCountriesPage() {
   }, [searchQuery]);
 
   const renderCountryItem = useCallback(
-    (props: LegendListRenderItemProps<Country>) => {
+    (props: ListRenderItemInfo<CountrySummary>) => {
       const { item } = props;
 
       return (
         <CountryListItem
           code={item.code}
           name={item.name[geoLang]}
-          capital={item.capital[geoLang]}
           onPress={() => router.push(`/learn/countries/${item.code}`)}
         />
       );
@@ -80,16 +101,18 @@ export function LearnCountriesPage() {
           </SearchField.Group>
         </SearchField>
       </View>
-      <LegendList
+      <FlatList
         ref={listRef}
         data={countries}
         renderItem={renderCountryItem}
         keyExtractor={getCountryKey}
-        estimatedItemSize={COUNTRY_LIST_ITEM_ESTIMATED_SIZE}
-        recycleItems
+        getItemLayout={getCountryListItemLayout}
+        initialNumToRender={COUNTRY_LIST_INITIAL_ITEMS}
+        maxToRenderPerBatch={COUNTRY_LIST_INITIAL_ITEMS}
+        windowSize={COUNTRY_LIST_WINDOW_SIZE}
         keyboardShouldPersistTaps="handled"
         className="flex-1"
-        contentContainerClassName="px-6 pb-8"
+        contentContainerStyle={COUNTRY_LIST_CONTENT_CONTAINER_STYLE}
         ItemSeparatorComponent={CountryListSeparator}
         ListEmptyComponent={
           <View className="items-center px-6 py-12">

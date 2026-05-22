@@ -8,6 +8,10 @@
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     },
+    "./country-summaries": {
+      "types": "./src/country-summaries.ts",
+      "default": "./src/country-summaries.ts"
+    },
     "./flags": {
       "types": "./src/flags.ts",
       "default": "./src/flags.ts"
@@ -16,8 +20,19 @@
       "types": "./src/flag-images.ts",
       "default": "./src/flag-images.ts"
     },
+    "./low-resolution-flag-images": {
+      "types": "./src/low-resolution-flag-images.ts",
+      "default": "./src/low-resolution-flag-images.ts"
+    },
+    "./geo-language": {
+      "types": "./src/geo-language.ts",
+      "default": "./src/geo-language.ts"
+    },
     "./flags-png/*.png": {
       "default": "./generated/flags-png/*.png"
+    },
+    "./flags-png-low/*.png": {
+      "default": "./generated/flags-png-low/*.png"
     },
     "./flags/*.svg": {
       "default": "./generated/flags/*.svg"

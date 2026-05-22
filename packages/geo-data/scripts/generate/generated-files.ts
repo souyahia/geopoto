@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 
 import type { Country } from "../../src/countries.ts";
+import { SUPPORTED_GEO_LANGUAGES } from "../../src/geo-language.ts";
 import type { MapRegion } from "../../src/map-definition.ts";
 import { GENERATED_DIRECTORY } from "./config.ts";
 import type { GeneratedJsonFile } from "./types.ts";
@@ -11,15 +12,48 @@ interface BuildGeneratedDataParams {
   mapRegions: readonly MapRegion[];
 }
 
+function toCountrySummary(country: Country) {
+  return {
+    capital: country.capital,
+    code: country.code,
+    continent: country.continent,
+    name: country.name,
+    regions: country.regions,
+  };
+}
+
+function buildCountrySummaryCodesByName(countries: readonly Country[]) {
+  return Object.fromEntries(
+    SUPPORTED_GEO_LANGUAGES.map((geoLang) => [
+      geoLang,
+      countries
+        .toSorted((left, right) =>
+          left.name[geoLang].localeCompare(right.name[geoLang], geoLang),
+        )
+        .map((country) => country.code),
+    ]),
+  );
+}
+
 export function buildGeneratedData({
   countries,
   countryFlags,
   mapRegions,
 }: BuildGeneratedDataParams): readonly GeneratedJsonFile[] {
+  const countrySummaries = countries.map(toCountrySummary);
+
   return [
     {
       data: countries,
       path: resolve(GENERATED_DIRECTORY, "countries.json"),
+    },
+    {
+      data: countrySummaries,
+      path: resolve(GENERATED_DIRECTORY, "country-summaries.json"),
+    },
+    {
+      data: buildCountrySummaryCodesByName(countries),
+      path: resolve(GENERATED_DIRECTORY, "country-summary-codes-by-name.json"),
     },
     {
       data: countryFlags,

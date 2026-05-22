@@ -12,7 +12,13 @@ export const GENERATED_FLAG_PNGS_DIRECTORY = resolve(
   GENERATED_DIRECTORY,
   "flags-png",
 );
+export const GENERATED_LOW_RESOLUTION_FLAG_PNGS_DIRECTORY = resolve(
+  GENERATED_DIRECTORY,
+  "flags-png-low",
+);
 export const FLAG_PNG_MAX_SIZE = 900;
+export const LOW_RESOLUTION_FLAG_PNG_MAX_SIZE = 32;
+export const LOW_RESOLUTION_FLAG_PNG_SCALES = [1, 2, 3] as const;
 
 const REST_COUNTRIES_FIELDS = [
   "name",

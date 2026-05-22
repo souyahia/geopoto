@@ -3,7 +3,7 @@ import type { ButtonRootProps } from "heroui-native/button";
 import { Button } from "heroui-native/button";
 import { cn } from "heroui-native/utils";
 
-import { CountryFlag } from "@/components/country-flag";
+import { FlagIcon } from "@/components/flag-icon";
 import { setLanguage } from "@/services/i18n/i18n";
 import type { SupportedLocale } from "@/services/i18n/locale";
 import { getLanguageCountryCode } from "@/utils/language/language-country-code";
@@ -38,7 +38,7 @@ export function LangButton({
       onPress={handlePress}
       {...props}
     >
-      <CountryFlag code={getLanguageCountryCode(locale)} width={24} />
+      <FlagIcon code={getLanguageCountryCode(locale)} width={24} />
       <Button.Label>{getLanguageName(locale)}</Button.Label>
     </Button>
   );

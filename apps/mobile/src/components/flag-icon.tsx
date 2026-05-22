@@ -1,9 +1,8 @@
-import { type ImageProps } from "expo-image";
+import { Image, type ImageProps } from "expo-image";
 import { View, type StyleProp, type ViewStyle } from "react-native";
 
 import { getCountryFlag } from "@geopoto/geo-data/flags";
-
-import { CountryFlag } from "./country-flag";
+import { getLowResolutionCountryFlagImage } from "@geopoto/geo-data/low-resolution-flag-images";
 
 export interface FlagIconProps extends Omit<
   ImageProps,
@@ -64,6 +63,12 @@ export function FlagIcon({ code, width = 24, style, ...props }: FlagIconProps) {
     return null;
   }
 
+  const imageSource = getLowResolutionCountryFlagImage(code);
+
+  if (imageSource === null) {
+    return null;
+  }
+
   const frameSize = {
     height: width / FLAG_ICON_ASPECT_RATIO,
     width,
@@ -90,11 +95,13 @@ export function FlagIcon({ code, width = 24, style, ...props }: FlagIconProps) {
         style,
       ]}
     >
-      <CountryFlag
-        code={code}
-        height={flagSize.height}
-        width={flagSize.width}
+      <Image
         contentFit={shouldContainFlag ? "contain" : "fill"}
+        source={imageSource}
+        style={{
+          height: flagSize.height,
+          width: flagSize.width,
+        }}
         {...props}
       />
     </View>

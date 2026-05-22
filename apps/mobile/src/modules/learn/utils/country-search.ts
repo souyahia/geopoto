@@ -1,53 +1,50 @@
 import {
   SUPPORTED_GEO_LANGUAGES,
-  type Country,
-  type SupportedGeoLanguage,
-} from "@geopoto/geo-data";
+  type LocalizedText,
+} from "@geopoto/geo-data/geo-language";
 
-interface FilterCountriesParams {
-  countries: readonly Country[];
-  geoLang: SupportedGeoLanguage;
+export interface CountrySearchItem {
+  capital: LocalizedText;
+  code: string;
+  continent: string;
+  name: LocalizedText;
+  regions: readonly string[];
+}
+
+interface FilterCountriesParams<TCountry extends CountrySearchItem> {
+  countries: readonly TCountry[];
   searchQuery: string;
 }
 
 interface DoesCountryMatchSearchQueryParams {
-  country: Country;
+  country: CountrySearchItem;
   normalizedQuery: string;
 }
 
-interface FindCountryByCodeParams {
-  countries: readonly Country[];
+interface FindCountryByCodeParams<TCountry extends CountrySearchItem> {
+  countries: readonly TCountry[];
   countryCode: string | undefined;
 }
 
-export function filterCountries({
+export function filterCountries<TCountry extends CountrySearchItem>({
   countries,
-  geoLang,
   searchQuery,
-}: FilterCountriesParams) {
+}: FilterCountriesParams<TCountry>): readonly TCountry[] {
   const normalizedQuery = normalizeSearchText(searchQuery);
 
-  return countries
-    .filter((country) => {
-      if (normalizedQuery.length === 0) {
-        return true;
-      }
+  if (normalizedQuery.length === 0) {
+    return countries;
+  }
 
-      return doesCountryMatchSearchQuery({ country, normalizedQuery });
-    })
-    .slice()
-    .sort((firstCountry, secondCountry) =>
-      firstCountry.name[geoLang].localeCompare(
-        secondCountry.name[geoLang],
-        geoLang,
-      ),
-    );
+  return countries.filter((country) =>
+    doesCountryMatchSearchQuery({ country, normalizedQuery }),
+  );
 }
 
-export function findCountryByCode({
+export function findCountryByCode<TCountry extends CountrySearchItem>({
   countries,
   countryCode,
-}: FindCountryByCodeParams) {
+}: FindCountryByCodeParams<TCountry>): TCountry | null {
   if (countryCode === undefined) {
     return null;
   }
@@ -70,7 +67,7 @@ function doesCountryMatchSearchQuery({
   );
 }
 
-function getCountrySearchValues(country: Country) {
+function getCountrySearchValues(country: CountrySearchItem) {
   return [
     country.code,
     country.continent,

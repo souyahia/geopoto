@@ -1,6 +1,7 @@
 import { Image, type ImageProps } from "expo-image";
+import { useEffect, useState } from "react";
 
-import { getCountryFlagImage } from "@geopoto/geo-data/flag-images";
+import type { CountryFlagImage } from "@geopoto/geo-data/flag-images";
 import {
   getCountryFlag,
   type CountryFlag as CountryFlagData,
@@ -24,6 +25,42 @@ interface GetFlagSizeParams {
 }
 
 const DEFAULT_FLAG_WIDTH = 32;
+
+function useCountryFlagImageSource(code: string): CountryFlagImage | null {
+  const [imageSource, setImageSource] = useState<CountryFlagImage | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    setImageSource(null);
+
+    async function loadImageSource() {
+      const { getCountryFlagImage } =
+        await import("@geopoto/geo-data/flag-images");
+      const nextImageSource = getCountryFlagImage(code);
+
+      if (!isMounted) {
+        return;
+      }
+
+      setImageSource(nextImageSource);
+    }
+
+    void loadImageSource().catch(() => {
+      if (!isMounted) {
+        return;
+      }
+
+      setImageSource(null);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [code]);
+
+  return imageSource;
+}
 
 function getFlagSize({ flag, height, width }: GetFlagSizeParams): FlagSize {
   if (width !== undefined && height !== undefined) {
@@ -54,7 +91,7 @@ export function CountryFlag({
   ...props
 }: CountryFlagProps) {
   const flag = getCountryFlag(code);
-  const imageSource = getCountryFlagImage(code);
+  const imageSource = useCountryFlagImageSource(code);
 
   if (flag === null || imageSource === null) {
     return null;

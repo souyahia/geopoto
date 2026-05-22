@@ -3,6 +3,7 @@ import flagsData from "../generated/flags.json";
 export interface CountryFlag {
   aspectRatio: number;
   code: string;
+  lowResolutionPng: CountryFlagDimensions;
   png: CountryFlagDimensions;
   svg: CountryFlagSvg;
 }
