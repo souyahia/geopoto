@@ -1,8 +1,8 @@
-import { Button } from "heroui-native/button";
 import { Moon, Sun, SunMoon } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
+import { HapticButton } from "@/components/haptic-button";
 import { useThemePreference } from "@/services/theme/theme";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
@@ -44,7 +44,7 @@ export function ThemePreferenceSection() {
             : "text-default-foreground";
 
           return (
-            <Button
+            <HapticButton
               key={option.value}
               size="sm"
               variant={variant}
@@ -57,10 +57,10 @@ export function ThemePreferenceSection() {
                 size={18}
                 colorClassName={iconColorClassName}
               />
-              <Button.Label className="text-center" numberOfLines={1}>
+              <HapticButton.Label className="text-center" numberOfLines={1}>
                 {t(option.labelKey)}
-              </Button.Label>
-            </Button>
+              </HapticButton.Label>
+            </HapticButton>
           );
         })}
       </View>

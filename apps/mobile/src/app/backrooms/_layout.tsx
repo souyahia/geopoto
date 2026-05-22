@@ -1,9 +1,9 @@
 import { Slot, useRouter } from "expo-router";
-import { Button } from "heroui-native/button";
 import { Text } from "heroui-native/text";
 import { X } from "lucide-react-native/icons";
 import { View } from "react-native";
 
+import { Button } from "@/components/haptic-button";
 import { Header } from "@/components/header/header";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 

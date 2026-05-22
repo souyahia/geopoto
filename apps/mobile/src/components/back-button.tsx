@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
-import { Button } from "heroui-native/button";
 import { ArrowLeft } from "lucide-react-native";
 
+import { HapticButton } from "@/components/haptic-button";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
 export function BackButton() {
@@ -13,8 +13,8 @@ export function BackButton() {
   }
 
   return (
-    <Button variant="ghost" isIconOnly onPress={() => router.back()}>
+    <HapticButton variant="ghost" isIconOnly onPress={() => router.back()}>
       <ThemedIcon icon={ArrowLeft} />
-    </Button>
+    </HapticButton>
   );
 }

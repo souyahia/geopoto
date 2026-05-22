@@ -85,6 +85,11 @@
       },
       "title": "Tema"
     },
+    "haptic-feedback": {
+      "title": "Feedback aptico",
+      "description": "Emette vibrazioni leggere per le interazioni supportate.",
+      "toggle-label": "Attiva feedback aptico"
+    },
     "language": {
       "title": "Lingua",
       "description": "Scegli la lingua dell’app.",

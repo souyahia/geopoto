@@ -85,6 +85,11 @@
       },
       "title": "Tema"
     },
+    "haptic-feedback": {
+      "title": "Respuesta háptica",
+      "description": "Emitir vibraciones sutiles en las interacciones compatibles.",
+      "toggle-label": "Activar respuesta háptica"
+    },
     "language": {
       "title": "Idioma",
       "description": "Elige el idioma de la aplicación.",

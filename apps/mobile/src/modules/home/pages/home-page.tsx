@@ -1,11 +1,11 @@
 import { useRouter } from "expo-router";
-import { Button } from "heroui-native/button";
 import { BookOpenText, Dumbbell, Settings, Trophy } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
 import { AssetImage, ASSET_IMAGES } from "@/components/asset-image";
 import { BackroomsButton } from "@/components/backrooms-button";
+import { HapticButton } from "@/components/haptic-button";
 import { MenuCard } from "@/components/menu-card";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
@@ -17,14 +17,14 @@ export function HomePage() {
     <View className="flex-1 p-safe">
       <View className="flex-row items-center justify-end p-4 gap-2">
         <BackroomsButton />
-        <Button
+        <HapticButton
           variant="ghost"
           aria-label={t("home.settings")}
           isIconOnly
           onPress={() => router.push("/settings")}
         >
           <ThemedIcon icon={Settings} />
-        </Button>
+        </HapticButton>
       </View>
       <View className="items-center justify-center px-8 pb-2">
         <AssetImage

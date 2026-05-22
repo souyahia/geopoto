@@ -1,9 +1,9 @@
-import { PressableFeedback } from "heroui-native/pressable-feedback";
 import { Select } from "heroui-native/select";
 import { Check } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
+import { HapticPressableFeedback } from "@/components/haptic-pressable-feedback";
 import {
   isSupportedLocale,
   resolveLocale,
@@ -69,14 +69,14 @@ export function LanguageSelect({
         <Select.Content presentation="popover" width="trigger" className="px-0">
           {label && <Select.ListLabel>{label}</Select.ListLabel>}
           {LANGUAGE_OPTIONS.map((option) => (
-            <PressableFeedback key={option.value} asChild>
+            <HapticPressableFeedback key={option.value} asChild>
               <Select.Item
                 value={option.value}
                 label={option.label}
                 className="px-4"
               >
-                <PressableFeedback.Highlight />
-                <PressableFeedback.Ripple />
+                <HapticPressableFeedback.Highlight />
+                <HapticPressableFeedback.Ripple />
                 <View className="flex-1 flex-row items-center gap-3">
                   <LangIcon lang={option.value} width={FLAG_ICON_WIDTH_PX} />
                   <Select.ItemLabel />
@@ -85,7 +85,7 @@ export function LanguageSelect({
                   <ThemedIcon icon={Check} />
                 </Select.ItemIndicator>
               </Select.Item>
-            </PressableFeedback>
+            </HapticPressableFeedback>
           ))}
         </Select.Content>
       </Select.Portal>

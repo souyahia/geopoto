@@ -85,6 +85,11 @@
       },
       "title": "Thème"
     },
+    "haptic-feedback": {
+      "title": "Retour haptique",
+      "description": "Émettre de légères vibrations pour les interactions prises en charge.",
+      "toggle-label": "Activer le retour haptique"
+    },
     "language": {
       "title": "Langue",
       "description": "Choisissez la langue de l’application.",

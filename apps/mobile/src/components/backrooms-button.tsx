@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
-import { Button } from "heroui-native/button";
 import { TreePalm } from "lucide-react-native";
 
+import { HapticButton } from "@/components/haptic-button";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 import { isLocalDev } from "@/utils/env";
 
@@ -13,12 +13,12 @@ export function BackroomsButton() {
   }
 
   return (
-    <Button
+    <HapticButton
       variant="ghost"
       isIconOnly
       onPress={() => router.push("/backrooms")}
     >
       <ThemedIcon icon={TreePalm} />
-    </Button>
+    </HapticButton>
   );
 }

@@ -1,9 +1,9 @@
 import { Card } from "heroui-native/card";
-import { PressableFeedback } from "heroui-native/pressable-feedback";
 import { cn } from "heroui-native/utils";
 import type { LucideIcon } from "lucide-react-native";
 import { View } from "react-native";
 
+import { HapticPressableFeedback } from "@/components/haptic-pressable-feedback";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
 interface MenuCardProps {
@@ -28,8 +28,8 @@ export function MenuCard({
     >
       {!isDisabled && (
         <>
-          <PressableFeedback.Highlight />
-          <PressableFeedback.Ripple />
+          <HapticPressableFeedback.Highlight />
+          <HapticPressableFeedback.Ripple />
         </>
       )}
       <View className="pl-2 pr-5 items-center justify-center self-stretch">
@@ -51,13 +51,13 @@ export function MenuCard({
   }
 
   return (
-    <PressableFeedback
+    <HapticPressableFeedback
       animation={false}
       aria-label={title}
       className="self-stretch overflow-visible rounded-2xl"
       onPress={onPress}
     >
-      <PressableFeedback.Scale>{card}</PressableFeedback.Scale>
-    </PressableFeedback>
+      <HapticPressableFeedback.Scale>{card}</HapticPressableFeedback.Scale>
+    </HapticPressableFeedback>
   );
 }

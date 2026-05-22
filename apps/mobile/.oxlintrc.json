@@ -18,6 +18,15 @@
             "name": "react-native",
             "importNames": ["Text"],
             "message": "Do not use React Native Text component. Use Text from heroui-native/text instead"
+          },
+          {
+            "name": "expo-haptics",
+            "allowImportNames": [
+              "ImpactFeedbackStyle",
+              "NotificationFeedbackType"
+            ],
+            "allowTypeImports": true,
+            "message": "Do not use expo-haptics directly. Use ~/services/haptics.ts instead"
           }
         ]
       }

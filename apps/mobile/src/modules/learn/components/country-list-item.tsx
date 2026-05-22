@@ -1,8 +1,10 @@
+import { ImpactFeedbackStyle } from "expo-haptics";
 import { Card } from "heroui-native/card";
 import { ChevronRight } from "lucide-react-native";
 import { Pressable, View } from "react-native";
 
 import { FlagIcon } from "@/components/flag-icon";
+import { useHaptics } from "@/services/haptics";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
 export const COUNTRY_LIST_ITEM_SEPARATOR_HEIGHT = 8;
@@ -21,11 +23,18 @@ interface CountryListItemProps {
 }
 
 export function CountryListItem({ code, name, onPress }: CountryListItemProps) {
+  const { sendHapticImpact } = useHaptics();
+
+  const handlePress = () => {
+    sendHapticImpact(ImpactFeedbackStyle.Light);
+    onPress();
+  };
+
   return (
     <Pressable
       aria-label={name}
       className="self-stretch overflow-visible rounded-2xl"
-      onPress={onPress}
+      onPress={handlePress}
     >
       <Card
         className="flex-row items-center gap-3"
