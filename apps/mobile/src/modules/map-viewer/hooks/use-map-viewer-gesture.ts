@@ -98,7 +98,6 @@ export function useMapViewerGesture({
   const gesture = useMemo(() => {
     const panGesture = Gesture.Pan()
       .enabled(isInteractive)
-      .maxPointers(1)
       .minDistance(0)
       .onStart(() => {
         "worklet";
@@ -120,6 +119,10 @@ export function useMapViewerGesture({
         }
 
         if (currentGestureState.type !== "pan") {
+          return;
+        }
+
+        if (event.numberOfPointers !== 1) {
           return;
         }
 
