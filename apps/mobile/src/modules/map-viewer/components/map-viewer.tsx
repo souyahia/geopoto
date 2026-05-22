@@ -90,7 +90,7 @@ export function MapViewer({
     pathResolution,
   });
 
-  const { gesture } = useMapViewerGesture({
+  const { gesture, tapZoomTouchHandlers } = useMapViewerGesture({
     commitViewport,
     isInteractive,
     layoutSizeValue,
@@ -112,7 +112,15 @@ export function MapViewer({
         isEnabled={isInteractive}
       >
         <GestureDetector gesture={gesture}>
-          <View collapsable={false} className="h-full w-full">
+          <View
+            collapsable={false}
+            className="h-full w-full"
+            onTouchCancel={tapZoomTouchHandlers.onTouchCancel}
+            onTouchEnd={tapZoomTouchHandlers.onTouchEnd}
+            onTouchMove={tapZoomTouchHandlers.onTouchMove}
+            onTouchStart={tapZoomTouchHandlers.onTouchStart}
+            pointerEvents={isInteractive ? "box-only" : "none"}
+          >
             <MapViewerThemedCanvas
               key={mapViewerColorKey}
               mapTransform={mapTransform}
