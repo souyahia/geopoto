@@ -1,5 +1,6 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { runOnJS, useSharedValue, withTiming } from "react-native-reanimated";
+import { useSharedValue, withTiming } from "react-native-reanimated";
+import { scheduleOnRN } from "react-native-worklets";
 
 import type { CountryMapPathResolution } from "@geopoto/geo-data";
 
@@ -89,7 +90,7 @@ export function useMapViewerPathResolutionTransition({
       },
       (isFinished) => {
         if (isFinished) {
-          runOnJS(clearPreviousLayer)();
+          scheduleOnRN(clearPreviousLayer);
         }
       },
     );
