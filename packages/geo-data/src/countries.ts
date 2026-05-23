@@ -1,28 +1,30 @@
-export type Continent = "africa" | "americas" | "asia" | "europe" | "oceania";
+import countriesData from "../generated/countries.json";
+import { type LocalizedText } from "./geo-language";
+import { type CountryMap, type MapRegionName } from "./map-definition";
 
-export interface LocalizedText {
-  de: string;
-  en: string;
-  es: string;
-  fr: string;
-  it: string;
-  pt: string;
-}
-
-export interface Country {
-  capital: LocalizedText;
-  code: string;
-  continent: Continent;
-  coordinates: readonly [number, number];
-  name: LocalizedText;
-}
-
-export const continents: readonly Continent[] = [
+export const CONTINENTS = [
   "africa",
-  "americas",
+  "south-america",
+  "north-america",
   "asia",
   "europe",
   "oceania",
-];
+] as const;
 
-export const countries: readonly Country[] = [];
+export type Continent = (typeof CONTINENTS)[number];
+
+export function isContinent(value: unknown): value is Continent {
+  return CONTINENTS.includes(value as Continent);
+}
+
+export interface Country {
+  code: string;
+  continent: Continent;
+  capital: LocalizedText;
+  map: CountryMap;
+  name: LocalizedText;
+  outlyingTerritoryCodes?: readonly string[];
+  regions: readonly MapRegionName[];
+}
+
+export const COUNTRIES = countriesData as readonly Country[];

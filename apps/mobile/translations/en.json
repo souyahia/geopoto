@@ -22,6 +22,58 @@
       }
     }
   },
+  "map-viewer": {
+    "reset": "Reset map view"
+  },
+  "learn": {
+    "title": "Learn",
+    "settings": "Settings",
+    "countries": {
+      "title": "Countries",
+      "search": {
+        "label": "Search countries",
+        "placeholder": "Search by country, code, capital...",
+        "clear": "Clear search"
+      },
+      "empty": "No countries found."
+    },
+    "country": {
+      "not-found": {
+        "title": "Country not found",
+        "description": "This country could not be found in the geography data."
+      },
+      "sections": {
+        "overview": "Overview",
+        "names": "Names",
+        "capitals": "Capitals"
+      },
+      "fields": {
+        "name": "Name",
+        "code": "Country code",
+        "capital": "Capital",
+        "continent": "Continent",
+        "regions": "World regions"
+      }
+    },
+    "menu-cards": {
+      "map": {
+        "title": "Map",
+        "description": "Study countries from their position on the map."
+      },
+      "flags": {
+        "title": "Flags",
+        "description": "Review national flags at your own pace."
+      },
+      "countries": {
+        "title": "Countries",
+        "description": "Browse countries and their key facts."
+      },
+      "capitals": {
+        "title": "Capitals",
+        "description": "Memorize capital cities country by country."
+      }
+    }
+  },
   "settings": {
     "title": "Settings",
     "theme": {
@@ -33,6 +85,11 @@
       },
       "title": "Theme"
     },
+    "haptic-feedback": {
+      "title": "Haptic feedback",
+      "description": "Play subtle vibrations for supported interactions.",
+      "toggle-label": "Enable haptic feedback"
+    },
     "language": {
       "title": "Language",
       "description": "Choose the app language.",
@@ -43,6 +100,26 @@
         "description": "Choose the language used for geographic data.",
         "select-label": "Geographic language"
       }
+    }
+  },
+  "geo": {
+    "continents": {
+      "africa": "Africa",
+      "south-america": "South America",
+      "north-america": "North America",
+      "asia": "Asia",
+      "europe": "Europe",
+      "oceania": "Oceania"
+    },
+    "regions": {
+      "world": "World",
+      "africa": "Africa",
+      "south-america": "South America",
+      "north-america": "North America",
+      "asia": "Asia",
+      "europe": "Europe",
+      "oceania": "Oceania",
+      "caribbean": "Caribbean"
     }
   }
 }

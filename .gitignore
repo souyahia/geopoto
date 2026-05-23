@@ -30,6 +30,7 @@ android/
 # Superpowers
 docs/superpowers/
 .superpowers/
+.grilling/
 
 # OS
 .DS_Store

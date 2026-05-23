@@ -31,10 +31,17 @@ export function useGeoLangStore() {
     [setPersistedIsGeoLangSynced],
   );
 
+  const isGeoLangSynced =
+    persistedIsGeoLangSynced ?? DEFAULT_IS_GEO_LANG_SYNCED;
+  const appLang = resolveLocale(i18n.language);
+  const geoLang = isGeoLangSynced
+    ? appLang
+    : resolveLocale(persistedGeoLang ?? appLang);
+
   return {
-    geoLang: resolveLocale(persistedGeoLang ?? i18n.language),
+    geoLang,
     setGeoLang,
-    isGeoLangSynced: persistedIsGeoLangSynced ?? DEFAULT_IS_GEO_LANG_SYNCED,
+    isGeoLangSynced,
     setIsGeoLangSynced,
   };
 }

@@ -5,18 +5,58 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./src/countries.ts",
-      "default": "./src/countries.ts"
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
     },
-    "./map": {
-      "types": "./src/map.ts",
-      "default": "./src/map.ts"
+    "./country-summaries": {
+      "types": "./src/country-summaries.ts",
+      "default": "./src/country-summaries.ts"
+    },
+    "./flags": {
+      "types": "./src/flags.ts",
+      "default": "./src/flags.ts"
+    },
+    "./flag-images": {
+      "types": "./src/flag-images.ts",
+      "default": "./src/flag-images.ts"
+    },
+    "./low-resolution-flag-images": {
+      "types": "./src/low-resolution-flag-images.ts",
+      "default": "./src/low-resolution-flag-images.ts"
+    },
+    "./geo-language": {
+      "types": "./src/geo-language.ts",
+      "default": "./src/geo-language.ts"
+    },
+    "./outlying-territories": {
+      "types": "./src/outlying-territories.ts",
+      "default": "./src/outlying-territories.ts"
+    },
+    "./flags-png/*.png": {
+      "default": "./generated/flags-png/*.png"
+    },
+    "./flags-png-low/*.png": {
+      "default": "./generated/flags-png-low/*.png"
+    },
+    "./flags/*.svg": {
+      "default": "./generated/flags/*.svg"
     }
   },
   "scripts": {
+    "generate": "node --experimental-strip-types scripts/generate/index.ts",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@geopoto/tsconfig": "workspace:*"
+    "@geopoto/tsconfig": "workspace:*",
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/d3-geo": "^3.1.0",
+    "@types/geojson": "^7946.0.16",
+    "@types/node": "^25.7.0",
+    "@types/topojson-client": "^3.1.5",
+    "d3-geo": "^3.1.1",
+    "svg-country-flags": "^1.2.10",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2",
+    "zod": "^4.4.3"
   }
 }

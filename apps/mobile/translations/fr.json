@@ -22,6 +22,58 @@
       }
     }
   },
+  "map-viewer": {
+    "reset": "Réinitialiser la vue de la carte"
+  },
+  "learn": {
+    "title": "Apprendre",
+    "settings": "Paramètres",
+    "countries": {
+      "title": "Pays",
+      "search": {
+        "label": "Rechercher des pays",
+        "placeholder": "Rechercher par pays, code, capitale...",
+        "clear": "Effacer la recherche"
+      },
+      "empty": "Aucun pays trouvé."
+    },
+    "country": {
+      "not-found": {
+        "title": "Pays introuvable",
+        "description": "Ce pays est introuvable dans les données géographiques."
+      },
+      "sections": {
+        "overview": "Vue d’ensemble",
+        "names": "Noms",
+        "capitals": "Capitales"
+      },
+      "fields": {
+        "name": "Nom",
+        "code": "Code pays",
+        "capital": "Capitale",
+        "continent": "Continent",
+        "regions": "Régions du monde"
+      }
+    },
+    "menu-cards": {
+      "map": {
+        "title": "Carte",
+        "description": "Étudiez les pays à partir de leur position sur la carte."
+      },
+      "flags": {
+        "title": "Drapeaux",
+        "description": "Révisez les drapeaux nationaux à votre rythme."
+      },
+      "countries": {
+        "title": "Pays",
+        "description": "Parcourez les pays et leurs informations clés."
+      },
+      "capitals": {
+        "title": "Capitales",
+        "description": "Mémorisez les capitales pays par pays."
+      }
+    }
+  },
   "settings": {
     "title": "Paramètres",
     "theme": {
@@ -33,6 +85,11 @@
       },
       "title": "Thème"
     },
+    "haptic-feedback": {
+      "title": "Retour haptique",
+      "description": "Émettre de légères vibrations pour les interactions prises en charge.",
+      "toggle-label": "Activer le retour haptique"
+    },
     "language": {
       "title": "Langue",
       "description": "Choisissez la langue de l’application.",
@@ -43,6 +100,26 @@
         "description": "Choisissez la langue utilisée pour les données géographiques.",
         "select-label": "Langue géographique"
       }
+    }
+  },
+  "geo": {
+    "continents": {
+      "africa": "Afrique",
+      "south-america": "Amérique du Sud",
+      "north-america": "Amérique du Nord",
+      "asia": "Asie",
+      "europe": "Europe",
+      "oceania": "Océanie"
+    },
+    "regions": {
+      "world": "Monde",
+      "africa": "Afrique",
+      "south-america": "Amérique du Sud",
+      "north-america": "Amérique du Nord",
+      "asia": "Asie",
+      "europe": "Europe",
+      "oceania": "Océanie",
+      "caribbean": "Caraïbes"
     }
   }
 }

@@ -22,6 +22,58 @@
       }
     }
   },
+  "map-viewer": {
+    "reset": "Reimposta vista mappa"
+  },
+  "learn": {
+    "title": "Impara",
+    "settings": "Impostazioni",
+    "countries": {
+      "title": "Paesi",
+      "search": {
+        "label": "Cerca paesi",
+        "placeholder": "Cerca per paese, codice, capitale...",
+        "clear": "Cancella ricerca"
+      },
+      "empty": "Nessun paese trovato."
+    },
+    "country": {
+      "not-found": {
+        "title": "Paese non trovato",
+        "description": "Questo paese non è stato trovato nei dati geografici."
+      },
+      "sections": {
+        "overview": "Panoramica",
+        "names": "Nomi",
+        "capitals": "Capitali"
+      },
+      "fields": {
+        "name": "Nome",
+        "code": "Codice paese",
+        "capital": "Capitale",
+        "continent": "Continente",
+        "regions": "Regioni del mondo"
+      }
+    },
+    "menu-cards": {
+      "map": {
+        "title": "Mappa",
+        "description": "Studia i paesi dalla loro posizione sulla mappa."
+      },
+      "flags": {
+        "title": "Bandiere",
+        "description": "Ripassa le bandiere nazionali al tuo ritmo."
+      },
+      "countries": {
+        "title": "Paesi",
+        "description": "Esplora i paesi e le loro informazioni principali."
+      },
+      "capitals": {
+        "title": "Capitali",
+        "description": "Memorizza le capitali paese per paese."
+      }
+    }
+  },
   "settings": {
     "title": "Impostazioni",
     "theme": {
@@ -33,6 +85,11 @@
       },
       "title": "Tema"
     },
+    "haptic-feedback": {
+      "title": "Feedback aptico",
+      "description": "Emette vibrazioni leggere per le interazioni supportate.",
+      "toggle-label": "Attiva feedback aptico"
+    },
     "language": {
       "title": "Lingua",
       "description": "Scegli la lingua dell’app.",
@@ -43,6 +100,26 @@
         "description": "Scegli la lingua usata per i dati geografici.",
         "select-label": "Lingua geografica"
       }
+    }
+  },
+  "geo": {
+    "continents": {
+      "africa": "Africa",
+      "south-america": "Sud America",
+      "north-america": "Nord America",
+      "asia": "Asia",
+      "europe": "Europa",
+      "oceania": "Oceania"
+    },
+    "regions": {
+      "world": "Mondo",
+      "africa": "Africa",
+      "south-america": "Sud America",
+      "north-america": "Nord America",
+      "asia": "Asia",
+      "europe": "Europa",
+      "oceania": "Oceania",
+      "caribbean": "Caraibi"
     }
   }
 }

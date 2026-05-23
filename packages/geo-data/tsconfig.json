@@ -1,9 +1,12 @@
 {
   "extends": "@geopoto/tsconfig/node.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist"
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "rootDir": ".",
+    "outDir": "dist",
+    "types": ["node"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "scripts/**/*.ts", "generated/**/*.json"],
   "exclude": ["node_modules", "dist"]
 }

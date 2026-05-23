@@ -22,6 +22,58 @@
       }
     }
   },
+  "map-viewer": {
+    "reset": "Kartenansicht zurücksetzen"
+  },
+  "learn": {
+    "title": "Lernen",
+    "settings": "Einstellungen",
+    "countries": {
+      "title": "Länder",
+      "search": {
+        "label": "Länder suchen",
+        "placeholder": "Nach Land, Code, Hauptstadt suchen...",
+        "clear": "Suche löschen"
+      },
+      "empty": "Keine Länder gefunden."
+    },
+    "country": {
+      "not-found": {
+        "title": "Land nicht gefunden",
+        "description": "Dieses Land wurde in den geografischen Daten nicht gefunden."
+      },
+      "sections": {
+        "overview": "Überblick",
+        "names": "Namen",
+        "capitals": "Hauptstädte"
+      },
+      "fields": {
+        "name": "Name",
+        "code": "Ländercode",
+        "capital": "Hauptstadt",
+        "continent": "Kontinent",
+        "regions": "Weltregionen"
+      }
+    },
+    "menu-cards": {
+      "map": {
+        "title": "Karte",
+        "description": "Lerne Länder anhand ihrer Position auf der Karte."
+      },
+      "flags": {
+        "title": "Flaggen",
+        "description": "Wiederhole Nationalflaggen in deinem eigenen Tempo."
+      },
+      "countries": {
+        "title": "Länder",
+        "description": "Durchstöbere Länder und ihre wichtigsten Fakten."
+      },
+      "capitals": {
+        "title": "Hauptstädte",
+        "description": "Präge dir Hauptstädte Land für Land ein."
+      }
+    }
+  },
   "settings": {
     "title": "Einstellungen",
     "theme": {
@@ -33,6 +85,11 @@
       },
       "title": "Thema"
     },
+    "haptic-feedback": {
+      "title": "Haptisches Feedback",
+      "description": "Gibt bei unterstützten Interaktionen dezente Vibrationen aus.",
+      "toggle-label": "Haptisches Feedback aktivieren"
+    },
     "language": {
       "title": "Sprache",
       "description": "Wähle die App-Sprache.",
@@ -43,6 +100,26 @@
         "description": "Wähle die Sprache für geografische Daten.",
         "select-label": "Geografische Sprache"
       }
+    }
+  },
+  "geo": {
+    "continents": {
+      "africa": "Afrika",
+      "south-america": "Südamerika",
+      "north-america": "Nordamerika",
+      "asia": "Asien",
+      "europe": "Europa",
+      "oceania": "Ozeanien"
+    },
+    "regions": {
+      "world": "Welt",
+      "africa": "Afrika",
+      "south-america": "Südamerika",
+      "north-america": "Nordamerika",
+      "asia": "Asien",
+      "europe": "Europa",
+      "oceania": "Ozeanien",
+      "caribbean": "Karibik"
     }
   }
 }

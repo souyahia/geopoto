@@ -1,0 +1,74 @@
+[
+  {
+    "bounds": {
+      "maxX": 821.155,
+      "maxY": 376,
+      "minX": 224.475,
+      "minY": -11.464
+    },
+    "name": "world"
+  },
+  {
+    "bounds": {
+      "maxX": 588.07,
+      "maxY": 331.865,
+      "minX": 457,
+      "minY": 186.22
+    },
+    "name": "africa"
+  },
+  {
+    "bounds": {
+      "maxX": 458.343,
+      "maxY": 350.721,
+      "minX": 341.32,
+      "minY": 225.908
+    },
+    "name": "south-america"
+  },
+  {
+    "bounds": {
+      "maxX": 497.603,
+      "maxY": 253.416,
+      "minX": 246.149,
+      "minY": 7.03
+    },
+    "name": "north-america"
+  },
+  {
+    "bounds": {
+      "maxX": 712.559,
+      "maxY": 275.259,
+      "minX": 525.639,
+      "minY": 147.187
+    },
+    "name": "asia"
+  },
+  {
+    "bounds": {
+      "maxX": 782.728,
+      "maxY": 228.482,
+      "minX": 438.089,
+      "minY": 21.271
+    },
+    "name": "europe"
+  },
+  {
+    "bounds": {
+      "maxX": 821.155,
+      "maxY": 373.211,
+      "minX": 224.475,
+      "minY": 186.365
+    },
+    "name": "oceania"
+  },
+  {
+    "bounds": {
+      "maxX": 419.584,
+      "maxY": 238.071,
+      "minX": 379.979,
+      "minY": 209.001
+    },
+    "name": "caribbean"
+  }
+]

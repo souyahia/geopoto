@@ -24,6 +24,7 @@
   "packageManager": "pnpm@10.26.1",
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@shopify/react-native-skia",
       "esbuild"
     ]
   }

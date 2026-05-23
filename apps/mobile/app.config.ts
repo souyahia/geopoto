@@ -13,10 +13,10 @@ const config: ExpoConfig = {
     "expo-image",
   ],
   ios: {
-    bundleIdentifier: "com.souyahia.geopoto",
+    bundleIdentifier: "souyahia.geopoto.dev",
   },
   android: {
-    package: "com.souyahia.geopoto",
+    package: "souyahia.geopoto.dev",
   },
   experiments: {
     typedRoutes: true,

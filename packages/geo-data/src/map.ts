@@ -1,3 +1,6 @@
-export type CountryMapPaths = Readonly<Record<string, string>>;
+import mapRegionsData from "../generated/map-regions.json";
+import type { MapRegion } from "./map-definition";
 
-export const mapPaths: CountryMapPaths = {};
+export * from "./map-definition";
+
+export const MAP_REGIONS = mapRegionsData as readonly MapRegion[];

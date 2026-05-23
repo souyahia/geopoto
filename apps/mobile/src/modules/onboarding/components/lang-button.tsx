@@ -1,11 +1,12 @@
 import { useRouter } from "expo-router";
-import type { ButtonRootProps } from "heroui-native/button";
-import { Button } from "heroui-native/button";
+import { type ButtonRootProps } from "heroui-native/button";
 import { cn } from "heroui-native/utils";
 
-import { LangIcon } from "@/components/lang-icon";
+import { FlagIcon } from "@/components/flag-icon";
+import { HapticButton } from "@/components/haptic-button";
 import { setLanguage } from "@/services/i18n/i18n";
 import type { SupportedLocale } from "@/services/i18n/locale";
+import { getLanguageCountryCode } from "@/utils/language/language-country-code";
 import { getLanguageName } from "@/utils/language/language-name";
 
 import { useOnboardingCompletion } from "../hooks/use-onboarding-completion";
@@ -30,15 +31,15 @@ export function LangButton({
   };
 
   return (
-    <Button
+    <HapticButton
       size="sm"
       variant="tertiary"
       className={cn("justify-start", className)}
       onPress={handlePress}
       {...props}
     >
-      <LangIcon lang={locale} width={24} />
-      <Button.Label>{getLanguageName(locale)}</Button.Label>
-    </Button>
+      <FlagIcon code={getLanguageCountryCode(locale)} width={24} />
+      <HapticButton.Label>{getLanguageName(locale)}</HapticButton.Label>
+    </HapticButton>
   );
 }

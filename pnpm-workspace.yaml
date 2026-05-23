@@ -4,3 +4,5 @@ packages:
   - tooling/*
 
 nodeLinker: hoisted
+
+minimumReleaseAge: 10080 # 1 week
