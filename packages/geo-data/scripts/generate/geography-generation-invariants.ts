@@ -12,7 +12,10 @@ import {
   findCountryFeature,
   type CountryFeatureLookup,
 } from "./country.ts";
-import { ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODES } from "./country-map.ts";
+import {
+  ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODES,
+  ANTIMERIDIAN_DISPLAY_WRAP_OUTLYING_TERRITORY_CODES,
+} from "./country-map.ts";
 import { getOutlyingTerritoryConfigs } from "./outlying-territory-config.ts";
 import type { RestCountry } from "./rest-countries.ts";
 import { extractSourceFeatureParts } from "./source-feature-parts.ts";
@@ -61,12 +64,19 @@ interface ValidateExpectedCountryCoreSanityChecksParams {
 }
 
 interface ExpectedAntimeridianDisplayWrapSanityCheck {
-  countryCode: string;
+  code: string;
   maximumBoundsWidth: number;
 }
 
 interface ValidateExpectedAntimeridianDisplayWrapSanityChecksParams {
   countries: readonly Country[];
+  outlyingTerritories: readonly OutlyingTerritory[];
+}
+
+interface ValidateExpectedAntimeridianDisplayWrapEntitySanityChecksParams {
+  checks: readonly ExpectedAntimeridianDisplayWrapSanityCheck[];
+  entities: readonly MappedEntity[];
+  entityKind: "Country" | "Outlying Territory";
 }
 
 interface IsSameCodeListParams {
@@ -153,20 +163,40 @@ const EXPECTED_COUNTRY_CORE_SANITY_CHECKS: readonly ExpectedCountryCoreSanityChe
 const EXPECTED_ANTIMERIDIAN_DISPLAY_WRAP_SANITY_CHECKS: readonly ExpectedAntimeridianDisplayWrapSanityCheck[] =
   [
     {
-      countryCode: "FJ",
+      code: "FJ",
       maximumBoundsWidth: 15,
     },
     {
-      countryCode: "KI",
+      code: "KI",
       maximumBoundsWidth: 70,
     },
     {
-      countryCode: "NZ",
+      code: "NZ",
       maximumBoundsWidth: 45,
     },
     {
-      countryCode: "RU",
+      code: "RU",
       maximumBoundsWidth: 260,
+    },
+    {
+      code: "TO",
+      maximumBoundsWidth: 5,
+    },
+    {
+      code: "WS",
+      maximumBoundsWidth: 5,
+    },
+  ];
+
+const EXPECTED_ANTIMERIDIAN_DISPLAY_WRAP_OUTLYING_TERRITORY_SANITY_CHECKS: readonly ExpectedAntimeridianDisplayWrapSanityCheck[] =
+  [
+    {
+      code: "AS",
+      maximumBoundsWidth: 2,
+    },
+    {
+      code: "US-HI",
+      maximumBoundsWidth: 10,
     },
   ];
 
@@ -194,7 +224,10 @@ export function validateGeographyGenerationInvariants({
   validateOutlyingTerritoryCountries({ countries, outlyingTerritories });
   validateCountryOutlyingTerritoryCodes({ countries, outlyingTerritories });
   validateExpectedCountryCoreSanityChecks({ countries, outlyingTerritories });
-  validateExpectedAntimeridianDisplayWrapSanityChecks({ countries });
+  validateExpectedAntimeridianDisplayWrapSanityChecks({
+    countries,
+    outlyingTerritories,
+  });
   validateKnownCountryCoreExclusions({
     highResolutionFeatureLookup,
     lowResolutionFeatureLookup,
@@ -376,38 +409,75 @@ function validateCountryCoreBounds({
 
 function validateExpectedAntimeridianDisplayWrapSanityChecks({
   countries,
+  outlyingTerritories,
 }: ValidateExpectedAntimeridianDisplayWrapSanityChecksParams): void {
-  const configuredCodes = toSortedCodes([
+  const configuredCountryCodes = toSortedCodes([
     ...ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODES,
   ]);
-  const expectedCodes = toSortedCodes(
+  const expectedCountryCodes = toSortedCodes(
     EXPECTED_ANTIMERIDIAN_DISPLAY_WRAP_SANITY_CHECKS.map(
-      (check) => check.countryCode,
+      (check) => check.code,
     ),
   );
-  const hasExpectedConfiguredCodes = isSameCodeList({
-    left: configuredCodes,
-    right: expectedCodes,
+  const hasExpectedConfiguredCountryCodes = isSameCodeList({
+    left: configuredCountryCodes,
+    right: expectedCountryCodes,
   });
 
-  if (!hasExpectedConfiguredCodes) {
+  if (!hasExpectedConfiguredCountryCodes) {
     throw new Error(
-      `Generation invariant failed: configured Antimeridian Display Wrap countries ${formatCodeList(configuredCodes)}, expected ${formatCodeList(expectedCodes)}.`,
+      `Generation invariant failed: configured Antimeridian Display Wrap countries ${formatCodeList(configuredCountryCodes)}, expected ${formatCodeList(expectedCountryCodes)}.`,
     );
   }
 
-  for (const check of EXPECTED_ANTIMERIDIAN_DISPLAY_WRAP_SANITY_CHECKS) {
-    const country = countries.find(
-      (candidateCountry) => candidateCountry.code === check.countryCode,
+  const configuredOutlyingTerritoryCodes = toSortedCodes([
+    ...ANTIMERIDIAN_DISPLAY_WRAP_OUTLYING_TERRITORY_CODES,
+  ]);
+  const expectedOutlyingTerritoryCodes = toSortedCodes(
+    EXPECTED_ANTIMERIDIAN_DISPLAY_WRAP_OUTLYING_TERRITORY_SANITY_CHECKS.map(
+      (check) => check.code,
+    ),
+  );
+  const hasExpectedConfiguredOutlyingTerritoryCodes = isSameCodeList({
+    left: configuredOutlyingTerritoryCodes,
+    right: expectedOutlyingTerritoryCodes,
+  });
+
+  if (!hasExpectedConfiguredOutlyingTerritoryCodes) {
+    throw new Error(
+      `Generation invariant failed: configured Antimeridian Display Wrap Outlying Territories ${formatCodeList(configuredOutlyingTerritoryCodes)}, expected ${formatCodeList(expectedOutlyingTerritoryCodes)}.`,
+    );
+  }
+
+  validateExpectedAntimeridianDisplayWrapEntitySanityChecks({
+    checks: EXPECTED_ANTIMERIDIAN_DISPLAY_WRAP_SANITY_CHECKS,
+    entities: countries,
+    entityKind: "Country",
+  });
+  validateExpectedAntimeridianDisplayWrapEntitySanityChecks({
+    checks: EXPECTED_ANTIMERIDIAN_DISPLAY_WRAP_OUTLYING_TERRITORY_SANITY_CHECKS,
+    entities: outlyingTerritories,
+    entityKind: "Outlying Territory",
+  });
+}
+
+function validateExpectedAntimeridianDisplayWrapEntitySanityChecks({
+  checks,
+  entities,
+  entityKind,
+}: ValidateExpectedAntimeridianDisplayWrapEntitySanityChecksParams): void {
+  for (const check of checks) {
+    const entity = entities.find(
+      (candidateEntity) => candidateEntity.code === check.code,
     );
 
-    if (country === undefined) {
+    if (entity === undefined) {
       throw new Error(
-        `Generation invariant failed: missing Antimeridian Display Wrap country ${check.countryCode}.`,
+        `Generation invariant failed: missing Antimeridian Display Wrap ${entityKind} ${check.code}.`,
       );
     }
 
-    const boundsWidth = getBoundsWidth(country.map.bounds);
+    const boundsWidth = getBoundsWidth(entity.map.bounds);
     const hasMaximumWidth = boundsWidth <= check.maximumBoundsWidth;
 
     if (hasMaximumWidth) {
@@ -415,7 +485,7 @@ function validateExpectedAntimeridianDisplayWrapSanityChecks({
     }
 
     throw new Error(
-      `Generation invariant failed: Country ${country.code} Antimeridian Display Wrap bounds are too wide. Width ${boundsWidth}, expected at most ${check.maximumBoundsWidth}.`,
+      `Generation invariant failed: ${entityKind} ${entity.code} Antimeridian Display Wrap bounds are too wide. Width ${boundsWidth}, expected at most ${check.maximumBoundsWidth}.`,
     );
   }
 }
