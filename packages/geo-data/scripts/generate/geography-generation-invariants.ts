@@ -8,7 +8,11 @@ import type {
 } from "../../src/map-definition.ts";
 import type { OutlyingTerritory } from "../../src/outlying-territories.ts";
 import { buildCountryCoreFeature } from "./country-core.ts";
-import { findCountryFeature, type CountryFeatureLookup } from "./country.ts";
+import {
+  findCountryFeature,
+  type CountryFeatureLookup,
+} from "./country.ts";
+import { ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODES } from "./country-map.ts";
 import { getOutlyingTerritoryConfigs } from "./outlying-territory-config.ts";
 import type { RestCountry } from "./rest-countries.ts";
 import { extractSourceFeatureParts } from "./source-feature-parts.ts";
@@ -54,6 +58,15 @@ interface ExpectedCountryCoreSanityCheck {
 interface ValidateExpectedCountryCoreSanityChecksParams {
   countries: readonly Country[];
   outlyingTerritories: readonly OutlyingTerritory[];
+}
+
+interface ExpectedAntimeridianDisplayWrapSanityCheck {
+  countryCode: string;
+  maximumBoundsWidth: number;
+}
+
+interface ValidateExpectedAntimeridianDisplayWrapSanityChecksParams {
+  countries: readonly Country[];
 }
 
 interface IsSameCodeListParams {
@@ -124,6 +137,26 @@ const EXPECTED_COUNTRY_CORE_SANITY_CHECKS: readonly ExpectedCountryCoreSanityChe
     },
   ];
 
+const EXPECTED_ANTIMERIDIAN_DISPLAY_WRAP_SANITY_CHECKS: readonly ExpectedAntimeridianDisplayWrapSanityCheck[] =
+  [
+    {
+      countryCode: "FJ",
+      maximumBoundsWidth: 15,
+    },
+    {
+      countryCode: "KI",
+      maximumBoundsWidth: 70,
+    },
+    {
+      countryCode: "NZ",
+      maximumBoundsWidth: 45,
+    },
+    {
+      countryCode: "RU",
+      maximumBoundsWidth: 260,
+    },
+  ];
+
 const PATH_HEAVY_GENERATED_FILE_NAMES = new Set([
   "countries.json",
   "outlying-territories.json",
@@ -148,6 +181,7 @@ export function validateGeographyGenerationInvariants({
   validateOutlyingTerritoryCountries({ countries, outlyingTerritories });
   validateCountryOutlyingTerritoryCodes({ countries, outlyingTerritories });
   validateExpectedCountryCoreSanityChecks({ countries, outlyingTerritories });
+  validateExpectedAntimeridianDisplayWrapSanityChecks({ countries });
   validateKnownCountryCoreExclusions({
     highResolutionFeatureLookup,
     lowResolutionFeatureLookup,
@@ -325,6 +359,52 @@ function validateCountryCoreBounds({
   throw new Error(
     `Generation invariant failed: Country ${country.code} Country Core bounds are too wide. Width ${boundsWidth}, expected at most ${check.maximumBoundsWidth}.`,
   );
+}
+
+function validateExpectedAntimeridianDisplayWrapSanityChecks({
+  countries,
+}: ValidateExpectedAntimeridianDisplayWrapSanityChecksParams): void {
+  const configuredCodes = toSortedCodes([
+    ...ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODES,
+  ]);
+  const expectedCodes = toSortedCodes(
+    EXPECTED_ANTIMERIDIAN_DISPLAY_WRAP_SANITY_CHECKS.map(
+      (check) => check.countryCode,
+    ),
+  );
+  const hasExpectedConfiguredCodes = isSameCodeList({
+    left: configuredCodes,
+    right: expectedCodes,
+  });
+
+  if (!hasExpectedConfiguredCodes) {
+    throw new Error(
+      `Generation invariant failed: configured Antimeridian Display Wrap countries ${formatCodeList(configuredCodes)}, expected ${formatCodeList(expectedCodes)}.`,
+    );
+  }
+
+  for (const check of EXPECTED_ANTIMERIDIAN_DISPLAY_WRAP_SANITY_CHECKS) {
+    const country = countries.find(
+      (candidateCountry) => candidateCountry.code === check.countryCode,
+    );
+
+    if (country === undefined) {
+      throw new Error(
+        `Generation invariant failed: missing Antimeridian Display Wrap country ${check.countryCode}.`,
+      );
+    }
+
+    const boundsWidth = getBoundsWidth(country.map.bounds);
+    const hasMaximumWidth = boundsWidth <= check.maximumBoundsWidth;
+
+    if (hasMaximumWidth) {
+      continue;
+    }
+
+    throw new Error(
+      `Generation invariant failed: Country ${country.code} Antimeridian Display Wrap bounds are too wide. Width ${boundsWidth}, expected at most ${check.maximumBoundsWidth}.`,
+    );
+  }
 }
 
 function validateKnownCountryCoreExclusions({
