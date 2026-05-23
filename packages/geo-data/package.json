@@ -28,6 +28,10 @@
       "types": "./src/geo-language.ts",
       "default": "./src/geo-language.ts"
     },
+    "./outlying-territories": {
+      "types": "./src/outlying-territories.ts",
+      "default": "./src/outlying-territories.ts"
+    },
     "./flags-png/*.png": {
       "default": "./generated/flags-png/*.png"
     },

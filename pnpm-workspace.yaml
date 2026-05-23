@@ -5,4 +5,4 @@ packages:
 
 nodeLinker: hoisted
 
-minimumReleaseAge: 720 # 12 hours
+minimumReleaseAge: 10080 # 1 week

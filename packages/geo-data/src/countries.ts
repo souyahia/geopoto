@@ -23,6 +23,7 @@ export interface Country {
   capital: LocalizedText;
   map: CountryMap;
   name: LocalizedText;
+  outlyingTerritoryCodes?: readonly string[];
   regions: readonly MapRegionName[];
 }
 

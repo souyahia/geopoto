@@ -4,12 +4,16 @@ import {
   type MapBounds,
   type MapRegion,
 } from "../../src/map-definition.ts";
+import type { OutlyingTerritory } from "../../src/outlying-territories.ts";
 import { MAP_REGION_PADDING_RATIO } from "./config.ts";
 import { formatNumber } from "./country-map.ts";
 
 interface BuildMapRegionsParams {
   countries: readonly Country[];
+  outlyingTerritories: readonly OutlyingTerritory[];
 }
+
+type MapRegionEntity = Country | OutlyingTerritory;
 
 function mergeMapBounds(bounds: readonly MapBounds[]): MapBounds {
   if (bounds.length === 0) {
@@ -39,11 +43,17 @@ function addMapBoundsPadding(bounds: MapBounds): MapBounds {
 
 export function buildMapRegions({
   countries,
+  outlyingTerritories,
 }: BuildMapRegionsParams): readonly MapRegion[] {
+  const entities: readonly MapRegionEntity[] = [
+    ...countries,
+    ...outlyingTerritories,
+  ];
+
   return MAP_REGION_NAMES.map((name) => {
-    const bounds = countries
-      .filter((country) => country.regions.includes(name))
-      .map((country) => country.map.bounds);
+    const bounds = entities
+      .filter((entity) => entity.regions.includes(name))
+      .map((entity) => entity.map.bounds);
 
     return {
       bounds: addMapBoundsPadding(mergeMapBounds(bounds)),

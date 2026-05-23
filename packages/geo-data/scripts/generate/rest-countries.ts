@@ -53,11 +53,23 @@ function shouldIncludeCountry(country: RestCountry): boolean {
   return ADDITIONAL_INCLUDED_COUNTRY_CODES.includes(country.cca2);
 }
 
-export async function loadRestCountries(): Promise<readonly RestCountry[]> {
+export function filterIncludedRestCountries(
+  restCountries: readonly RestCountry[],
+): readonly RestCountry[] {
+  return restCountries.filter(shouldIncludeCountry);
+}
+
+export async function loadRestCountryRecords(): Promise<
+  readonly RestCountry[]
+> {
   const restCountries = await fetchJson(REST_COUNTRIES_URL);
   return parseWithSchema({
     schema: REST_COUNTRIES_SCHEMA,
     source: "RestCountries",
     value: restCountries,
-  }).filter(shouldIncludeCountry);
+  });
+}
+
+export async function loadRestCountries(): Promise<readonly RestCountry[]> {
+  return filterIncludedRestCountries(await loadRestCountryRecords());
 }

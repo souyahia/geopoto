@@ -1,6 +1,6 @@
 id: "001"
 title: Repair Australia Country Core map
-status: pending
+status: done
 blocked_by: []
 
 ---
@@ -28,4 +28,14 @@ Some source country identifiers appear more than once in the map data. Australia
 
 ## Implementation Notes
 
-Filled in by `/implement-issues`.
+- Updated world atlas numeric id lookup to preserve all source geometry candidates instead of overwriting duplicates. Duplicate numeric ids now resolve by normalized source feature name and fail with a clear ambiguity error when no candidate matches.
+- Made high resolution Country Core source geometry required during generation, while keeping Tuvalu as the explicit synthetic map exception because the current world atlas data has no Tuvalu source geometry.
+- Regenerated geo data. Australia's high resolution `Country.map` now uses the Australia source feature with bounds from `656.819,264.034` to `720.775,341.246`, and generated countries remain sorted by country code with the public `Country.map` field preserved.
+- Review pass: no additional code fixes were needed for issue 001. The current implementation preserves duplicate numeric id candidates, resolves the Australia duplicate by normalized source feature name, keeps Tuvalu as the explicit synthetic exception, and leaves the mobile map viewer consuming the existing `Country.map` contract.
+- Tests run:
+  - `pnpm -C packages/geo-data generate`
+  - `pnpm -C packages/geo-data typecheck`
+  - `pnpm -C apps/mobile typecheck`
+  - Generated Australia bounds check with `node --input-type=module`
+  - Missing required source geometry error check with `node --experimental-strip-types --input-type=module`
+  - Current atlas duplicate numeric id scan with `node --experimental-strip-types --input-type=module`

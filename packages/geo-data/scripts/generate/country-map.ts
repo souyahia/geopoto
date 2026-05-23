@@ -1,6 +1,10 @@
 import type { GeoPath, GeoProjection } from "d3-geo";
 
-import type { CountryMap, MapBounds } from "../../src/map-definition.ts";
+import type {
+  CountryMap,
+  CountryMapPathResolution,
+  MapBounds,
+} from "../../src/map-definition.ts";
 import type { RestCountry } from "./rest-countries.ts";
 import type { CountryFeature } from "./types.ts";
 
@@ -15,13 +19,20 @@ interface BuildCountryMapParams {
 interface BuildCountryMapPathParams {
   fallbackMapPath: BuiltCountryMapPath | null;
   feature: CountryFeature | null;
+  isSourceGeometryRequired: boolean;
   projection: GeoProjection;
   pathGenerator: GeoPath;
+  pathResolution: CountryMapPathResolution;
   restCountry: RestCountry;
 }
 
 interface SyntheticMapPathParams {
   projection: GeoProjection;
+  restCountry: RestCountry;
+}
+
+interface CreateMissingSourceGeometryErrorParams {
+  pathResolution: CountryMapPathResolution;
   restCountry: RestCountry;
 }
 
@@ -31,6 +42,7 @@ interface BuiltCountryMapPath {
 }
 
 const SYNTHETIC_MAP_POINT_RADIUS = 1.5;
+const SYNTHETIC_COUNTRY_MAP_CODES = new Set<string>(["TV"]);
 
 export function formatNumber(value: number): number {
   return Number(value.toFixed(3));
@@ -84,6 +96,19 @@ function createSyntheticMapPath({
   };
 }
 
+function shouldUseSyntheticCountryMap(restCountry: RestCountry): boolean {
+  return SYNTHETIC_COUNTRY_MAP_CODES.has(restCountry.cca2);
+}
+
+function createMissingSourceGeometryError({
+  pathResolution,
+  restCountry,
+}: CreateMissingSourceGeometryErrorParams): Error {
+  return new Error(
+    `Missing required ${pathResolution} source geometry for ${restCountry.cca2} (${restCountry.name.common}). Add a source geometry match or mark the country as synthetic.`,
+  );
+}
+
 export function buildCountryMap({
   highResolutionFeature,
   lowResolutionFeature,
@@ -94,14 +119,18 @@ export function buildCountryMap({
   const highResolutionMapPath = buildCountryMapPath({
     fallbackMapPath: null,
     feature: highResolutionFeature,
+    isSourceGeometryRequired: !shouldUseSyntheticCountryMap(restCountry),
     pathGenerator,
+    pathResolution: "highResolution",
     projection,
     restCountry,
   });
   const lowResolutionMapPath = buildCountryMapPath({
     fallbackMapPath: highResolutionMapPath,
     feature: lowResolutionFeature,
+    isSourceGeometryRequired: false,
     pathGenerator,
+    pathResolution: "lowResolution",
     projection,
     restCountry,
   });
@@ -118,11 +147,17 @@ export function buildCountryMap({
 function buildCountryMapPath({
   fallbackMapPath,
   feature,
+  isSourceGeometryRequired,
   pathGenerator,
+  pathResolution,
   projection,
   restCountry,
 }: BuildCountryMapPathParams): BuiltCountryMapPath {
   if (feature === null) {
+    if (isSourceGeometryRequired) {
+      throw createMissingSourceGeometryError({ pathResolution, restCountry });
+    }
+
     if (fallbackMapPath !== null) {
       return fallbackMapPath;
     }
@@ -133,6 +168,10 @@ function buildCountryMapPath({
   const path = pathGenerator(feature);
 
   if (path === null) {
+    if (isSourceGeometryRequired) {
+      throw createMissingSourceGeometryError({ pathResolution, restCountry });
+    }
+
     if (fallbackMapPath !== null) {
       return fallbackMapPath;
     }

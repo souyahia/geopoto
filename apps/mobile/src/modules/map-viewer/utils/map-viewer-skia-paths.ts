@@ -3,17 +3,21 @@ import { Skia } from "@shopify/react-native-skia";
 
 import {
   COUNTRIES,
+  OUTLYING_TERRITORIES,
   type Country,
   type CountryMapPathResolution,
+  type OutlyingTerritory,
 } from "@geopoto/geo-data";
 
-interface GetCountryMapPathParams {
-  country: Country;
+type MapEntity = Country | OutlyingTerritory;
+
+interface GetMapEntityPathParams {
+  entity: MapEntity;
   pathResolution: CountryMapPathResolution;
 }
 
-interface GetAggregatedCountryMapPathParams {
-  countries: readonly Country[];
+interface GetAggregatedMapEntityPathParams {
+  entities: readonly MapEntity[];
   pathResolution: CountryMapPathResolution;
 }
 
@@ -21,26 +25,30 @@ interface GetWorldMapPathParams {
   pathResolution: CountryMapPathResolution;
 }
 
-const countryMapPaths = new Map<string, SkPath | null>();
-const aggregatedCountryMapPaths = new Map<string, SkPath | null>();
+const mapEntityPaths = new Map<string, SkPath | null>();
+const aggregatedMapEntityPaths = new Map<string, SkPath | null>();
 const worldMapPaths = new Map<CountryMapPathResolution, SkPath | null>();
+const WORLD_MAP_ENTITIES: readonly MapEntity[] = [
+  ...COUNTRIES,
+  ...OUTLYING_TERRITORIES,
+];
 
-export function getCountryMapPath({
-  country,
+function getMapEntityPath({
+  entity,
   pathResolution,
-}: GetCountryMapPathParams): SkPath | null {
-  const cacheKey = getCountryMapPathCacheKey({
-    country,
+}: GetMapEntityPathParams): SkPath | null {
+  const cacheKey = getMapEntityPathCacheKey({
+    entity,
     pathResolution,
   });
-  const hasCachedPath = countryMapPaths.has(cacheKey);
+  const hasCachedPath = mapEntityPaths.has(cacheKey);
 
   if (hasCachedPath) {
-    return countryMapPaths.get(cacheKey) ?? null;
+    return mapEntityPaths.get(cacheKey) ?? null;
   }
 
-  const path = Skia.Path.MakeFromSVGString(country.map.paths[pathResolution]);
-  countryMapPaths.set(cacheKey, path);
+  const path = Skia.Path.MakeFromSVGString(entity.map.paths[pathResolution]);
+  mapEntityPaths.set(cacheKey, path);
 
   return path;
 }
@@ -54,8 +62,8 @@ export function getWorldMapPath({
     return worldMapPaths.get(pathResolution) ?? null;
   }
 
-  const path = getAggregatedCountryMapPath({
-    countries: COUNTRIES,
+  const path = getAggregatedMapEntityPath({
+    entities: WORLD_MAP_ENTITIES,
     pathResolution,
   });
   worldMapPaths.set(pathResolution, path);
@@ -63,26 +71,26 @@ export function getWorldMapPath({
   return path;
 }
 
-export function getAggregatedCountryMapPath({
-  countries,
+export function getAggregatedMapEntityPath({
+  entities,
   pathResolution,
-}: GetAggregatedCountryMapPathParams): SkPath | null {
-  const cacheKey = getAggregatedCountryMapPathCacheKey({
-    countries,
+}: GetAggregatedMapEntityPathParams): SkPath | null {
+  const cacheKey = getAggregatedMapEntityPathCacheKey({
+    entities,
     pathResolution,
   });
-  const hasCachedPath = aggregatedCountryMapPaths.has(cacheKey);
+  const hasCachedPath = aggregatedMapEntityPaths.has(cacheKey);
 
   if (hasCachedPath) {
-    return aggregatedCountryMapPaths.get(cacheKey) ?? null;
+    return aggregatedMapEntityPaths.get(cacheKey) ?? null;
   }
 
   const builder = Skia.PathBuilder.Make();
   let hasPath = false;
 
-  for (const country of countries) {
-    const path = getCountryMapPath({
-      country,
+  for (const entity of entities) {
+    const path = getMapEntityPath({
+      entity,
       pathResolution,
     });
 
@@ -95,26 +103,26 @@ export function getAggregatedCountryMapPath({
   }
 
   if (!hasPath) {
-    aggregatedCountryMapPaths.set(cacheKey, null);
+    aggregatedMapEntityPaths.set(cacheKey, null);
     return null;
   }
 
   const path = builder.detach();
-  aggregatedCountryMapPaths.set(cacheKey, path);
+  aggregatedMapEntityPaths.set(cacheKey, path);
 
   return path;
 }
 
-function getCountryMapPathCacheKey({
-  country,
+function getMapEntityPathCacheKey({
+  entity,
   pathResolution,
-}: GetCountryMapPathParams): string {
-  return `${pathResolution}:${country.code}`;
+}: GetMapEntityPathParams): string {
+  return `${pathResolution}:${entity.code}`;
 }
 
-function getAggregatedCountryMapPathCacheKey({
-  countries,
+function getAggregatedMapEntityPathCacheKey({
+  entities,
   pathResolution,
-}: GetAggregatedCountryMapPathParams): string {
-  return `${pathResolution}:${countries.map((country) => country.code).join(":")}`;
+}: GetAggregatedMapEntityPathParams): string {
+  return `${pathResolution}:${entities.map((entity) => entity.code).join(":")}`;
 }

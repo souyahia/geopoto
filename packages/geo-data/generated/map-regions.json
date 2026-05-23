@@ -4,7 +4,7 @@
       "maxX": 780,
       "maxY": 374.035,
       "minX": 220,
-      "minY": -3.681
+      "minY": -9.499
     },
     "name": "world"
   },
@@ -28,10 +28,10 @@
   },
   {
     "bounds": {
-      "maxX": 779.526,
-      "maxY": 269.776,
-      "minX": 222.679,
-      "minY": -3.512
+      "maxX": 497.603,
+      "maxY": 253.416,
+      "minX": 246.149,
+      "minY": 7.03
     },
     "name": "north-america"
   },
@@ -47,7 +47,7 @@
   {
     "bounds": {
       "maxX": 780,
-      "maxY": 310.393,
+      "maxY": 240.019,
       "minX": 220,
       "minY": 9.734
     },
@@ -56,9 +56,9 @@
   {
     "bounds": {
       "maxX": 780,
-      "maxY": 366.138,
+      "maxY": 371.246,
       "minX": 220,
-      "minY": 204.389
+      "minY": 188.33
     },
     "name": "oceania"
   },

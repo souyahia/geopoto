@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import type { Country } from "../../src/countries.ts";
 import { SUPPORTED_GEO_LANGUAGES } from "../../src/geo-language.ts";
 import type { MapRegion } from "../../src/map-definition.ts";
+import type { OutlyingTerritory } from "../../src/outlying-territories.ts";
 import { GENERATED_DIRECTORY } from "./config.ts";
 import type { GeneratedJsonFile } from "./types.ts";
 
@@ -10,6 +11,7 @@ interface BuildGeneratedDataParams {
   countries: readonly Country[];
   countryFlags: Readonly<Record<string, unknown>>;
   mapRegions: readonly MapRegion[];
+  outlyingTerritories: readonly OutlyingTerritory[];
 }
 
 function toCountrySummary(country: Country) {
@@ -39,6 +41,7 @@ export function buildGeneratedData({
   countries,
   countryFlags,
   mapRegions,
+  outlyingTerritories,
 }: BuildGeneratedDataParams): readonly GeneratedJsonFile[] {
   const countrySummaries = countries.map(toCountrySummary);
 
@@ -62,6 +65,10 @@ export function buildGeneratedData({
     {
       data: mapRegions,
       path: resolve(GENERATED_DIRECTORY, "map-regions.json"),
+    },
+    {
+      data: outlyingTerritories,
+      path: resolve(GENERATED_DIRECTORY, "outlying-territories.json"),
     },
   ];
 }

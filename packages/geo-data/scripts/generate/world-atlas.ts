@@ -84,20 +84,25 @@ export function toCountryFeatures(
   }).features;
 }
 
-export function createFeatureByNumericId(
+export function createFeaturesByNumericId(
   features: readonly CountryFeature[],
-): ReadonlyMap<string, CountryFeature> {
-  return new Map(
-    features.flatMap((countryFeature) => {
-      const id = countryFeature.id;
+): ReadonlyMap<string, readonly CountryFeature[]> {
+  const featuresByNumericId = new Map<string, CountryFeature[]>();
 
-      if (id === undefined) {
-        return [];
-      }
+  for (const countryFeature of features) {
+    const id = countryFeature.id;
 
-      return [[String(id).padStart(3, "0"), countryFeature]];
-    }),
-  );
+    if (id === undefined) {
+      continue;
+    }
+
+    const numericId = String(id).padStart(3, "0");
+    const matchingFeatures = featuresByNumericId.get(numericId) ?? [];
+    matchingFeatures.push(countryFeature);
+    featuresByNumericId.set(numericId, matchingFeatures);
+  }
+
+  return featuresByNumericId;
 }
 
 export function createFeatureByName(

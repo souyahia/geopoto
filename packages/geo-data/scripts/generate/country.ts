@@ -4,7 +4,9 @@ import type { Continent, Country } from "../../src/countries.ts";
 import type { LocalizedText } from "../../src/geo-language.ts";
 import type { MapRegionName } from "../../src/map-definition.ts";
 import { REST_COUNTRIES_TRANSLATION_CONFIG } from "./config.ts";
+import { buildCountryCoreFeature } from "./country-core.ts";
 import { buildCountryMap } from "./country-map.ts";
+import { getOutlyingTerritoryCodes } from "./outlying-territory-config.ts";
 import type { RestCountry } from "./rest-countries.ts";
 import type { CountryFeature } from "./types.ts";
 
@@ -18,7 +20,7 @@ interface BuildCountryParams {
 
 export interface CountryFeatureLookup {
   byName: ReadonlyMap<string, CountryFeature>;
-  byNumericId: ReadonlyMap<string, CountryFeature>;
+  byNumericId: ReadonlyMap<string, readonly CountryFeature[]>;
 }
 
 interface FindCountryFeatureParams {
@@ -26,7 +28,13 @@ interface FindCountryFeatureParams {
   restCountry: RestCountry;
 }
 
-function toContinent(country: RestCountry): Continent | null {
+interface FindFeatureFromDuplicateNumericIdParams {
+  candidates: readonly CountryFeature[];
+  numericCountryCode: string;
+  restCountry: RestCountry;
+}
+
+export function toContinent(country: RestCountry): Continent | null {
   switch (country.region) {
     case "Africa":
       return "africa";
@@ -47,7 +55,7 @@ function toContinent(country: RestCountry): Continent | null {
   }
 }
 
-function toMapRegions(
+export function toMapRegions(
   country: RestCountry,
   continent: Continent,
 ): readonly MapRegionName[] {
@@ -58,7 +66,7 @@ function toMapRegions(
   return ["world", continent];
 }
 
-function toLocalizedCountryName(country: RestCountry): LocalizedText {
+export function toLocalizedCountryName(country: RestCountry): LocalizedText {
   return Object.fromEntries(
     REST_COUNTRIES_TRANSLATION_CONFIG.map(({ language, restCountriesCode }) => {
       const translatedName =
@@ -102,18 +110,59 @@ function toNumericCountryCode(country: RestCountry): string | null {
   return country.ccn3.padStart(3, "0");
 }
 
-function findCountryFeature({
+function toSourceFeatureName(feature: CountryFeature): string {
+  return feature.properties.name ?? "unnamed source geometry";
+}
+
+function findFeatureFromDuplicateNumericId({
+  candidates,
+  numericCountryCode,
+  restCountry,
+}: FindFeatureFromDuplicateNumericIdParams): CountryFeature {
+  const normalizedCountryName = normalizeCountryName(restCountry.name.common);
+  const matchingFeature = candidates.find((candidate) => {
+    const sourceName = candidate.properties.name;
+
+    if (sourceName === undefined) {
+      return false;
+    }
+
+    return normalizeCountryName(sourceName) === normalizedCountryName;
+  });
+
+  if (matchingFeature !== undefined) {
+    return matchingFeature;
+  }
+
+  const candidateNames = candidates.map(toSourceFeatureName).join(", ");
+
+  throw new Error(
+    `Ambiguous source geometry for ${restCountry.cca2} (${restCountry.name.common}) with numeric id ${numericCountryCode}. Matching source names: ${candidateNames}`,
+  );
+}
+
+export function findCountryFeature({
   featureLookup,
   restCountry,
 }: FindCountryFeatureParams): CountryFeature | null {
   const numericCountryCode = toNumericCountryCode(restCountry);
-  const featureByCode =
+  const featuresByCode =
     numericCountryCode === null
-      ? null
-      : featureLookup.byNumericId.get(numericCountryCode);
+      ? []
+      : (featureLookup.byNumericId.get(numericCountryCode) ?? []);
 
-  if (featureByCode !== undefined && featureByCode !== null) {
-    return featureByCode;
+  if (featuresByCode.length === 1) {
+    const [featureByCode] = featuresByCode;
+
+    return featureByCode ?? null;
+  }
+
+  if (featuresByCode.length > 1 && numericCountryCode !== null) {
+    return findFeatureFromDuplicateNumericId({
+      candidates: featuresByCode,
+      numericCountryCode,
+      restCountry,
+    });
   }
 
   return (
@@ -135,16 +184,23 @@ export function buildCountry({
     return null;
   }
 
-  const highResolutionFeature = findCountryFeature({
-    featureLookup: highResolutionFeatureLookup,
-    restCountry,
+  const highResolutionFeature = buildCountryCoreFeature({
+    countryCode: restCountry.cca2,
+    feature: findCountryFeature({
+      featureLookup: highResolutionFeatureLookup,
+      restCountry,
+    }),
   });
-  const lowResolutionFeature = findCountryFeature({
-    featureLookup: lowResolutionFeatureLookup,
-    restCountry,
+  const lowResolutionFeature = buildCountryCoreFeature({
+    countryCode: restCountry.cca2,
+    feature: findCountryFeature({
+      featureLookup: lowResolutionFeatureLookup,
+      restCountry,
+    }),
   });
+  const outlyingTerritoryCodes = getOutlyingTerritoryCodes(restCountry.cca2);
 
-  return {
+  const country = {
     capital: toLocalizedCapital(restCountry),
     code: restCountry.cca2,
     continent,
@@ -157,5 +213,14 @@ export function buildCountry({
     }),
     name: toLocalizedCountryName(restCountry),
     regions: toMapRegions(restCountry, continent),
+  };
+
+  if (outlyingTerritoryCodes.length === 0) {
+    return country;
+  }
+
+  return {
+    ...country,
+    outlyingTerritoryCodes,
   };
 }

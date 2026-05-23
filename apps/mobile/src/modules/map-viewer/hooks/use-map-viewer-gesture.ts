@@ -29,6 +29,7 @@ const MAP_VIEWER_TAP_ZOOM_DECISION_DELAY = 300;
 const MAP_VIEWER_TAP_ZOOM_MAX_DISTANCE = 18;
 const MAP_VIEWER_TAP_ZOOM_MAX_DISTANCE_SQUARED =
   MAP_VIEWER_TAP_ZOOM_MAX_DISTANCE * MAP_VIEWER_TAP_ZOOM_MAX_DISTANCE;
+const MAP_VIEWER_PAN_MIN_DISTANCE = 1;
 const MAP_VIEWER_TAP_ZOOM_SCALE = 2.05;
 
 interface UseMapViewerGestureParams {
@@ -425,7 +426,7 @@ export function useMapViewerGesture({
     const panGesture = Gesture.Pan()
       .enabled(isInteractive)
       .maxPointers(1)
-      .minDistance(MAP_VIEWER_TAP_ZOOM_MAX_DISTANCE)
+      .minDistance(MAP_VIEWER_PAN_MIN_DISTANCE)
       .onStart(() => {
         "worklet";
 
