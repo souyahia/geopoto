@@ -129,6 +129,19 @@ const EXPECTED_COUNTRY_CORE_SANITY_CHECKS: readonly ExpectedCountryCoreSanityChe
       outlyingTerritoryCodes: ["AW", "BQ", "CW", "SX"],
     },
     {
+      countryCode: "NO",
+      minimumBoundsHeight: 40,
+      minimumBoundsWidth: 35,
+      outlyingTerritoryCodes: ["SJ"],
+    },
+    {
+      countryCode: "PT",
+      maximumBoundsWidth: 10,
+      minimumBoundsHeight: 8,
+      minimumBoundsWidth: 4,
+      outlyingTerritoryCodes: ["PT-AZO", "PT-MAD"],
+    },
+    {
       countryCode: "US",
       maximumBoundsWidth: 160,
       minimumBoundsHeight: 50,

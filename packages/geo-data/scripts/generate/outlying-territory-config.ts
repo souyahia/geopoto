@@ -166,6 +166,80 @@ export const OUTLYING_TERRITORY_CONFIGS: readonly OutlyingTerritoryConfig[] = [
     sourceCountryCode: "FO",
   },
   {
+    code: "SJ",
+    countryCode: "NO",
+    metadata: {
+      type: "restCountries",
+    },
+    sourceBoundsList: [
+      {
+        maxLatitude: 81,
+        maxLongitude: 35,
+        minLatitude: 74,
+        minLongitude: 10,
+      },
+      {
+        maxLatitude: 71.4,
+        maxLongitude: -7,
+        minLatitude: 70.7,
+        minLongitude: -10,
+      },
+    ],
+    sourceCountryCode: "NO",
+  },
+  {
+    code: "PT-AZO",
+    countryCode: "PT",
+    metadata: {
+      continent: "europe",
+      name: {
+        de: "Azoren",
+        en: "Azores",
+        es: "Azores",
+        fr: "Açores",
+        it: "Azzorre",
+        pt: "Açores",
+      },
+      regions: ["world", "europe"],
+      type: "appDefined",
+    },
+    sourceBoundsList: [
+      {
+        maxLatitude: 40,
+        maxLongitude: -24.5,
+        minLatitude: 36.5,
+        minLongitude: -32,
+      },
+    ],
+    sourceCountryCode: "PT",
+  },
+  {
+    code: "PT-MAD",
+    countryCode: "PT",
+    metadata: {
+      continent: "europe",
+      name: {
+        de: "Madeira",
+        en: "Madeira",
+        es: "Madeira",
+        fr: "Madère",
+        it: "Madera",
+        pt: "Madeira",
+      },
+      regions: ["world", "europe"],
+      type: "appDefined",
+    },
+    sourceBoundsList: [
+      {
+        maxLatitude: 33.2,
+        maxLongitude: -16.4,
+        minLatitude: 32.4,
+        minLongitude: -17.5,
+      },
+    ],
+    sourceCountryCode: "PT",
+  },
+  {
     code: "AW",
     countryCode: "NL",
     metadata: {

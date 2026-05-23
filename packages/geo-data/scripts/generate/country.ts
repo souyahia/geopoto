@@ -16,6 +16,7 @@ interface BuildCountryParams {
   pathGenerator: GeoPath;
   projection: GeoProjection;
   restCountry: RestCountry;
+  supplementalHighResolutionFeatureLookup: CountryFeatureLookup;
 }
 
 export interface CountryFeatureLookup {
@@ -177,6 +178,7 @@ export function buildCountry({
   pathGenerator,
   projection,
   restCountry,
+  supplementalHighResolutionFeatureLookup,
 }: BuildCountryParams): Country | null {
   const continent = toContinent(restCountry);
 
@@ -186,10 +188,15 @@ export function buildCountry({
 
   const highResolutionFeature = buildCountryCoreFeature({
     countryCode: restCountry.cca2,
-    feature: findCountryFeature({
-      featureLookup: highResolutionFeatureLookup,
-      restCountry,
-    }),
+    feature:
+      findCountryFeature({
+        featureLookup: highResolutionFeatureLookup,
+        restCountry,
+      }) ??
+      findCountryFeature({
+        featureLookup: supplementalHighResolutionFeatureLookup,
+        restCountry,
+      }),
   });
   const lowResolutionFeature = buildCountryCoreFeature({
     countryCode: restCountry.cca2,

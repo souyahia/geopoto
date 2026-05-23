@@ -49,11 +49,17 @@ async function generateGeoData(): Promise<void> {
   const restCountries = filterIncludedRestCountries(restCountryRecords);
   const highResolutionFeatures = toCountryFeatures(topologies.highResolution);
   const lowResolutionFeatures = toCountryFeatures(topologies.lowResolution);
+  const supplementalHighResolutionFeatures = toCountryFeatures(
+    topologies.supplementalHighResolution,
+  );
   const highResolutionFeatureLookup = createCountryFeatureLookup(
     highResolutionFeatures,
   );
   const lowResolutionFeatureLookup = createCountryFeatureLookup(
     lowResolutionFeatures,
+  );
+  const supplementalHighResolutionFeatureLookup = createCountryFeatureLookup(
+    supplementalHighResolutionFeatures,
   );
   const projection = geoMercator().fitSize([1000, 500], { type: "Sphere" });
   const pathGenerator = geoPath(projection).digits(3);
@@ -65,6 +71,7 @@ async function generateGeoData(): Promise<void> {
         pathGenerator,
         projection,
         restCountry,
+        supplementalHighResolutionFeatureLookup,
       }),
     )
     .filter((country) => country !== null)

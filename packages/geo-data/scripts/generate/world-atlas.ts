@@ -2,6 +2,7 @@ import type { Geometry } from "geojson";
 import { feature as toGeoJsonFeature } from "topojson-client";
 import highResolutionWorldAtlasTopologyData from "world-atlas/countries-50m.json" with { type: "json" };
 import lowResolutionWorldAtlasTopologyData from "world-atlas/countries-110m.json" with { type: "json" };
+import supplementalHighResolutionWorldAtlasTopologyData from "world-atlas/countries-10m.json" with { type: "json" };
 import * as z from "zod";
 
 import { normalizeCountryName } from "./country.ts";
@@ -70,6 +71,7 @@ const WORLD_ATLAS_TOPOLOGY_SCHEMA = z.custom<WorldAtlasTopology>(
 export interface WorldAtlasTopologies {
   highResolution: WorldAtlasTopology;
   lowResolution: WorldAtlasTopology;
+  supplementalHighResolution: WorldAtlasTopology;
 }
 
 export function toCountryFeatures(
@@ -132,6 +134,11 @@ export function loadWorldAtlasTopologies(): WorldAtlasTopologies {
       schema: WORLD_ATLAS_TOPOLOGY_SCHEMA,
       source: "world-atlas low resolution",
       value: lowResolutionWorldAtlasTopologyData,
+    }),
+    supplementalHighResolution: parseWithSchema({
+      schema: WORLD_ATLAS_TOPOLOGY_SCHEMA,
+      source: "world-atlas supplemental high resolution",
+      value: supplementalHighResolutionWorldAtlasTopologyData,
     }),
   };
 }

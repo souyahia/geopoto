@@ -71,7 +71,7 @@ interface BuiltCountryMapPath {
 }
 
 const SYNTHETIC_MAP_POINT_RADIUS = 1.5;
-const SYNTHETIC_COUNTRY_MAP_CODES = new Set<string>(["TV"]);
+const SYNTHETIC_COUNTRY_MAP_CODES = new Set<string>();
 export const ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODES = [
   "FJ",
   "KI",
