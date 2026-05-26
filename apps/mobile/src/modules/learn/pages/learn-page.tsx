@@ -20,7 +20,7 @@ export function LearnPage() {
             icon={Map}
             title={t("learn.menu-cards.map.title")}
             description={t("learn.menu-cards.map.description")}
-            isDisabled
+            onPress={() => router.push("/learn/map")}
           />
           <MenuCard
             icon={Flag}
