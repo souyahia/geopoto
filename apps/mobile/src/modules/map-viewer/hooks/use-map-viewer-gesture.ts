@@ -2,11 +2,7 @@ import { useCallback, useEffect, useMemo, useRef } from "react";
 import type { GestureResponderEvent } from "react-native";
 import { Gesture } from "react-native-gesture-handler";
 import type { SharedValue } from "react-native-reanimated";
-import {
-  cancelAnimation,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import { useSharedValue } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 
 import {
@@ -15,7 +11,6 @@ import {
   getMapPointFromScreenPoint,
   getPannedViewport,
   getPinchedViewport,
-  getTapZoomedViewport,
   type MapGestureState,
 } from "../utils/map-viewer-gestures";
 import {
@@ -29,13 +24,10 @@ import type {
 } from "../utils/map-viewer-viewport";
 import type { MapViewerViewportSharedValues } from "./use-map-viewer-skia-presentation";
 
-const MAP_VIEWER_TAP_ZOOM_ANIMATION_DURATION = 180;
-const MAP_VIEWER_TAP_ZOOM_DECISION_DELAY = 300;
-const MAP_VIEWER_TAP_ZOOM_MAX_DISTANCE = 18;
-const MAP_VIEWER_TAP_ZOOM_MAX_DISTANCE_SQUARED =
-  MAP_VIEWER_TAP_ZOOM_MAX_DISTANCE * MAP_VIEWER_TAP_ZOOM_MAX_DISTANCE;
+const MAP_VIEWER_PRESS_MAX_DISTANCE = 18;
+const MAP_VIEWER_PRESS_MAX_DISTANCE_SQUARED =
+  MAP_VIEWER_PRESS_MAX_DISTANCE * MAP_VIEWER_PRESS_MAX_DISTANCE;
 const MAP_VIEWER_PAN_MIN_DISTANCE = 1;
-const MAP_VIEWER_TAP_ZOOM_SCALE = 2.05;
 
 interface UseMapViewerGestureParams {
   commitViewport: (viewport: MapViewport) => void;
@@ -67,51 +59,13 @@ interface ApplyPinchViewportParams {
   viewportValues: MapViewerViewportSharedValues;
 }
 
-interface AnimateViewportParams {
-  animationIdValue: SharedValue<number>;
-  commitViewport: (viewport: MapViewport) => void;
-  viewport: MapViewport;
-  viewportValues: MapViewerViewportSharedValues;
-}
-
-interface TapZoomPoint {
-  x: number;
-  y: number;
-}
-
-interface TapZoomCandidate {
+interface MapPressCandidate {
   hasMoved: boolean;
-  startedAt: number;
   startX: number;
   startY: number;
 }
 
-interface TapZoomSequence {
-  count: number;
-  lastTapAt: number;
-  timer: ReturnType<typeof setTimeout> | null;
-}
-
-interface HandleTapZoomParams {
-  happenedAt: number;
-  point: TapZoomPoint;
-}
-
-interface RunTapZoomParams {
-  point: TapZoomPoint;
-  scale: number;
-}
-
-interface ScheduleDoubleTapZoomParams {
-  point: TapZoomPoint;
-}
-
-interface ShouldHandleSinglePressParams {
-  happenedAt: number;
-  sequence: TapZoomSequence;
-}
-
-interface MapViewerTapZoomTouchHandlers {
+interface MapViewerPressTouchHandlers {
   onTouchCancel: (event: GestureResponderEvent) => void;
   onTouchEnd: (event: GestureResponderEvent) => void;
   onTouchMove: (event: GestureResponderEvent) => void;
@@ -128,155 +82,20 @@ export function useMapViewerGesture({
 }: UseMapViewerGestureParams) {
   const gestureStateValue = useSharedValue<MapGestureState | null>(null);
   const hasGestureMovedValue = useSharedValue(false);
-  const tapZoomAnimationIdValue = useSharedValue(0);
-  const tapZoomCandidateRef = useRef<TapZoomCandidate | null>(null);
-  const tapZoomSequenceRef = useRef<TapZoomSequence>({
-    count: 0,
-    lastTapAt: 0,
-    timer: null,
-  });
+  const mapPressCandidateRef = useRef<MapPressCandidate | null>(null);
 
-  const clearTapZoomTimer = useCallback(() => {
-    const { timer } = tapZoomSequenceRef.current;
-
-    if (timer === null) {
-      return;
-    }
-
-    clearTimeout(timer);
-    tapZoomSequenceRef.current.timer = null;
+  const cancelMapPressCandidate = useCallback(() => {
+    mapPressCandidateRef.current = null;
   }, []);
 
-  const resetTapZoomSequence = useCallback(() => {
-    clearTapZoomTimer();
-    tapZoomSequenceRef.current.count = 0;
-    tapZoomSequenceRef.current.lastTapAt = 0;
-  }, [clearTapZoomTimer]);
-
-  const hasPendingTapZoomCandidate = useCallback(() => {
-    const candidate = tapZoomCandidateRef.current;
-
-    return (
-      candidate !== null &&
-      candidate.startedAt - tapZoomSequenceRef.current.lastTapAt <=
-        MAP_VIEWER_TAP_ZOOM_DECISION_DELAY
-    );
-  }, []);
-
-  const scheduleTapZoomSequenceReset = useCallback(() => {
-    clearTapZoomTimer();
-    tapZoomSequenceRef.current.timer = setTimeout(() => {
-      tapZoomSequenceRef.current.timer = null;
-
-      if (hasPendingTapZoomCandidate()) {
-        return;
-      }
-
-      resetTapZoomSequence();
-    }, MAP_VIEWER_TAP_ZOOM_DECISION_DELAY);
-  }, [clearTapZoomTimer, hasPendingTapZoomCandidate, resetTapZoomSequence]);
-
-  const runTapZoom = useCallback(
-    ({ point, scale }: RunTapZoomParams) => {
-      animateViewport({
-        animationIdValue: tapZoomAnimationIdValue,
-        commitViewport,
-        viewport: getTapZoomedViewport({
-          bounds: INTERACTIVE_MAP_BOUNDS,
-          focalPoint: point,
-          layoutSize: layoutSizeValue.value,
-          minimumViewportWidth: MINIMUM_INTERACTIVE_VIEWPORT_WIDTH,
-          scale,
-          viewport: getViewportFromSharedValues({
-            viewportValues,
-          }),
-        }),
-        viewportValues,
-      });
-    },
-    [commitViewport, layoutSizeValue, tapZoomAnimationIdValue, viewportValues],
-  );
-
-  const scheduleDoubleTapZoom = useCallback(
-    ({ point }: ScheduleDoubleTapZoomParams) => {
-      clearTapZoomTimer();
-      tapZoomSequenceRef.current.timer = setTimeout(() => {
-        tapZoomSequenceRef.current.timer = null;
-
-        if (hasPendingTapZoomCandidate()) {
-          return;
-        }
-
-        if (tapZoomSequenceRef.current.count !== 2) {
-          return;
-        }
-
-        resetTapZoomSequence();
-        runTapZoom({
-          point,
-          scale: MAP_VIEWER_TAP_ZOOM_SCALE,
-        });
-      }, MAP_VIEWER_TAP_ZOOM_DECISION_DELAY);
-    },
-    [
-      clearTapZoomTimer,
-      hasPendingTapZoomCandidate,
-      resetTapZoomSequence,
-      runTapZoom,
-    ],
-  );
-
-  const handleTapZoom = useCallback(
-    ({ happenedAt, point }: HandleTapZoomParams) => {
-      const hasExpired =
-        happenedAt - tapZoomSequenceRef.current.lastTapAt >
-        MAP_VIEWER_TAP_ZOOM_DECISION_DELAY;
-      const nextTapCount = hasExpired
-        ? 1
-        : tapZoomSequenceRef.current.count + 1;
-
-      tapZoomSequenceRef.current.count = nextTapCount;
-      tapZoomSequenceRef.current.lastTapAt = happenedAt;
-
-      if (nextTapCount === 1) {
-        scheduleTapZoomSequenceReset();
-        return;
-      }
-
-      if (nextTapCount === 2) {
-        scheduleDoubleTapZoom({
-          point,
-        });
-        return;
-      }
-
-      resetTapZoomSequence();
-      runTapZoom({
-        point,
-        scale: 1 / MAP_VIEWER_TAP_ZOOM_SCALE,
-      });
-    },
-    [
-      resetTapZoomSequence,
-      runTapZoom,
-      scheduleDoubleTapZoom,
-      scheduleTapZoomSequenceReset,
-    ],
-  );
-
-  const cancelTapZoomCandidate = useCallback(() => {
-    tapZoomCandidateRef.current = null;
-    resetTapZoomSequence();
-  }, [resetTapZoomSequence]);
-
-  const tapZoomTouchHandlers = useMemo<MapViewerTapZoomTouchHandlers>(
+  const mapPressTouchHandlers = useMemo<MapViewerPressTouchHandlers>(
     () => ({
       onTouchCancel: () => {
-        cancelTapZoomCandidate();
+        cancelMapPressCandidate();
       },
       onTouchEnd: (event) => {
-        const candidate = tapZoomCandidateRef.current;
-        tapZoomCandidateRef.current = null;
+        const candidate = mapPressCandidateRef.current;
+        mapPressCandidateRef.current = null;
 
         if (!isInteractive) {
           return;
@@ -287,19 +106,16 @@ export function useMapViewerGesture({
         }
 
         if (candidate.hasMoved) {
-          resetTapZoomSequence();
           return;
         }
 
         if (event.nativeEvent.touches.length > 0) {
-          resetTapZoomSequence();
           return;
         }
 
         const [changedTouch] = event.nativeEvent.changedTouches;
 
         if (changedTouch === undefined) {
-          resetTapZoomSequence();
           return;
         }
 
@@ -307,43 +123,35 @@ export function useMapViewerGesture({
           x: changedTouch.locationX,
           y: changedTouch.locationY,
         };
-        const shouldHandleMapPress = shouldHandleSinglePress({
-          happenedAt: candidate.startedAt,
-          sequence: tapZoomSequenceRef.current,
-        });
 
-        if (shouldHandleMapPress && onMapPressed !== undefined) {
-          onMapPressed(
-            getMapPointFromScreenPoint({
-              layoutSize: layoutSizeValue.value,
-              screenPoint,
-              viewport: getViewportFromSharedValues({
-                viewportValues,
-              }),
-            }),
-          );
+        if (onMapPressed === undefined) {
+          return;
         }
 
-        handleTapZoom({
-          happenedAt: candidate.startedAt,
-          point: screenPoint,
-        });
+        onMapPressed(
+          getMapPointFromScreenPoint({
+            layoutSize: layoutSizeValue.value,
+            screenPoint,
+            viewport: getViewportFromSharedValues({
+              viewportValues,
+            }),
+          }),
+        );
       },
       onTouchMove: (event) => {
-        const candidate = tapZoomCandidateRef.current;
+        const candidate = mapPressCandidateRef.current;
 
         if (candidate === null) {
           return;
         }
 
         if (!isInteractive) {
-          tapZoomCandidateRef.current = null;
+          mapPressCandidateRef.current = null;
           return;
         }
 
         if (event.nativeEvent.touches.length !== 1) {
           candidate.hasMoved = true;
-          resetTapZoomSequence();
           return;
         }
 
@@ -351,7 +159,6 @@ export function useMapViewerGesture({
 
         if (touch === undefined) {
           candidate.hasMoved = true;
-          resetTapZoomSequence();
           return;
         }
 
@@ -360,7 +167,7 @@ export function useMapViewerGesture({
         const distanceSquared =
           translationX * translationX + translationY * translationY;
 
-        if (distanceSquared <= MAP_VIEWER_TAP_ZOOM_MAX_DISTANCE_SQUARED) {
+        if (distanceSquared <= MAP_VIEWER_PRESS_MAX_DISTANCE_SQUARED) {
           return;
         }
 
@@ -368,39 +175,34 @@ export function useMapViewerGesture({
       },
       onTouchStart: (event) => {
         if (!isInteractive) {
-          tapZoomCandidateRef.current = null;
+          mapPressCandidateRef.current = null;
           return;
         }
 
         if (event.nativeEvent.touches.length !== 1) {
-          tapZoomCandidateRef.current = null;
-          resetTapZoomSequence();
+          mapPressCandidateRef.current = null;
           return;
         }
 
         const [touch] = event.nativeEvent.touches;
 
         if (touch === undefined) {
-          tapZoomCandidateRef.current = null;
-          resetTapZoomSequence();
+          mapPressCandidateRef.current = null;
           return;
         }
 
-        tapZoomCandidateRef.current = {
+        mapPressCandidateRef.current = {
           hasMoved: false,
-          startedAt: Date.now(),
           startX: touch.locationX,
           startY: touch.locationY,
         };
       },
     }),
     [
-      cancelTapZoomCandidate,
-      handleTapZoom,
+      cancelMapPressCandidate,
       isInteractive,
       layoutSizeValue,
       onMapPressed,
-      resetTapZoomSequence,
       viewportValues,
     ],
   );
@@ -408,15 +210,11 @@ export function useMapViewerGesture({
   useEffect(() => {
     gestureStateValue.value = null;
     hasGestureMovedValue.value = false;
-    tapZoomAnimationIdValue.value += 1;
-    tapZoomCandidateRef.current = null;
-    resetTapZoomSequence();
+    mapPressCandidateRef.current = null;
   }, [
     gestureStateValue,
     hasGestureMovedValue,
     isInteractive,
-    resetTapZoomSequence,
-    tapZoomAnimationIdValue,
     viewport,
   ]);
 
@@ -574,7 +372,7 @@ export function useMapViewerGesture({
 
   return {
     gesture,
-    tapZoomTouchHandlers,
+    mapPressTouchHandlers,
   };
 }
 
@@ -611,52 +409,4 @@ function applyPinchViewport({
   viewportValues.width.value = viewport.width;
   viewportValues.x.value = viewport.x;
   viewportValues.y.value = viewport.y;
-}
-
-function animateViewport({
-  animationIdValue,
-  commitViewport,
-  viewport,
-  viewportValues,
-}: AnimateViewportParams) {
-  "worklet";
-
-  const animationId = animationIdValue.value + 1;
-  const animationConfig = {
-    duration: MAP_VIEWER_TAP_ZOOM_ANIMATION_DURATION,
-  };
-
-  animationIdValue.value = animationId;
-  cancelAnimation(viewportValues.height);
-  cancelAnimation(viewportValues.width);
-  cancelAnimation(viewportValues.x);
-  cancelAnimation(viewportValues.y);
-  viewportValues.height.value = withTiming(viewport.height, animationConfig);
-  viewportValues.x.value = withTiming(viewport.x, animationConfig);
-  viewportValues.y.value = withTiming(viewport.y, animationConfig);
-  viewportValues.width.value = withTiming(
-    viewport.width,
-    animationConfig,
-    (isFinished) => {
-      if (!isFinished) {
-        return;
-      }
-
-      if (animationIdValue.value !== animationId) {
-        return;
-      }
-
-      scheduleOnRN(commitViewport, viewport);
-    },
-  );
-}
-
-function shouldHandleSinglePress({
-  happenedAt,
-  sequence,
-}: ShouldHandleSinglePressParams): boolean {
-  return (
-    sequence.count === 0 ||
-    happenedAt - sequence.lastTapAt > MAP_VIEWER_TAP_ZOOM_DECISION_DELAY
-  );
 }

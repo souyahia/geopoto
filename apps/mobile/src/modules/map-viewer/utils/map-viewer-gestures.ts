@@ -46,15 +46,6 @@ interface GetPinchedViewportParams {
   scale: number;
 }
 
-interface GetTapZoomedViewportParams {
-  bounds: MapBounds;
-  focalPoint: MapPoint;
-  layoutSize: LayoutSize;
-  minimumViewportWidth: number;
-  scale: number;
-  viewport: MapViewport;
-}
-
 interface GetMapPointFromScreenPointParams {
   layoutSize: LayoutSize;
   screenPoint: MapPoint;
@@ -196,28 +187,6 @@ export function getPinchedViewport({
     x,
     y,
   };
-}
-
-export function getTapZoomedViewport({
-  bounds,
-  focalPoint,
-  layoutSize,
-  minimumViewportWidth,
-  scale,
-  viewport,
-}: GetTapZoomedViewportParams): MapViewport {
-  "worklet";
-
-  return getPinchedViewport({
-    bounds,
-    gestureState: buildPinchMapGestureState({
-      focalPoint,
-      layoutSize,
-      viewport,
-    }),
-    minimumViewportWidth,
-    scale,
-  });
 }
 
 export function getMapPointFromScreenPoint({
