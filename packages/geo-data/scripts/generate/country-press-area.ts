@@ -132,7 +132,9 @@ const SIMPLE_COUNTRY_PRESS_AREA_COUNTRY_CODE_SET = new Set<string>(
 );
 const SIMPLE_COUNTRY_PRESS_AREA_RADIUS_OVERRIDES: Readonly<
   Record<string, number>
-> = {};
+> = {
+  CV: SIMPLE_COUNTRY_PRESS_AREA_DEFAULT_RADIUS * 2,
+};
 const CURATED_COUNTRY_PRESS_AREA_COUNTRY_CODE_SET = new Set<string>(
   CURATED_COUNTRY_PRESS_AREA_COUNTRY_CODES,
 );
@@ -205,10 +207,10 @@ const CURATED_COUNTRY_PRESS_AREA_POINTS_BY_COUNTRY_CODE = {
     { x: 680.5, y: 247.2 },
   ],
   SB: [
-    { x: 714.7, y: 257.3 },
-    { x: 733.7, y: 257.3 },
+    { x: 716, y: 259 },
+    { x: 733.7, y: 259 },
     { x: 733.7, y: 267.8 },
-    { x: 714.7, y: 267.8 },
+    { x: 716, y: 267.8 },
   ],
   TV: [
     { x: 743.5, y: 256.8 },
@@ -291,6 +293,7 @@ const OVERLAP_REVIEWED_COUNTRY_PRESS_AREA_SOURCE_BY_COUNTRY_CODE = {
   },
   TO: {
     kind: "circle",
+    radius: SIMPLE_COUNTRY_PRESS_AREA_DEFAULT_RADIUS * 2,
   },
   TT: {
     kind: "polygon",
