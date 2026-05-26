@@ -12,6 +12,7 @@ import { scheduleOnRN } from "react-native-worklets";
 import {
   buildPanMapGestureState,
   buildPinchMapGestureState,
+  getMapPointFromScreenPoint,
   getPannedViewport,
   getPinchedViewport,
   getTapZoomedViewport,
@@ -21,7 +22,11 @@ import {
   INTERACTIVE_MAP_BOUNDS,
   MINIMUM_INTERACTIVE_VIEWPORT_WIDTH,
 } from "../utils/map-viewer-viewport";
-import type { LayoutSize, MapViewport } from "../utils/map-viewer-viewport";
+import type {
+  LayoutSize,
+  MapPoint,
+  MapViewport,
+} from "../utils/map-viewer-viewport";
 import type { MapViewerViewportSharedValues } from "./use-map-viewer-skia-presentation";
 
 const MAP_VIEWER_TAP_ZOOM_ANIMATION_DURATION = 180;
@@ -36,6 +41,7 @@ interface UseMapViewerGestureParams {
   commitViewport: (viewport: MapViewport) => void;
   isInteractive: boolean;
   layoutSizeValue: SharedValue<LayoutSize>;
+  onMapPressed?: (point: MapPoint) => void;
   viewport: MapViewport;
   viewportValues: MapViewerViewportSharedValues;
 }
@@ -100,6 +106,11 @@ interface ScheduleDoubleTapZoomParams {
   point: TapZoomPoint;
 }
 
+interface ShouldHandleSinglePressParams {
+  happenedAt: number;
+  sequence: TapZoomSequence;
+}
+
 interface MapViewerTapZoomTouchHandlers {
   onTouchCancel: (event: GestureResponderEvent) => void;
   onTouchEnd: (event: GestureResponderEvent) => void;
@@ -111,6 +122,7 @@ export function useMapViewerGesture({
   commitViewport,
   isInteractive,
   layoutSizeValue,
+  onMapPressed,
   viewport,
   viewportValues,
 }: UseMapViewerGestureParams) {
@@ -291,12 +303,30 @@ export function useMapViewerGesture({
           return;
         }
 
+        const screenPoint = {
+          x: changedTouch.locationX,
+          y: changedTouch.locationY,
+        };
+        const shouldHandleMapPress = shouldHandleSinglePress({
+          happenedAt: candidate.startedAt,
+          sequence: tapZoomSequenceRef.current,
+        });
+
+        if (shouldHandleMapPress && onMapPressed !== undefined) {
+          onMapPressed(
+            getMapPointFromScreenPoint({
+              layoutSize: layoutSizeValue.value,
+              screenPoint,
+              viewport: getViewportFromSharedValues({
+                viewportValues,
+              }),
+            }),
+          );
+        }
+
         handleTapZoom({
           happenedAt: candidate.startedAt,
-          point: {
-            x: changedTouch.locationX,
-            y: changedTouch.locationY,
-          },
+          point: screenPoint,
         });
       },
       onTouchMove: (event) => {
@@ -368,7 +398,10 @@ export function useMapViewerGesture({
       cancelTapZoomCandidate,
       handleTapZoom,
       isInteractive,
+      layoutSizeValue,
+      onMapPressed,
       resetTapZoomSequence,
+      viewportValues,
     ],
   );
 
@@ -615,5 +648,15 @@ function animateViewport({
 
       scheduleOnRN(commitViewport, viewport);
     },
+  );
+}
+
+function shouldHandleSinglePress({
+  happenedAt,
+  sequence,
+}: ShouldHandleSinglePressParams): boolean {
+  return (
+    sequence.count === 0 ||
+    happenedAt - sequence.lastTapAt > MAP_VIEWER_TAP_ZOOM_DECISION_DELAY
   );
 }

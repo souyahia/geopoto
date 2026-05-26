@@ -55,6 +55,12 @@ interface GetTapZoomedViewportParams {
   viewport: MapViewport;
 }
 
+interface GetMapPointFromScreenPointParams {
+  layoutSize: LayoutSize;
+  screenPoint: MapPoint;
+  viewport: MapViewport;
+}
+
 export function buildPanMapGestureState({
   viewport,
 }: BuildPanMapGestureStateParams): MapGestureState {
@@ -212,4 +218,18 @@ export function getTapZoomedViewport({
     minimumViewportWidth,
     scale,
   });
+}
+
+export function getMapPointFromScreenPoint({
+  layoutSize,
+  screenPoint,
+  viewport,
+}: GetMapPointFromScreenPointParams): MapPoint {
+  const mapUnitsPerPixelX = viewport.width / Math.max(layoutSize.width, 1);
+  const mapUnitsPerPixelY = viewport.height / Math.max(layoutSize.height, 1);
+
+  return {
+    x: viewport.x + screenPoint.x * mapUnitsPerPixelX,
+    y: viewport.y + screenPoint.y * mapUnitsPerPixelY,
+  };
 }

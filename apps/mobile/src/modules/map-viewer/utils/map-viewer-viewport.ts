@@ -27,9 +27,20 @@ export type MapViewerHighlightTarget =
   | { type: "country"; country: Country }
   | { type: "region"; region: MapRegionName };
 
+export interface MapViewerHighlight {
+  target: MapViewerHighlightTarget;
+  backgroundColor?: string;
+  borderColor?: string;
+}
+
 export type MapViewerCenterTarget =
   | MapViewerHighlightTarget
   | { type: "bounds"; bounds: MapBounds };
+
+export interface MapViewerTargetEntity {
+  code: string;
+  regions: readonly MapRegionName[];
+}
 
 interface BuildInitialViewportParams {
   aspectRatio: number;
@@ -84,6 +95,11 @@ interface ClampViewportSizeParams {
 interface ClampViewportToBoundsParams {
   bounds: MapBounds;
   viewport: MapViewport;
+}
+
+interface DoesMapViewerTargetMatchEntityParams {
+  entity: MapViewerTargetEntity;
+  target: MapViewerHighlightTarget;
 }
 
 const COUNTRY_TARGET_PADDING_RATIO = 0.42;
@@ -364,4 +380,21 @@ export function clampViewportToBounds(
       value: sizedViewport.y,
     }),
   };
+}
+
+export function doesMapViewerTargetMatchEntity({
+  entity,
+  target,
+}: DoesMapViewerTargetMatchEntityParams): boolean {
+  switch (target.type) {
+    case "country":
+      return target.country.code === entity.code;
+    case "region":
+      return entity.regions.includes(target.region);
+    default: {
+      const exhaustiveTarget: never = target;
+
+      return exhaustiveTarget;
+    }
+  }
 }

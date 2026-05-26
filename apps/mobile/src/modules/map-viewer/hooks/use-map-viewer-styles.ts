@@ -17,13 +17,11 @@ import {
   getCountryPressAreaPath,
   getWorldMapPath,
 } from "../utils/map-viewer-skia-paths";
-import type { MapViewerHighlightTarget } from "../utils/map-viewer-viewport";
-
-export interface MapViewerHighlight {
-  target: MapViewerHighlightTarget;
-  backgroundColor?: string;
-  borderColor?: string;
-}
+import {
+  doesMapViewerTargetMatchEntity,
+  type MapViewerHighlight,
+  type MapViewerHighlightTarget,
+} from "../utils/map-viewer-viewport";
 
 interface UseMapViewerStylesParams {
   activeTargets: readonly MapViewerHighlightTarget[];
@@ -508,26 +506,4 @@ function isMapViewerPathGroup(
   value: MapViewerPathGroup | null,
 ): value is MapViewerPathGroup {
   return value !== null;
-}
-
-interface DoesMapViewerTargetMatchEntityParams {
-  entity: MapEntity;
-  target: MapViewerHighlightTarget;
-}
-
-function doesMapViewerTargetMatchEntity({
-  entity,
-  target,
-}: DoesMapViewerTargetMatchEntityParams): boolean {
-  switch (target.type) {
-    case "country":
-      return target.country.code === entity.code;
-    case "region":
-      return entity.regions.includes(target.region);
-    default: {
-      const exhaustiveTarget: never = target;
-
-      return exhaustiveTarget;
-    }
-  }
 }

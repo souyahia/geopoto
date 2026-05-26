@@ -29,6 +29,11 @@ interface GetCountryPressAreaPathParams {
   country: Country;
 }
 
+interface GetCountryMapPathParams {
+  country: Country;
+  pathResolution: CountryMapPathResolution;
+}
+
 const mapEntityPaths = new Map<string, SkPath | null>();
 const aggregatedMapEntityPaths = new Map<string, SkPath | null>();
 const worldMapPaths = new Map<CountryMapPathResolution, SkPath | null>();
@@ -56,6 +61,16 @@ function getMapEntityPath({
   mapEntityPaths.set(cacheKey, path);
 
   return path;
+}
+
+export function getCountryMapPath({
+  country,
+  pathResolution,
+}: GetCountryMapPathParams): SkPath | null {
+  return getMapEntityPath({
+    entity: country,
+    pathResolution,
+  });
 }
 
 export function getWorldMapPath({

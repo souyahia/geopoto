@@ -1,11 +1,13 @@
 import type { Transforms3d } from "@shopify/react-native-skia";
 import { useIsFocused } from "expo-router";
 import { cn } from "heroui-native/utils";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import type { SharedValue } from "react-native-reanimated";
 import { Uniwind } from "uniwind";
+
+import type { Country } from "@geopoto/geo-data";
 
 import { NativeBackGestureShield } from "@/components/native-back-gesture-shield";
 import { useAppTheme } from "@/services/theme/theme";
@@ -14,16 +16,20 @@ import { useMapViewerColors } from "../hooks/use-map-viewer-colors";
 import { useMapViewerGesture } from "../hooks/use-map-viewer-gesture";
 import { useMapViewerPathResolutionTransition } from "../hooks/use-map-viewer-path-resolution-transition";
 import { useMapViewerSkiaPresentation } from "../hooks/use-map-viewer-skia-presentation";
-import {
-  type MapViewerHighlight,
-  useMapViewerStyles,
-} from "../hooks/use-map-viewer-styles";
+import { useMapViewerStyles } from "../hooks/use-map-viewer-styles";
 import { useMapViewerViewport } from "../hooks/use-map-viewer-viewport";
+import {
+  buildMapViewerCountryPressTargets,
+  getPressedMapViewerCountry,
+  type MapViewerCountryPressTarget,
+} from "../utils/map-viewer-country-press";
 import type { MapViewerRenderedPathLayer } from "../utils/map-viewer-path-layer";
 import {
   getMapViewerPathResolution,
   type MapViewerCenterTarget,
+  type MapViewerHighlight,
   type MapViewerHighlightTarget,
+  type MapPoint,
 } from "../utils/map-viewer-viewport";
 import { MapViewerCanvas } from "./map-viewer-canvas";
 import { MapViewerResetButton } from "./map-viewer-reset-button";
@@ -34,6 +40,8 @@ const DEFAULT_LAYOUT_SIZE = {
 };
 const EMPTY_MAP_VIEWER_ACTIVE_TARGETS: readonly MapViewerHighlightTarget[] = [];
 const EMPTY_MAP_VIEWER_HIGHLIGHTS: readonly MapViewerHighlight[] = [];
+const EMPTY_MAP_VIEWER_COUNTRY_PRESS_TARGETS: readonly MapViewerCountryPressTarget[] =
+  [];
 
 export interface MapViewerProps {
   activeTargets?: readonly MapViewerHighlightTarget[];
@@ -41,6 +49,7 @@ export interface MapViewerProps {
   className?: string;
   highlights?: readonly MapViewerHighlight[];
   isInteractive?: boolean;
+  onCountryPressed?: (country: Country) => void;
 }
 
 export function MapViewer({
@@ -49,6 +58,7 @@ export function MapViewer({
   className,
   highlights = EMPTY_MAP_VIEWER_HIGHLIGHTS,
   isInteractive = true,
+  onCountryPressed,
 }: MapViewerProps) {
   const {
     commitViewport,
@@ -102,11 +112,43 @@ export function MapViewer({
     currentLayer: currentPathLayer,
     pathResolution,
   });
+  const isCountryPressEnabled = onCountryPressed !== undefined;
+  const countryPressTargets = useMemo(() => {
+    if (!isCountryPressEnabled) {
+      return EMPTY_MAP_VIEWER_COUNTRY_PRESS_TARGETS;
+    }
+
+    return buildMapViewerCountryPressTargets({
+      activeTargets,
+      highlights,
+      pathResolution,
+    });
+  }, [activeTargets, highlights, isCountryPressEnabled, pathResolution]);
+  const handleMapPressed = useCallback(
+    (point: MapPoint) => {
+      if (onCountryPressed === undefined) {
+        return;
+      }
+
+      const pressedCountry = getPressedMapViewerCountry({
+        point,
+        targets: countryPressTargets,
+      });
+
+      if (pressedCountry === null) {
+        return;
+      }
+
+      onCountryPressed(pressedCountry);
+    },
+    [countryPressTargets, onCountryPressed],
+  );
 
   const { gesture, tapZoomTouchHandlers } = useMapViewerGesture({
     commitViewport,
     isInteractive,
     layoutSizeValue,
+    onMapPressed: isCountryPressEnabled ? handleMapPressed : undefined,
     viewport,
     viewportValues,
   });
