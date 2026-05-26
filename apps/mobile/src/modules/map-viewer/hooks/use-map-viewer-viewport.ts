@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LayoutChangeEvent } from "react-native";
 
 import {
@@ -21,10 +21,15 @@ export function useMapViewerViewport({
   const [layoutSize, setLayoutSize] = useState(defaultLayoutSize);
   const aspectRatio =
     Math.max(layoutSize.width, 1) / Math.max(layoutSize.height, 1);
-  const [viewport, setViewport] = useState(() =>
-    buildInitialViewport({ aspectRatio, centersOn }),
+  const initialViewport = useMemo(
+    () =>
+      buildInitialViewport({
+        aspectRatio,
+        centersOn,
+      }),
+    [aspectRatio, centersOn],
   );
-  const initialViewportRef = useRef(viewport);
+  const [viewport, setViewport] = useState(initialViewport);
   const [hasViewportBeenUpdated, setHasViewportBeenUpdated] = useState(false);
   const hasViewportBeenUpdatedRef = useRef(false);
   const resetSignature = `${getMapViewerCenterTargetKey(centersOn)}:${aspectRatio}`;
@@ -56,9 +61,9 @@ export function useMapViewerViewport({
   );
 
   const resetViewport = useCallback(() => {
-    setCurrentViewport(initialViewportRef.current);
+    setCurrentViewport(initialViewport);
     setViewportBeenUpdated(false);
-  }, [setCurrentViewport, setViewportBeenUpdated]);
+  }, [initialViewport, setCurrentViewport, setViewportBeenUpdated]);
 
   const handleLayout = useCallback((event: LayoutChangeEvent) => {
     const nextLayoutSize = {
@@ -85,17 +90,10 @@ export function useMapViewerViewport({
     }
 
     resetSignatureRef.current = resetSignature;
-    const nextInitialViewport = buildInitialViewport({
-      aspectRatio,
-      centersOn,
-    });
-
-    initialViewportRef.current = nextInitialViewport;
-    setCurrentViewport(nextInitialViewport);
+    setCurrentViewport(initialViewport);
     setViewportBeenUpdated(false);
   }, [
-    aspectRatio,
-    centersOn,
+    initialViewport,
     resetSignature,
     setCurrentViewport,
     setViewportBeenUpdated,
@@ -105,6 +103,7 @@ export function useMapViewerViewport({
     commitViewport,
     handleLayout,
     hasViewportBeenUpdated,
+    initialViewport,
     layoutSize,
     resetViewport,
     viewport,

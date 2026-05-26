@@ -103,9 +103,6 @@ function buildMapViewerStyleResult({
   const orderedTopStyledCountries = orderStyledCountriesByVisualPriority({
     styledCountries: topStyledCountries,
   });
-  const activeOutlyingTerritoryStyles = buildActiveOutlyingTerritoryStyles({
-    activeTargets,
-  });
   const highlightedOutlyingTerritoryStyles =
     buildHighlightedOutlyingTerritoryStyles({
       highlights,
@@ -117,7 +114,6 @@ function buildMapViewerStyleResult({
         ...lowerStyledCountries.filter(
           ({ visualState }) => visualState === "active",
         ),
-        ...activeOutlyingTerritoryStyles,
       ],
       pathResolution,
     }),
@@ -202,21 +198,6 @@ function getCountryVisualStyle({
     style: {},
     visualState: "active",
   };
-}
-
-interface BuildActiveOutlyingTerritoryStylesParams {
-  activeTargets: readonly MapViewerHighlightTarget[];
-}
-
-function buildActiveOutlyingTerritoryStyles({
-  activeTargets,
-}: BuildActiveOutlyingTerritoryStylesParams): readonly StyledMapEntity[] {
-  return OUTLYING_TERRITORIES.map((entity) =>
-    getActiveMapEntityStyle({
-      activeTargets,
-      entity,
-    }),
-  ).filter(isStyledMapEntity);
 }
 
 interface BuildHighlightedOutlyingTerritoryStylesParams {
@@ -351,33 +332,6 @@ function buildCountryPressAreaPathGroups({
       };
     })
     .filter(isMapViewerPathGroup);
-}
-
-interface GetActiveMapEntityStyleParams {
-  activeTargets: readonly MapViewerHighlightTarget[];
-  entity: MapEntity;
-}
-
-function getActiveMapEntityStyle({
-  activeTargets,
-  entity,
-}: GetActiveMapEntityStyleParams): StyledMapEntity | null {
-  const isActiveEntity = activeTargets.some((target) =>
-    doesMapViewerTargetMatchEntity({
-      entity,
-      target,
-    }),
-  );
-
-  if (!isActiveEntity) {
-    return null;
-  }
-
-  return {
-    entity,
-    style: {},
-    visualState: "active",
-  };
 }
 
 interface GetMapEntityHighlightStyleParams {

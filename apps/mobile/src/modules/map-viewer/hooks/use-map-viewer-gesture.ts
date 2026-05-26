@@ -25,11 +25,13 @@ import type { MapViewerViewportSharedValues } from "./use-map-viewer-skia-presen
 
 const MAP_VIEWER_PRESS_MAX_DISTANCE = 18;
 const MAP_VIEWER_PAN_MIN_DISTANCE = 1;
+const MAP_VIEWER_VIEWPORT_MATCH_TOLERANCE = 0.0001;
 
 interface UseMapViewerGestureParams {
   commitViewport: (viewport: MapViewport) => void;
   isInteractive: boolean;
   layoutSizeValue: SharedValue<LayoutSize>;
+  maximumViewportWidth?: number;
   onMapPressed?: (point: MapPoint) => void;
   viewport: MapViewport;
   viewportValues: MapViewerViewportSharedValues;
@@ -56,10 +58,16 @@ interface ApplyPinchViewportParams {
   viewportValues: MapViewerViewportSharedValues;
 }
 
+interface DoesViewportMatchSharedValuesParams {
+  viewport: MapViewport;
+  viewportValues: MapViewerViewportSharedValues;
+}
+
 export function useMapViewerGesture({
   commitViewport,
   isInteractive,
   layoutSizeValue,
+  maximumViewportWidth,
   onMapPressed,
   viewport,
   viewportValues,
@@ -140,14 +148,26 @@ export function useMapViewerGesture({
           return;
         }
 
+        const nextViewport = getPannedViewport({
+          bounds: INTERACTIVE_MAP_BOUNDS,
+          gestureState: event,
+          layoutSize: layoutSizeValue.value,
+          maximumViewportWidth,
+          minimumViewportWidth: MINIMUM_INTERACTIVE_VIEWPORT_WIDTH,
+          viewport: currentGestureState.viewport,
+        });
+
+        if (
+          doesViewportMatchSharedValues({
+            viewport: nextViewport,
+            viewportValues,
+          })
+        ) {
+          return;
+        }
+
         applyPanViewport({
-          viewport: getPannedViewport({
-            bounds: INTERACTIVE_MAP_BOUNDS,
-            gestureState: event,
-            layoutSize: layoutSizeValue.value,
-            minimumViewportWidth: MINIMUM_INTERACTIVE_VIEWPORT_WIDTH,
-            viewport: currentGestureState.viewport,
-          }),
+          viewport: nextViewport,
           viewportValues,
         });
         hasGestureMovedValue.value = true;
@@ -193,13 +213,25 @@ export function useMapViewerGesture({
           return;
         }
 
+        const nextViewport = getPinchedViewport({
+          bounds: INTERACTIVE_MAP_BOUNDS,
+          gestureState: currentGestureState,
+          maximumViewportWidth,
+          minimumViewportWidth: MINIMUM_INTERACTIVE_VIEWPORT_WIDTH,
+          scale: event.scale,
+        });
+
+        if (
+          doesViewportMatchSharedValues({
+            viewport: nextViewport,
+            viewportValues,
+          })
+        ) {
+          return;
+        }
+
         applyPinchViewport({
-          viewport: getPinchedViewport({
-            bounds: INTERACTIVE_MAP_BOUNDS,
-            gestureState: currentGestureState,
-            minimumViewportWidth: MINIMUM_INTERACTIVE_VIEWPORT_WIDTH,
-            scale: event.scale,
-          }),
+          viewport: nextViewport,
           viewportValues,
         });
         hasGestureMovedValue.value = true;
@@ -253,6 +285,7 @@ export function useMapViewerGesture({
     isInteractive,
     isMapPressEnabled,
     layoutSizeValue,
+    maximumViewportWidth,
     onMapPressed,
     viewportValues,
   ]);
@@ -295,4 +328,22 @@ function applyPinchViewport({
   viewportValues.width.value = viewport.width;
   viewportValues.x.value = viewport.x;
   viewportValues.y.value = viewport.y;
+}
+
+function doesViewportMatchSharedValues({
+  viewport,
+  viewportValues,
+}: DoesViewportMatchSharedValuesParams): boolean {
+  "worklet";
+
+  return (
+    Math.abs(viewport.height - viewportValues.height.value) <=
+      MAP_VIEWER_VIEWPORT_MATCH_TOLERANCE &&
+    Math.abs(viewport.width - viewportValues.width.value) <=
+      MAP_VIEWER_VIEWPORT_MATCH_TOLERANCE &&
+    Math.abs(viewport.x - viewportValues.x.value) <=
+      MAP_VIEWER_VIEWPORT_MATCH_TOLERANCE &&
+    Math.abs(viewport.y - viewportValues.y.value) <=
+      MAP_VIEWER_VIEWPORT_MATCH_TOLERANCE
+  );
 }

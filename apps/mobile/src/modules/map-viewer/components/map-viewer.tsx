@@ -3,6 +3,7 @@ import { useIsFocused } from "expo-router";
 import { cn } from "heroui-native/utils";
 import { useCallback, useMemo } from "react";
 import { View } from "react-native";
+import type { StyleProp, ViewStyle } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import type { SharedValue } from "react-native-reanimated";
 import { Uniwind } from "uniwind";
@@ -49,7 +50,10 @@ export interface MapViewerProps {
   className?: string;
   highlights?: readonly MapViewerHighlight[];
   isInteractive?: boolean;
+  mapContainerStyle?: StyleProp<ViewStyle>;
   onCountryPressed?: (country: Country) => void;
+  onReset?: () => void;
+  shouldLimitZoomOutToInitialViewport?: boolean;
 }
 
 export function MapViewer({
@@ -58,12 +62,16 @@ export function MapViewer({
   className,
   highlights = EMPTY_MAP_VIEWER_HIGHLIGHTS,
   isInteractive = true,
+  mapContainerStyle,
   onCountryPressed,
+  onReset,
+  shouldLimitZoomOutToInitialViewport = false,
 }: MapViewerProps) {
   const {
     commitViewport,
     handleLayout,
     hasViewportBeenUpdated,
+    initialViewport,
     layoutSize,
     resetViewport,
     viewport,
@@ -143,11 +151,18 @@ export function MapViewer({
     },
     [countryPressTargets, onCountryPressed],
   );
+  const handleResetPressed = useCallback(() => {
+    resetViewport();
+    onReset?.();
+  }, [onReset, resetViewport]);
 
   const { gesture } = useMapViewerGesture({
     commitViewport,
     isInteractive,
     layoutSizeValue,
+    maximumViewportWidth: shouldLimitZoomOutToInitialViewport
+      ? initialViewport.width
+      : undefined,
     onMapPressed: isCountryPressEnabled ? handleMapPressed : undefined,
     viewport,
     viewportValues,
@@ -160,31 +175,40 @@ export function MapViewer({
         "relative h-55 overflow-hidden rounded-lg border border-default bg-map-background",
         className,
       )}
-      onLayout={handleLayout}
     >
-      <NativeBackGestureShield
-        contentWidth={layoutSize.width}
-        isEnabled={isInteractive}
-      >
-        <GestureDetector gesture={gesture}>
-          <View
-            collapsable={false}
-            className="h-full w-full"
-            pointerEvents={isInteractive ? "box-only" : "none"}
+      <View className="h-full w-full" style={mapContainerStyle}>
+        <View className="flex-1" onLayout={handleLayout}>
+          <NativeBackGestureShield
+            contentWidth={layoutSize.width}
+            isEnabled={isInteractive}
           >
-            <MapViewerThemedCanvas
-              key={mapViewerColorKey}
-              mapTransform={mapTransform}
-              pathLayers={pathLayers}
-              strokeWidth={strokeWidth}
-            />
-          </View>
-        </GestureDetector>
-      </NativeBackGestureShield>
-      <MapViewerResetButton
-        isVisible={isInteractive && hasViewportBeenUpdated}
-        onPress={resetViewport}
-      />
+            <GestureDetector gesture={gesture}>
+              <View
+                collapsable={false}
+                className="h-full w-full"
+                pointerEvents={isInteractive ? "box-only" : "none"}
+              >
+                <MapViewerThemedCanvas
+                  key={mapViewerColorKey}
+                  mapTransform={mapTransform}
+                  pathLayers={pathLayers}
+                  strokeWidth={strokeWidth}
+                />
+              </View>
+            </GestureDetector>
+          </NativeBackGestureShield>
+        </View>
+      </View>
+      <View
+        className="absolute inset-0 z-10 items-end justify-end"
+        pointerEvents="box-none"
+        style={mapContainerStyle}
+      >
+        <MapViewerResetButton
+          isVisible={isInteractive && hasViewportBeenUpdated}
+          onPress={handleResetPressed}
+        />
+      </View>
     </View>
   );
 }

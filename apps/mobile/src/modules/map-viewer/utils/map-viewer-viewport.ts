@@ -52,6 +52,11 @@ interface FitBoundsToAspectRatioParams {
   bounds: MapBounds;
 }
 
+interface FitWorldBoundsToAspectRatioParams {
+  aspectRatio: number;
+  bounds: MapBounds;
+}
+
 interface ExpandBoundsParams {
   bounds: MapBounds;
   paddingRatio: number;
@@ -131,6 +136,21 @@ export function buildInitialViewport(
 ): MapViewport {
   const { aspectRatio, centersOn } = params;
   const targetBounds = getTargetBounds(centersOn);
+  const isWorldRegionTarget =
+    centersOn.type === "region" && centersOn.region === "world";
+
+  if (isWorldRegionTarget) {
+    const worldViewport = fitWorldBoundsToAspectRatio({
+      aspectRatio,
+      bounds: targetBounds,
+    });
+
+    return clampViewportToBounds({
+      bounds: INTERACTIVE_MAP_BOUNDS,
+      viewport: worldViewport,
+    });
+  }
+
   const paddingRatio =
     centersOn.type === "country"
       ? COUNTRY_TARGET_PADDING_RATIO
@@ -249,6 +269,20 @@ function fitBoundsToAspectRatio(
   return getViewportFromCenter({
     center,
     height: boundsHeight,
+    width,
+  });
+}
+
+function fitWorldBoundsToAspectRatio(
+  params: FitWorldBoundsToAspectRatioParams,
+): MapViewport {
+  const { aspectRatio, bounds } = params;
+  const height = getBoundsHeight(bounds);
+  const width = height * aspectRatio;
+
+  return getViewportFromCenter({
+    center: getBoundsCenter(bounds),
+    height,
     width,
   });
 }
