@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
-import type { GestureResponderEvent } from "react-native";
+import { useCallback, useEffect, useMemo } from "react";
 import { Gesture } from "react-native-gesture-handler";
 import type { SharedValue } from "react-native-reanimated";
 import { useSharedValue } from "react-native-reanimated";
@@ -25,8 +24,6 @@ import type {
 import type { MapViewerViewportSharedValues } from "./use-map-viewer-skia-presentation";
 
 const MAP_VIEWER_PRESS_MAX_DISTANCE = 18;
-const MAP_VIEWER_PRESS_MAX_DISTANCE_SQUARED =
-  MAP_VIEWER_PRESS_MAX_DISTANCE * MAP_VIEWER_PRESS_MAX_DISTANCE;
 const MAP_VIEWER_PAN_MIN_DISTANCE = 1;
 
 interface UseMapViewerGestureParams {
@@ -59,19 +56,6 @@ interface ApplyPinchViewportParams {
   viewportValues: MapViewerViewportSharedValues;
 }
 
-interface MapPressCandidate {
-  hasMoved: boolean;
-  startX: number;
-  startY: number;
-}
-
-interface MapViewerPressTouchHandlers {
-  onTouchCancel: (event: GestureResponderEvent) => void;
-  onTouchEnd: (event: GestureResponderEvent) => void;
-  onTouchMove: (event: GestureResponderEvent) => void;
-  onTouchStart: (event: GestureResponderEvent) => void;
-}
-
 export function useMapViewerGesture({
   commitViewport,
   isInteractive,
@@ -82,141 +66,12 @@ export function useMapViewerGesture({
 }: UseMapViewerGestureParams) {
   const gestureStateValue = useSharedValue<MapGestureState | null>(null);
   const hasGestureMovedValue = useSharedValue(false);
-  const mapPressCandidateRef = useRef<MapPressCandidate | null>(null);
-
-  const cancelMapPressCandidate = useCallback(() => {
-    mapPressCandidateRef.current = null;
-  }, []);
-
-  const mapPressTouchHandlers = useMemo<MapViewerPressTouchHandlers>(
-    () => ({
-      onTouchCancel: () => {
-        cancelMapPressCandidate();
-      },
-      onTouchEnd: (event) => {
-        const candidate = mapPressCandidateRef.current;
-        mapPressCandidateRef.current = null;
-
-        if (!isInteractive) {
-          return;
-        }
-
-        if (candidate === null) {
-          return;
-        }
-
-        if (candidate.hasMoved) {
-          return;
-        }
-
-        if (event.nativeEvent.touches.length > 0) {
-          return;
-        }
-
-        const [changedTouch] = event.nativeEvent.changedTouches;
-
-        if (changedTouch === undefined) {
-          return;
-        }
-
-        const screenPoint = {
-          x: changedTouch.locationX,
-          y: changedTouch.locationY,
-        };
-
-        if (onMapPressed === undefined) {
-          return;
-        }
-
-        onMapPressed(
-          getMapPointFromScreenPoint({
-            layoutSize: layoutSizeValue.value,
-            screenPoint,
-            viewport: getViewportFromSharedValues({
-              viewportValues,
-            }),
-          }),
-        );
-      },
-      onTouchMove: (event) => {
-        const candidate = mapPressCandidateRef.current;
-
-        if (candidate === null) {
-          return;
-        }
-
-        if (!isInteractive) {
-          mapPressCandidateRef.current = null;
-          return;
-        }
-
-        if (event.nativeEvent.touches.length !== 1) {
-          candidate.hasMoved = true;
-          return;
-        }
-
-        const [touch] = event.nativeEvent.touches;
-
-        if (touch === undefined) {
-          candidate.hasMoved = true;
-          return;
-        }
-
-        const translationX = touch.locationX - candidate.startX;
-        const translationY = touch.locationY - candidate.startY;
-        const distanceSquared =
-          translationX * translationX + translationY * translationY;
-
-        if (distanceSquared <= MAP_VIEWER_PRESS_MAX_DISTANCE_SQUARED) {
-          return;
-        }
-
-        candidate.hasMoved = true;
-      },
-      onTouchStart: (event) => {
-        if (!isInteractive) {
-          mapPressCandidateRef.current = null;
-          return;
-        }
-
-        if (event.nativeEvent.touches.length !== 1) {
-          mapPressCandidateRef.current = null;
-          return;
-        }
-
-        const [touch] = event.nativeEvent.touches;
-
-        if (touch === undefined) {
-          mapPressCandidateRef.current = null;
-          return;
-        }
-
-        mapPressCandidateRef.current = {
-          hasMoved: false,
-          startX: touch.locationX,
-          startY: touch.locationY,
-        };
-      },
-    }),
-    [
-      cancelMapPressCandidate,
-      isInteractive,
-      layoutSizeValue,
-      onMapPressed,
-      viewportValues,
-    ],
-  );
+  const isMapPressEnabled = isInteractive && onMapPressed !== undefined;
 
   useEffect(() => {
     gestureStateValue.value = null;
     hasGestureMovedValue.value = false;
-    mapPressCandidateRef.current = null;
-  }, [
-    gestureStateValue,
-    hasGestureMovedValue,
-    isInteractive,
-    viewport,
-  ]);
+  }, [gestureStateValue, hasGestureMovedValue, isInteractive, viewport]);
 
   const finishGesture = useCallback(
     ({
@@ -360,19 +215,50 @@ export function useMapViewerGesture({
         });
       });
 
-    return Gesture.Simultaneous(panGesture, pinchGesture);
+    const tapGesture = Gesture.Tap()
+      .enabled(isMapPressEnabled)
+      .maxDistance(MAP_VIEWER_PRESS_MAX_DISTANCE)
+      .numberOfTaps(1)
+      .onEnd((event, isSucceeded) => {
+        "worklet";
+
+        if (!isSucceeded) {
+          return;
+        }
+
+        if (onMapPressed === undefined) {
+          return;
+        }
+
+        scheduleOnRN(
+          onMapPressed,
+          getMapPointFromScreenPoint({
+            layoutSize: layoutSizeValue.value,
+            screenPoint: {
+              x: event.x,
+              y: event.y,
+            },
+            viewport: getViewportFromSharedValues({
+              viewportValues,
+            }),
+          }),
+        );
+      });
+
+    return Gesture.Simultaneous(panGesture, pinchGesture, tapGesture);
   }, [
     finishGesture,
     gestureStateValue,
     hasGestureMovedValue,
     isInteractive,
+    isMapPressEnabled,
     layoutSizeValue,
+    onMapPressed,
     viewportValues,
   ]);
 
   return {
     gesture,
-    mapPressTouchHandlers,
   };
 }
 

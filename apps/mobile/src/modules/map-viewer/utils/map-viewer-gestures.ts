@@ -194,6 +194,8 @@ export function getMapPointFromScreenPoint({
   screenPoint,
   viewport,
 }: GetMapPointFromScreenPointParams): MapPoint {
+  "worklet";
+
   const mapUnitsPerPixelX = viewport.width / Math.max(layoutSize.width, 1);
   const mapUnitsPerPixelY = viewport.height / Math.max(layoutSize.height, 1);
 

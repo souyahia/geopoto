@@ -144,7 +144,7 @@ export function MapViewer({
     [countryPressTargets, onCountryPressed],
   );
 
-  const { gesture, mapPressTouchHandlers } = useMapViewerGesture({
+  const { gesture } = useMapViewerGesture({
     commitViewport,
     isInteractive,
     layoutSizeValue,
@@ -170,26 +170,6 @@ export function MapViewer({
           <View
             collapsable={false}
             className="h-full w-full"
-            onTouchCancel={
-              isCountryPressEnabled
-                ? mapPressTouchHandlers.onTouchCancel
-                : undefined
-            }
-            onTouchEnd={
-              isCountryPressEnabled
-                ? mapPressTouchHandlers.onTouchEnd
-                : undefined
-            }
-            onTouchMove={
-              isCountryPressEnabled
-                ? mapPressTouchHandlers.onTouchMove
-                : undefined
-            }
-            onTouchStart={
-              isCountryPressEnabled
-                ? mapPressTouchHandlers.onTouchStart
-                : undefined
-            }
             pointerEvents={isInteractive ? "box-only" : "none"}
           >
             <MapViewerThemedCanvas
