@@ -28,6 +28,14 @@
   "learn": {
     "title": "Learn",
     "settings": "Settings",
+    "map": {
+      "country-sheet": {
+        "close": "Close country details",
+        "fields": {
+          "region": "Continent / region"
+        }
+      }
+    },
     "countries": {
       "title": "Countries",
       "search": {

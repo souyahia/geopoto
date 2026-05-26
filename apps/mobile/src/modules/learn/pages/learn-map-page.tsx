@@ -12,6 +12,7 @@ import type {
 } from "@/modules/map-viewer/utils/map-viewer-viewport";
 
 import { LearnHeader } from "../components/learn-header";
+import { LearnMapCountrySheet } from "../components/learn-map-country-sheet";
 
 const LEARN_MAP_WORLD_TARGET: MapViewerHighlightTarget = {
   region: "world",
@@ -29,6 +30,7 @@ export function LearnMapPage() {
   const [highlightedCountry, setHighlightedCountry] = useState<Country | null>(
     null,
   );
+  const [isCountryInfoSheetOpen, setIsCountryInfoSheetOpen] = useState(false);
 
   const mapContainerStyle = useMemo(
     () => ({
@@ -54,18 +56,27 @@ export function LearnMapPage() {
     ];
   }, [highlightedCountry]);
 
-  const handleCountryPressed = useCallback((country: Country) => {
-    setHighlightedCountry((currentCountry) => {
-      if (currentCountry?.code === country.code) {
-        return null;
+  const handleCountryPressed = useCallback(
+    (country: Country) => {
+      if (highlightedCountry?.code === country.code) {
+        setHighlightedCountry(null);
+        setIsCountryInfoSheetOpen(false);
+        return;
       }
 
-      return country;
-    });
-  }, []);
+      setHighlightedCountry(country);
+      setIsCountryInfoSheetOpen(true);
+    },
+    [highlightedCountry],
+  );
 
   const handleMapReset = useCallback(() => {
     setHighlightedCountry(null);
+    setIsCountryInfoSheetOpen(false);
+  }, []);
+
+  const handleCountryInfoSheetOpenChange = useCallback((isOpen: boolean) => {
+    setIsCountryInfoSheetOpen(isOpen);
   }, []);
 
   return (
@@ -81,6 +92,11 @@ export function LearnMapPage() {
         onCountryPressed={handleCountryPressed}
         onReset={handleMapReset}
         shouldLimitZoomOutToInitialViewport
+      />
+      <LearnMapCountrySheet
+        country={highlightedCountry}
+        isOpen={isCountryInfoSheetOpen}
+        onOpenChange={handleCountryInfoSheetOpenChange}
       />
     </View>
   );
