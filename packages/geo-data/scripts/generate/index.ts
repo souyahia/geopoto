@@ -81,6 +81,7 @@ async function generateGeoData(): Promise<void> {
     highResolutionFeatureLookup,
     lowResolutionFeatureLookup,
     pathGenerator,
+    projection,
     restCountries: restCountryRecords,
   });
   const mapRegions = buildMapRegions({ countries, outlyingTerritories });
@@ -95,6 +96,7 @@ async function generateGeoData(): Promise<void> {
     generatedJsonFiles,
     highResolutionFeatureLookup,
     lowResolutionFeatureLookup,
+    mapRegions,
     outlyingTerritories,
     restCountries: restCountryRecords,
   });

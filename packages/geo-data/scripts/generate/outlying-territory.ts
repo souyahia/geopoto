@@ -1,7 +1,7 @@
-import type { GeoPath } from "d3-geo";
+import type { GeoPath, GeoProjection } from "d3-geo";
 
 import type { OutlyingTerritory } from "../../src/outlying-territories.ts";
-import { toMapBounds } from "./country-map.ts";
+import { applyAntimeridianDisplayWrap, toMapBounds } from "./country-map.ts";
 import {
   findCountryFeature,
   toContinent,
@@ -21,6 +21,7 @@ interface BuildOutlyingTerritoriesParams {
   highResolutionFeatureLookup: CountryFeatureLookup;
   lowResolutionFeatureLookup: CountryFeatureLookup;
   pathGenerator: GeoPath;
+  projection: GeoProjection;
   restCountries: readonly RestCountry[];
 }
 
@@ -29,6 +30,7 @@ interface BuildOutlyingTerritoryParams {
   highResolutionFeatureLookup: CountryFeatureLookup;
   lowResolutionFeatureLookup: CountryFeatureLookup;
   pathGenerator: GeoPath;
+  projection: GeoProjection;
   restCountries: readonly RestCountry[];
 }
 
@@ -38,6 +40,7 @@ interface BuildOutlyingTerritoryMapParams {
   lowResolutionSourceFeature: CountryFeature | null;
   metadata: ResolvedOutlyingTerritoryMetadata;
   pathGenerator: GeoPath;
+  projection: GeoProjection;
 }
 
 interface BuildOutlyingTerritoryMapPathParams {
@@ -47,6 +50,7 @@ interface BuildOutlyingTerritoryMapPathParams {
   metadata: ResolvedOutlyingTerritoryMetadata;
   pathGenerator: GeoPath;
   pathResolution: "highResolution" | "lowResolution";
+  projection: GeoProjection;
 }
 
 interface FindRestCountryByCodeParams {
@@ -151,6 +155,7 @@ function buildOutlyingTerritoryMapPath({
   metadata,
   pathGenerator,
   pathResolution,
+  projection,
 }: BuildOutlyingTerritoryMapPathParams): BuiltOutlyingTerritoryMapPath {
   if (feature === null) {
     if (fallbackMapPath !== null) {
@@ -178,10 +183,14 @@ function buildOutlyingTerritoryMapPath({
     });
   }
 
-  return {
-    bounds: toMapBounds(pathGenerator.bounds(feature)),
-    path,
-  };
+  return applyAntimeridianDisplayWrap({
+    code: config.code,
+    mapPath: {
+      bounds: toMapBounds(pathGenerator.bounds(feature)),
+      path,
+    },
+    projection,
+  });
 }
 
 function buildOutlyingTerritoryMap({
@@ -190,6 +199,7 @@ function buildOutlyingTerritoryMap({
   lowResolutionSourceFeature,
   metadata,
   pathGenerator,
+  projection,
 }: BuildOutlyingTerritoryMapParams): OutlyingTerritory["map"] {
   const highResolutionFeature = createOutlyingTerritoryFeature({
     config,
@@ -208,6 +218,7 @@ function buildOutlyingTerritoryMap({
     metadata,
     pathGenerator,
     pathResolution: "highResolution",
+    projection,
   });
   const lowResolutionMapPath = buildOutlyingTerritoryMapPath({
     config,
@@ -216,6 +227,7 @@ function buildOutlyingTerritoryMap({
     metadata,
     pathGenerator,
     pathResolution: "lowResolution",
+    projection,
   });
 
   return {
@@ -275,6 +287,7 @@ function buildOutlyingTerritory({
   highResolutionFeatureLookup,
   lowResolutionFeatureLookup,
   pathGenerator,
+  projection,
   restCountries,
 }: BuildOutlyingTerritoryParams): OutlyingTerritory {
   const hasOwnerCountryMetadata =
@@ -323,6 +336,7 @@ function buildOutlyingTerritory({
       }),
       metadata,
       pathGenerator,
+      projection,
     }),
     name: metadata.name,
     regions: metadata.regions,
@@ -333,6 +347,7 @@ export function buildOutlyingTerritories({
   highResolutionFeatureLookup,
   lowResolutionFeatureLookup,
   pathGenerator,
+  projection,
   restCountries,
 }: BuildOutlyingTerritoriesParams): readonly OutlyingTerritory[] {
   return OUTLYING_TERRITORY_CONFIGS.map((config) =>
@@ -341,6 +356,7 @@ export function buildOutlyingTerritories({
       highResolutionFeatureLookup,
       lowResolutionFeatureLookup,
       pathGenerator,
+      projection,
       restCountries,
     }),
   ).toSorted((left, right) => left.code.localeCompare(right.code));

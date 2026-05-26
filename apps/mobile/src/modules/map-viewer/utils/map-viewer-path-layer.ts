@@ -6,12 +6,17 @@ export interface MapViewerPathGroup {
   borderColor: string | undefined;
   id: string;
   path: SkPath;
+  visualState: MapViewerPathVisualState;
 }
+
+export type MapViewerPathVisualState = "active" | "highlighted";
 
 export interface MapViewerPathLayer {
   activePathGroups: readonly MapViewerPathGroup[];
   basePath: SkPath | null;
+  countryPressAreaPathGroups: readonly MapViewerPathGroup[];
   highlightPathGroups: readonly MapViewerPathGroup[];
+  topCountryPathGroups: readonly MapViewerPathGroup[];
 }
 
 export interface MapViewerRenderedPathLayer extends MapViewerPathLayer {

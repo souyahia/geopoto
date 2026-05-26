@@ -17,6 +17,11 @@ export interface CountryMap {
   paths: CountryMapPaths;
 }
 
+export interface CountryPressArea {
+  bounds: MapBounds;
+  path: string;
+}
+
 export const MAP_REGION_NAMES = [
   "world",
   "africa",

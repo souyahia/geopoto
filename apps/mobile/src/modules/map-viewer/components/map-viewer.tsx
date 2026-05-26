@@ -1,11 +1,14 @@
 import type { Transforms3d } from "@shopify/react-native-skia";
 import { useIsFocused } from "expo-router";
 import { cn } from "heroui-native/utils";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { View } from "react-native";
+import type { StyleProp, ViewStyle } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import type { SharedValue } from "react-native-reanimated";
 import { Uniwind } from "uniwind";
+
+import type { Country } from "@geopoto/geo-data";
 
 import { NativeBackGestureShield } from "@/components/native-back-gesture-shield";
 import { useAppTheme } from "@/services/theme/theme";
@@ -14,16 +17,20 @@ import { useMapViewerColors } from "../hooks/use-map-viewer-colors";
 import { useMapViewerGesture } from "../hooks/use-map-viewer-gesture";
 import { useMapViewerPathResolutionTransition } from "../hooks/use-map-viewer-path-resolution-transition";
 import { useMapViewerSkiaPresentation } from "../hooks/use-map-viewer-skia-presentation";
-import {
-  type MapViewerHighlight,
-  useMapViewerStyles,
-} from "../hooks/use-map-viewer-styles";
+import { useMapViewerStyles } from "../hooks/use-map-viewer-styles";
 import { useMapViewerViewport } from "../hooks/use-map-viewer-viewport";
+import {
+  buildMapViewerCountryPressTargets,
+  getPressedMapViewerCountry,
+  type MapViewerCountryPressTarget,
+} from "../utils/map-viewer-country-press";
 import type { MapViewerRenderedPathLayer } from "../utils/map-viewer-path-layer";
 import {
   getMapViewerPathResolution,
   type MapViewerCenterTarget,
+  type MapViewerHighlight,
   type MapViewerHighlightTarget,
+  type MapPoint,
 } from "../utils/map-viewer-viewport";
 import { MapViewerCanvas } from "./map-viewer-canvas";
 import { MapViewerResetButton } from "./map-viewer-reset-button";
@@ -34,6 +41,8 @@ const DEFAULT_LAYOUT_SIZE = {
 };
 const EMPTY_MAP_VIEWER_ACTIVE_TARGETS: readonly MapViewerHighlightTarget[] = [];
 const EMPTY_MAP_VIEWER_HIGHLIGHTS: readonly MapViewerHighlight[] = [];
+const EMPTY_MAP_VIEWER_COUNTRY_PRESS_TARGETS: readonly MapViewerCountryPressTarget[] =
+  [];
 
 export interface MapViewerProps {
   activeTargets?: readonly MapViewerHighlightTarget[];
@@ -41,6 +50,10 @@ export interface MapViewerProps {
   className?: string;
   highlights?: readonly MapViewerHighlight[];
   isInteractive?: boolean;
+  mapContainerStyle?: StyleProp<ViewStyle>;
+  onCountryPressed?: (country: Country) => void;
+  onReset?: () => void;
+  shouldLimitZoomOutToInitialViewport?: boolean;
 }
 
 export function MapViewer({
@@ -49,11 +62,16 @@ export function MapViewer({
   className,
   highlights = EMPTY_MAP_VIEWER_HIGHLIGHTS,
   isInteractive = true,
+  mapContainerStyle,
+  onCountryPressed,
+  onReset,
+  shouldLimitZoomOutToInitialViewport = false,
 }: MapViewerProps) {
   const {
     commitViewport,
     handleLayout,
     hasViewportBeenUpdated,
+    initialViewport,
     layoutSize,
     resetViewport,
     viewport,
@@ -71,29 +89,81 @@ export function MapViewer({
       viewport,
     });
 
-  const { activePathGroups, basePath, highlightPathGroups } =
-    useMapViewerStyles({
-      activeTargets,
-      highlights,
-      pathResolution,
-    });
+  const {
+    activePathGroups,
+    basePath,
+    countryPressAreaPathGroups,
+    highlightPathGroups,
+    topCountryPathGroups,
+  } = useMapViewerStyles({
+    activeTargets,
+    highlights,
+    pathResolution,
+  });
   const currentPathLayer = useMemo(
     () => ({
       activePathGroups,
       basePath,
+      countryPressAreaPathGroups,
       highlightPathGroups,
+      topCountryPathGroups,
     }),
-    [activePathGroups, basePath, highlightPathGroups],
+    [
+      activePathGroups,
+      basePath,
+      countryPressAreaPathGroups,
+      highlightPathGroups,
+      topCountryPathGroups,
+    ],
   );
   const pathLayers = useMapViewerPathResolutionTransition({
     currentLayer: currentPathLayer,
     pathResolution,
   });
+  const isCountryPressEnabled = onCountryPressed !== undefined;
+  const countryPressTargets = useMemo(() => {
+    if (!isCountryPressEnabled) {
+      return EMPTY_MAP_VIEWER_COUNTRY_PRESS_TARGETS;
+    }
 
-  const { gesture, tapZoomTouchHandlers } = useMapViewerGesture({
+    return buildMapViewerCountryPressTargets({
+      activeTargets,
+      highlights,
+      pathResolution,
+    });
+  }, [activeTargets, highlights, isCountryPressEnabled, pathResolution]);
+  const handleMapPressed = useCallback(
+    (point: MapPoint) => {
+      if (onCountryPressed === undefined) {
+        return;
+      }
+
+      const pressedCountry = getPressedMapViewerCountry({
+        point,
+        targets: countryPressTargets,
+      });
+
+      if (pressedCountry === null) {
+        return;
+      }
+
+      onCountryPressed(pressedCountry);
+    },
+    [countryPressTargets, onCountryPressed],
+  );
+  const handleResetPressed = useCallback(() => {
+    resetViewport();
+    onReset?.();
+  }, [onReset, resetViewport]);
+
+  const { gesture } = useMapViewerGesture({
     commitViewport,
     isInteractive,
     layoutSizeValue,
+    maximumViewportWidth: shouldLimitZoomOutToInitialViewport
+      ? initialViewport.width
+      : undefined,
+    onMapPressed: isCountryPressEnabled ? handleMapPressed : undefined,
     viewport,
     viewportValues,
   });
@@ -105,35 +175,40 @@ export function MapViewer({
         "relative h-55 overflow-hidden rounded-lg border border-default bg-map-background",
         className,
       )}
-      onLayout={handleLayout}
     >
-      <NativeBackGestureShield
-        contentWidth={layoutSize.width}
-        isEnabled={isInteractive}
-      >
-        <GestureDetector gesture={gesture}>
-          <View
-            collapsable={false}
-            className="h-full w-full"
-            onTouchCancel={tapZoomTouchHandlers.onTouchCancel}
-            onTouchEnd={tapZoomTouchHandlers.onTouchEnd}
-            onTouchMove={tapZoomTouchHandlers.onTouchMove}
-            onTouchStart={tapZoomTouchHandlers.onTouchStart}
-            pointerEvents={isInteractive ? "box-only" : "none"}
+      <View className="h-full w-full" style={mapContainerStyle}>
+        <View className="flex-1" onLayout={handleLayout}>
+          <NativeBackGestureShield
+            contentWidth={layoutSize.width}
+            isEnabled={isInteractive}
           >
-            <MapViewerThemedCanvas
-              key={mapViewerColorKey}
-              mapTransform={mapTransform}
-              pathLayers={pathLayers}
-              strokeWidth={strokeWidth}
-            />
-          </View>
-        </GestureDetector>
-      </NativeBackGestureShield>
-      <MapViewerResetButton
-        isVisible={isInteractive && hasViewportBeenUpdated}
-        onPress={resetViewport}
-      />
+            <GestureDetector gesture={gesture}>
+              <View
+                collapsable={false}
+                className="h-full w-full"
+                pointerEvents={isInteractive ? "box-only" : "none"}
+              >
+                <MapViewerThemedCanvas
+                  key={mapViewerColorKey}
+                  mapTransform={mapTransform}
+                  pathLayers={pathLayers}
+                  strokeWidth={strokeWidth}
+                />
+              </View>
+            </GestureDetector>
+          </NativeBackGestureShield>
+        </View>
+      </View>
+      <View
+        className="absolute inset-0 z-10 items-end justify-end"
+        pointerEvents="box-none"
+        style={mapContainerStyle}
+      >
+        <MapViewerResetButton
+          isVisible={isInteractive && hasViewportBeenUpdated}
+          onPress={handleResetPressed}
+        />
+      </View>
     </View>
   );
 }

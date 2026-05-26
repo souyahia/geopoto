@@ -17,7 +17,7 @@ interface BuildCountryMapParams {
 }
 
 interface BuildCountryMapPathParams {
-  fallbackMapPath: BuiltCountryMapPath | null;
+  fallbackMapPath: BuiltMapPath | null;
   feature: CountryFeature | null;
   isSourceGeometryRequired: boolean;
   projection: GeoProjection;
@@ -41,9 +41,9 @@ interface GetWorldMapMetricsParams {
 }
 
 interface ApplyAntimeridianDisplayWrapParams {
-  mapPath: BuiltCountryMapPath;
+  code: string;
+  mapPath: BuiltMapPath;
   projection: GeoProjection;
-  restCountry: RestCountry;
 }
 
 interface GetMapPathBoundsParams {
@@ -65,7 +65,7 @@ interface CreateMissingSourceGeometryErrorParams {
   restCountry: RestCountry;
 }
 
-interface BuiltCountryMapPath {
+export interface BuiltMapPath {
   bounds: MapBounds;
   path: string;
 }
@@ -77,10 +77,17 @@ export const ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODES = [
   "KI",
   "NZ",
   "RU",
+  "TO",
+  "WS",
 ] as const;
-const ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODE_SET = new Set<string>(
-  ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODES,
-);
+export const ANTIMERIDIAN_DISPLAY_WRAP_OUTLYING_TERRITORY_CODES = [
+  "AS",
+  "US-HI",
+] as const;
+const ANTIMERIDIAN_DISPLAY_WRAP_ENTITY_CODE_SET = new Set<string>([
+  ...ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODES,
+  ...ANTIMERIDIAN_DISPLAY_WRAP_OUTLYING_TERRITORY_CODES,
+]);
 const SVG_COORDINATE_PAIR_PATTERN = /(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g;
 const SVG_SUBPATH_PATTERN = /M[^M]*/g;
 const WORLD_LEFT_LONGITUDE = -180;
@@ -107,7 +114,7 @@ export function toMapBounds(
 function createSyntheticMapPath({
   projection,
   restCountry,
-}: SyntheticMapPathParams): BuiltCountryMapPath {
+}: SyntheticMapPathParams): BuiltMapPath {
   if (restCountry.latlng === null) {
     throw new Error(`Missing map geometry and latlng for ${restCountry.cca2}`);
   }
@@ -228,12 +235,12 @@ function shouldWrapSubpathToRight({
   return centerX < worldMapMetrics.centerX;
 }
 
-function applyAntimeridianDisplayWrap({
+export function applyAntimeridianDisplayWrap({
+  code,
   mapPath,
   projection,
-  restCountry,
-}: ApplyAntimeridianDisplayWrapParams): BuiltCountryMapPath {
-  if (!ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODE_SET.has(restCountry.cca2)) {
+}: ApplyAntimeridianDisplayWrapParams): BuiltMapPath {
+  if (!ANTIMERIDIAN_DISPLAY_WRAP_ENTITY_CODE_SET.has(code)) {
     return mapPath;
   }
 
@@ -328,7 +335,7 @@ function buildCountryMapPath({
   pathResolution,
   projection,
   restCountry,
-}: BuildCountryMapPathParams): BuiltCountryMapPath {
+}: BuildCountryMapPathParams): BuiltMapPath {
   if (feature === null) {
     if (isSourceGeometryRequired) {
       throw createMissingSourceGeometryError({ pathResolution, restCountry });
@@ -356,11 +363,11 @@ function buildCountryMapPath({
   }
 
   return applyAntimeridianDisplayWrap({
+    code: restCountry.cca2,
     mapPath: {
       bounds: toMapBounds(pathGenerator.bounds(feature)),
       path,
     },
     projection,
-    restCountry,
   });
 }

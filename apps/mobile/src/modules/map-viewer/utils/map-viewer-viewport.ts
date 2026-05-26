@@ -27,9 +27,20 @@ export type MapViewerHighlightTarget =
   | { type: "country"; country: Country }
   | { type: "region"; region: MapRegionName };
 
+export interface MapViewerHighlight {
+  target: MapViewerHighlightTarget;
+  backgroundColor?: string;
+  borderColor?: string;
+}
+
 export type MapViewerCenterTarget =
   | MapViewerHighlightTarget
   | { type: "bounds"; bounds: MapBounds };
+
+export interface MapViewerTargetEntity {
+  code: string;
+  regions: readonly MapRegionName[];
+}
 
 interface BuildInitialViewportParams {
   aspectRatio: number;
@@ -37,6 +48,11 @@ interface BuildInitialViewportParams {
 }
 
 interface FitBoundsToAspectRatioParams {
+  aspectRatio: number;
+  bounds: MapBounds;
+}
+
+interface FitWorldBoundsToAspectRatioParams {
   aspectRatio: number;
   bounds: MapBounds;
 }
@@ -86,6 +102,11 @@ interface ClampViewportToBoundsParams {
   viewport: MapViewport;
 }
 
+interface DoesMapViewerTargetMatchEntityParams {
+  entity: MapViewerTargetEntity;
+  target: MapViewerHighlightTarget;
+}
+
 const COUNTRY_TARGET_PADDING_RATIO = 0.42;
 const HIGH_RESOLUTION_VIEWPORT_AREA = 3_000;
 const REGION_TARGET_PADDING_RATIO = 0.08;
@@ -115,6 +136,21 @@ export function buildInitialViewport(
 ): MapViewport {
   const { aspectRatio, centersOn } = params;
   const targetBounds = getTargetBounds(centersOn);
+  const isWorldRegionTarget =
+    centersOn.type === "region" && centersOn.region === "world";
+
+  if (isWorldRegionTarget) {
+    const worldViewport = fitWorldBoundsToAspectRatio({
+      aspectRatio,
+      bounds: targetBounds,
+    });
+
+    return clampViewportToBounds({
+      bounds: INTERACTIVE_MAP_BOUNDS,
+      viewport: worldViewport,
+    });
+  }
+
   const paddingRatio =
     centersOn.type === "country"
       ? COUNTRY_TARGET_PADDING_RATIO
@@ -147,7 +183,7 @@ function getTargetBounds(target: MapViewerCenterTarget): MapBounds {
     case "bounds":
       return target.bounds;
     case "country":
-      return target.country.map.bounds;
+      return getCountryCenterBounds(target.country);
     case "region":
       return (
         MAP_REGIONS.find((region) => region.name === target.region)?.bounds ??
@@ -165,7 +201,7 @@ export function getMapViewerCenterTargetKey(
     case "bounds":
       return `bounds:${getBoundsKey(target.bounds)}`;
     case "country":
-      return `country:${target.country.code}:${getBoundsKey(target.country.map.bounds)}`;
+      return getCountryCenterTargetKey(target.country);
     case "region":
       return `region:${target.region}`;
     default:
@@ -175,6 +211,20 @@ export function getMapViewerCenterTargetKey(
 
 interface GetMapViewerPathResolutionParams {
   viewport: MapViewport;
+}
+
+function getCountryCenterBounds(country: Country): MapBounds {
+  if (country.countryPressArea === undefined) {
+    return country.map.bounds;
+  }
+
+  return country.countryPressArea.bounds;
+}
+
+function getCountryCenterTargetKey(country: Country): string {
+  const boundsKey = getBoundsKey(getCountryCenterBounds(country));
+
+  return `country:${country.code}:${boundsKey}`;
 }
 
 export function getMapViewerPathResolution({
@@ -219,6 +269,20 @@ function fitBoundsToAspectRatio(
   return getViewportFromCenter({
     center,
     height: boundsHeight,
+    width,
+  });
+}
+
+function fitWorldBoundsToAspectRatio(
+  params: FitWorldBoundsToAspectRatioParams,
+): MapViewport {
+  const { aspectRatio, bounds } = params;
+  const height = getBoundsHeight(bounds);
+  const width = height * aspectRatio;
+
+  return getViewportFromCenter({
+    center: getBoundsCenter(bounds),
+    height,
     width,
   });
 }
@@ -350,4 +414,21 @@ export function clampViewportToBounds(
       value: sizedViewport.y,
     }),
   };
+}
+
+export function doesMapViewerTargetMatchEntity({
+  entity,
+  target,
+}: DoesMapViewerTargetMatchEntityParams): boolean {
+  switch (target.type) {
+    case "country":
+      return target.country.code === entity.code;
+    case "region":
+      return entity.regions.includes(target.region);
+    default: {
+      const exhaustiveTarget: never = target;
+
+      return exhaustiveTarget;
+    }
+  }
 }

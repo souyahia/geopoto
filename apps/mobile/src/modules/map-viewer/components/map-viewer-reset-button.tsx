@@ -26,7 +26,7 @@ export function MapViewerResetButton({
 
   return (
     <Animated.View
-      className="absolute bottom-3 right-3 z-10"
+      className="m-3"
       entering={RESET_BUTTON_FADE_IN}
       exiting={RESET_BUTTON_FADE_OUT}
     >

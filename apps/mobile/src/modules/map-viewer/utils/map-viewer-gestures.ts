@@ -35,6 +35,7 @@ interface GetPannedViewportParams {
   bounds: MapBounds;
   gestureState: MapPanGestureTranslation;
   layoutSize: LayoutSize;
+  maximumViewportWidth?: number;
   minimumViewportWidth: number;
   viewport: MapViewport;
 }
@@ -42,16 +43,14 @@ interface GetPannedViewportParams {
 interface GetPinchedViewportParams {
   bounds: MapBounds;
   gestureState: PinchMapGestureState;
+  maximumViewportWidth?: number;
   minimumViewportWidth: number;
   scale: number;
 }
 
-interface GetTapZoomedViewportParams {
-  bounds: MapBounds;
-  focalPoint: MapPoint;
+interface GetMapPointFromScreenPointParams {
   layoutSize: LayoutSize;
-  minimumViewportWidth: number;
-  scale: number;
+  screenPoint: MapPoint;
   viewport: MapViewport;
 }
 
@@ -97,6 +96,7 @@ export function getPannedViewport({
   bounds,
   gestureState,
   layoutSize,
+  maximumViewportWidth,
   minimumViewportWidth,
   viewport,
 }: GetPannedViewportParams): MapViewport {
@@ -111,12 +111,14 @@ export function getPannedViewport({
   const aspectRatio = nextViewport.width / nextViewport.height;
   const availableWidth = bounds.maxX - bounds.minX;
   const availableHeight = bounds.maxY - bounds.minY;
-  const width = Math.min(
-    Math.max(
-      nextViewport.width,
-      Math.min(minimumViewportWidth, availableWidth),
-    ),
+  const maximumWidth = Math.min(
+    maximumViewportWidth ?? availableWidth,
     availableWidth,
+  );
+  const minimumWidth = Math.min(minimumViewportWidth, maximumWidth);
+  const width = Math.min(
+    Math.max(nextViewport.width, minimumWidth),
+    maximumWidth,
   );
   const height = width / aspectRatio;
   const x =
@@ -140,6 +142,7 @@ export function getPannedViewport({
 export function getPinchedViewport({
   bounds,
   gestureState,
+  maximumViewportWidth,
   minimumViewportWidth,
   scale,
 }: GetPinchedViewportParams): MapViewport {
@@ -160,26 +163,32 @@ export function getPinchedViewport({
   const aspectRatio = nextViewport.width / nextViewport.height;
   const availableWidth = bounds.maxX - bounds.minX;
   const availableHeight = bounds.maxY - bounds.minY;
-  const clampedWidth = Math.min(
-    Math.max(
-      nextViewport.width,
-      Math.min(minimumViewportWidth, availableWidth),
-    ),
+  const maximumWidth = Math.min(
+    maximumViewportWidth ?? availableWidth,
     availableWidth,
   );
+  const minimumWidth = Math.min(minimumViewportWidth, maximumWidth);
+  const clampedWidth = Math.min(
+    Math.max(nextViewport.width, minimumWidth),
+    maximumWidth,
+  );
   const clampedHeight = clampedWidth / aspectRatio;
+  const clampedViewportX =
+    gestureState.focalPoint.x - gestureState.focalRatio.x * clampedWidth;
+  const clampedViewportY =
+    gestureState.focalPoint.y - gestureState.focalRatio.y * clampedHeight;
   const x =
     clampedWidth >= availableWidth
       ? bounds.minX - (clampedWidth - availableWidth) / 2
       : Math.min(
-          Math.max(nextViewport.x, bounds.minX),
+          Math.max(clampedViewportX, bounds.minX),
           bounds.maxX - clampedWidth,
         );
   const y =
     clampedHeight >= availableHeight
       ? bounds.minY - (clampedHeight - availableHeight) / 2
       : Math.min(
-          Math.max(nextViewport.y, bounds.minY),
+          Math.max(clampedViewportY, bounds.minY),
           bounds.maxY - clampedHeight,
         );
 
@@ -192,24 +201,18 @@ export function getPinchedViewport({
   };
 }
 
-export function getTapZoomedViewport({
-  bounds,
-  focalPoint,
+export function getMapPointFromScreenPoint({
   layoutSize,
-  minimumViewportWidth,
-  scale,
+  screenPoint,
   viewport,
-}: GetTapZoomedViewportParams): MapViewport {
+}: GetMapPointFromScreenPointParams): MapPoint {
   "worklet";
 
-  return getPinchedViewport({
-    bounds,
-    gestureState: buildPinchMapGestureState({
-      focalPoint,
-      layoutSize,
-      viewport,
-    }),
-    minimumViewportWidth,
-    scale,
-  });
+  const mapUnitsPerPixelX = viewport.width / Math.max(layoutSize.width, 1);
+  const mapUnitsPerPixelY = viewport.height / Math.max(layoutSize.height, 1);
+
+  return {
+    x: viewport.x + screenPoint.x * mapUnitsPerPixelX,
+    y: viewport.y + screenPoint.y * mapUnitsPerPixelY,
+  };
 }
