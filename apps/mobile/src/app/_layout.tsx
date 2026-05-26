@@ -12,6 +12,7 @@ import { useSyncThemePreference } from "@/services/theme/sync-theme-preference";
 import { useAppTheme } from "@/services/theme/theme";
 
 LogBox.ignoreLogs([
+  "Ended a touch event which was not counted in `trackedTouchCount`.",
   "Sending `onAnimatedValueUpdate` with no listeners registered.",
 ]);
 
