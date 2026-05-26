@@ -5,17 +5,25 @@ import type {
   CountryMap,
   CountryMapPathResolution,
   MapBounds,
+  MapRegion,
 } from "../../src/map-definition.ts";
 import type { OutlyingTerritory } from "../../src/outlying-territories.ts";
 import { buildCountryCoreFeature } from "./country-core.ts";
 import {
-  findCountryFeature,
-  type CountryFeatureLookup,
-} from "./country.ts";
-import {
   ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODES,
   ANTIMERIDIAN_DISPLAY_WRAP_OUTLYING_TERRITORY_CODES,
 } from "./country-map.ts";
+import {
+  findMeaningfulCountryPressAreaShapeOverlaps,
+  type CountryPressAreaShapeEntry,
+  type CountryPressAreaShapePair,
+} from "./country-press-area-overlap.ts";
+import {
+  buildConfiguredCountryPressAreaShape,
+  buildCountryPressArea,
+  COUNTRY_PRESS_AREA_COUNTRY_CODES,
+} from "./country-press-area.ts";
+import { findCountryFeature, type CountryFeatureLookup } from "./country.ts";
 import { getOutlyingTerritoryConfigs } from "./outlying-territory-config.ts";
 import type { RestCountry } from "./rest-countries.ts";
 import { extractSourceFeatureParts } from "./source-feature-parts.ts";
@@ -26,6 +34,7 @@ interface ValidateGeographyGenerationInvariantsParams {
   generatedJsonFiles: readonly GeneratedJsonFile[];
   highResolutionFeatureLookup: CountryFeatureLookup;
   lowResolutionFeatureLookup: CountryFeatureLookup;
+  mapRegions: readonly MapRegion[];
   outlyingTerritories: readonly OutlyingTerritory[];
   restCountries: readonly RestCountry[];
 }
@@ -47,6 +56,10 @@ interface ValidateOutlyingTerritoryCountriesParams {
 
 interface ValidateCountryOutlyingTerritoryCodesParams {
   countries: readonly Country[];
+  outlyingTerritories: readonly OutlyingTerritory[];
+}
+
+interface ValidateOutlyingTerritoryCountryPressAreasParams {
   outlyingTerritories: readonly OutlyingTerritory[];
 }
 
@@ -99,6 +112,50 @@ interface ValidateKnownCountryCoreExclusionsForResolutionParams {
 
 interface ValidateGeneratedJsonFilesParams {
   generatedJsonFiles: readonly GeneratedJsonFile[];
+}
+
+interface ValidateCountryPressAreasParams {
+  countries: readonly Country[];
+}
+
+interface ValidateCountryPressAreaPayloadParams {
+  country: Country;
+}
+
+interface ValidateCountryPressAreaOverlapsParams {
+  countries: readonly Country[];
+}
+
+interface BuildCountryPressAreaShapeEntriesParams {
+  countries: readonly Country[];
+}
+
+interface ValidateMapRegionNavigationBoundsParams {
+  countries: readonly Country[];
+  mapRegions: readonly MapRegion[];
+  outlyingTerritories: readonly OutlyingTerritory[];
+}
+
+interface ValidateContainedMapBoundsParams {
+  bounds: MapBounds;
+  entityCode: string;
+  expectedBounds: MapBounds;
+  expectedBoundsLabel: string;
+  regionName: string;
+}
+
+interface ContainsMapBoundsParams {
+  outer: MapBounds;
+  inner: MapBounds;
+}
+
+interface AreMapBoundsEqualParams {
+  left: MapBounds;
+  right: MapBounds;
+}
+
+interface AreMapBoundsFiniteParams {
+  bounds: MapBounds;
 }
 
 const MAP_PATH_RESOLUTIONS: readonly CountryMapPathResolution[] = [
@@ -210,6 +267,7 @@ export function validateGeographyGenerationInvariants({
   generatedJsonFiles,
   highResolutionFeatureLookup,
   lowResolutionFeatureLookup,
+  mapRegions,
   outlyingTerritories,
   restCountries,
 }: ValidateGeographyGenerationInvariantsParams): void {
@@ -223,9 +281,16 @@ export function validateGeographyGenerationInvariants({
   });
   validateOutlyingTerritoryCountries({ countries, outlyingTerritories });
   validateCountryOutlyingTerritoryCodes({ countries, outlyingTerritories });
+  validateOutlyingTerritoryCountryPressAreas({ outlyingTerritories });
   validateExpectedCountryCoreSanityChecks({ countries, outlyingTerritories });
   validateExpectedAntimeridianDisplayWrapSanityChecks({
     countries,
+    outlyingTerritories,
+  });
+  validateCountryPressAreas({ countries });
+  validateMapRegionNavigationBounds({
+    countries,
+    mapRegions,
     outlyingTerritories,
   });
   validateKnownCountryCoreExclusions({
@@ -234,6 +299,248 @@ export function validateGeographyGenerationInvariants({
     restCountries,
   });
   validateGeneratedJsonFiles({ generatedJsonFiles });
+}
+
+function validateCountryPressAreas({
+  countries,
+}: ValidateCountryPressAreasParams): void {
+  const countryPressAreaCountryCodes = countries
+    .filter((country) => country.countryPressArea !== undefined)
+    .map((country) => country.code);
+  const countryPressAreaCountryCodeSet = new Set(countryPressAreaCountryCodes);
+  const expectedCountryCodeSet = new Set<string>(
+    COUNTRY_PRESS_AREA_COUNTRY_CODES,
+  );
+  const missingCountryCodes = COUNTRY_PRESS_AREA_COUNTRY_CODES.filter(
+    (countryCode) => !countryPressAreaCountryCodeSet.has(countryCode),
+  );
+  const extraCountryCodes = countryPressAreaCountryCodes.filter(
+    (countryCode) => !expectedCountryCodeSet.has(countryCode),
+  );
+
+  if (missingCountryCodes.length > 0) {
+    throw new Error(
+      `Generation invariant failed: missing Country Press Areas for ${missingCountryCodes.join(", ")}.`,
+    );
+  }
+
+  if (extraCountryCodes.length > 0) {
+    throw new Error(
+      `Generation invariant failed: unexpected Country Press Areas for ${extraCountryCodes.join(", ")}.`,
+    );
+  }
+
+  for (const country of countries) {
+    if (country.countryPressArea === undefined) {
+      continue;
+    }
+
+    validateCountryPressAreaPayload({ country });
+  }
+
+  validateCountryPressAreaOverlaps({ countries });
+}
+
+function validateCountryPressAreaPayload({
+  country,
+}: ValidateCountryPressAreaPayloadParams): void {
+  const { countryPressArea } = country;
+
+  if (countryPressArea === undefined) {
+    return;
+  }
+
+  const hasPath = countryPressArea.path.trim().length > 0;
+
+  if (!hasPath) {
+    throw new Error(
+      `Generation invariant failed: Country ${country.code} has an empty Country Press Area path.`,
+    );
+  }
+
+  const hasFiniteBounds = areMapBoundsFinite({
+    bounds: countryPressArea.bounds,
+  });
+  const hasPositiveBounds =
+    countryPressArea.bounds.maxX > countryPressArea.bounds.minX &&
+    countryPressArea.bounds.maxY > countryPressArea.bounds.minY;
+
+  if (!hasFiniteBounds || !hasPositiveBounds) {
+    throw new Error(
+      `Generation invariant failed: Country ${country.code} has invalid Country Press Area bounds.`,
+    );
+  }
+
+  const expectedCountryPressArea = buildCountryPressArea({
+    countryCode: country.code,
+    mapBounds: country.map.bounds,
+  });
+
+  if (expectedCountryPressArea === undefined) {
+    throw new Error(
+      `Generation invariant failed: Country ${country.code} has an unconfigured Country Press Area.`,
+    );
+  }
+
+  const hasExpectedPath =
+    countryPressArea.path === expectedCountryPressArea.path;
+  const hasExpectedBounds = areMapBoundsEqual({
+    left: countryPressArea.bounds,
+    right: expectedCountryPressArea.bounds,
+  });
+
+  if (!hasExpectedPath || !hasExpectedBounds) {
+    throw new Error(
+      `Generation invariant failed: Country ${country.code} Country Press Area does not match the configured Country Press Area.`,
+    );
+  }
+}
+
+function validateCountryPressAreaOverlaps({
+  countries,
+}: ValidateCountryPressAreaOverlapsParams): void {
+  const shapeEntries = buildCountryPressAreaShapeEntries({ countries });
+  const overlappingPairs = findMeaningfulCountryPressAreaShapeOverlaps({
+    shapeEntries,
+  });
+
+  if (overlappingPairs.length === 0) {
+    return;
+  }
+
+  throw new Error(
+    `Generation invariant failed: meaningful Country Press Area overlaps detected for ${overlappingPairs.map(formatCountryPressAreaShapePair).join(", ")}.`,
+  );
+}
+
+function buildCountryPressAreaShapeEntries({
+  countries,
+}: BuildCountryPressAreaShapeEntriesParams): readonly CountryPressAreaShapeEntry[] {
+  return countries.flatMap((country) => {
+    if (country.countryPressArea === undefined) {
+      return [];
+    }
+
+    const shape = buildConfiguredCountryPressAreaShape({
+      countryCode: country.code,
+      mapBounds: country.map.bounds,
+    });
+
+    if (shape === undefined) {
+      throw new Error(
+        `Generation invariant failed: Country ${country.code} has an unconfigured Country Press Area shape.`,
+      );
+    }
+
+    return [
+      {
+        countryCode: country.code,
+        shape,
+      },
+    ];
+  });
+}
+
+function formatCountryPressAreaShapePair({
+  left,
+  right,
+}: CountryPressAreaShapePair): string {
+  return `${left.countryCode}/${right.countryCode}`;
+}
+
+function validateMapRegionNavigationBounds({
+  countries,
+  mapRegions,
+  outlyingTerritories,
+}: ValidateMapRegionNavigationBoundsParams): void {
+  for (const region of mapRegions) {
+    const regionCountries = countries.filter((country) =>
+      country.regions.includes(region.name),
+    );
+    const regionOutlyingTerritories = outlyingTerritories.filter(
+      (outlyingTerritory) => outlyingTerritory.regions.includes(region.name),
+    );
+
+    for (const country of regionCountries) {
+      validateContainedMapBounds({
+        bounds: region.bounds,
+        entityCode: country.code,
+        expectedBounds: country.map.bounds,
+        expectedBoundsLabel: "Country Core",
+        regionName: region.name,
+      });
+
+      if (country.countryPressArea === undefined) {
+        continue;
+      }
+
+      validateContainedMapBounds({
+        bounds: region.bounds,
+        entityCode: country.code,
+        expectedBounds: country.countryPressArea.bounds,
+        expectedBoundsLabel: "Country Press Area",
+        regionName: region.name,
+      });
+    }
+
+    for (const outlyingTerritory of regionOutlyingTerritories) {
+      validateContainedMapBounds({
+        bounds: region.bounds,
+        entityCode: outlyingTerritory.code,
+        expectedBounds: outlyingTerritory.map.bounds,
+        expectedBoundsLabel: "Outlying Territory",
+        regionName: region.name,
+      });
+    }
+  }
+}
+
+function validateContainedMapBounds({
+  bounds,
+  entityCode,
+  expectedBounds,
+  expectedBoundsLabel,
+  regionName,
+}: ValidateContainedMapBoundsParams): void {
+  const hasContainedBounds = containsMapBounds({
+    inner: expectedBounds,
+    outer: bounds,
+  });
+
+  if (hasContainedBounds) {
+    return;
+  }
+
+  throw new Error(
+    `Generation invariant failed: map region ${regionName} does not include ${expectedBoundsLabel} bounds for ${entityCode}.`,
+  );
+}
+
+function containsMapBounds({ inner, outer }: ContainsMapBoundsParams): boolean {
+  return (
+    outer.minX <= inner.minX &&
+    outer.minY <= inner.minY &&
+    outer.maxX >= inner.maxX &&
+    outer.maxY >= inner.maxY
+  );
+}
+
+function areMapBoundsEqual({ left, right }: AreMapBoundsEqualParams): boolean {
+  return (
+    left.minX === right.minX &&
+    left.minY === right.minY &&
+    left.maxX === right.maxX &&
+    left.maxY === right.maxY
+  );
+}
+
+function areMapBoundsFinite({ bounds }: AreMapBoundsFiniteParams): boolean {
+  return (
+    Number.isFinite(bounds.minX) &&
+    Number.isFinite(bounds.minY) &&
+    Number.isFinite(bounds.maxX) &&
+    Number.isFinite(bounds.maxY)
+  );
 }
 
 function validateMapPaths({
@@ -299,6 +606,22 @@ function validateCountryOutlyingTerritoryCodes({
 
   throw new Error(
     `Generation invariant failed: Country ${country.code} references missing Outlying Territory ${missingOutlyingTerritoryCode}.`,
+  );
+}
+
+function validateOutlyingTerritoryCountryPressAreas({
+  outlyingTerritories,
+}: ValidateOutlyingTerritoryCountryPressAreasParams): void {
+  const outlyingTerritoryCodes = outlyingTerritories
+    .filter((outlyingTerritory) => "countryPressArea" in outlyingTerritory)
+    .map((outlyingTerritory) => outlyingTerritory.code);
+
+  if (outlyingTerritoryCodes.length === 0) {
+    return;
+  }
+
+  throw new Error(
+    `Generation invariant failed: unexpected Outlying Territory Country Press Areas for ${outlyingTerritoryCodes.join(", ")}.`,
   );
 }
 
@@ -415,9 +738,7 @@ function validateExpectedAntimeridianDisplayWrapSanityChecks({
     ...ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODES,
   ]);
   const expectedCountryCodes = toSortedCodes(
-    EXPECTED_ANTIMERIDIAN_DISPLAY_WRAP_SANITY_CHECKS.map(
-      (check) => check.code,
-    ),
+    EXPECTED_ANTIMERIDIAN_DISPLAY_WRAP_SANITY_CHECKS.map((check) => check.code),
   );
   const hasExpectedConfiguredCountryCodes = isSameCodeList({
     left: configuredCountryCodes,

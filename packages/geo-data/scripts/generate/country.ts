@@ -6,6 +6,7 @@ import type { MapRegionName } from "../../src/map-definition.ts";
 import { REST_COUNTRIES_TRANSLATION_CONFIG } from "./config.ts";
 import { buildCountryCoreFeature } from "./country-core.ts";
 import { buildCountryMap } from "./country-map.ts";
+import { buildCountryPressArea } from "./country-press-area.ts";
 import { getOutlyingTerritoryCodes } from "./outlying-territory-config.ts";
 import type { RestCountry } from "./rest-countries.ts";
 import type { CountryFeature } from "./types.ts";
@@ -206,18 +207,24 @@ export function buildCountry({
     }),
   });
   const outlyingTerritoryCodes = getOutlyingTerritoryCodes(restCountry.cca2);
+  const map = buildCountryMap({
+    highResolutionFeature,
+    lowResolutionFeature,
+    pathGenerator,
+    projection,
+    restCountry,
+  });
+  const countryPressArea = buildCountryPressArea({
+    countryCode: restCountry.cca2,
+    mapBounds: map.bounds,
+  });
 
   const country = {
     capital: toLocalizedCapital(restCountry),
     code: restCountry.cca2,
     continent,
-    map: buildCountryMap({
-      highResolutionFeature,
-      lowResolutionFeature,
-      pathGenerator,
-      projection,
-      restCountry,
-    }),
+    ...(countryPressArea === undefined ? {} : { countryPressArea }),
+    map,
     name: toLocalizedCountryName(restCountry),
     regions: toMapRegions(restCountry, continent),
   };

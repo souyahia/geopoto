@@ -1,9 +1,17 @@
-import { Canvas, Group, Path } from "@shopify/react-native-skia";
+import {
+  Canvas,
+  DashPathEffect,
+  Group,
+  Path,
+} from "@shopify/react-native-skia";
 import type { Transforms3d } from "@shopify/react-native-skia";
 import { View } from "react-native";
-import type { SharedValue } from "react-native-reanimated";
+import { useDerivedValue, type SharedValue } from "react-native-reanimated";
 
-import type { MapViewerRenderedPathLayer } from "../utils/map-viewer-path-layer";
+import type {
+  MapViewerPathGroup,
+  MapViewerRenderedPathLayer,
+} from "../utils/map-viewer-path-layer";
 
 interface MapViewerCanvasProps {
   activeCountryBackgroundColor: string;
@@ -28,6 +36,11 @@ export function MapViewerCanvas({
   pathLayers,
   strokeWidth,
 }: MapViewerCanvasProps) {
+  const countryPressAreaBorderDashIntervals = useDerivedValue(() => [
+    strokeWidth.value * 4,
+    strokeWidth.value * 3,
+  ]);
+
   return (
     <View className="h-full w-full">
       <Canvas style={{ width: "100%", height: "100%" }}>
@@ -36,9 +49,11 @@ export function MapViewerCanvas({
             ({
               activePathGroups,
               basePath,
+              countryPressAreaPathGroups,
               highlightPathGroups,
               id: layerId,
               opacity,
+              topCountryPathGroups,
             }) => (
               <Group key={layerId} opacity={opacity}>
                 {basePath !== null && (
@@ -57,42 +72,107 @@ export function MapViewerCanvas({
                     />
                   </>
                 )}
-                {activePathGroups.map(
-                  ({ backgroundColor, borderColor, id: groupId, path }) => (
-                    <Group key={`active:${groupId}`}>
-                      <Path
-                        color={backgroundColor ?? activeCountryBackgroundColor}
-                        path={path}
-                        style="fill"
+                {activePathGroups.map((group) => (
+                  <Group key={`active:${group.id}`}>
+                    <Path
+                      color={getPathGroupBackgroundColor({
+                        activeCountryBackgroundColor,
+                        group,
+                        highlightBackgroundColor,
+                      })}
+                      path={group.path}
+                      style="fill"
+                    />
+                    <Path
+                      color={getPathGroupBorderColor({
+                        activeCountryBorderColor,
+                        group,
+                        highlightBorderColor,
+                      })}
+                      path={group.path}
+                      strokeJoin="round"
+                      strokeWidth={strokeWidth}
+                      style="stroke"
+                    />
+                  </Group>
+                ))}
+                {highlightPathGroups.map((group) => (
+                  <Group key={`highlight:${group.id}`}>
+                    <Path
+                      color={getPathGroupBackgroundColor({
+                        activeCountryBackgroundColor,
+                        group,
+                        highlightBackgroundColor,
+                      })}
+                      path={group.path}
+                      style="fill"
+                    />
+                    <Path
+                      color={getPathGroupBorderColor({
+                        activeCountryBorderColor,
+                        group,
+                        highlightBorderColor,
+                      })}
+                      path={group.path}
+                      strokeJoin="round"
+                      strokeWidth={strokeWidth}
+                      style="stroke"
+                    />
+                  </Group>
+                ))}
+                {countryPressAreaPathGroups.map((group) => (
+                  <Group key={`country-press-area:${group.id}`}>
+                    <Path
+                      color={getPathGroupBackgroundColor({
+                        activeCountryBackgroundColor,
+                        group,
+                        highlightBackgroundColor,
+                      })}
+                      opacity={0.5}
+                      path={group.path}
+                      style="fill"
+                    />
+                    <Path
+                      color={getPathGroupBorderColor({
+                        activeCountryBorderColor,
+                        group,
+                        highlightBorderColor,
+                      })}
+                      path={group.path}
+                      strokeJoin="round"
+                      strokeWidth={strokeWidth}
+                      style="stroke"
+                    >
+                      <DashPathEffect
+                        intervals={countryPressAreaBorderDashIntervals}
                       />
-                      <Path
-                        color={borderColor ?? activeCountryBorderColor}
-                        path={path}
-                        strokeJoin="round"
-                        strokeWidth={strokeWidth}
-                        style="stroke"
-                      />
-                    </Group>
-                  ),
-                )}
-                {highlightPathGroups.map(
-                  ({ backgroundColor, borderColor, id: groupId, path }) => (
-                    <Group key={`highlight:${groupId}`}>
-                      <Path
-                        color={backgroundColor ?? highlightBackgroundColor}
-                        path={path}
-                        style="fill"
-                      />
-                      <Path
-                        color={borderColor ?? highlightBorderColor}
-                        path={path}
-                        strokeJoin="round"
-                        strokeWidth={strokeWidth}
-                        style="stroke"
-                      />
-                    </Group>
-                  ),
-                )}
+                    </Path>
+                  </Group>
+                ))}
+                {topCountryPathGroups.map((group) => (
+                  <Group key={`top-country:${group.id}`}>
+                    <Path
+                      color={getPathGroupBackgroundColor({
+                        activeCountryBackgroundColor,
+                        group,
+                        highlightBackgroundColor,
+                      })}
+                      path={group.path}
+                      style="fill"
+                    />
+                    <Path
+                      color={getPathGroupBorderColor({
+                        activeCountryBorderColor,
+                        group,
+                        highlightBorderColor,
+                      })}
+                      path={group.path}
+                      strokeJoin="round"
+                      strokeWidth={strokeWidth}
+                      style="stroke"
+                    />
+                  </Group>
+                ))}
               </Group>
             ),
           )}
@@ -100,4 +180,48 @@ export function MapViewerCanvas({
       </Canvas>
     </View>
   );
+}
+
+interface GetPathGroupBackgroundColorParams {
+  activeCountryBackgroundColor: string;
+  group: MapViewerPathGroup;
+  highlightBackgroundColor: string;
+}
+
+function getPathGroupBackgroundColor({
+  activeCountryBackgroundColor,
+  group,
+  highlightBackgroundColor,
+}: GetPathGroupBackgroundColorParams): string {
+  if (group.backgroundColor !== undefined) {
+    return group.backgroundColor;
+  }
+
+  if (group.visualState === "highlighted") {
+    return highlightBackgroundColor;
+  }
+
+  return activeCountryBackgroundColor;
+}
+
+interface GetPathGroupBorderColorParams {
+  activeCountryBorderColor: string;
+  group: MapViewerPathGroup;
+  highlightBorderColor: string;
+}
+
+function getPathGroupBorderColor({
+  activeCountryBorderColor,
+  group,
+  highlightBorderColor,
+}: GetPathGroupBorderColorParams): string {
+  if (group.borderColor !== undefined) {
+    return group.borderColor;
+  }
+
+  if (group.visualState === "highlighted") {
+    return highlightBorderColor;
+  }
+
+  return activeCountryBorderColor;
 }

@@ -147,7 +147,7 @@ function getTargetBounds(target: MapViewerCenterTarget): MapBounds {
     case "bounds":
       return target.bounds;
     case "country":
-      return target.country.map.bounds;
+      return getCountryCenterBounds(target.country);
     case "region":
       return (
         MAP_REGIONS.find((region) => region.name === target.region)?.bounds ??
@@ -165,7 +165,7 @@ export function getMapViewerCenterTargetKey(
     case "bounds":
       return `bounds:${getBoundsKey(target.bounds)}`;
     case "country":
-      return `country:${target.country.code}:${getBoundsKey(target.country.map.bounds)}`;
+      return getCountryCenterTargetKey(target.country);
     case "region":
       return `region:${target.region}`;
     default:
@@ -175,6 +175,20 @@ export function getMapViewerCenterTargetKey(
 
 interface GetMapViewerPathResolutionParams {
   viewport: MapViewport;
+}
+
+function getCountryCenterBounds(country: Country): MapBounds {
+  if (country.countryPressArea === undefined) {
+    return country.map.bounds;
+  }
+
+  return country.countryPressArea.bounds;
+}
+
+function getCountryCenterTargetKey(country: Country): string {
+  const boundsKey = getBoundsKey(getCountryCenterBounds(country));
+
+  return `country:${country.code}:${boundsKey}`;
 }
 
 export function getMapViewerPathResolution({

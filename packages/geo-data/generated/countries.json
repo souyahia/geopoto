@@ -10,6 +10,15 @@
     },
     "code": "AD",
     "continent": "europe",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 503.693,
+        "maxY": 186.099,
+        "minX": 500.693,
+        "minY": 183.099
+      },
+      "path": "M500.693,184.599a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 502.418,
@@ -109,6 +118,15 @@
     },
     "code": "AG",
     "continent": "north-america",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 414.55,
+        "maxY": 226.45,
+        "minX": 413.65,
+        "minY": 224.55
+      },
+      "path": "M413.65,224.55L414.55,224.55L414.55,226.45L413.65,226.45Z"
+    },
     "map": {
       "bounds": {
         "maxX": 414.327,
@@ -406,6 +424,15 @@
     },
     "code": "BB",
     "continent": "north-america",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 417.8,
+        "maxY": 231.95,
+        "minX": 416.8,
+        "minY": 231.1
+      },
+      "path": "M416.8,231.1L417.8,231.1L417.8,231.95L416.8,231.95Z"
+    },
     "map": {
       "bounds": {
         "maxX": 417.462,
@@ -571,6 +598,15 @@
     },
     "code": "BH",
     "continent": "asia",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 571.688,
+        "maxY": 214.04,
+        "minX": 568.688,
+        "minY": 211.04
+      },
+      "path": "M568.688,212.54a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 570.303,
@@ -670,6 +706,15 @@
     },
     "code": "BN",
     "continent": "asia",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 660.799,
+        "maxY": 245.21,
+        "minX": 657.799,
+        "minY": 242.21
+      },
+      "path": "M657.799,243.71a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 660.174,
@@ -769,6 +814,15 @@
     },
     "code": "BS",
     "continent": "north-america",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 399.781,
+        "maxY": 220.851,
+        "minX": 389.548,
+        "minY": 210.462
+      },
+      "path": "M389.548,210.462L392.959,210.462L399.781,215.657L399.781,220.851L397.223,220.851L389.548,215.657Z"
+    },
     "map": {
       "bounds": {
         "maxX": 398.961,
@@ -1330,6 +1384,15 @@
     },
     "code": "CV",
     "continent": "africa",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 468.149,
+        "maxY": 228.97,
+        "minX": 465.149,
+        "minY": 225.97
+      },
+      "path": "M465.149,227.47a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 468.497,
@@ -1516,10 +1579,7 @@
       "pt": "Dinamarca"
     },
     "regions": ["world", "europe"],
-    "outlyingTerritoryCodes": [
-      "FO",
-      "GL"
-    ]
+    "outlyingTerritoryCodes": ["FO", "GL"]
   },
   {
     "capital": {
@@ -1532,6 +1592,15 @@
     },
     "code": "DM",
     "continent": "north-america",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 415.2,
+        "maxY": 228.85,
+        "minX": 414.35,
+        "minY": 227.75
+      },
+      "path": "M414.35,227.75L415.2,227.75L415.2,228.85L414.35,228.85Z"
+    },
     "map": {
       "bounds": {
         "maxX": 414.927,
@@ -1652,9 +1721,7 @@
       "pt": "Equador"
     },
     "regions": ["world", "south-america"],
-    "outlyingTerritoryCodes": [
-      "EC-GAL"
-    ]
+    "outlyingTerritoryCodes": ["EC-GAL"]
   },
   {
     "capital": {
@@ -1898,6 +1965,15 @@
     },
     "code": "FJ",
     "continent": "oceania",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 753.8,
+        "maxY": 282.2,
+        "minX": 740.8,
+        "minY": 266.4
+      },
+      "path": "M740.8,266.4L753.8,266.4L753.8,282.2L740.8,282.2Z"
+    },
     "map": {
       "bounds": {
         "maxX": 752.43,
@@ -1931,6 +2007,15 @@
     },
     "code": "FM",
     "continent": "oceania",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 727.8,
+        "maxY": 244.3,
+        "minX": 690.2,
+        "minY": 235
+      },
+      "path": "M690.2,235L727.8,235L727.8,244.3L690.2,244.3Z"
+    },
     "map": {
       "bounds": {
         "maxX": 726.38,
@@ -1985,13 +2070,7 @@
       "pt": "França"
     },
     "regions": ["world", "europe"],
-    "outlyingTerritoryCodes": [
-      "GF",
-      "GP",
-      "MQ",
-      "RE",
-      "YT"
-    ]
+    "outlyingTerritoryCodes": ["GF", "GP", "MQ", "RE", "YT"]
   },
   {
     "capital": {
@@ -2070,6 +2149,15 @@
     },
     "code": "GD",
     "continent": "north-america",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 414.7,
+        "maxY": 233.45,
+        "minX": 413.9,
+        "minY": 232.65
+      },
+      "path": "M413.9,232.65L414.7,232.65L414.7,233.45L413.9,233.45Z"
+    },
     "map": {
       "bounds": {
         "maxX": 414.437,
@@ -2994,6 +3082,15 @@
     },
     "code": "KI",
     "continent": "oceania",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 790.6,
+        "maxY": 267.4,
+        "minX": 734.2,
+        "minY": 243.2
+      },
+      "path": "M734.2,243.8L743.5,243.8L743.5,252L754.5,252L754.5,252.8L764,252.8L764,252L777,252L777,243.2L783,243.2L783,253.2L786,253.2L786,257L790.6,257L790.6,267.4L782,267.4L782,259L764,259L764,260L754.5,260L754.5,254.8L743.5,254.8L743.5,253.2L734.2,253.2Z"
+    },
     "map": {
       "bounds": {
         "maxX": 789.19,
@@ -3027,6 +3124,15 @@
     },
     "code": "KM",
     "continent": "africa",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 562.44,
+        "maxY": 268.103,
+        "minX": 559.44,
+        "minY": 265.103
+      },
+      "path": "M559.44,266.603a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 561.843,
@@ -3060,6 +3166,15 @@
     },
     "code": "KN",
     "continent": "north-america",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 413.45,
+        "maxY": 226.1,
+        "minX": 412.5,
+        "minY": 225.25
+      },
+      "path": "M412.5,225.25L413.45,225.25L413.45,226.1L412.5,226.1Z"
+    },
     "map": {
       "bounds": {
         "maxX": 413.152,
@@ -3291,6 +3406,15 @@
     },
     "code": "LC",
     "continent": "north-america",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 415.65,
+        "maxY": 230.95,
+        "minX": 414.95,
+        "minY": 230.05
+      },
+      "path": "M414.95,230.05L415.65,230.05L415.65,230.95L414.95,230.95Z"
+    },
     "map": {
       "bounds": {
         "maxX": 415.437,
@@ -3324,6 +3448,15 @@
     },
     "code": "LI",
     "continent": "europe",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 514.758,
+        "maxY": 177.029,
+        "minX": 511.758,
+        "minY": 174.029
+      },
+      "path": "M511.758,175.529a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 513.348,
@@ -3621,6 +3754,15 @@
     },
     "code": "MC",
     "continent": "europe",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 511.791,
+        "maxY": 183.789,
+        "minX": 508.791,
+        "minY": 180.789
+      },
+      "path": "M508.791,182.289a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 510.333,
@@ -3753,6 +3895,15 @@
     },
     "code": "MH",
     "continent": "oceania",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 740,
+        "maxY": 243.1,
+        "minX": 730.3,
+        "minY": 233
+      },
+      "path": "M730.3,233L740,233L740,243.1L730.3,243.1Z"
+    },
     "map": {
       "bounds": {
         "maxX": 738.55,
@@ -3951,6 +4102,15 @@
     },
     "code": "MT",
     "continent": "europe",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 521.463,
+        "maxY": 197.931,
+        "minX": 518.463,
+        "minY": 194.931
+      },
+      "path": "M518.463,196.431a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 520.233,
@@ -3984,6 +4144,15 @@
     },
     "code": "MU",
     "continent": "africa",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 581.438,
+        "maxY": 280.232,
+        "minX": 578.438,
+        "minY": 277.232
+      },
+      "path": "M578.438,278.732a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 580.268,
@@ -4017,6 +4186,15 @@
     },
     "code": "MV",
     "continent": "asia",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 603.522,
+        "maxY": 246.304,
+        "minX": 600.522,
+        "minY": 243.304
+      },
+      "path": "M600.522,244.804a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 602.124,
@@ -4335,12 +4513,7 @@
       "pt": "Holanda"
     },
     "regions": ["world", "europe"],
-    "outlyingTerritoryCodes": [
-      "AW",
-      "BQ",
-      "CW",
-      "SX"
-    ]
+    "outlyingTerritoryCodes": ["AW", "BQ", "CW", "SX"]
   },
   {
     "capital": {
@@ -4374,9 +4547,7 @@
       "pt": "Noruega"
     },
     "regions": ["world", "europe"],
-    "outlyingTerritoryCodes": [
-      "SJ"
-    ]
+    "outlyingTerritoryCodes": ["SJ"]
   },
   {
     "capital": {
@@ -4422,6 +4593,15 @@
     },
     "code": "NR",
     "continent": "oceania",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 733.8,
+        "maxY": 252.9,
+        "minX": 729.8,
+        "minY": 248.7
+      },
+      "path": "M729.8,248.7L733.8,248.7L733.8,252.9L729.8,252.9Z"
+    },
     "map": {
       "bounds": {
         "maxX": 731.885,
@@ -4773,10 +4953,7 @@
       "pt": "Portugal"
     },
     "regions": ["world", "europe"],
-    "outlyingTerritoryCodes": [
-      "PT-AZO",
-      "PT-MAD"
-    ]
+    "outlyingTerritoryCodes": ["PT-AZO", "PT-MAD"]
   },
   {
     "capital": {
@@ -4789,6 +4966,15 @@
     },
     "code": "PW",
     "continent": "oceania",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 688.8,
+        "maxY": 247.2,
+        "minX": 680.5,
+        "minY": 238
+      },
+      "path": "M680.5,238L688.8,238L688.8,247.2L680.5,247.2Z"
+    },
     "map": {
       "bounds": {
         "maxX": 687.029,
@@ -5053,6 +5239,15 @@
     },
     "code": "SB",
     "continent": "oceania",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 733.7,
+        "maxY": 267.8,
+        "minX": 714.7,
+        "minY": 257.3
+      },
+      "path": "M714.7,257.3L733.7,257.3L733.7,267.8L714.7,267.8Z"
+    },
     "map": {
       "bounds": {
         "maxX": 731.845,
@@ -5086,6 +5281,15 @@
     },
     "code": "SC",
     "continent": "africa",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 578.533,
+        "maxY": 257.995,
+        "minX": 575.533,
+        "minY": 254.995
+      },
+      "path": "M575.533,256.495a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 577.143,
@@ -5185,6 +5389,15 @@
     },
     "code": "SG",
     "continent": "asia",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 645.699,
+        "maxY": 249.615,
+        "minX": 642.699,
+        "minY": 246.615
+      },
+      "path": "M642.699,248.115a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 644.439,
@@ -5317,6 +5530,15 @@
     },
     "code": "SM",
     "continent": "europe",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 518.801,
+        "maxY": 183.423,
+        "minX": 515.801,
+        "minY": 180.423
+      },
+      "path": "M515.801,181.923a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 517.383,
@@ -5482,6 +5704,15 @@
     },
     "code": "ST",
     "continent": "africa",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 511.168,
+        "maxY": 250.287,
+        "minX": 508.168,
+        "minY": 247.287
+      },
+      "path": "M508.168,248.787a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 510.353,
@@ -5845,6 +6076,15 @@
     },
     "code": "TO",
     "continent": "oceania",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 758.94,
+        "maxY": 279.882,
+        "minX": 755.94,
+        "minY": 276.882
+      },
+      "path": "M755.94,278.382a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 758.44,
@@ -5911,6 +6151,15 @@
     },
     "code": "TT",
     "continent": "north-america",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 416.15,
+        "maxY": 236.15,
+        "minX": 413.8,
+        "minY": 233.9
+      },
+      "path": "M413.8,233.9L416.15,233.9L416.15,236.15L413.8,236.15Z"
+    },
     "map": {
       "bounds": {
         "maxX": 415.937,
@@ -5944,6 +6193,15 @@
     },
     "code": "TV",
     "continent": "oceania",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 751,
+        "maxY": 264.6,
+        "minX": 743.5,
+        "minY": 256.8
+      },
+      "path": "M743.5,256.8L751,256.8L751,264.6L743.5,264.6Z"
+    },
     "map": {
       "bounds": {
         "maxX": 749.87,
@@ -6097,14 +6355,7 @@
       "pt": "Estados Unidos"
     },
     "regions": ["world", "north-america"],
-    "outlyingTerritoryCodes": [
-      "AS",
-      "GU",
-      "MP",
-      "PR",
-      "US-HI",
-      "VI"
-    ]
+    "outlyingTerritoryCodes": ["AS", "GU", "MP", "PR", "US-HI", "VI"]
   },
   {
     "capital": {
@@ -6183,6 +6434,15 @@
     },
     "code": "VA",
     "continent": "europe",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 518.771,
+        "maxY": 187.292,
+        "minX": 515.771,
+        "minY": 184.292
+      },
+      "path": "M515.771,185.792a1.5,1.5 0 1,0 3,0a1.5,1.5 0 1,0 -3,0"
+    },
     "map": {
       "bounds": {
         "maxX": 517.278,
@@ -6216,6 +6476,15 @@
     },
     "code": "VC",
     "continent": "north-america",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 415.3,
+        "maxY": 232.35,
+        "minX": 414.55,
+        "minY": 231.15
+      },
+      "path": "M414.55,231.15L415.3,231.15L415.3,232.35L414.55,232.35Z"
+    },
     "map": {
       "bounds": {
         "maxX": 415.107,
@@ -6315,6 +6584,15 @@
     },
     "code": "VU",
     "continent": "oceania",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 737.6,
+        "maxY": 280.1,
+        "minX": 730,
+        "minY": 268.6
+      },
+      "path": "M730,268.6L737.6,268.6L737.6,280.1L730,280.1Z"
+    },
     "map": {
       "bounds": {
         "maxX": 735.965,
@@ -6348,6 +6626,15 @@
     },
     "code": "WS",
     "continent": "oceania",
+    "countryPressArea": {
+      "bounds": {
+        "maxX": 763.2,
+        "maxY": 271.1,
+        "minX": 758.7,
+        "minY": 267.5
+      },
+      "path": "M758.7,267.5L763.2,267.5L763.2,271.1L758.7,271.1Z"
+    },
     "map": {
       "bounds": {
         "maxX": 761.875,

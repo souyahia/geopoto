@@ -71,19 +71,32 @@ export function MapViewer({
       viewport,
     });
 
-  const { activePathGroups, basePath, highlightPathGroups } =
-    useMapViewerStyles({
-      activeTargets,
-      highlights,
-      pathResolution,
-    });
+  const {
+    activePathGroups,
+    basePath,
+    countryPressAreaPathGroups,
+    highlightPathGroups,
+    topCountryPathGroups,
+  } = useMapViewerStyles({
+    activeTargets,
+    highlights,
+    pathResolution,
+  });
   const currentPathLayer = useMemo(
     () => ({
       activePathGroups,
       basePath,
+      countryPressAreaPathGroups,
       highlightPathGroups,
+      topCountryPathGroups,
     }),
-    [activePathGroups, basePath, highlightPathGroups],
+    [
+      activePathGroups,
+      basePath,
+      countryPressAreaPathGroups,
+      highlightPathGroups,
+      topCountryPathGroups,
+    ],
   );
   const pathLayers = useMapViewerPathResolutionTransition({
     currentLayer: currentPathLayer,

@@ -25,9 +25,14 @@ interface GetWorldMapPathParams {
   pathResolution: CountryMapPathResolution;
 }
 
+interface GetCountryPressAreaPathParams {
+  country: Country;
+}
+
 const mapEntityPaths = new Map<string, SkPath | null>();
 const aggregatedMapEntityPaths = new Map<string, SkPath | null>();
 const worldMapPaths = new Map<CountryMapPathResolution, SkPath | null>();
+const countryPressAreaPaths = new Map<string, SkPath | null>();
 const WORLD_MAP_ENTITIES: readonly MapEntity[] = [
   ...COUNTRIES,
   ...OUTLYING_TERRITORIES,
@@ -109,6 +114,26 @@ export function getAggregatedMapEntityPath({
 
   const path = builder.detach();
   aggregatedMapEntityPaths.set(cacheKey, path);
+
+  return path;
+}
+
+export function getCountryPressAreaPath({
+  country,
+}: GetCountryPressAreaPathParams): SkPath | null {
+  const hasCachedPath = countryPressAreaPaths.has(country.code);
+
+  if (hasCachedPath) {
+    return countryPressAreaPaths.get(country.code) ?? null;
+  }
+
+  if (country.countryPressArea === undefined) {
+    countryPressAreaPaths.set(country.code, null);
+    return null;
+  }
+
+  const path = Skia.Path.MakeFromSVGString(country.countryPressArea.path);
+  countryPressAreaPaths.set(country.code, path);
 
   return path;
 }

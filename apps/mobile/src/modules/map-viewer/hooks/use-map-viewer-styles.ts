@@ -7,9 +7,14 @@ import type {
 } from "@geopoto/geo-data";
 import { COUNTRIES, OUTLYING_TERRITORIES } from "@geopoto/geo-data";
 
-import type { MapViewerPathGroup } from "../utils/map-viewer-path-layer";
+import type {
+  MapViewerPathGroup,
+  MapViewerPathLayer,
+  MapViewerPathVisualState,
+} from "../utils/map-viewer-path-layer";
 import {
   getAggregatedMapEntityPath,
+  getCountryPressAreaPath,
   getWorldMapPath,
 } from "../utils/map-viewer-skia-paths";
 import type { MapViewerHighlightTarget } from "../utils/map-viewer-viewport";
@@ -31,33 +36,15 @@ export function useMapViewerStyles({
   highlights,
   pathResolution,
 }: UseMapViewerStylesParams) {
-  const basePath = useMemo(
-    () => getWorldMapPath({ pathResolution }),
-    [pathResolution],
-  );
-
-  const activePathGroups = useMemo(
+  return useMemo(
     () =>
-      buildActivePathGroups({
+      buildMapViewerStyleResult({
         activeTargets,
-        pathResolution,
-      }),
-    [activeTargets, pathResolution],
-  );
-  const highlightPathGroups = useMemo(
-    () =>
-      buildHighlightPathGroups({
         highlights,
         pathResolution,
       }),
-    [highlights, pathResolution],
+    [activeTargets, highlights, pathResolution],
   );
-
-  return {
-    activePathGroups,
-    basePath,
-    highlightPathGroups,
-  };
 }
 
 interface MapViewerPathStyle {
@@ -67,17 +54,8 @@ interface MapViewerPathStyle {
 
 type MapEntity = Country | OutlyingTerritory;
 
-const MAP_ENTITIES: readonly MapEntity[] = [
-  ...COUNTRIES,
-  ...OUTLYING_TERRITORIES,
-];
-
-interface BuildActivePathGroupsParams {
+interface BuildMapViewerStyleResultParams {
   activeTargets: readonly MapViewerHighlightTarget[];
-  pathResolution: CountryMapPathResolution;
-}
-
-interface BuildHighlightPathGroupsParams {
   highlights: readonly MapViewerHighlight[];
   pathResolution: CountryMapPathResolution;
 }
@@ -85,6 +63,13 @@ interface BuildHighlightPathGroupsParams {
 interface StyledMapEntity {
   entity: MapEntity;
   style: MapViewerPathStyle;
+  visualState: MapViewerPathVisualState;
+}
+
+interface StyledCountry {
+  entity: Country;
+  style: MapViewerPathStyle;
+  visualState: MapViewerPathVisualState;
 }
 
 interface MapViewerPathGroupState {
@@ -92,50 +77,217 @@ interface MapViewerPathGroupState {
   borderColor?: string;
   entities: MapEntity[];
   id: string;
+  visualState: MapViewerPathVisualState;
 }
 
-function buildActivePathGroups(
-  params: BuildActivePathGroupsParams,
-): readonly MapViewerPathGroup[] {
-  const { activeTargets, pathResolution } = params;
+const MAP_VIEWER_PATH_VISUAL_STATE_LAYER_ORDER = {
+  active: 0,
+  highlighted: 1,
+} satisfies Record<MapViewerPathVisualState, number>;
 
-  if (activeTargets.length === 0) {
-    return [];
+function buildMapViewerStyleResult({
+  activeTargets,
+  highlights,
+  pathResolution,
+}: BuildMapViewerStyleResultParams): MapViewerPathLayer {
+  const styledCountries = buildStyledCountries({
+    activeTargets,
+    highlights,
+  });
+  const visibleCountryPressAreaCountryCodeSet =
+    getVisibleCountryPressAreaCountryCodeSet({ styledCountries });
+  const lowerStyledCountries = styledCountries.filter(
+    ({ entity }) => !visibleCountryPressAreaCountryCodeSet.has(entity.code),
+  );
+  const topStyledCountries = styledCountries.filter(({ entity }) =>
+    visibleCountryPressAreaCountryCodeSet.has(entity.code),
+  );
+  const orderedTopStyledCountries = orderStyledCountriesByVisualPriority({
+    styledCountries: topStyledCountries,
+  });
+  const activeOutlyingTerritoryStyles = buildActiveOutlyingTerritoryStyles({
+    activeTargets,
+  });
+  const highlightedOutlyingTerritoryStyles =
+    buildHighlightedOutlyingTerritoryStyles({
+      highlights,
+    });
+
+  return {
+    activePathGroups: buildPathGroupsFromEntityStyles({
+      entityStyles: [
+        ...lowerStyledCountries.filter(
+          ({ visualState }) => visualState === "active",
+        ),
+        ...activeOutlyingTerritoryStyles,
+      ],
+      pathResolution,
+    }),
+    basePath: buildBasePath({
+      pathResolution,
+      styledCountries,
+    }),
+    countryPressAreaPathGroups: buildCountryPressAreaPathGroups({
+      styledCountries: orderedTopStyledCountries,
+    }),
+    highlightPathGroups: buildPathGroupsFromEntityStyles({
+      entityStyles: [
+        ...lowerStyledCountries.filter(
+          ({ visualState }) => visualState === "highlighted",
+        ),
+        ...highlightedOutlyingTerritoryStyles,
+      ],
+      pathResolution,
+    }),
+    topCountryPathGroups: buildPathGroupsFromEntityStyles({
+      entityStyles: orderedTopStyledCountries,
+      pathResolution,
+    }),
+  };
+}
+
+interface BuildStyledCountriesParams {
+  activeTargets: readonly MapViewerHighlightTarget[];
+  highlights: readonly MapViewerHighlight[];
+}
+
+function buildStyledCountries({
+  activeTargets,
+  highlights,
+}: BuildStyledCountriesParams): readonly StyledCountry[] {
+  return COUNTRIES.map((country) =>
+    getCountryVisualStyle({
+      activeTargets,
+      country,
+      highlights,
+    }),
+  ).filter(isStyledCountry);
+}
+
+interface GetCountryVisualStyleParams {
+  activeTargets: readonly MapViewerHighlightTarget[];
+  country: Country;
+  highlights: readonly MapViewerHighlight[];
+}
+
+function getCountryVisualStyle({
+  activeTargets,
+  country,
+  highlights,
+}: GetCountryVisualStyleParams): StyledCountry | null {
+  const highlightStyle = getMapEntityHighlightStyle({
+    entity: country,
+    highlights,
+  });
+
+  if (highlightStyle !== null) {
+    return {
+      entity: country,
+      style: highlightStyle,
+      visualState: "highlighted",
+    };
   }
 
-  const entityStyles = MAP_ENTITIES.map((entity) =>
+  const isActiveCountry = activeTargets.some((target) =>
+    doesMapViewerTargetMatchEntity({
+      entity: country,
+      target,
+    }),
+  );
+
+  if (!isActiveCountry) {
+    return null;
+  }
+
+  return {
+    entity: country,
+    style: {},
+    visualState: "active",
+  };
+}
+
+interface BuildActiveOutlyingTerritoryStylesParams {
+  activeTargets: readonly MapViewerHighlightTarget[];
+}
+
+function buildActiveOutlyingTerritoryStyles({
+  activeTargets,
+}: BuildActiveOutlyingTerritoryStylesParams): readonly StyledMapEntity[] {
+  return OUTLYING_TERRITORIES.map((entity) =>
     getActiveMapEntityStyle({
       activeTargets,
       entity,
     }),
   ).filter(isStyledMapEntity);
-
-  return buildPathGroupsFromEntityStyles({
-    entityStyles,
-    pathResolution,
-  });
 }
 
-function buildHighlightPathGroups(
-  params: BuildHighlightPathGroupsParams,
-): readonly MapViewerPathGroup[] {
-  const { highlights, pathResolution } = params;
+interface BuildHighlightedOutlyingTerritoryStylesParams {
+  highlights: readonly MapViewerHighlight[];
+}
 
-  if (highlights.length === 0) {
-    return [];
-  }
-
-  const entityStyles = MAP_ENTITIES.map((entity) =>
+function buildHighlightedOutlyingTerritoryStyles({
+  highlights,
+}: BuildHighlightedOutlyingTerritoryStylesParams): readonly StyledMapEntity[] {
+  return OUTLYING_TERRITORIES.map((entity) =>
     getHighlightedMapEntityStyle({
       entity,
       highlights,
     }),
   ).filter(isStyledMapEntity);
+}
 
-  return buildPathGroupsFromEntityStyles({
-    entityStyles,
+interface BuildBasePathParams {
+  pathResolution: CountryMapPathResolution;
+  styledCountries: readonly StyledCountry[];
+}
+
+function buildBasePath({
+  pathResolution,
+  styledCountries,
+}: BuildBasePathParams): MapViewerPathLayer["basePath"] {
+  if (styledCountries.length === 0) {
+    return getWorldMapPath({ pathResolution });
+  }
+
+  const styledCountryCodeSet = new Set(
+    styledCountries.map(({ entity }) => entity.code),
+  );
+
+  return getAggregatedMapEntityPath({
+    entities: [
+      ...COUNTRIES.filter((country) => !styledCountryCodeSet.has(country.code)),
+      ...OUTLYING_TERRITORIES,
+    ],
     pathResolution,
   });
+}
+
+interface GetVisibleCountryPressAreaCountryCodeSetParams {
+  styledCountries: readonly StyledCountry[];
+}
+
+function getVisibleCountryPressAreaCountryCodeSet({
+  styledCountries,
+}: GetVisibleCountryPressAreaCountryCodeSetParams): ReadonlySet<string> {
+  return new Set(
+    styledCountries
+      .filter(({ entity }) => entity.countryPressArea !== undefined)
+      .map(({ entity }) => entity.code),
+  );
+}
+
+interface OrderStyledCountriesByVisualPriorityParams {
+  styledCountries: readonly StyledCountry[];
+}
+
+function orderStyledCountriesByVisualPriority({
+  styledCountries,
+}: OrderStyledCountriesByVisualPriorityParams): readonly StyledCountry[] {
+  return [...styledCountries].sort(
+    (leftCountry, rightCountry) =>
+      MAP_VIEWER_PATH_VISUAL_STATE_LAYER_ORDER[leftCountry.visualState] -
+      MAP_VIEWER_PATH_VISUAL_STATE_LAYER_ORDER[rightCountry.visualState],
+  );
 }
 
 interface BuildPathGroupsFromEntityStylesParams {
@@ -165,6 +317,39 @@ function buildPathGroupsFromEntityStyles({
         borderColor: group.borderColor,
         id: group.id,
         path,
+        visualState: group.visualState,
+      };
+    })
+    .filter(isMapViewerPathGroup);
+}
+
+interface BuildCountryPressAreaPathGroupsParams {
+  styledCountries: readonly StyledCountry[];
+}
+
+function buildCountryPressAreaPathGroups({
+  styledCountries,
+}: BuildCountryPressAreaPathGroupsParams): readonly MapViewerPathGroup[] {
+  return styledCountries
+    .map(({ entity, style, visualState }) => {
+      const path = getCountryPressAreaPath({ country: entity });
+
+      if (path === null) {
+        return null;
+      }
+
+      return {
+        backgroundColor: style.backgroundColor,
+        borderColor: style.borderColor,
+        id: `${entity.code}:${getPathGroupId({
+          style: {
+            backgroundColor: style.backgroundColor,
+            borderColor: style.borderColor,
+          },
+          visualState,
+        })}`,
+        path,
+        visualState,
       };
     })
     .filter(isMapViewerPathGroup);
@@ -193,6 +378,7 @@ function getActiveMapEntityStyle({
   return {
     entity,
     style: {},
+    visualState: "active",
   };
 }
 
@@ -239,12 +425,17 @@ function getHighlightedMapEntityStyle(
   return {
     entity,
     style,
+    visualState: "highlighted",
   };
 }
 
 function isStyledMapEntity(
   value: StyledMapEntity | null,
 ): value is StyledMapEntity {
+  return value !== null;
+}
+
+function isStyledCountry(value: StyledCountry | null): value is StyledCountry {
   return value !== null;
 }
 
@@ -262,6 +453,7 @@ function buildPathGroupStates({
       doesPathGroupMatchStyle({
         group: currentGroup,
         style: entityStyle.style,
+        visualState: entityStyle.visualState,
       }),
     );
 
@@ -276,7 +468,9 @@ function buildPathGroupStates({
       entities: [entityStyle.entity],
       id: getPathGroupId({
         style: entityStyle.style,
+        visualState: entityStyle.visualState,
       }),
+      visualState: entityStyle.visualState,
     });
   }
 
@@ -286,24 +480,28 @@ function buildPathGroupStates({
 interface DoesPathGroupMatchStyleParams {
   group: MapViewerPathGroupState;
   style: MapViewerPathStyle;
+  visualState: MapViewerPathVisualState;
 }
 
 function doesPathGroupMatchStyle({
   group,
   style,
+  visualState,
 }: DoesPathGroupMatchStyleParams): boolean {
   return (
     group.backgroundColor === style.backgroundColor &&
-    group.borderColor === style.borderColor
+    group.borderColor === style.borderColor &&
+    group.visualState === visualState
   );
 }
 
 interface GetPathGroupIdParams {
   style: MapViewerPathStyle;
+  visualState: MapViewerPathVisualState;
 }
 
-function getPathGroupId({ style }: GetPathGroupIdParams): string {
-  return `${style.backgroundColor ?? "default-background"}:${style.borderColor ?? "default-border"}`;
+function getPathGroupId({ style, visualState }: GetPathGroupIdParams): string {
+  return `${visualState}:${style.backgroundColor ?? "default-background"}:${style.borderColor ?? "default-border"}`;
 }
 
 function isMapViewerPathGroup(
@@ -317,17 +515,19 @@ interface DoesMapViewerTargetMatchEntityParams {
   target: MapViewerHighlightTarget;
 }
 
-function doesMapViewerTargetMatchEntity(
-  params: DoesMapViewerTargetMatchEntityParams,
-): boolean {
-  const { entity, target } = params;
-
+function doesMapViewerTargetMatchEntity({
+  entity,
+  target,
+}: DoesMapViewerTargetMatchEntityParams): boolean {
   switch (target.type) {
     case "country":
       return target.country.code === entity.code;
     case "region":
       return entity.regions.includes(target.region);
-    default:
-      return false;
+    default: {
+      const exhaustiveTarget: never = target;
+
+      return exhaustiveTarget;
+    }
   }
 }

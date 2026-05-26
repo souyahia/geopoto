@@ -1,6 +1,10 @@
 import countriesData from "../generated/countries.json";
 import { type LocalizedText } from "./geo-language";
-import { type CountryMap, type MapRegionName } from "./map-definition";
+import {
+  type CountryMap,
+  type CountryPressArea,
+  type MapRegionName,
+} from "./map-definition";
 
 export const CONTINENTS = [
   "africa",
@@ -21,6 +25,7 @@ export interface Country {
   code: string;
   continent: Continent;
   capital: LocalizedText;
+  countryPressArea?: CountryPressArea;
   map: CountryMap;
   name: LocalizedText;
   outlyingTerritoryCodes?: readonly string[];

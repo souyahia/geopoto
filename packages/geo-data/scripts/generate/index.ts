@@ -96,6 +96,7 @@ async function generateGeoData(): Promise<void> {
     generatedJsonFiles,
     highResolutionFeatureLookup,
     lowResolutionFeatureLookup,
+    mapRegions,
     outlyingTerritories,
     restCountries: restCountryRecords,
   });

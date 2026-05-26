@@ -13,7 +13,9 @@ interface BuildMapRegionsParams {
   outlyingTerritories: readonly OutlyingTerritory[];
 }
 
-type MapRegionEntity = Country | OutlyingTerritory;
+interface GetCountryNavigationBoundsParams {
+  country: Country;
+}
 
 function mergeMapBounds(bounds: readonly MapBounds[]): MapBounds {
   if (bounds.length === 0) {
@@ -41,19 +43,30 @@ function addMapBoundsPadding(bounds: MapBounds): MapBounds {
   };
 }
 
+function getCountryNavigationBounds({
+  country,
+}: GetCountryNavigationBoundsParams): readonly MapBounds[] {
+  const { countryPressArea } = country;
+
+  if (countryPressArea === undefined) {
+    return [country.map.bounds];
+  }
+
+  return [country.map.bounds, countryPressArea.bounds];
+}
+
 export function buildMapRegions({
   countries,
   outlyingTerritories,
 }: BuildMapRegionsParams): readonly MapRegion[] {
-  const entities: readonly MapRegionEntity[] = [
-    ...countries,
-    ...outlyingTerritories,
-  ];
-
   return MAP_REGION_NAMES.map((name) => {
-    const bounds = entities
-      .filter((entity) => entity.regions.includes(name))
-      .map((entity) => entity.map.bounds);
+    const countryBounds = countries
+      .filter((country) => country.regions.includes(name))
+      .flatMap((country) => getCountryNavigationBounds({ country }));
+    const outlyingTerritoryBounds = outlyingTerritories
+      .filter((outlyingTerritory) => outlyingTerritory.regions.includes(name))
+      .map((outlyingTerritory) => outlyingTerritory.map.bounds);
+    const bounds = [...countryBounds, ...outlyingTerritoryBounds];
 
     return {
       bounds: addMapBoundsPadding(mergeMapBounds(bounds)),
