@@ -60,6 +60,11 @@ interface ShouldWrapSubpathToRightParams {
   worldMapMetrics: WorldMapMetrics;
 }
 
+interface WrappedSubpath {
+  isWrapped: boolean;
+  path: string;
+}
+
 interface CreateMissingSourceGeometryErrorParams {
   pathResolution: CountryMapPathResolution;
   restCountry: RestCountry;
@@ -173,9 +178,7 @@ function getWorldMapMetrics({
   };
 }
 
-function getMapPathBounds({
-  path,
-}: GetMapPathBoundsParams): MapBounds | null {
+function getMapPathBounds({ path }: GetMapPathBoundsParams): MapBounds | null {
   let maxX = Number.NEGATIVE_INFINITY;
   let maxY = Number.NEGATIVE_INFINITY;
   let minX = Number.POSITIVE_INFINITY;
@@ -215,10 +218,7 @@ function getMapPathBounds({
   };
 }
 
-function translateMapPathX({
-  path,
-  xOffset,
-}: TranslateMapPathXParams): string {
+function translateMapPathX({ path, xOffset }: TranslateMapPathXParams): string {
   return path.replace(
     SVG_COORDINATE_PAIR_PATTERN,
     (_match, xValue: string, yValue: string) =>
@@ -251,31 +251,37 @@ export function applyAntimeridianDisplayWrap({
     return mapPath;
   }
 
-  let hasWrappedSubpath = false;
-  const wrappedPath = subpaths
-    .map((subpath) => {
-      const bounds = getMapPathBounds({ path: subpath });
+  const wrappedSubpaths = subpaths.map((subpath): WrappedSubpath => {
+    const bounds = getMapPathBounds({ path: subpath });
 
-      if (bounds === null) {
-        return subpath;
-      }
+    if (bounds === null) {
+      return {
+        isWrapped: false,
+        path: subpath,
+      };
+    }
 
-      if (!shouldWrapSubpathToRight({ bounds, worldMapMetrics })) {
-        return subpath;
-      }
+    if (!shouldWrapSubpathToRight({ bounds, worldMapMetrics })) {
+      return {
+        isWrapped: false,
+        path: subpath,
+      };
+    }
 
-      hasWrappedSubpath = true;
-
-      return translateMapPathX({
+    return {
+      isWrapped: true,
+      path: translateMapPathX({
         path: subpath,
         xOffset: worldMapMetrics.width,
-      });
-    })
-    .join("");
+      }),
+    };
+  });
 
-  if (!hasWrappedSubpath) {
+  if (!wrappedSubpaths.some((subpath) => subpath.isWrapped)) {
     return mapPath;
   }
+
+  const wrappedPath = wrappedSubpaths.map((subpath) => subpath.path).join("");
 
   return {
     bounds: getMapPathBounds({ path: wrappedPath }) ?? mapPath.bounds,

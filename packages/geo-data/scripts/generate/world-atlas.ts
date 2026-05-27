@@ -1,8 +1,8 @@
 import type { Geometry } from "geojson";
 import { feature as toGeoJsonFeature } from "topojson-client";
+import supplementalHighResolutionWorldAtlasTopologyData from "world-atlas/countries-10m.json" with { type: "json" };
 import highResolutionWorldAtlasTopologyData from "world-atlas/countries-50m.json" with { type: "json" };
 import lowResolutionWorldAtlasTopologyData from "world-atlas/countries-110m.json" with { type: "json" };
-import supplementalHighResolutionWorldAtlasTopologyData from "world-atlas/countries-10m.json" with { type: "json" };
 import * as z from "zod";
 
 import { normalizeCountryName } from "./country.ts";
