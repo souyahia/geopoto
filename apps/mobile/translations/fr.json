@@ -52,6 +52,16 @@
       "select-label": "Formats de réponse acceptés",
       "trigger-label": "Sélectionner les formats de réponse acceptés"
     },
+    "flag-answer-difficulty": {
+      "title": "Difficulté des drapeaux",
+      "description": "Choisissez comment les réponses de drapeau sont présentées.",
+      "select-label": "Difficulté des réponses de drapeau",
+      "placeholder": "Mode facile",
+      "options": {
+        "easy": "Mode facile",
+        "hard": "Mode difficile"
+      }
+    },
     "question-limit": {
       "title": "Limite de questions",
       "description": "Définissez le nombre maximal de questions de la session.",
@@ -80,12 +90,16 @@
     },
     "start": "Démarrer l’entraînement",
     "session": {
+      "question": {
+        "country-label": "Pays",
+        "capital-label": "Capitale"
+      },
       "score": {
         "title": "Score",
         "progress": "{{answered}} / {{total}}",
-        "correct": "Correctes",
-        "wrong": "Incorrectes",
-        "remaining": "Restantes",
+        "correct": "Correct",
+        "wrong": "Incorrect",
+        "remaining": "Restant",
         "streak": "Série",
         "best-streak": "Meilleure série"
       },

@@ -319,6 +319,7 @@ function getQuizzOptionsKey({ options }: GetQuizzOptionsKeyParams) {
     options.regions.join(","),
     options.acceptedQuestionFormats.join(","),
     options.acceptedAnswerFormats.join(","),
+    options.flagAnswerDifficulty,
     options.limit?.toString() ?? "no-limit",
   ].join("|");
 }

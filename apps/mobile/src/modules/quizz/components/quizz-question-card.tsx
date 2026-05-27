@@ -29,17 +29,17 @@ import {
   normalizeQuizzTextAnswer,
   type QuizzAnswerSubmission,
 } from "../hooks/use-quizz";
-import type { QuizzFormat } from "../utils/quizz";
+import type { FlagAnswerDifficulty, QuizzFormat } from "../utils/quizz";
 import { QuizzFlagAnswer } from "./quizz-flag-answer";
 
 const EMPTY_QUIZZ_QUESTION_HIGHLIGHTS: readonly MapViewerHighlight[] = [];
-const QUIZZ_QUESTION_MAP_CLASS_NAME = "h-72";
+const QUIZZ_QUESTION_MAP_CLASS_NAME = "h-[202px]";
 const QUIZZ_ANSWER_MAP_CLASS_NAME = "h-56";
 const QUESTION_FLAG_FALLBACK_ASPECT_RATIO = 3 / 2;
 const QUESTION_FLAG_HORIZONTAL_PADDING = 96;
 const QUESTION_FLAG_MAX_HEIGHT = 154;
 const QUESTION_FLAG_MAX_WIDTH = 252;
-const ANSWER_FEEDBACK_DURATION_MS = 800;
+const ANSWER_FEEDBACK_DURATION_MS = 300;
 
 type QuizzAnswerFeedback =
   | {
@@ -62,6 +62,7 @@ interface QuizzQuestionCardProps {
   answerFormat: QuizzFormat;
   answerRegion: MapRegionName;
   country: Country;
+  flagAnswerDifficulty: FlagAnswerDifficulty;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
   questionFormat: QuizzFormat;
 }
@@ -70,6 +71,7 @@ export function QuizzQuestionCard({
   answerFormat,
   answerRegion,
   country,
+  flagAnswerDifficulty,
   onAnswerSubmit,
   questionFormat,
 }: QuizzQuestionCardProps) {
@@ -176,6 +178,7 @@ export function QuizzQuestionCard({
           countryCode={country.code}
           country={country}
           countryName={countryName}
+          flagAnswerDifficulty={flagAnswerDifficulty}
           isDisabled={isAnswerLocked}
           onAnswerSubmit={handleAnswerSubmit}
           onNextQuestionPress={handleNextQuestionPress}
@@ -257,18 +260,22 @@ function QuizzQuestionPrompt({
   countryName,
   questionFormat,
 }: QuizzQuestionPromptProps) {
+  const { t } = useTranslation();
+
   switch (questionFormat) {
     case "country-name":
       return (
-        <Text type="h2" align="center">
-          {countryName}
-        </Text>
+        <TextQuestion
+          label={t("train.session.question.country-label")}
+          value={countryName}
+        />
       );
     case "country-capital":
       return (
-        <Text type="h2" align="center">
-          {capitalName}
-        </Text>
+        <TextQuestion
+          label={t("train.session.question.capital-label")}
+          value={capitalName}
+        />
       );
     case "country-flag":
       return <FlagQuestion country={country} />;
@@ -280,6 +287,24 @@ function QuizzQuestionPrompt({
       return exhaustiveFormat;
     }
   }
+}
+
+interface TextQuestionProps {
+  label: string;
+  value: string;
+}
+
+function TextQuestion({ label, value }: TextQuestionProps) {
+  return (
+    <View className="items-center gap-1">
+      <Text type="body-sm" color="muted" align="center" weight="semibold">
+        {label}
+      </Text>
+      <Text type="h2" align="center">
+        {value}
+      </Text>
+    </View>
+  );
 }
 
 interface FlagQuestionProps {
@@ -369,6 +394,7 @@ interface QuizzQuestionAnswerProps {
   country: Country;
   countryCode: string;
   countryName: string;
+  flagAnswerDifficulty: FlagAnswerDifficulty;
   isDisabled: boolean;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
   onNextQuestionPress: () => void;
@@ -382,6 +408,7 @@ function QuizzQuestionAnswer({
   country,
   countryCode,
   countryName,
+  flagAnswerDifficulty,
   isDisabled,
   onAnswerSubmit,
   onNextQuestionPress,
@@ -415,9 +442,9 @@ function QuizzQuestionAnswer({
     case "country-flag":
       return (
         <QuizzFlagAnswer
-          answerRegion={answerRegion}
           country={country}
           countryName={countryName}
+          flagAnswerDifficulty={flagAnswerDifficulty}
           isDisabled={isDisabled}
           key={country.code}
           onAnswerSubmit={onAnswerSubmit}

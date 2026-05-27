@@ -5,9 +5,11 @@ import { isMapRegionName, type MapRegionName } from "@geopoto/geo-data";
 
 import {
   hasQuizzFormatConflict,
+  isFlagAnswerDifficulty,
   isQuizzFormat,
   QUIZZ_ANSWER_FORMATS,
   QUIZZ_FORMATS,
+  type FlagAnswerDifficulty,
   type QuizzFormat,
   type QuizzOptions,
 } from "./quizz";
@@ -16,17 +18,20 @@ const trainingSessionOptionsStorage = createMMKV({
   id: "training-session-options-storage",
 });
 const TRAINING_SESSION_OPTIONS_STORAGE_KEY = "last-training-session-options";
+const DEFAULT_FLAG_ANSWER_DIFFICULTY: FlagAnswerDifficulty = "easy";
 const DEFAULT_TRAINING_SESSION_REGION: MapRegionName = "world";
 
 const DEFAULT_TRAINING_SESSION_OPTIONS = {
   acceptedAnswerFormats: QUIZZ_ANSWER_FORMATS,
   acceptedQuestionFormats: QUIZZ_FORMATS,
+  flagAnswerDifficulty: DEFAULT_FLAG_ANSWER_DIFFICULTY,
   regions: [DEFAULT_TRAINING_SESSION_REGION],
 } satisfies QuizzOptions;
 
 interface TrainingSessionOptionsSnapshot {
   acceptedAnswerFormats: readonly QuizzFormat[];
   acceptedQuestionFormats: readonly QuizzFormat[];
+  flagAnswerDifficulty: FlagAnswerDifficulty;
   limit?: number;
   regions: readonly MapRegionName[];
 }
@@ -41,6 +46,7 @@ export function getTrainingSessionOptionsStorageValue({
   const snapshot = {
     acceptedAnswerFormats: options.acceptedAnswerFormats,
     acceptedQuestionFormats: options.acceptedQuestionFormats,
+    flagAnswerDifficulty: options.flagAnswerDifficulty,
     limit: options.limit,
     regions: options.regions,
   } satisfies TrainingSessionOptionsSnapshot;
@@ -137,6 +143,9 @@ function parseTrainingSessionOptions({
       fallbackFormats: QUIZZ_FORMATS,
       value: value.acceptedQuestionFormats,
     }),
+    flagAnswerDifficulty: parseFlagAnswerDifficulty({
+      value: value.flagAnswerDifficulty,
+    }),
     limit: parseLimit({ value: value.limit }),
     regions: parseRegions({ value: value.regions }),
   } satisfies QuizzOptions;
@@ -197,6 +206,20 @@ function parseQuizzFormats({
   }
 
   return formats;
+}
+
+interface ParseFlagAnswerDifficultyParams {
+  value: unknown;
+}
+
+function parseFlagAnswerDifficulty({
+  value,
+}: ParseFlagAnswerDifficultyParams): FlagAnswerDifficulty {
+  if (!isFlagAnswerDifficulty(value)) {
+    return DEFAULT_FLAG_ANSWER_DIFFICULTY;
+  }
+
+  return value;
 }
 
 interface ParseLimitParams {

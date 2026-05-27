@@ -29,6 +29,7 @@ import {
   type QuizzScore,
   type QuizzAnswerSubmission,
 } from "../hooks/use-quizz";
+import type { FlagAnswerDifficulty } from "../utils/quizz";
 import {
   getTrainingSessionOptionsStorageValue,
   saveTrainingSessionOptionsValue,
@@ -67,6 +68,7 @@ export function TrainingSessionPage() {
           currentQuestion.countryCode,
           currentQuestion.questionFormat,
           currentQuestion.answerFormat,
+          quizzOptions.flagAnswerDifficulty,
         ].join(":");
 
   useEffect(() => {
@@ -111,6 +113,7 @@ export function TrainingSessionPage() {
           answerRegion={answerRegion}
           currentQuestion={currentQuestion}
           currentQuestionKey={currentQuestionKey}
+          flagAnswerDifficulty={quizzOptions.flagAnswerDifficulty}
           onAnswerSubmit={handleAnswerSubmit}
           progress={progress}
           score={score}
@@ -124,6 +127,7 @@ interface TrainingSessionQuestionContentProps {
   answerRegion: MapRegionName;
   currentQuestion: QuizzCurrentQuestion;
   currentQuestionKey: string;
+  flagAnswerDifficulty: FlagAnswerDifficulty;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
   progress: number;
   score: QuizzScore;
@@ -133,6 +137,7 @@ function TrainingSessionQuestionContent({
   answerRegion,
   currentQuestion,
   currentQuestionKey,
+  flagAnswerDifficulty,
   onAnswerSubmit,
   progress,
   score,
@@ -152,6 +157,7 @@ function TrainingSessionQuestionContent({
           <TrainingSessionQuestionBlocks
             answerRegion={answerRegion}
             currentQuestion={currentQuestion}
+            flagAnswerDifficulty={flagAnswerDifficulty}
             onAnswerSubmit={onAnswerSubmit}
             progress={progress}
             score={score}
@@ -173,6 +179,7 @@ function TrainingSessionQuestionContent({
       <TrainingSessionQuestionBlocks
         answerRegion={answerRegion}
         currentQuestion={currentQuestion}
+        flagAnswerDifficulty={flagAnswerDifficulty}
         onAnswerSubmit={onAnswerSubmit}
         progress={progress}
         score={score}
@@ -184,6 +191,7 @@ function TrainingSessionQuestionContent({
 interface TrainingSessionQuestionBlocksProps {
   answerRegion: MapRegionName;
   currentQuestion: QuizzCurrentQuestion;
+  flagAnswerDifficulty: FlagAnswerDifficulty;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
   progress: number;
   score: QuizzScore;
@@ -192,6 +200,7 @@ interface TrainingSessionQuestionBlocksProps {
 function TrainingSessionQuestionBlocks({
   answerRegion,
   currentQuestion,
+  flagAnswerDifficulty,
   onAnswerSubmit,
   progress,
   score,
@@ -203,6 +212,7 @@ function TrainingSessionQuestionBlocks({
         answerFormat={currentQuestion.answerFormat}
         answerRegion={answerRegion}
         country={currentQuestion.country}
+        flagAnswerDifficulty={flagAnswerDifficulty}
         onAnswerSubmit={onAnswerSubmit}
         questionFormat={currentQuestion.questionFormat}
       />
@@ -242,7 +252,7 @@ function TrainingSessionScorePanel({
         />
         <View style={{ flex: remainingProgressValue }} />
       </View>
-      <View className="flex-row flex-wrap gap-2">
+      <View className="flex-row gap-1.5">
         <TrainingSessionScorePill
           colorClassName="text-success"
           icon={CheckCircle2}
@@ -289,19 +299,34 @@ function TrainingSessionScorePill({
   value,
 }: TrainingSessionScorePillProps) {
   return (
-    <View className="min-w-24 flex-1 rounded-lg bg-surface-tertiary px-3 py-2">
-      <View className="flex-row items-center gap-2">
+    <View className="min-w-0 flex-1 rounded-lg bg-surface-tertiary px-2 py-1.5">
+      <View className="min-w-0 flex-row items-center gap-1">
         <ThemedIcon
           color={color}
           colorClassName={colorClassName}
           icon={icon}
-          size={16}
+          size={14}
         />
-        <Text type="body-xs" color="muted" numberOfLines={1}>
+        <Text
+          type="body-xs"
+          color="muted"
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.8}
+          className="min-w-0 flex-1 text-[10px] leading-4"
+        >
           {label}
         </Text>
       </View>
-      <Text type="h3">{value}</Text>
+      <Text
+        type="h5"
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.8}
+        className="leading-6"
+      >
+        {value}
+      </Text>
     </View>
   );
 }
@@ -356,7 +381,7 @@ function TrainingSessionComplete({
               })}
             </Text>
           </View>
-          <View className="flex-row flex-wrap gap-2">
+          <View className="flex-row gap-1.5">
             <TrainingSessionScorePill
               colorClassName="text-success"
               icon={CheckCircle2}
@@ -388,7 +413,7 @@ function TrainingSessionComplete({
               {t("train.session.complete.play-again")}
             </HapticButton.Label>
           </HapticButton>
-          <HapticButton onPress={onBackPress} variant="secondary">
+          <HapticButton onPress={onBackPress} variant="tertiary">
             <ThemedIcon icon={ArrowLeft} size={18} />
             <HapticButton.Label>
               {t("train.session.complete.back")}

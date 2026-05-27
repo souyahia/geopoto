@@ -2,13 +2,16 @@ import { isMapRegionName, type MapRegionName } from "@geopoto/geo-data";
 
 import {
   hasQuizzFormatConflict,
+  isFlagAnswerDifficulty,
   isQuizzFormat,
   QUIZZ_ANSWER_FORMATS,
   QUIZZ_FORMATS,
+  type FlagAnswerDifficulty,
   type QuizzFormat,
   type QuizzOptions,
 } from "./quizz";
 
+const DEFAULT_FLAG_ANSWER_DIFFICULTY: FlagAnswerDifficulty = "easy";
 const DEFAULT_TRAINING_SESSION_REGION: MapRegionName = "world";
 
 export type TrainingSessionRawParams = Record<
@@ -26,6 +29,7 @@ export function buildTrainingSessionSearchParams({
   const region = options.regions.at(0) ?? DEFAULT_TRAINING_SESSION_REGION;
   const baseParams = {
     answerFormats: options.acceptedAnswerFormats.join(","),
+    flagAnswerDifficulty: options.flagAnswerDifficulty,
     questionFormats: options.acceptedQuestionFormats.join(","),
     region,
   };
@@ -61,6 +65,9 @@ export function getTrainingSessionOptionsFromParams({
   const parsedOptions = {
     acceptedAnswerFormats,
     acceptedQuestionFormats,
+    flagAnswerDifficulty: parseFlagAnswerDifficultyParam(
+      getStringParam(params.flagAnswerDifficulty),
+    ),
     limit: parseLimitParam(getStringParam(params.limit)),
     regions: [region],
   } satisfies QuizzOptions;
@@ -116,6 +123,16 @@ function parseQuizzFormatsParam({
   }
 
   return allowedParsedFormats;
+}
+
+function parseFlagAnswerDifficultyParam(
+  value: string | undefined,
+): FlagAnswerDifficulty {
+  if (!isFlagAnswerDifficulty(value)) {
+    return DEFAULT_FLAG_ANSWER_DIFFICULTY;
+  }
+
+  return value;
 }
 
 function parseLimitParam(value: string | undefined): number | undefined {

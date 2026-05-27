@@ -52,6 +52,16 @@
       "select-label": "Accepted answer formats",
       "trigger-label": "Select accepted answer formats"
     },
+    "flag-answer-difficulty": {
+      "title": "Flag difficulty",
+      "description": "Choose how flag answers are presented.",
+      "select-label": "Flag answer difficulty",
+      "placeholder": "Easy mode",
+      "options": {
+        "easy": "Easy mode",
+        "hard": "Hard mode"
+      }
+    },
     "question-limit": {
       "title": "Question limit",
       "description": "Set how many questions the session can include.",
@@ -80,6 +90,10 @@
     },
     "start": "Start training",
     "session": {
+      "question": {
+        "country-label": "Country",
+        "capital-label": "Capital"
+      },
       "score": {
         "title": "Score",
         "progress": "{{answered}} / {{total}}",

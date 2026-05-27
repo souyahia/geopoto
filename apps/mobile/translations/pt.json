@@ -52,6 +52,16 @@
       "select-label": "Formatos de resposta aceites",
       "trigger-label": "Selecionar formatos de resposta aceites"
     },
+    "flag-answer-difficulty": {
+      "title": "Dificuldade das bandeiras",
+      "description": "Escolha como as respostas com bandeiras são apresentadas.",
+      "select-label": "Dificuldade das respostas com bandeiras",
+      "placeholder": "Modo fácil",
+      "options": {
+        "easy": "Modo fácil",
+        "hard": "Modo difícil"
+      }
+    },
     "question-limit": {
       "title": "Limite de perguntas",
       "description": "Defina quantas perguntas a sessão pode incluir.",
@@ -80,6 +90,10 @@
     },
     "start": "Iniciar treino",
     "session": {
+      "question": {
+        "country-label": "País",
+        "capital-label": "Capital"
+      },
       "score": {
         "title": "Pontuação",
         "progress": "{{answered}} / {{total}}",

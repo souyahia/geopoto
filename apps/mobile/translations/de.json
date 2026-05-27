@@ -52,6 +52,16 @@
       "select-label": "Akzeptierte Antwortformate",
       "trigger-label": "Akzeptierte Antwortformate auswählen"
     },
+    "flag-answer-difficulty": {
+      "title": "Flaggen-Schwierigkeit",
+      "description": "Lege fest, wie Flaggenantworten angezeigt werden.",
+      "select-label": "Schwierigkeit der Flaggenantworten",
+      "placeholder": "Einfacher Modus",
+      "options": {
+        "easy": "Einfacher Modus",
+        "hard": "Schwieriger Modus"
+      }
+    },
     "question-limit": {
       "title": "Fragenlimit",
       "description": "Lege fest, wie viele Fragen die Sitzung enthalten kann.",
@@ -80,6 +90,10 @@
     },
     "start": "Training starten",
     "session": {
+      "question": {
+        "country-label": "Land",
+        "capital-label": "Hauptstadt"
+      },
       "score": {
         "title": "Punktestand",
         "progress": "{{answered}} / {{total}}",

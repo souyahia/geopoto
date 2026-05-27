@@ -17,6 +17,7 @@ import type { MapRegionName } from "@geopoto/geo-data";
 import { HapticButton } from "@/components/haptic-button";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
+import { FlagAnswerDifficultySelect } from "../components/flag-answer-difficulty-select";
 import {
   QuestionLimitSelect,
   type QuestionLimitOptionValue,
@@ -38,6 +39,7 @@ const TRAIN_FORM_DEFAULT_REGION: MapRegionName = "world";
 interface TrainFormValues {
   acceptedAnswerFormats: QuizzOptions["acceptedAnswerFormats"];
   acceptedQuestionFormats: QuizzOptions["acceptedQuestionFormats"];
+  flagAnswerDifficulty: QuizzOptions["flagAnswerDifficulty"];
   selectedQuestionLimit: QuestionLimitOptionValue;
   selectedRegion: MapRegionName;
 }
@@ -68,6 +70,8 @@ export function TrainPage() {
     control,
     name: "acceptedAnswerFormats",
   });
+  const hasFlagAnswerFormatSelected =
+    acceptedAnswerFormats.includes("country-flag");
 
   useEffect(() => {
     reset(defaultValues);
@@ -174,6 +178,24 @@ export function TrainPage() {
             />
           </TrainOptionSection>
           <TrainOptionSection
+            title={t("train.flag-answer-difficulty.title")}
+            description={t("train.flag-answer-difficulty.description")}
+          >
+            <Controller
+              control={control}
+              name="flagAnswerDifficulty"
+              render={({ field }) => (
+                <FlagAnswerDifficultySelect
+                  isDisabled={!hasFlagAnswerFormatSelected}
+                  selectedFlagAnswerDifficulty={field.value}
+                  onSelectedFlagAnswerDifficultyChange={(
+                    flagAnswerDifficulty,
+                  ) => field.onChange(flagAnswerDifficulty)}
+                />
+              )}
+            />
+          </TrainOptionSection>
+          <TrainOptionSection
             title={t("train.question-limit.title")}
             description={t("train.question-limit.description")}
           >
@@ -247,6 +269,7 @@ function getTrainFormValuesFromQuizzOptions({
   return {
     acceptedAnswerFormats: options.acceptedAnswerFormats,
     acceptedQuestionFormats: options.acceptedQuestionFormats,
+    flagAnswerDifficulty: options.flagAnswerDifficulty,
     selectedQuestionLimit: getSelectedQuestionLimit({
       limit: options.limit,
     }),
@@ -264,6 +287,7 @@ function getQuizzOptionsFromTrainFormValues({
   return {
     acceptedAnswerFormats: values.acceptedAnswerFormats,
     acceptedQuestionFormats: values.acceptedQuestionFormats,
+    flagAnswerDifficulty: values.flagAnswerDifficulty,
     limit: getQuestionLimit(values.selectedQuestionLimit),
     regions: [values.selectedRegion],
   };

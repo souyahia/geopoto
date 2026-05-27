@@ -19,21 +19,32 @@ export const QUIZZ_ANSWER_FORMATS = [
   "country-position",
 ] satisfies readonly QuizzFormat[];
 
+export const FLAG_ANSWER_DIFFICULTIES = ["easy", "hard"] as const;
+
 export interface QuizzQuestion {
   countryCode: string;
   questionFormat: QuizzFormat;
   answerFormat: QuizzFormat;
 }
 
+export type FlagAnswerDifficulty = (typeof FLAG_ANSWER_DIFFICULTIES)[number];
+
 export interface QuizzOptions {
   regions: MapRegionName[];
   acceptedQuestionFormats: readonly QuizzFormat[];
   acceptedAnswerFormats: readonly QuizzFormat[];
+  flagAnswerDifficulty: FlagAnswerDifficulty;
   limit?: number;
 }
 
 export function isQuizzFormat(value: unknown): value is QuizzFormat {
   return QUIZZ_FORMATS.some((format) => format === value);
+}
+
+export function isFlagAnswerDifficulty(
+  value: unknown,
+): value is FlagAnswerDifficulty {
+  return FLAG_ANSWER_DIFFICULTIES.some((difficulty) => difficulty === value);
 }
 
 export function createQuizz({
