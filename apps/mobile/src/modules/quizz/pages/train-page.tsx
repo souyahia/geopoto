@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import type { TFunction } from "i18next";
 import { Play } from "lucide-react-native";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import {
   Controller,
   useForm,
@@ -23,16 +23,17 @@ import {
 } from "../components/question-limit-select";
 import {
   DEFAULT_QUIZZ_ANSWER_FORMATS,
-  DEFAULT_QUIZZ_FORMATS,
   QuizzFormatSelect,
 } from "../components/quizz-format-select";
 import { RegionSelect } from "../components/region-select";
 import { TrainHeader } from "../components/train-header";
 import { TrainOptionSection } from "../components/train-option-section";
 import { hasQuizzFormatConflict, type QuizzOptions } from "../utils/quizz";
+import { useStoredTrainingSessionOptions } from "../utils/training-session-options-storage";
 import { buildTrainingSessionSearchParams } from "../utils/training-session-params";
 
 const TRAIN_FORMAT_ERROR_KEY = "train.validation.formats-must-be-different";
+const TRAIN_FORM_DEFAULT_REGION: MapRegionName = "world";
 
 interface TrainFormValues {
   acceptedAnswerFormats: QuizzOptions["acceptedAnswerFormats"];
@@ -41,19 +42,21 @@ interface TrainFormValues {
   selectedRegion: MapRegionName;
 }
 
-const TRAIN_FORM_DEFAULT_VALUES = {
-  acceptedAnswerFormats: DEFAULT_QUIZZ_ANSWER_FORMATS,
-  acceptedQuestionFormats: DEFAULT_QUIZZ_FORMATS,
-  selectedQuestionLimit: "no-limit",
-  selectedRegion: "world",
-} satisfies TrainFormValues;
-
 export function TrainPage() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { control, formState, handleSubmit, trigger } =
+  const { saveStoredTrainingSessionOptions, storedTrainingSessionOptions } =
+    useStoredTrainingSessionOptions();
+  const defaultValues = useMemo(
+    () =>
+      getTrainFormValuesFromQuizzOptions({
+        options: storedTrainingSessionOptions,
+      }),
+    [storedTrainingSessionOptions],
+  );
+  const { control, formState, handleSubmit, reset, trigger } =
     useForm<TrainFormValues>({
-      defaultValues: TRAIN_FORM_DEFAULT_VALUES,
+      defaultValues,
       mode: "onChange",
       resolver: trainFormResolver,
     });
@@ -65,6 +68,10 @@ export function TrainPage() {
     control,
     name: "acceptedAnswerFormats",
   });
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   useEffect(() => {
     void trigger(["acceptedQuestionFormats", "acceptedAnswerFormats"]);
@@ -84,19 +91,17 @@ export function TrainPage() {
 
   const submitTrainForm = useCallback(
     (values: TrainFormValues) => {
+      const quizzOptions = getQuizzOptionsFromTrainFormValues({ values });
+      saveStoredTrainingSessionOptions({ options: quizzOptions });
+
       const sessionSearchParams = buildTrainingSessionSearchParams({
-        options: {
-          acceptedAnswerFormats: values.acceptedAnswerFormats,
-          acceptedQuestionFormats: values.acceptedQuestionFormats,
-          limit: getQuestionLimit(values.selectedQuestionLimit),
-          regions: [values.selectedRegion],
-        },
+        options: quizzOptions,
       });
       const searchParams = new URLSearchParams(sessionSearchParams);
 
       router.push(`/train/session?${searchParams.toString()}`);
     },
-    [router],
+    [router, saveStoredTrainingSessionOptions],
   );
 
   const handleStartPress = useCallback(() => {
@@ -232,6 +237,38 @@ const trainFormResolver: Resolver<TrainFormValues> = (
   };
 };
 
+interface GetTrainFormValuesFromQuizzOptionsParams {
+  options: QuizzOptions;
+}
+
+function getTrainFormValuesFromQuizzOptions({
+  options,
+}: GetTrainFormValuesFromQuizzOptionsParams): TrainFormValues {
+  return {
+    acceptedAnswerFormats: options.acceptedAnswerFormats,
+    acceptedQuestionFormats: options.acceptedQuestionFormats,
+    selectedQuestionLimit: getSelectedQuestionLimit({
+      limit: options.limit,
+    }),
+    selectedRegion: options.regions.at(0) ?? TRAIN_FORM_DEFAULT_REGION,
+  };
+}
+
+interface GetQuizzOptionsFromTrainFormValuesParams {
+  values: TrainFormValues;
+}
+
+function getQuizzOptionsFromTrainFormValues({
+  values,
+}: GetQuizzOptionsFromTrainFormValuesParams): QuizzOptions {
+  return {
+    acceptedAnswerFormats: values.acceptedAnswerFormats,
+    acceptedQuestionFormats: values.acceptedQuestionFormats,
+    limit: getQuestionLimit(values.selectedQuestionLimit),
+    regions: [values.selectedRegion],
+  };
+}
+
 interface GetTrainFormErrorMessageParams {
   message: string | undefined;
   t: TFunction;
@@ -267,5 +304,28 @@ function getQuestionLimit(
 
       return exhaustiveQuestionLimit;
     }
+  }
+}
+
+interface GetSelectedQuestionLimitParams {
+  limit: QuizzOptions["limit"];
+}
+
+function getSelectedQuestionLimit({
+  limit,
+}: GetSelectedQuestionLimitParams): QuestionLimitOptionValue {
+  switch (limit) {
+    case 10:
+      return "10";
+    case 20:
+      return "20";
+    case 50:
+      return "50";
+    case 100:
+      return "100";
+    case undefined:
+      return "no-limit";
+    default:
+      return "no-limit";
   }
 }

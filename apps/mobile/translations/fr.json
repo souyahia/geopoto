@@ -97,7 +97,9 @@
         "submit": "Valider",
         "confirm": "Confirmer",
         "next": "Suivant",
-        "correct-answer-label": "Bonne réponse :"
+        "correct-answer-label": "Bonne réponse :",
+        "flag-option-label": "Sélectionner le drapeau de {{country}}",
+        "flag-empty": "Aucun drapeau ne correspond à ces couleurs."
       },
       "leave-confirm": {
         "title": "Quitter l’entraînement ?",

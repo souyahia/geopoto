@@ -97,7 +97,9 @@
         "submit": "Absenden",
         "confirm": "Bestätigen",
         "next": "Weiter",
-        "correct-answer-label": "Richtige Antwort:"
+        "correct-answer-label": "Richtige Antwort:",
+        "flag-option-label": "Flagge von {{country}} auswählen",
+        "flag-empty": "Keine Flaggen passen zu diesen Farben."
       },
       "leave-confirm": {
         "title": "Training verlassen?",

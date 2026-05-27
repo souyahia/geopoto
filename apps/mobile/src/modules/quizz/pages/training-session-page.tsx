@@ -10,9 +10,11 @@ import {
   RotateCcw,
   type LucideIcon,
 } from "lucide-react-native";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View } from "react-native";
+
+import type { MapRegionName } from "@geopoto/geo-data";
 
 import { HapticButton } from "@/components/haptic-button";
 import { KeyboardAwareScrollView } from "@/services/keyboard/keyboard-aware-scroll-view";
@@ -23,9 +25,14 @@ import { QuizzQuestionCard } from "../components/quizz-question-card";
 import { TrainHeader } from "../components/train-header";
 import {
   useQuizz,
+  type QuizzCurrentQuestion,
   type QuizzScore,
   type QuizzAnswerSubmission,
 } from "../hooks/use-quizz";
+import {
+  getTrainingSessionOptionsStorageValue,
+  saveTrainingSessionOptionsValue,
+} from "../utils/training-session-options-storage";
 import { getTrainingSessionOptionsFromParams } from "../utils/training-session-params";
 
 const TRAINING_SESSION_KEYBOARD_BOTTOM_OFFSET = 128;
@@ -37,6 +44,10 @@ export function TrainingSessionPage() {
   const quizzOptions = useMemo(
     () => getTrainingSessionOptionsFromParams({ params }),
     [params],
+  );
+  const quizzOptionsStorageValue = useMemo(
+    () => getTrainingSessionOptionsStorageValue({ options: quizzOptions }),
+    [quizzOptions],
   );
   const answerRegion = quizzOptions.regions.at(0) ?? "world";
   const {
@@ -57,6 +68,10 @@ export function TrainingSessionPage() {
           currentQuestion.questionFormat,
           currentQuestion.answerFormat,
         ].join(":");
+
+  useEffect(() => {
+    saveTrainingSessionOptionsValue({ value: quizzOptionsStorageValue });
+  }, [quizzOptionsStorageValue]);
 
   useNavigationConfirm({
     cancelLabel: t("train.session.leave-confirm.cancel-label"),
@@ -92,25 +107,106 @@ export function TrainingSessionPage() {
           score={score}
         />
       ) : (
-        <KeyboardAwareScrollView
-          key={currentQuestionKey}
-          alwaysBounceVertical={false}
-          bottomOffset={TRAINING_SESSION_KEYBOARD_BOTTOM_OFFSET}
-          className="flex-1"
-          contentContainerClassName="gap-5 px-6 pb-8 pt-4"
-          keyboardShouldPersistTaps="handled"
-        >
-          <TrainingSessionScorePanel progress={progress} score={score} />
-          <QuizzQuestionCard
-            answerFormat={currentQuestion.answerFormat}
-            answerRegion={answerRegion}
-            country={currentQuestion.country}
-            onAnswerSubmit={handleAnswerSubmit}
-            questionFormat={currentQuestion.questionFormat}
-          />
-        </KeyboardAwareScrollView>
+        <TrainingSessionQuestionContent
+          answerRegion={answerRegion}
+          currentQuestion={currentQuestion}
+          currentQuestionKey={currentQuestionKey}
+          onAnswerSubmit={handleAnswerSubmit}
+          progress={progress}
+          score={score}
+        />
       )}
     </View>
+  );
+}
+
+interface TrainingSessionQuestionContentProps {
+  answerRegion: MapRegionName;
+  currentQuestion: QuizzCurrentQuestion;
+  currentQuestionKey: string;
+  onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
+  progress: number;
+  score: QuizzScore;
+}
+
+function TrainingSessionQuestionContent({
+  answerRegion,
+  currentQuestion,
+  currentQuestionKey,
+  onAnswerSubmit,
+  progress,
+  score,
+}: TrainingSessionQuestionContentProps) {
+  const shouldUsePlainContainer =
+    currentQuestion.answerFormat === "country-flag";
+
+  if (shouldUsePlainContainer) {
+    return (
+      <ScrollView
+        key={currentQuestionKey}
+        alwaysBounceVertical={false}
+        className="flex-1"
+        keyboardShouldPersistTaps="handled"
+      >
+        <View className="gap-5 px-6 pb-8 pt-4">
+          <TrainingSessionQuestionBlocks
+            answerRegion={answerRegion}
+            currentQuestion={currentQuestion}
+            onAnswerSubmit={onAnswerSubmit}
+            progress={progress}
+            score={score}
+          />
+        </View>
+      </ScrollView>
+    );
+  }
+
+  return (
+    <KeyboardAwareScrollView
+      key={currentQuestionKey}
+      alwaysBounceVertical={false}
+      bottomOffset={TRAINING_SESSION_KEYBOARD_BOTTOM_OFFSET}
+      className="flex-1"
+      contentContainerClassName="gap-5 px-6 pb-8 pt-4"
+      keyboardShouldPersistTaps="handled"
+    >
+      <TrainingSessionQuestionBlocks
+        answerRegion={answerRegion}
+        currentQuestion={currentQuestion}
+        onAnswerSubmit={onAnswerSubmit}
+        progress={progress}
+        score={score}
+      />
+    </KeyboardAwareScrollView>
+  );
+}
+
+interface TrainingSessionQuestionBlocksProps {
+  answerRegion: MapRegionName;
+  currentQuestion: QuizzCurrentQuestion;
+  onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
+  progress: number;
+  score: QuizzScore;
+}
+
+function TrainingSessionQuestionBlocks({
+  answerRegion,
+  currentQuestion,
+  onAnswerSubmit,
+  progress,
+  score,
+}: TrainingSessionQuestionBlocksProps) {
+  return (
+    <>
+      <TrainingSessionScorePanel progress={progress} score={score} />
+      <QuizzQuestionCard
+        answerFormat={currentQuestion.answerFormat}
+        answerRegion={answerRegion}
+        country={currentQuestion.country}
+        onAnswerSubmit={onAnswerSubmit}
+        questionFormat={currentQuestion.questionFormat}
+      />
+    </>
   );
 }
 

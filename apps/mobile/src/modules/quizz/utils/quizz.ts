@@ -15,6 +15,7 @@ export type QuizzFormat = (typeof QUIZZ_FORMATS)[number];
 export const QUIZZ_ANSWER_FORMATS = [
   "country-name",
   "country-capital",
+  "country-flag",
   "country-position",
 ] satisfies readonly QuizzFormat[];
 
@@ -74,8 +75,8 @@ function validateQuizzFormats({
   if (
     acceptedQuestionFormats.length === 0 ||
     acceptedAnswerFormats.length === 0 ||
-    !firstQuestionFormat ||
-    !firstAnswerFormat
+    firstQuestionFormat === undefined ||
+    firstAnswerFormat === undefined
   ) {
     throw new Error("Accepted question and answer formats cannot be empty");
   }
@@ -96,14 +97,12 @@ export function hasQuizzFormatConflict({
   acceptedAnswerFormats,
   acceptedQuestionFormats,
 }: HasQuizzFormatConflictParams) {
-  const firstQuestionFormat = acceptedQuestionFormats.at(0);
-  const firstAnswerFormat = acceptedAnswerFormats.at(0);
+  const hasCompatiblePair = hasQuizzFormatPair({
+    acceptedAnswerFormats,
+    acceptedQuestionFormats,
+  });
 
-  return (
-    acceptedQuestionFormats.length === 1 &&
-    acceptedAnswerFormats.length === 1 &&
-    firstQuestionFormat === firstAnswerFormat
-  );
+  return !hasCompatiblePair;
 }
 
 interface CreateQuizzQuestionParams {
@@ -117,17 +116,24 @@ function createQuizzQuestion({
   acceptedQuestionFormats,
   acceptedAnswerFormats,
 }: CreateQuizzQuestionParams): QuizzQuestion {
-  const questionFormat = pickRandom(acceptedQuestionFormats);
+  const compatibleQuestionFormats = getCompatibleQuestionFormats({
+    acceptedAnswerFormats,
+    acceptedQuestionFormats,
+  });
+  const questionFormat = pickRandom(compatibleQuestionFormats);
 
-  if (!questionFormat) {
+  if (questionFormat === undefined) {
     throw new Error("Question format cannot be undefined");
   }
 
   const answerFormat = pickRandom(
-    acceptedAnswerFormats.filter((format) => format !== questionFormat),
+    getCompatibleAnswerFormats({
+      acceptedAnswerFormats,
+      questionFormat,
+    }),
   );
 
-  if (!answerFormat) {
+  if (answerFormat === undefined) {
     throw new Error("Answer format cannot be undefined");
   }
 
@@ -136,4 +142,60 @@ function createQuizzQuestion({
     questionFormat,
     answerFormat,
   };
+}
+
+interface HasQuizzFormatPairParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+}
+
+function hasQuizzFormatPair({
+  acceptedAnswerFormats,
+  acceptedQuestionFormats,
+}: HasQuizzFormatPairParams) {
+  return acceptedQuestionFormats.some((questionFormat) =>
+    hasCompatibleAnswerFormat({ acceptedAnswerFormats, questionFormat }),
+  );
+}
+
+interface GetCompatibleQuestionFormatsParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+}
+
+function getCompatibleQuestionFormats({
+  acceptedAnswerFormats,
+  acceptedQuestionFormats,
+}: GetCompatibleQuestionFormatsParams) {
+  return acceptedQuestionFormats.filter((questionFormat) =>
+    hasCompatibleAnswerFormat({ acceptedAnswerFormats, questionFormat }),
+  );
+}
+
+interface HasCompatibleAnswerFormatParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  questionFormat: QuizzFormat;
+}
+
+function hasCompatibleAnswerFormat({
+  acceptedAnswerFormats,
+  questionFormat,
+}: HasCompatibleAnswerFormatParams) {
+  return acceptedAnswerFormats.some(
+    (answerFormat) => answerFormat !== questionFormat,
+  );
+}
+
+interface GetCompatibleAnswerFormatsParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  questionFormat: QuizzFormat;
+}
+
+function getCompatibleAnswerFormats({
+  acceptedAnswerFormats,
+  questionFormat,
+}: GetCompatibleAnswerFormatsParams) {
+  return acceptedAnswerFormats.filter(
+    (answerFormat) => answerFormat !== questionFormat,
+  );
 }

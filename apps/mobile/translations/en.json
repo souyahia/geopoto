@@ -97,7 +97,9 @@
         "submit": "Submit",
         "confirm": "Confirm",
         "next": "Next",
-        "correct-answer-label": "Correct answer:"
+        "correct-answer-label": "Correct answer:",
+        "flag-option-label": "Select {{country}} flag",
+        "flag-empty": "No flags match these colors."
       },
       "leave-confirm": {
         "title": "Leave training?",

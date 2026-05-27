@@ -30,6 +30,7 @@ import {
   type QuizzAnswerSubmission,
 } from "../hooks/use-quizz";
 import type { QuizzFormat } from "../utils/quizz";
+import { QuizzFlagAnswer } from "./quizz-flag-answer";
 
 const EMPTY_QUIZZ_QUESTION_HIGHLIGHTS: readonly MapViewerHighlight[] = [];
 const QUIZZ_QUESTION_MAP_CLASS_NAME = "h-72";
@@ -412,6 +413,18 @@ function QuizzQuestionAnswer({
         />
       );
     case "country-flag":
+      return (
+        <QuizzFlagAnswer
+          answerRegion={answerRegion}
+          country={country}
+          countryName={countryName}
+          isDisabled={isDisabled}
+          key={country.code}
+          onAnswerSubmit={onAnswerSubmit}
+          onNextQuestionPress={onNextQuestionPress}
+          shouldShowCorrectAnswer={shouldShowCorrectAnswer}
+        />
+      );
     case "country-position":
       return (
         <CountrySelectionAnswer

@@ -97,7 +97,9 @@
         "submit": "Enviar",
         "confirm": "Confirmar",
         "next": "Siguiente",
-        "correct-answer-label": "Respuesta correcta:"
+        "correct-answer-label": "Respuesta correcta:",
+        "flag-option-label": "Seleccionar la bandera de {{country}}",
+        "flag-empty": "Ninguna bandera coincide con estos colores."
       },
       "leave-confirm": {
         "title": "¿Salir del entrenamiento?",
