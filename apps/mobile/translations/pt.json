@@ -45,6 +45,15 @@
       },
       "empty": "Nenhum país encontrado."
     },
+    "capitals": {
+      "title": "Capitais",
+      "search": {
+        "label": "Pesquisar capitais",
+        "placeholder": "Pesquisar por capital ou país...",
+        "clear": "Limpar pesquisa"
+      },
+      "empty": "Nenhuma capital encontrada."
+    },
     "flags": {
       "title": "Bandeiras",
       "search": {

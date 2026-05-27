@@ -45,6 +45,15 @@
       },
       "empty": "No countries found."
     },
+    "capitals": {
+      "title": "Capitals",
+      "search": {
+        "label": "Search capitals",
+        "placeholder": "Search by capital or country...",
+        "clear": "Clear search"
+      },
+      "empty": "No capitals found."
+    },
     "flags": {
       "title": "Flags",
       "search": {

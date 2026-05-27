@@ -45,6 +45,15 @@
       },
       "empty": "Aucun pays trouvé."
     },
+    "capitals": {
+      "title": "Capitales",
+      "search": {
+        "label": "Rechercher des capitales",
+        "placeholder": "Rechercher par capitale ou pays...",
+        "clear": "Effacer la recherche"
+      },
+      "empty": "Aucune capitale trouvée."
+    },
     "flags": {
       "title": "Drapeaux",
       "search": {

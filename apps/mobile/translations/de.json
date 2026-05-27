@@ -45,6 +45,15 @@
       },
       "empty": "Keine Länder gefunden."
     },
+    "capitals": {
+      "title": "Hauptstädte",
+      "search": {
+        "label": "Hauptstädte suchen",
+        "placeholder": "Nach Hauptstadt oder Land suchen...",
+        "clear": "Suche löschen"
+      },
+      "empty": "Keine Hauptstädte gefunden."
+    },
     "flags": {
       "title": "Flaggen",
       "search": {
