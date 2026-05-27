@@ -1,6 +1,7 @@
 import { basename } from "node:path";
 
 import type { Country } from "../../src/countries.ts";
+import type { SupportedGeoLanguage } from "../../src/geo-language.ts";
 import type {
   CountryMap,
   CountryMapPathResolution,
@@ -112,6 +113,16 @@ interface ValidateKnownCountryCoreExclusionsForResolutionParams {
 
 interface ValidateGeneratedJsonFilesParams {
   generatedJsonFiles: readonly GeneratedJsonFile[];
+}
+
+interface ExpectedLocalizedCapitalSanityCheck {
+  capital: string;
+  countryCode: string;
+  language: SupportedGeoLanguage;
+}
+
+interface ValidateExpectedLocalizedCapitalSanityChecksParams {
+  countries: readonly Country[];
 }
 
 interface ValidateCountryPressAreasParams {
@@ -262,6 +273,35 @@ const PATH_HEAVY_GENERATED_FILE_NAMES = new Set([
   "outlying-territories.json",
 ]);
 
+const EXPECTED_LOCALIZED_CAPITAL_SANITY_CHECKS: readonly ExpectedLocalizedCapitalSanityCheck[] =
+  [
+    {
+      capital: "Londres",
+      countryCode: "GB",
+      language: "fr",
+    },
+    {
+      capital: "Wien",
+      countryCode: "AT",
+      language: "de",
+    },
+    {
+      capital: "Bruselas",
+      countryCode: "BE",
+      language: "es",
+    },
+    {
+      capital: "Pequim",
+      countryCode: "CN",
+      language: "pt",
+    },
+    {
+      capital: "Roma",
+      countryCode: "IT",
+      language: "it",
+    },
+  ];
+
 export function validateGeographyGenerationInvariants({
   countries,
   generatedJsonFiles,
@@ -298,6 +338,7 @@ export function validateGeographyGenerationInvariants({
     lowResolutionFeatureLookup,
     restCountries,
   });
+  validateExpectedLocalizedCapitalSanityChecks({ countries });
   validateGeneratedJsonFiles({ generatedJsonFiles });
 }
 
@@ -896,6 +937,34 @@ function validateGeneratedJsonFiles({
 
     throw new Error(
       `Generation invariant failed: generated file ${fileName} contains map paths. Keep path-heavy neutral base map data in Countries and Outlying Territories only.`,
+    );
+  }
+}
+
+function validateExpectedLocalizedCapitalSanityChecks({
+  countries,
+}: ValidateExpectedLocalizedCapitalSanityChecksParams): void {
+  const countriesByCode = new Map(
+    countries.map((country) => [country.code, country]),
+  );
+
+  for (const check of EXPECTED_LOCALIZED_CAPITAL_SANITY_CHECKS) {
+    const country = countriesByCode.get(check.countryCode);
+
+    if (country === undefined) {
+      throw new Error(
+        `Generation invariant failed: missing country ${check.countryCode} for localized capital sanity check.`,
+      );
+    }
+
+    const capital = country.capital[check.language];
+
+    if (capital === check.capital) {
+      continue;
+    }
+
+    throw new Error(
+      `Generation invariant failed: expected ${check.countryCode} capital in ${check.language} to be ${check.capital}, but got ${capital}.`,
     );
   }
 }

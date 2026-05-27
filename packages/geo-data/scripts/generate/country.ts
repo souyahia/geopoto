@@ -1,15 +1,23 @@
 import type { GeoPath, GeoProjection } from "d3-geo";
 
 import type { Continent, Country } from "../../src/countries.ts";
-import type { LocalizedText } from "../../src/geo-language.ts";
+import type {
+  LocalizedText,
+  SupportedGeoLanguage,
+} from "../../src/geo-language.ts";
 import type { MapRegionName } from "../../src/map-definition.ts";
 import { REST_COUNTRIES_TRANSLATION_CONFIG } from "./config.ts";
 import { buildCountryCoreFeature } from "./country-core.ts";
 import { buildCountryMap } from "./country-map.ts";
 import { buildCountryPressArea } from "./country-press-area.ts";
+import { buildLocalizedText } from "./localized-text.ts";
 import { getOutlyingTerritoryCodes } from "./outlying-territory-config.ts";
 import type { RestCountry } from "./rest-countries.ts";
 import type { CountryFeature } from "./types.ts";
+import type {
+  WikidataCapitalLabels,
+  WikidataCapitalLabelsByCountryCode,
+} from "./wikidata-capitals.ts";
 
 interface BuildCountryParams {
   highResolutionFeatureLookup: CountryFeatureLookup;
@@ -18,6 +26,7 @@ interface BuildCountryParams {
   projection: GeoProjection;
   restCountry: RestCountry;
   supplementalHighResolutionFeatureLookup: CountryFeatureLookup;
+  wikidataCapitalLabelsByCountryCode: WikidataCapitalLabelsByCountryCode;
 }
 
 export interface CountryFeatureLookup {
@@ -34,6 +43,22 @@ interface FindFeatureFromDuplicateNumericIdParams {
   candidates: readonly CountryFeature[];
   numericCountryCode: string;
   restCountry: RestCountry;
+}
+
+interface GetLocalizedCountryNameParams {
+  country: RestCountry;
+  language: SupportedGeoLanguage;
+}
+
+interface ToLocalizedCapitalParams {
+  country: RestCountry;
+  wikidataCapitalLabelsByCountryCode: WikidataCapitalLabelsByCountryCode;
+}
+
+interface FindWikidataCapitalLabelsParams {
+  capital: string;
+  countryCode: string;
+  wikidataCapitalLabelsByCountryCode: WikidataCapitalLabelsByCountryCode;
 }
 
 export function toContinent(country: RestCountry): Continent | null {
@@ -69,32 +94,87 @@ export function toMapRegions(
 }
 
 export function toLocalizedCountryName(country: RestCountry): LocalizedText {
-  return Object.fromEntries(
-    REST_COUNTRIES_TRANSLATION_CONFIG.map(({ language, restCountriesCode }) => {
-      const translatedName =
-        restCountriesCode === null
-          ? country.name.common
-          : (country.translations[restCountriesCode]?.common ??
-            country.name.common);
-
-      return [language, translatedName];
-    }),
-  ) as LocalizedText;
+  return buildLocalizedText({
+    getValue: (language) =>
+      getLocalizedCountryName({
+        country,
+        language,
+      }),
+  });
 }
 
-function toLocalizedCapital(country: RestCountry): LocalizedText {
+function getLocalizedCountryName({
+  country,
+  language,
+}: GetLocalizedCountryNameParams): string {
+  const translationConfig = REST_COUNTRIES_TRANSLATION_CONFIG.find(
+    (config) => config.language === language,
+  );
+
+  if (translationConfig === undefined) {
+    throw new Error(`Missing RestCountries translation config for ${language}`);
+  }
+
+  if (translationConfig.restCountriesCode === null) {
+    return country.name.common;
+  }
+
+  return (
+    country.translations[translationConfig.restCountriesCode]?.common ??
+    country.name.common
+  );
+}
+
+function toLocalizedCapital({
+  country,
+  wikidataCapitalLabelsByCountryCode,
+}: ToLocalizedCapitalParams): LocalizedText {
   const [capital] = country.capital;
 
   if (capital === undefined) {
     throw new Error(`Missing capital for ${country.cca2}`);
   }
 
-  return Object.fromEntries(
-    REST_COUNTRIES_TRANSLATION_CONFIG.map(({ language }) => [
-      language,
-      capital,
-    ]),
-  ) as LocalizedText;
+  const wikidataCapitalLabels = findWikidataCapitalLabels({
+    capital,
+    countryCode: country.cca2,
+    wikidataCapitalLabelsByCountryCode,
+  });
+
+  return buildLocalizedText({
+    getValue: (language) => {
+      if (language === "en") {
+        return capital;
+      }
+
+      return wikidataCapitalLabels?.labels[language] ?? capital;
+    },
+  });
+}
+
+function findWikidataCapitalLabels({
+  capital,
+  countryCode,
+  wikidataCapitalLabelsByCountryCode,
+}: FindWikidataCapitalLabelsParams): WikidataCapitalLabels | null {
+  const capitalLabels = wikidataCapitalLabelsByCountryCode.get(countryCode);
+
+  if (capitalLabels === undefined) {
+    return null;
+  }
+
+  const normalizedCapital = normalizeCapitalName(capital);
+  const matchingCapitalLabels = capitalLabels.find((candidate) => {
+    const englishLabel = candidate.labels.en;
+
+    if (englishLabel === undefined) {
+      return false;
+    }
+
+    return normalizeCapitalName(englishLabel) === normalizedCapital;
+  });
+
+  return matchingCapitalLabels ?? capitalLabels.at(0) ?? null;
 }
 
 export function normalizeCountryName(name: string): string {
@@ -102,6 +182,10 @@ export function normalizeCountryName(name: string): string {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
+}
+
+function normalizeCapitalName(name: string): string {
+  return normalizeCountryName(name).replace(/[^\p{Letter}\p{Number}]/gu, "");
 }
 
 function toNumericCountryCode(country: RestCountry): string | null {
@@ -180,6 +264,7 @@ export function buildCountry({
   projection,
   restCountry,
   supplementalHighResolutionFeatureLookup,
+  wikidataCapitalLabelsByCountryCode,
 }: BuildCountryParams): Country | null {
   const continent = toContinent(restCountry);
 
@@ -220,7 +305,10 @@ export function buildCountry({
   });
 
   const country = {
-    capital: toLocalizedCapital(restCountry),
+    capital: toLocalizedCapital({
+      country: restCountry,
+      wikidataCapitalLabelsByCountryCode,
+    }),
     code: restCountry.cca2,
     continent,
     ...(countryPressArea === undefined ? {} : { countryPressArea }),
