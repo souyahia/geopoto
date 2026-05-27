@@ -16,6 +16,10 @@
       "types": "./src/flags.ts",
       "default": "./src/flags.ts"
     },
+    "./flag-colors": {
+      "types": "./src/flag-colors.ts",
+      "default": "./src/flag-colors.ts"
+    },
     "./flag-images": {
       "types": "./src/flag-images.ts",
       "default": "./src/flag-images.ts"

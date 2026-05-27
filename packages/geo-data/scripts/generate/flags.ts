@@ -5,7 +5,12 @@ import { dirname, resolve } from "node:path";
 import { Resvg } from "@resvg/resvg-js";
 
 import type { Country } from "../../src/countries.ts";
+import type {
+  CountryFlagColor,
+  CountryFlagColorCoverage,
+} from "../../src/flag-colors.ts";
 import {
+  FLAG_COLOR_SAMPLE_MAX_SIZE,
   FLAG_PNG_MAX_SIZE,
   GENERATED_FLAG_PNGS_DIRECTORY,
   GENERATED_FLAGS_DIRECTORY,
@@ -13,11 +18,14 @@ import {
   LOW_RESOLUTION_FLAG_PNG_MAX_SIZE,
   LOW_RESOLUTION_FLAG_PNG_SCALES,
 } from "./config.ts";
+import { extractCountryFlagColorMetadata } from "./flag-colors.ts";
 import type { GeneratedBinaryFile, GeneratedTextFile } from "./types.ts";
 
 interface GeneratedCountryFlag {
   aspectRatio: number;
   code: string;
+  colorCoverage: CountryFlagColorCoverage;
+  colors: readonly CountryFlagColor[];
   lowResolutionPng: FlagDimensions;
   png: FlagDimensions;
   svg: SvgMetadata;
@@ -56,6 +64,15 @@ interface BuildCountryFlagParams {
 interface RenderFlagPngParams {
   png: FlagDimensions;
   svg: string;
+}
+
+interface RenderFlagColorSampleParams {
+  dimensions: FlagDimensions;
+  svg: string;
+}
+
+interface RenderedFlagColorSample extends FlagDimensions {
+  pixels: Buffer;
 }
 
 interface ScaleFlagDimensionsParams {
@@ -177,6 +194,23 @@ function renderFlagPng({ png, svg }: RenderFlagPngParams): Buffer {
   return new Resvg(svg, { fitTo }).render().asPng();
 }
 
+function renderFlagColorSample({
+  dimensions,
+  svg,
+}: RenderFlagColorSampleParams): RenderedFlagColorSample {
+  const fitTo =
+    dimensions.width >= dimensions.height
+      ? { mode: "width" as const, value: dimensions.width }
+      : { mode: "height" as const, value: dimensions.height };
+  const renderedImage = new Resvg(svg, { fitTo }).render();
+
+  return {
+    height: renderedImage.height,
+    pixels: renderedImage.pixels,
+    width: renderedImage.width,
+  };
+}
+
 function buildCountryFlag({
   code,
   svg,
@@ -190,10 +224,22 @@ function buildCountryFlag({
     maxSize: LOW_RESOLUTION_FLAG_PNG_MAX_SIZE,
     viewBox,
   });
+  const colorSampleDimensions = toPngDimensions({
+    maxSize: FLAG_COLOR_SAMPLE_MAX_SIZE,
+    viewBox,
+  });
+  const colorMetadata = extractCountryFlagColorMetadata(
+    renderFlagColorSample({
+      dimensions: colorSampleDimensions,
+      svg,
+    }),
+  );
 
   return {
     aspectRatio: viewBox.width / viewBox.height,
     code,
+    colorCoverage: colorMetadata.colorCoverage,
+    colors: colorMetadata.colors,
     lowResolutionPng,
     png,
     svg: {

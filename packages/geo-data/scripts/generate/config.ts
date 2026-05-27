@@ -17,6 +17,7 @@ export const GENERATED_LOW_RESOLUTION_FLAG_PNGS_DIRECTORY = resolve(
   "flags-png-low",
 );
 export const FLAG_PNG_MAX_SIZE = 900;
+export const FLAG_COLOR_SAMPLE_MAX_SIZE = 512;
 export const LOW_RESOLUTION_FLAG_PNG_MAX_SIZE = 32;
 export const LOW_RESOLUTION_FLAG_PNG_SCALES = [1, 2, 3] as const;
 
