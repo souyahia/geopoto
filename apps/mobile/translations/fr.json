@@ -95,7 +95,9 @@
         "text-input-label": "Réponse",
         "text-input-placeholder": "Saisissez votre réponse",
         "submit": "Valider",
-        "confirm": "Confirmer"
+        "confirm": "Confirmer",
+        "next": "Suivant",
+        "correct-answer-label": "Bonne réponse :"
       },
       "leave-confirm": {
         "title": "Quitter l’entraînement ?",

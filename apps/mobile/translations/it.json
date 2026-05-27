@@ -95,7 +95,9 @@
         "text-input-label": "Risposta",
         "text-input-placeholder": "Inserisci la risposta",
         "submit": "Invia",
-        "confirm": "Conferma"
+        "confirm": "Conferma",
+        "next": "Avanti",
+        "correct-answer-label": "Risposta corretta:"
       },
       "leave-confirm": {
         "title": "Uscire dall’allenamento?",

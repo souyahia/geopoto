@@ -95,7 +95,9 @@
         "text-input-label": "Resposta",
         "text-input-placeholder": "Escreva a sua resposta",
         "submit": "Enviar",
-        "confirm": "Confirmar"
+        "confirm": "Confirmar",
+        "next": "Seguinte",
+        "correct-answer-label": "Resposta correta:"
       },
       "leave-confirm": {
         "title": "Sair do treino?",

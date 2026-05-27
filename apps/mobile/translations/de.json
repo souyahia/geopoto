@@ -95,7 +95,9 @@
         "text-input-label": "Antwort",
         "text-input-placeholder": "Gib deine Antwort ein",
         "submit": "Absenden",
-        "confirm": "Bestätigen"
+        "confirm": "Bestätigen",
+        "next": "Weiter",
+        "correct-answer-label": "Richtige Antwort:"
       },
       "leave-confirm": {
         "title": "Training verlassen?",

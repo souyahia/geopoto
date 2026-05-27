@@ -2,18 +2,23 @@ import { Input } from "heroui-native/input";
 import { Surface } from "heroui-native/surface";
 import { Text } from "heroui-native/text";
 import type { TFunction } from "i18next";
-import { Check } from "lucide-react-native";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { ArrowRight, Check, CheckCircle2, CircleX } from "lucide-react-native";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, useWindowDimensions } from "react-native";
 
-import type { Country, MapRegionName } from "@geopoto/geo-data";
+import type {
+  Country,
+  MapRegionName,
+  SupportedGeoLanguage,
+} from "@geopoto/geo-data";
 import { getCountryFlag } from "@geopoto/geo-data/flags";
 
 import { CountryFlag } from "@/components/country-flag";
 import { HapticButton } from "@/components/haptic-button";
 import { MapViewer } from "@/modules/map-viewer/components/map-viewer";
 import type {
+  MapViewerCenterTarget,
   MapViewerHighlight,
   MapViewerHighlightTarget,
 } from "@/modules/map-viewer/utils/map-viewer-viewport";
@@ -28,11 +33,29 @@ import type { QuizzFormat } from "../utils/quizz";
 
 const EMPTY_QUIZZ_QUESTION_HIGHLIGHTS: readonly MapViewerHighlight[] = [];
 const QUIZZ_QUESTION_MAP_CLASS_NAME = "h-72";
-const QUIZZ_ANSWER_MAP_CLASS_NAME = "h-80";
+const QUIZZ_ANSWER_MAP_CLASS_NAME = "h-56";
 const QUESTION_FLAG_FALLBACK_ASPECT_RATIO = 3 / 2;
 const QUESTION_FLAG_HORIZONTAL_PADDING = 96;
-const QUESTION_FLAG_MAX_HEIGHT = 220;
-const QUESTION_FLAG_MAX_WIDTH = 360;
+const QUESTION_FLAG_MAX_HEIGHT = 154;
+const QUESTION_FLAG_MAX_WIDTH = 252;
+const ANSWER_FEEDBACK_DURATION_MS = 800;
+
+type QuizzAnswerFeedback =
+  | {
+      status: "idle";
+    }
+  | {
+      answer: QuizzAnswerSubmission;
+      status: "correct-feedback";
+    }
+  | {
+      answer: QuizzAnswerSubmission;
+      status: "wrong-feedback";
+    }
+  | {
+      answer: QuizzAnswerSubmission;
+      status: "wrong-review";
+    };
 
 interface QuizzQuestionCardProps {
   answerFormat: QuizzFormat;
@@ -52,12 +75,90 @@ export function QuizzQuestionCard({
   const { geoLang } = useGeoLangStore();
   const countryName = country.name[geoLang];
   const capitalName = country.capital[geoLang];
+  const answerFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+  const [answerFeedback, setAnswerFeedback] = useState<QuizzAnswerFeedback>({
+    status: "idle",
+  });
   const questionSurfaceClassName = getQuestionSurfaceClassName({
     questionFormat,
   });
+  const isAnswerLocked = answerFeedback.status !== "idle";
+  const shouldShowCorrectAnswer = answerFeedback.status === "wrong-review";
+  const shouldShowCorrectOverlay = answerFeedback.status === "correct-feedback";
+  const shouldShowWrongOverlay = answerFeedback.status === "wrong-feedback";
+
+  const clearAnswerFeedbackTimeout = useCallback(() => {
+    if (answerFeedbackTimeoutRef.current === null) {
+      return;
+    }
+
+    clearTimeout(answerFeedbackTimeoutRef.current);
+    answerFeedbackTimeoutRef.current = null;
+  }, []);
+
+  useEffect(() => clearAnswerFeedbackTimeout, [clearAnswerFeedbackTimeout]);
+
+  useEffect(() => {
+    clearAnswerFeedbackTimeout();
+    setAnswerFeedback({ status: "idle" });
+  }, [answerFormat, clearAnswerFeedbackTimeout, country.code, questionFormat]);
+
+  const handleAnswerSubmit = useCallback(
+    (answer: QuizzAnswerSubmission) => {
+      if (isAnswerLocked) {
+        return;
+      }
+
+      const isCorrectAnswer = isQuizzAnswerSubmissionCorrect({
+        answer,
+        answerFormat,
+        country,
+        geoLang,
+      });
+
+      if (isCorrectAnswer) {
+        setAnswerFeedback({
+          answer,
+          status: "correct-feedback",
+        });
+        answerFeedbackTimeoutRef.current = setTimeout(() => {
+          answerFeedbackTimeoutRef.current = null;
+          onAnswerSubmit(answer);
+        }, ANSWER_FEEDBACK_DURATION_MS);
+        return;
+      }
+
+      setAnswerFeedback({
+        answer,
+        status: "wrong-feedback",
+      });
+      answerFeedbackTimeoutRef.current = setTimeout(() => {
+        answerFeedbackTimeoutRef.current = null;
+        setAnswerFeedback({
+          answer,
+          status: "wrong-review",
+        });
+      }, ANSWER_FEEDBACK_DURATION_MS);
+    },
+    [answerFormat, country, geoLang, isAnswerLocked, onAnswerSubmit],
+  );
+
+  const handleNextQuestionPress = useCallback(() => {
+    if (answerFeedback.status !== "wrong-review") {
+      return;
+    }
+
+    onAnswerSubmit(answerFeedback.answer);
+  }, [answerFeedback, onAnswerSubmit]);
 
   return (
-    <View className="gap-5">
+    <View className="relative gap-5">
+      <QuizzQuestionFeedbackOverlay
+        shouldShowCorrectOverlay={shouldShowCorrectOverlay}
+        shouldShowWrongOverlay={shouldShowWrongOverlay}
+      />
       <Surface variant="secondary" className={questionSurfaceClassName}>
         <QuizzQuestionPrompt
           capitalName={capitalName}
@@ -70,10 +171,51 @@ export function QuizzQuestionCard({
         <QuizzQuestionAnswer
           answerFormat={answerFormat}
           answerRegion={answerRegion}
+          capitalName={capitalName}
           countryCode={country.code}
-          onAnswerSubmit={onAnswerSubmit}
+          country={country}
+          countryName={countryName}
+          isDisabled={isAnswerLocked}
+          onAnswerSubmit={handleAnswerSubmit}
+          onNextQuestionPress={handleNextQuestionPress}
+          shouldShowCorrectAnswer={shouldShowCorrectAnswer}
         />
       </Surface>
+    </View>
+  );
+}
+
+interface QuizzQuestionFeedbackOverlayProps {
+  shouldShowCorrectOverlay: boolean;
+  shouldShowWrongOverlay: boolean;
+}
+
+function QuizzQuestionFeedbackOverlay({
+  shouldShowCorrectOverlay,
+  shouldShowWrongOverlay,
+}: QuizzQuestionFeedbackOverlayProps) {
+  if (!shouldShowCorrectOverlay && !shouldShowWrongOverlay) {
+    return null;
+  }
+
+  const icon = shouldShowCorrectOverlay ? CheckCircle2 : CircleX;
+  const colorClassName = shouldShowCorrectOverlay
+    ? "text-success"
+    : "text-danger";
+
+  return (
+    <View
+      className="absolute inset-0 z-20 items-center justify-center bg-background/40"
+      pointerEvents="none"
+    >
+      <View className="h-28 w-28 items-center justify-center rounded-full border border-default bg-surface shadow-lg">
+        <ThemedIcon
+          colorClassName={colorClassName}
+          icon={icon}
+          size={64}
+          strokeWidth={2.5}
+        />
+      </View>
     </View>
   );
 }
@@ -85,25 +227,14 @@ interface GetQuestionSurfaceClassNameParams {
 function getQuestionSurfaceClassName({
   questionFormat,
 }: GetQuestionSurfaceClassNameParams) {
-  if (isTextQuestionFormat({ questionFormat })) {
-    return "justify-center gap-4 py-6";
-  }
-
-  return "min-h-64 justify-center gap-4";
-}
-
-interface IsTextQuestionFormatParams {
-  questionFormat: QuizzFormat;
-}
-
-function isTextQuestionFormat({ questionFormat }: IsTextQuestionFormatParams) {
   switch (questionFormat) {
     case "country-name":
     case "country-capital":
-      return true;
-    case "country-flag":
+      return "justify-center gap-4 py-6";
     case "country-position":
-      return false;
+      return "min-h-64 justify-center gap-4";
+    case "country-flag":
+      return "justify-center gap-4 py-2";
     default: {
       const exhaustiveFormat: never = questionFormat;
 
@@ -233,24 +364,51 @@ function CountryPositionQuestion({ country }: CountryPositionQuestionProps) {
 interface QuizzQuestionAnswerProps {
   answerFormat: QuizzFormat;
   answerRegion: MapRegionName;
+  capitalName: string;
+  country: Country;
   countryCode: string;
+  countryName: string;
+  isDisabled: boolean;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
+  onNextQuestionPress: () => void;
+  shouldShowCorrectAnswer: boolean;
 }
 
 function QuizzQuestionAnswer({
   answerFormat,
   answerRegion,
+  capitalName,
+  country,
   countryCode,
+  countryName,
+  isDisabled,
   onAnswerSubmit,
+  onNextQuestionPress,
+  shouldShowCorrectAnswer,
 }: QuizzQuestionAnswerProps) {
   switch (answerFormat) {
     case "country-name":
+      return (
+        <TextAnswer
+          answerFormat={answerFormat}
+          correctAnswer={countryName}
+          countryCode={countryCode}
+          isDisabled={isDisabled}
+          onAnswerSubmit={onAnswerSubmit}
+          onNextQuestionPress={onNextQuestionPress}
+          shouldShowCorrectAnswer={shouldShowCorrectAnswer}
+        />
+      );
     case "country-capital":
       return (
         <TextAnswer
           answerFormat={answerFormat}
+          correctAnswer={capitalName}
           countryCode={countryCode}
+          isDisabled={isDisabled}
           onAnswerSubmit={onAnswerSubmit}
+          onNextQuestionPress={onNextQuestionPress}
+          shouldShowCorrectAnswer={shouldShowCorrectAnswer}
         />
       );
     case "country-flag":
@@ -258,8 +416,13 @@ function QuizzQuestionAnswer({
       return (
         <CountrySelectionAnswer
           answerRegion={answerRegion}
+          country={country}
           countryCode={countryCode}
+          countryName={countryName}
+          isDisabled={isDisabled}
           onAnswerSubmit={onAnswerSubmit}
+          onNextQuestionPress={onNextQuestionPress}
+          shouldShowCorrectAnswer={shouldShowCorrectAnswer}
         />
       );
     default: {
@@ -272,23 +435,52 @@ function QuizzQuestionAnswer({
 
 interface TextAnswerProps {
   answerFormat: Extract<QuizzFormat, "country-capital" | "country-name">;
+  correctAnswer: string;
   countryCode: string;
+  isDisabled: boolean;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
+  onNextQuestionPress: () => void;
+  shouldShowCorrectAnswer: boolean;
 }
 
 function TextAnswer({
   answerFormat,
+  correctAnswer,
   countryCode,
+  isDisabled,
   onAnswerSubmit,
+  onNextQuestionPress,
+  shouldShowCorrectAnswer,
 }: TextAnswerProps) {
   const { t } = useTranslation();
   const [answerValue, setAnswerValue] = useState("");
-  const isSubmitDisabled = normalizeQuizzTextAnswer(answerValue).length === 0;
-  const answerInputLabel = getTextAnswerInputLabel({ answerFormat, t });
+  const isEmptyAnswer = normalizeQuizzTextAnswer(answerValue).length === 0;
+  const isSubmitDisabled =
+    !shouldShowCorrectAnswer && (isDisabled || isEmptyAnswer);
+  const answerInputLabel = shouldShowCorrectAnswer
+    ? t("train.session.answer.correct-answer-label")
+    : getTextAnswerInputLabel({ answerFormat, t });
+  const answerInputLabelClassName = shouldShowCorrectAnswer
+    ? "text-success"
+    : undefined;
+  const answerInputClassName = shouldShowCorrectAnswer
+    ? "border-success bg-success/10"
+    : undefined;
+  const isTextInputDisabled = isDisabled && !shouldShowCorrectAnswer;
+  const isTextInputEditable = !isDisabled;
+  const submitButtonLabel = shouldShowCorrectAnswer
+    ? t("train.session.answer.next")
+    : t("train.session.answer.submit");
+  const SubmitButtonIcon = shouldShowCorrectAnswer ? ArrowRight : Check;
 
   useEffect(() => {
+    if (shouldShowCorrectAnswer) {
+      setAnswerValue(correctAnswer);
+      return;
+    }
+
     setAnswerValue("");
-  }, [answerFormat, countryCode]);
+  }, [answerFormat, correctAnswer, countryCode, shouldShowCorrectAnswer]);
 
   const handleSubmit = useCallback(() => {
     if (isSubmitDisabled) {
@@ -300,19 +492,28 @@ function TextAnswer({
       value: answerValue,
     });
   }, [answerValue, isSubmitDisabled, onAnswerSubmit]);
+  const handleButtonPress = shouldShowCorrectAnswer
+    ? onNextQuestionPress
+    : handleSubmit;
 
   return (
     <View className="gap-3">
-      <Text type="body-sm" weight="semibold">
+      <Text
+        className={answerInputLabelClassName}
+        type="body-sm"
+        weight="semibold"
+      >
         {answerInputLabel}
       </Text>
       <Input
         accessibilityLabel={t("train.session.answer.text-input-label")}
         autoCapitalize="none"
         autoCorrect={false}
-        autoFocus
+        className={answerInputClassName}
+        editable={isTextInputEditable}
+        isDisabled={isTextInputDisabled}
         onChangeText={setAnswerValue}
-        onSubmitEditing={handleSubmit}
+        onSubmitEditing={shouldShowCorrectAnswer ? undefined : handleSubmit}
         placeholder={t("train.session.answer.text-input-placeholder")}
         returnKeyType="done"
         spellCheck={false}
@@ -320,17 +521,15 @@ function TextAnswer({
       />
       <HapticButton
         isDisabled={isSubmitDisabled}
-        onPress={handleSubmit}
+        onPress={handleButtonPress}
         variant="primary"
       >
         <ThemedIcon
           colorClassName="text-accent-foreground"
-          icon={Check}
+          icon={SubmitButtonIcon}
           size={18}
         />
-        <HapticButton.Label>
-          {t("train.session.answer.submit")}
-        </HapticButton.Label>
+        <HapticButton.Label>{submitButtonLabel}</HapticButton.Label>
       </HapticButton>
     </View>
   );
@@ -360,17 +559,30 @@ function getTextAnswerInputLabel({
 
 interface CountrySelectionAnswerProps {
   answerRegion: MapRegionName;
+  country: Country;
   countryCode: string;
+  countryName: string;
+  isDisabled: boolean;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
+  onNextQuestionPress: () => void;
+  shouldShowCorrectAnswer: boolean;
 }
 
 function CountrySelectionAnswer({
   answerRegion,
+  country,
   countryCode,
+  countryName,
+  isDisabled,
   onAnswerSubmit,
+  onNextQuestionPress,
+  shouldShowCorrectAnswer,
 }: CountrySelectionAnswerProps) {
   const { t } = useTranslation();
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
+  const highlightedCountry = shouldShowCorrectAnswer
+    ? country
+    : selectedCountry;
   const activeTargets = useMemo<readonly MapViewerHighlightTarget[]>(
     () => [
       {
@@ -380,25 +592,51 @@ function CountrySelectionAnswer({
     ],
     [answerRegion],
   );
+  const centerTarget = useMemo<MapViewerCenterTarget>(() => {
+    if (shouldShowCorrectAnswer) {
+      return {
+        country,
+        type: "country",
+      };
+    }
+
+    return {
+      region: answerRegion,
+      type: "region",
+    };
+  }, [answerRegion, country, shouldShowCorrectAnswer]);
   const highlights = useMemo<readonly MapViewerHighlight[]>(() => {
-    if (selectedCountry === null) {
+    if (highlightedCountry === null) {
       return EMPTY_QUIZZ_QUESTION_HIGHLIGHTS;
     }
 
     return [
       {
         target: {
-          country: selectedCountry,
+          country: highlightedCountry,
           type: "country",
         },
       },
     ];
-  }, [selectedCountry]);
+  }, [highlightedCountry]);
   const isConfirmDisabled = selectedCountry === null;
+  const isAnswerButtonDisabled =
+    !shouldShowCorrectAnswer && (isDisabled || isConfirmDisabled);
+  const answerButtonLabel = shouldShowCorrectAnswer
+    ? t("train.session.answer.next")
+    : t("train.session.answer.confirm");
+  const AnswerButtonIcon = shouldShowCorrectAnswer ? ArrowRight : Check;
+  const answerMapClassName = shouldShowCorrectAnswer
+    ? `${QUIZZ_ANSWER_MAP_CLASS_NAME} border-success`
+    : QUIZZ_ANSWER_MAP_CLASS_NAME;
 
   useEffect(() => {
+    if (shouldShowCorrectAnswer) {
+      return;
+    }
+
     setSelectedCountry(null);
-  }, [countryCode]);
+  }, [countryCode, shouldShowCorrectAnswer]);
 
   const handleConfirm = useCallback(() => {
     if (selectedCountry === null) {
@@ -410,36 +648,122 @@ function CountrySelectionAnswer({
       type: "country",
     });
   }, [onAnswerSubmit, selectedCountry]);
+  const handleButtonPress = shouldShowCorrectAnswer
+    ? onNextQuestionPress
+    : handleConfirm;
 
   return (
     <View className="gap-3">
+      {shouldShowCorrectAnswer && (
+        <View className="gap-1">
+          <Text type="body-sm" weight="semibold" className="text-success">
+            {t("train.session.answer.correct-answer-label")}
+          </Text>
+          <Text type="h4" className="text-success">
+            {countryName}
+          </Text>
+        </View>
+      )}
       <MapViewer
         key={countryCode}
         activeTargets={activeTargets}
-        centersOn={{
-          region: answerRegion,
-          type: "region",
-        }}
-        className={QUIZZ_ANSWER_MAP_CLASS_NAME}
+        centersOn={centerTarget}
+        className={answerMapClassName}
         highlights={highlights}
-        isInteractive
-        onCountryPressed={setSelectedCountry}
+        isInteractive={!isDisabled}
+        onCountryPressed={isDisabled ? undefined : setSelectedCountry}
         shouldLimitZoomOutToInitialViewport
       />
       <HapticButton
-        isDisabled={isConfirmDisabled}
-        onPress={handleConfirm}
+        isDisabled={isAnswerButtonDisabled}
+        onPress={handleButtonPress}
         variant="primary"
       >
         <ThemedIcon
           colorClassName="text-accent-foreground"
-          icon={Check}
+          icon={AnswerButtonIcon}
           size={18}
         />
-        <HapticButton.Label>
-          {t("train.session.answer.confirm")}
-        </HapticButton.Label>
+        <HapticButton.Label>{answerButtonLabel}</HapticButton.Label>
       </HapticButton>
     </View>
   );
+}
+
+interface IsQuizzAnswerSubmissionCorrectParams {
+  answer: QuizzAnswerSubmission;
+  answerFormat: QuizzFormat;
+  country: Country;
+  geoLang: SupportedGeoLanguage;
+}
+
+function isQuizzAnswerSubmissionCorrect({
+  answer,
+  answerFormat,
+  country,
+  geoLang,
+}: IsQuizzAnswerSubmissionCorrectParams) {
+  switch (answerFormat) {
+    case "country-name":
+    case "country-capital":
+      return isTextAnswerSubmissionCorrect({
+        answer,
+        expectedAnswer: getQuizzTextAnswer({
+          answerFormat,
+          country,
+          geoLang,
+        }),
+      });
+    case "country-flag":
+    case "country-position":
+      return answer.type === "country" && answer.countryCode === country.code;
+    default: {
+      const exhaustiveFormat: never = answerFormat;
+
+      return exhaustiveFormat;
+    }
+  }
+}
+
+interface IsTextAnswerSubmissionCorrectParams {
+  answer: QuizzAnswerSubmission;
+  expectedAnswer: string;
+}
+
+function isTextAnswerSubmissionCorrect({
+  answer,
+  expectedAnswer,
+}: IsTextAnswerSubmissionCorrectParams) {
+  if (answer.type !== "text") {
+    return false;
+  }
+
+  return (
+    normalizeQuizzTextAnswer(answer.value) ===
+    normalizeQuizzTextAnswer(expectedAnswer)
+  );
+}
+
+interface GetQuizzTextAnswerParams {
+  answerFormat: Extract<QuizzFormat, "country-capital" | "country-name">;
+  country: Country;
+  geoLang: SupportedGeoLanguage;
+}
+
+function getQuizzTextAnswer({
+  answerFormat,
+  country,
+  geoLang,
+}: GetQuizzTextAnswerParams) {
+  switch (answerFormat) {
+    case "country-name":
+      return country.name[geoLang];
+    case "country-capital":
+      return country.capital[geoLang];
+    default: {
+      const exhaustiveFormat: never = answerFormat;
+
+      return exhaustiveFormat;
+    }
+  }
 }
