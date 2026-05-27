@@ -26,6 +26,7 @@ import {
   loadRestCountryRecords,
 } from "./rest-countries.ts";
 import type { CountryFeature } from "./types.ts";
+import { loadWikidataCapitalLabelsByCountryCode } from "./wikidata-capitals.ts";
 import {
   createFeatureByName,
   createFeaturesByNumericId,
@@ -48,6 +49,10 @@ async function generateGeoData(): Promise<void> {
     loadWorldAtlasTopologies(),
   ]);
   const restCountries = filterIncludedRestCountries(restCountryRecords);
+  const wikidataCapitalLabelsByCountryCode =
+    await loadWikidataCapitalLabelsByCountryCode({
+      countryCodes: restCountries.map((restCountry) => restCountry.cca2),
+    });
   const highResolutionFeatures = toCountryFeatures(topologies.highResolution);
   const lowResolutionFeatures = toCountryFeatures(topologies.lowResolution);
   const supplementalHighResolutionFeatures = toCountryFeatures(
@@ -73,6 +78,7 @@ async function generateGeoData(): Promise<void> {
         projection,
         restCountry,
         supplementalHighResolutionFeatureLookup,
+        wikidataCapitalLabelsByCountryCode,
       }),
     )
     .filter((country) => country !== null)

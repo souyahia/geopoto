@@ -19,6 +19,7 @@
     "@geopoto/geo-data": "workspace:*",
     "@gorhom/bottom-sheet": "^5.2.14",
     "@nandorojo/galeria": "3.0.2",
+    "@react-navigation/native": "7.2.4",
     "@shopify/react-native-skia": "^2.6.2",
     "expo": "55.0.23",
     "expo-build-properties": "~55.0.14",
@@ -35,9 +36,11 @@
     "lucide-react-native": "^1.14.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-hook-form": "^7.76.0",
     "react-i18next": "^17.0.2",
     "react-native": "~0.83.4",
     "react-native-gesture-handler": "^2.31.2",
+    "react-native-keyboard-controller": "1.20.7",
     "react-native-mmkv": "^4.3.0",
     "react-native-nitro-modules": "^0.35.3",
     "react-native-reanimated": "^4.3.1",
@@ -48,7 +51,8 @@
     "tailwind-variants": "^3.2.2",
     "tailwindcss": "^4.2.2",
     "ts-pattern": "^5.9.0",
-    "uniwind": "^1.6.1"
+    "uniwind": "^1.6.1",
+    "zustand": "^5.0.13"
   },
   "devDependencies": {
     "@geopoto/tsconfig": "workspace:*",

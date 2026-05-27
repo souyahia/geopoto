@@ -25,6 +25,110 @@
   "map-viewer": {
     "reset": "Reset map view"
   },
+  "navigation-confirm": {
+    "title": "Leave this screen?",
+    "description": "Any unsaved changes may be lost.",
+    "cancel-label": "Stay",
+    "confirm-label": "Leave"
+  },
+  "train": {
+    "title": "Train",
+    "settings": "Settings",
+    "region": {
+      "title": "Region",
+      "description": "Focus the session on a map region.",
+      "select-label": "Training region",
+      "placeholder": "Select a region"
+    },
+    "question-formats": {
+      "title": "Question formats",
+      "description": "Choose which formats can be used for prompts.",
+      "select-label": "Accepted question formats",
+      "trigger-label": "Select accepted question formats"
+    },
+    "answer-formats": {
+      "title": "Answer formats",
+      "description": "Choose which formats can be used for answers.",
+      "select-label": "Accepted answer formats",
+      "trigger-label": "Select accepted answer formats"
+    },
+    "flag-answer-difficulty": {
+      "title": "Flag difficulty",
+      "description": "Choose how flag answers are presented.",
+      "select-label": "Flag answer difficulty",
+      "placeholder": "Easy mode",
+      "options": {
+        "easy": "Easy mode",
+        "hard": "Hard mode"
+      }
+    },
+    "question-limit": {
+      "title": "Question limit",
+      "description": "Set how many questions the session can include.",
+      "select-label": "Maximum number of questions",
+      "placeholder": "No limit",
+      "options": {
+        "no-limit": "No limit",
+        "10": "10 questions",
+        "20": "20 questions",
+        "50": "50 questions",
+        "100": "100 questions"
+      }
+    },
+    "formats": {
+      "country-name": "Country name",
+      "country-capital": "Capital",
+      "country-flag": "Flag",
+      "country-position": "Map position"
+    },
+    "format-select": {
+      "all": "All formats",
+      "selected": "{{count}} selected"
+    },
+    "validation": {
+      "formats-must-be-different": "Question and answer formats must be different."
+    },
+    "start": "Start training",
+    "session": {
+      "question": {
+        "country-label": "Country",
+        "capital-label": "Capital"
+      },
+      "score": {
+        "title": "Score",
+        "progress": "{{answered}} / {{total}}",
+        "correct": "Correct",
+        "wrong": "Wrong",
+        "remaining": "Remaining",
+        "streak": "Streak",
+        "best-streak": "Best streak"
+      },
+      "answer": {
+        "country-name-label": "Enter the country name:",
+        "country-capital-label": "Enter the capital:",
+        "text-input-label": "Answer",
+        "text-input-placeholder": "Type your answer",
+        "submit": "Submit",
+        "confirm": "Confirm",
+        "next": "Next",
+        "correct-answer-label": "Correct answer:",
+        "flag-option-label": "Select {{country}} flag",
+        "flag-empty": "No flags match these colors."
+      },
+      "leave-confirm": {
+        "title": "Leave training?",
+        "description": "Your training progress will be lost.",
+        "cancel-label": "Keep training",
+        "confirm-label": "Leave"
+      },
+      "complete": {
+        "title": "Training complete",
+        "description": "{{correct}} correct, {{wrong}} wrong, {{total}} total. Best streak: {{bestStreak}}.",
+        "play-again": "Play again",
+        "back": "Back"
+      }
+    }
+  },
   "learn": {
     "title": "Learn",
     "settings": "Settings",

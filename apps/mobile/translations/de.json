@@ -25,6 +25,110 @@
   "map-viewer": {
     "reset": "Kartenansicht zurücksetzen"
   },
+  "navigation-confirm": {
+    "title": "Diesen Bildschirm verlassen?",
+    "description": "Nicht gespeicherte Änderungen können verloren gehen.",
+    "cancel-label": "Bleiben",
+    "confirm-label": "Verlassen"
+  },
+  "train": {
+    "title": "Trainieren",
+    "settings": "Einstellungen",
+    "region": {
+      "title": "Region",
+      "description": "Richte die Sitzung auf eine Kartenregion aus.",
+      "select-label": "Trainingsregion",
+      "placeholder": "Region auswählen"
+    },
+    "question-formats": {
+      "title": "Frageformate",
+      "description": "Wähle aus, welche Formate für Fragen verwendet werden können.",
+      "select-label": "Akzeptierte Frageformate",
+      "trigger-label": "Akzeptierte Frageformate auswählen"
+    },
+    "answer-formats": {
+      "title": "Antwortformate",
+      "description": "Wähle aus, welche Formate für Antworten verwendet werden können.",
+      "select-label": "Akzeptierte Antwortformate",
+      "trigger-label": "Akzeptierte Antwortformate auswählen"
+    },
+    "flag-answer-difficulty": {
+      "title": "Flaggen-Schwierigkeit",
+      "description": "Lege fest, wie Flaggenantworten angezeigt werden.",
+      "select-label": "Schwierigkeit der Flaggenantworten",
+      "placeholder": "Einfacher Modus",
+      "options": {
+        "easy": "Einfacher Modus",
+        "hard": "Schwieriger Modus"
+      }
+    },
+    "question-limit": {
+      "title": "Fragenlimit",
+      "description": "Lege fest, wie viele Fragen die Sitzung enthalten kann.",
+      "select-label": "Maximale Anzahl von Fragen",
+      "placeholder": "Kein Limit",
+      "options": {
+        "no-limit": "Kein Limit",
+        "10": "10 Fragen",
+        "20": "20 Fragen",
+        "50": "50 Fragen",
+        "100": "100 Fragen"
+      }
+    },
+    "formats": {
+      "country-name": "Ländername",
+      "country-capital": "Hauptstadt",
+      "country-flag": "Flagge",
+      "country-position": "Position auf der Karte"
+    },
+    "format-select": {
+      "all": "Alle Formate",
+      "selected": "{{count}} ausgewählt"
+    },
+    "validation": {
+      "formats-must-be-different": "Frage- und Antwortformate müssen unterschiedlich sein."
+    },
+    "start": "Training starten",
+    "session": {
+      "question": {
+        "country-label": "Land",
+        "capital-label": "Hauptstadt"
+      },
+      "score": {
+        "title": "Punktestand",
+        "progress": "{{answered}} / {{total}}",
+        "correct": "Richtig",
+        "wrong": "Falsch",
+        "remaining": "Übrig",
+        "streak": "Serie",
+        "best-streak": "Beste Serie"
+      },
+      "answer": {
+        "country-name-label": "Gib den Ländernamen ein:",
+        "country-capital-label": "Gib die Hauptstadt ein:",
+        "text-input-label": "Antwort",
+        "text-input-placeholder": "Gib deine Antwort ein",
+        "submit": "Absenden",
+        "confirm": "Bestätigen",
+        "next": "Weiter",
+        "correct-answer-label": "Richtige Antwort:",
+        "flag-option-label": "Flagge von {{country}} auswählen",
+        "flag-empty": "Keine Flaggen passen zu diesen Farben."
+      },
+      "leave-confirm": {
+        "title": "Training verlassen?",
+        "description": "Dein Trainingsfortschritt geht verloren.",
+        "cancel-label": "Weiter trainieren",
+        "confirm-label": "Verlassen"
+      },
+      "complete": {
+        "title": "Training abgeschlossen",
+        "description": "{{correct}} richtig, {{wrong}} falsch, {{total}} insgesamt. Beste Serie: {{bestStreak}}.",
+        "play-again": "Erneut spielen",
+        "back": "Zurück"
+      }
+    }
+  },
   "learn": {
     "title": "Lernen",
     "settings": "Einstellungen",

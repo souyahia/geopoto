@@ -25,6 +25,110 @@
   "map-viewer": {
     "reset": "Reimposta vista mappa"
   },
+  "navigation-confirm": {
+    "title": "Uscire da questa schermata?",
+    "description": "Le modifiche non salvate potrebbero andare perse.",
+    "cancel-label": "Rimani",
+    "confirm-label": "Esci"
+  },
+  "train": {
+    "title": "Allenati",
+    "settings": "Impostazioni",
+    "region": {
+      "title": "Regione",
+      "description": "Concentra la sessione su una regione della mappa.",
+      "select-label": "Regione di allenamento",
+      "placeholder": "Seleziona una regione"
+    },
+    "question-formats": {
+      "title": "Formati delle domande",
+      "description": "Scegli quali formati possono essere usati per le domande.",
+      "select-label": "Formati domanda accettati",
+      "trigger-label": "Seleziona i formati domanda accettati"
+    },
+    "answer-formats": {
+      "title": "Formati delle risposte",
+      "description": "Scegli quali formati possono essere usati per le risposte.",
+      "select-label": "Formati risposta accettati",
+      "trigger-label": "Seleziona i formati risposta accettati"
+    },
+    "flag-answer-difficulty": {
+      "title": "Difficoltà delle bandiere",
+      "description": "Scegli come vengono presentate le risposte con le bandiere.",
+      "select-label": "Difficoltà delle risposte con bandiere",
+      "placeholder": "Modalità facile",
+      "options": {
+        "easy": "Modalità facile",
+        "hard": "Modalità difficile"
+      }
+    },
+    "question-limit": {
+      "title": "Limite di domande",
+      "description": "Imposta quante domande può includere la sessione.",
+      "select-label": "Numero massimo di domande",
+      "placeholder": "Nessun limite",
+      "options": {
+        "no-limit": "Nessun limite",
+        "10": "10 domande",
+        "20": "20 domande",
+        "50": "50 domande",
+        "100": "100 domande"
+      }
+    },
+    "formats": {
+      "country-name": "Nome del paese",
+      "country-capital": "Capitale",
+      "country-flag": "Bandiera",
+      "country-position": "Posizione sulla mappa"
+    },
+    "format-select": {
+      "all": "Tutti i formati",
+      "selected": "{{count}} selezionati"
+    },
+    "validation": {
+      "formats-must-be-different": "I formati di domanda e risposta devono essere diversi."
+    },
+    "start": "Avvia allenamento",
+    "session": {
+      "question": {
+        "country-label": "Paese",
+        "capital-label": "Capitale"
+      },
+      "score": {
+        "title": "Punteggio",
+        "progress": "{{answered}} / {{total}}",
+        "correct": "Corrette",
+        "wrong": "Sbagliate",
+        "remaining": "Rimanenti",
+        "streak": "Serie",
+        "best-streak": "Serie migliore"
+      },
+      "answer": {
+        "country-name-label": "Inserisci il nome del paese:",
+        "country-capital-label": "Inserisci la capitale:",
+        "text-input-label": "Risposta",
+        "text-input-placeholder": "Inserisci la risposta",
+        "submit": "Invia",
+        "confirm": "Conferma",
+        "next": "Avanti",
+        "correct-answer-label": "Risposta corretta:",
+        "flag-option-label": "Seleziona la bandiera di {{country}}",
+        "flag-empty": "Nessuna bandiera corrisponde a questi colori."
+      },
+      "leave-confirm": {
+        "title": "Uscire dall’allenamento?",
+        "description": "I progressi dell’allenamento andranno persi.",
+        "cancel-label": "Continua ad allenarti",
+        "confirm-label": "Esci"
+      },
+      "complete": {
+        "title": "Allenamento completato",
+        "description": "{{correct}} corrette, {{wrong}} sbagliate, {{total}} in totale. Serie migliore: {{bestStreak}}.",
+        "play-again": "Gioca di nuovo",
+        "back": "Indietro"
+      }
+    }
+  },
   "learn": {
     "title": "Impara",
     "settings": "Impostazioni",

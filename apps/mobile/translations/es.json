@@ -25,6 +25,110 @@
   "map-viewer": {
     "reset": "Restablecer vista del mapa"
   },
+  "navigation-confirm": {
+    "title": "¿Salir de esta pantalla?",
+    "description": "Los cambios no guardados pueden perderse.",
+    "cancel-label": "Permanecer",
+    "confirm-label": "Salir"
+  },
+  "train": {
+    "title": "Entrenar",
+    "settings": "Ajustes",
+    "region": {
+      "title": "Región",
+      "description": "Centra la sesión en una región del mapa.",
+      "select-label": "Región de entrenamiento",
+      "placeholder": "Selecciona una región"
+    },
+    "question-formats": {
+      "title": "Formatos de pregunta",
+      "description": "Elige qué formatos se pueden usar para las preguntas.",
+      "select-label": "Formatos de pregunta aceptados",
+      "trigger-label": "Seleccionar formatos de pregunta aceptados"
+    },
+    "answer-formats": {
+      "title": "Formatos de respuesta",
+      "description": "Elige qué formatos se pueden usar para las respuestas.",
+      "select-label": "Formatos de respuesta aceptados",
+      "trigger-label": "Seleccionar formatos de respuesta aceptados"
+    },
+    "flag-answer-difficulty": {
+      "title": "Dificultad de las banderas",
+      "description": "Elige cómo se presentan las respuestas con banderas.",
+      "select-label": "Dificultad de las respuestas con banderas",
+      "placeholder": "Modo fácil",
+      "options": {
+        "easy": "Modo fácil",
+        "hard": "Modo difícil"
+      }
+    },
+    "question-limit": {
+      "title": "Límite de preguntas",
+      "description": "Define cuántas preguntas puede incluir la sesión.",
+      "select-label": "Número máximo de preguntas",
+      "placeholder": "Sin límite",
+      "options": {
+        "no-limit": "Sin límite",
+        "10": "10 preguntas",
+        "20": "20 preguntas",
+        "50": "50 preguntas",
+        "100": "100 preguntas"
+      }
+    },
+    "formats": {
+      "country-name": "Nombre del país",
+      "country-capital": "Capital",
+      "country-flag": "Bandera",
+      "country-position": "Posición en el mapa"
+    },
+    "format-select": {
+      "all": "Todos los formatos",
+      "selected": "{{count}} seleccionados"
+    },
+    "validation": {
+      "formats-must-be-different": "Los formatos de pregunta y respuesta deben ser diferentes."
+    },
+    "start": "Iniciar entrenamiento",
+    "session": {
+      "question": {
+        "country-label": "País",
+        "capital-label": "Capital"
+      },
+      "score": {
+        "title": "Puntuación",
+        "progress": "{{answered}} / {{total}}",
+        "correct": "Correctas",
+        "wrong": "Incorrectas",
+        "remaining": "Restantes",
+        "streak": "Racha",
+        "best-streak": "Mejor racha"
+      },
+      "answer": {
+        "country-name-label": "Introduce el nombre del país:",
+        "country-capital-label": "Introduce la capital:",
+        "text-input-label": "Respuesta",
+        "text-input-placeholder": "Escribe tu respuesta",
+        "submit": "Enviar",
+        "confirm": "Confirmar",
+        "next": "Siguiente",
+        "correct-answer-label": "Respuesta correcta:",
+        "flag-option-label": "Seleccionar la bandera de {{country}}",
+        "flag-empty": "Ninguna bandera coincide con estos colores."
+      },
+      "leave-confirm": {
+        "title": "¿Salir del entrenamiento?",
+        "description": "Se perderá tu progreso del entrenamiento.",
+        "cancel-label": "Seguir entrenando",
+        "confirm-label": "Salir"
+      },
+      "complete": {
+        "title": "Entrenamiento completado",
+        "description": "{{correct}} correctas, {{wrong}} incorrectas, {{total}} en total. Mejor racha: {{bestStreak}}.",
+        "play-again": "Jugar de nuevo",
+        "back": "Volver"
+      }
+    }
+  },
   "learn": {
     "title": "Aprender",
     "settings": "Ajustes",

@@ -25,6 +25,110 @@
   "map-viewer": {
     "reset": "Réinitialiser la vue de la carte"
   },
+  "navigation-confirm": {
+    "title": "Quitter cet écran ?",
+    "description": "Les modifications non enregistrées peuvent être perdues.",
+    "cancel-label": "Rester",
+    "confirm-label": "Quitter"
+  },
+  "train": {
+    "title": "Entraînement",
+    "settings": "Paramètres",
+    "region": {
+      "title": "Région",
+      "description": "Concentrez la session sur une région de la carte.",
+      "select-label": "Région d’entraînement",
+      "placeholder": "Sélectionnez une région"
+    },
+    "question-formats": {
+      "title": "Formats de question",
+      "description": "Choisissez les formats pouvant être utilisés pour les questions.",
+      "select-label": "Formats de question acceptés",
+      "trigger-label": "Sélectionner les formats de question acceptés"
+    },
+    "answer-formats": {
+      "title": "Formats de réponse",
+      "description": "Choisissez les formats pouvant être utilisés pour les réponses.",
+      "select-label": "Formats de réponse acceptés",
+      "trigger-label": "Sélectionner les formats de réponse acceptés"
+    },
+    "flag-answer-difficulty": {
+      "title": "Difficulté des drapeaux",
+      "description": "Choisissez comment les réponses de drapeau sont présentées.",
+      "select-label": "Difficulté des réponses de drapeau",
+      "placeholder": "Mode facile",
+      "options": {
+        "easy": "Mode facile",
+        "hard": "Mode difficile"
+      }
+    },
+    "question-limit": {
+      "title": "Limite de questions",
+      "description": "Définissez le nombre maximal de questions de la session.",
+      "select-label": "Nombre maximal de questions",
+      "placeholder": "Sans limite",
+      "options": {
+        "no-limit": "Sans limite",
+        "10": "10 questions",
+        "20": "20 questions",
+        "50": "50 questions",
+        "100": "100 questions"
+      }
+    },
+    "formats": {
+      "country-name": "Nom du pays",
+      "country-capital": "Capitale",
+      "country-flag": "Drapeau",
+      "country-position": "Position sur la carte"
+    },
+    "format-select": {
+      "all": "Tous les formats",
+      "selected": "{{count}} sélectionnés"
+    },
+    "validation": {
+      "formats-must-be-different": "Les formats de question et de réponse doivent être différents."
+    },
+    "start": "Démarrer l’entraînement",
+    "session": {
+      "question": {
+        "country-label": "Pays",
+        "capital-label": "Capitale"
+      },
+      "score": {
+        "title": "Score",
+        "progress": "{{answered}} / {{total}}",
+        "correct": "Correct",
+        "wrong": "Incorrect",
+        "remaining": "Restant",
+        "streak": "Série",
+        "best-streak": "Meilleure série"
+      },
+      "answer": {
+        "country-name-label": "Saisissez le nom du pays :",
+        "country-capital-label": "Saisissez la capitale :",
+        "text-input-label": "Réponse",
+        "text-input-placeholder": "Saisissez votre réponse",
+        "submit": "Valider",
+        "confirm": "Confirmer",
+        "next": "Suivant",
+        "correct-answer-label": "Bonne réponse :",
+        "flag-option-label": "Sélectionner le drapeau de {{country}}",
+        "flag-empty": "Aucun drapeau ne correspond à ces couleurs."
+      },
+      "leave-confirm": {
+        "title": "Quitter l’entraînement ?",
+        "description": "Votre progression d’entraînement sera perdue.",
+        "cancel-label": "Continuer",
+        "confirm-label": "Quitter"
+      },
+      "complete": {
+        "title": "Entraînement terminé",
+        "description": "{{correct}} correctes, {{wrong}} incorrectes, {{total}} au total. Meilleure série : {{bestStreak}}.",
+        "play-again": "Rejouer",
+        "back": "Retour"
+      }
+    }
+  },
   "learn": {
     "title": "Apprendre",
     "settings": "Paramètres",
