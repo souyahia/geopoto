@@ -25,6 +25,55 @@
   "map-viewer": {
     "reset": "Repor vista do mapa"
   },
+  "train": {
+    "title": "Treinar",
+    "settings": "Definições",
+    "region": {
+      "title": "Região",
+      "description": "Concentre a sessão numa região do mapa.",
+      "select-label": "Região de treino",
+      "placeholder": "Selecione uma região"
+    },
+    "question-formats": {
+      "title": "Formatos de pergunta",
+      "description": "Escolha quais os formatos que podem ser usados nas perguntas.",
+      "select-label": "Formatos de pergunta aceites",
+      "trigger-label": "Selecionar formatos de pergunta aceites"
+    },
+    "answer-formats": {
+      "title": "Formatos de resposta",
+      "description": "Escolha quais os formatos que podem ser usados nas respostas.",
+      "select-label": "Formatos de resposta aceites",
+      "trigger-label": "Selecionar formatos de resposta aceites"
+    },
+    "question-limit": {
+      "title": "Limite de perguntas",
+      "description": "Defina quantas perguntas a sessão pode incluir.",
+      "select-label": "Número máximo de perguntas",
+      "placeholder": "Sem limite",
+      "options": {
+        "no-limit": "Sem limite",
+        "10": "10 perguntas",
+        "20": "20 perguntas",
+        "50": "50 perguntas",
+        "100": "100 perguntas"
+      }
+    },
+    "formats": {
+      "country-name": "Nome do país",
+      "country-capital": "Capital",
+      "country-flag": "Bandeira",
+      "country-position": "Posição no mapa"
+    },
+    "format-select": {
+      "all": "Todos os formatos",
+      "selected": "{{count}} selecionados"
+    },
+    "validation": {
+      "formats-must-be-different": "Os formatos de pergunta e resposta devem ser diferentes."
+    },
+    "start": "Iniciar treino"
+  },
   "learn": {
     "title": "Aprender",
     "settings": "Definições",

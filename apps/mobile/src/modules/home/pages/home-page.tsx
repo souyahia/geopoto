@@ -47,6 +47,7 @@ export function HomePage() {
           icon={Dumbbell}
           title={t("home.game-modes.train.title")}
           description={t("home.game-modes.train.description")}
+          onPress={() => router.push("/train")}
         />
         <MenuCard
           icon={BookOpenText}

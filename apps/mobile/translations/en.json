@@ -25,6 +25,55 @@
   "map-viewer": {
     "reset": "Reset map view"
   },
+  "train": {
+    "title": "Train",
+    "settings": "Settings",
+    "region": {
+      "title": "Region",
+      "description": "Focus the session on a map region.",
+      "select-label": "Training region",
+      "placeholder": "Select a region"
+    },
+    "question-formats": {
+      "title": "Question formats",
+      "description": "Choose which formats can be used for prompts.",
+      "select-label": "Accepted question formats",
+      "trigger-label": "Select accepted question formats"
+    },
+    "answer-formats": {
+      "title": "Answer formats",
+      "description": "Choose which formats can be used for answers.",
+      "select-label": "Accepted answer formats",
+      "trigger-label": "Select accepted answer formats"
+    },
+    "question-limit": {
+      "title": "Question limit",
+      "description": "Set how many questions the session can include.",
+      "select-label": "Maximum number of questions",
+      "placeholder": "No limit",
+      "options": {
+        "no-limit": "No limit",
+        "10": "10 questions",
+        "20": "20 questions",
+        "50": "50 questions",
+        "100": "100 questions"
+      }
+    },
+    "formats": {
+      "country-name": "Country name",
+      "country-capital": "Capital",
+      "country-flag": "Flag",
+      "country-position": "Map position"
+    },
+    "format-select": {
+      "all": "All formats",
+      "selected": "{{count}} selected"
+    },
+    "validation": {
+      "formats-must-be-different": "Question and answer formats must be different."
+    },
+    "start": "Start training"
+  },
   "learn": {
     "title": "Learn",
     "settings": "Settings",

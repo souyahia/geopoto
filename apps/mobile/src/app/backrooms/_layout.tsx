@@ -12,13 +12,13 @@ export default function BackroomsLayout() {
   const canGoBack = router.canGoBack();
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 pt-4">
       <Header>
         <Header.Center>
           <Text>Backrooms</Text>
         </Header.Center>
         {canGoBack && (
-          <Header.Right>
+          <Header.Right className="pr-2">
             <HapticButton
               size="sm"
               variant="ghost"
