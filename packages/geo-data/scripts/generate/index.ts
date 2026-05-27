@@ -5,6 +5,7 @@ import { geoMercator, geoPath } from "d3-geo";
 import {
   GENERATED_DIRECTORY,
   GENERATED_FLAG_PNGS_DIRECTORY,
+  GENERATED_FLAG_THUMBNAIL_PNGS_DIRECTORY,
   GENERATED_FLAGS_DIRECTORY,
   GENERATED_LOW_RESOLUTION_FLAG_PNGS_DIRECTORY,
 } from "./config.ts";
@@ -105,6 +106,10 @@ async function generateGeoData(): Promise<void> {
   await Promise.all([
     rm(GENERATED_FLAGS_DIRECTORY, { force: true, recursive: true }),
     rm(GENERATED_FLAG_PNGS_DIRECTORY, { force: true, recursive: true }),
+    rm(GENERATED_FLAG_THUMBNAIL_PNGS_DIRECTORY, {
+      force: true,
+      recursive: true,
+    }),
     rm(GENERATED_LOW_RESOLUTION_FLAG_PNGS_DIRECTORY, {
       force: true,
       recursive: true,
@@ -113,6 +118,7 @@ async function generateGeoData(): Promise<void> {
   await Promise.all([
     mkdir(GENERATED_FLAGS_DIRECTORY, { recursive: true }),
     mkdir(GENERATED_FLAG_PNGS_DIRECTORY, { recursive: true }),
+    mkdir(GENERATED_FLAG_THUMBNAIL_PNGS_DIRECTORY, { recursive: true }),
     mkdir(GENERATED_LOW_RESOLUTION_FLAG_PNGS_DIRECTORY, { recursive: true }),
   ]);
   await Promise.all([

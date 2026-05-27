@@ -1,24 +1,19 @@
-import {
-  SUPPORTED_GEO_LANGUAGES,
-  type LocalizedText,
+import type {
+  LocalizedText,
+  SupportedGeoLanguage,
 } from "@geopoto/geo-data/geo-language";
 
+import { filterSearchItems, normalizeSearchText } from "./learn-search";
+
 export interface CountrySearchItem {
-  capital: LocalizedText;
   code: string;
-  continent: string;
   name: LocalizedText;
-  regions: readonly string[];
 }
 
 interface FilterCountriesParams<TCountry extends CountrySearchItem> {
   countries: readonly TCountry[];
+  geoLang: SupportedGeoLanguage;
   searchQuery: string;
-}
-
-interface DoesCountryMatchSearchQueryParams {
-  country: CountrySearchItem;
-  normalizedQuery: string;
 }
 
 interface FindCountryByCodeParams<TCountry extends CountrySearchItem> {
@@ -26,19 +21,21 @@ interface FindCountryByCodeParams<TCountry extends CountrySearchItem> {
   countryCode: string | undefined;
 }
 
+interface GetCountrySearchValuesParams {
+  country: CountrySearchItem;
+  geoLang: SupportedGeoLanguage;
+}
+
 export function filterCountries<TCountry extends CountrySearchItem>({
   countries,
+  geoLang,
   searchQuery,
 }: FilterCountriesParams<TCountry>): readonly TCountry[] {
-  const normalizedQuery = normalizeSearchText(searchQuery);
-
-  if (normalizedQuery.length === 0) {
-    return countries;
-  }
-
-  return countries.filter((country) =>
-    doesCountryMatchSearchQuery({ country, normalizedQuery }),
-  );
+  return filterSearchItems({
+    getSearchValues: (country) => getCountrySearchValues({ country, geoLang }),
+    items: countries,
+    searchQuery,
+  });
 }
 
 export function findCountryByCode<TCountry extends CountrySearchItem>({
@@ -58,31 +55,9 @@ export function findCountryByCode<TCountry extends CountrySearchItem>({
   );
 }
 
-function doesCountryMatchSearchQuery({
+function getCountrySearchValues({
   country,
-  normalizedQuery,
-}: DoesCountryMatchSearchQueryParams) {
-  return getCountrySearchValues(country).some((value) =>
-    normalizeSearchText(value).includes(normalizedQuery),
-  );
-}
-
-function getCountrySearchValues(country: CountrySearchItem) {
-  return [
-    country.code,
-    country.continent,
-    ...country.regions,
-    ...SUPPORTED_GEO_LANGUAGES.flatMap((geoLang) => [
-      country.name[geoLang],
-      country.capital[geoLang],
-    ]),
-  ];
-}
-
-function normalizeSearchText(value: string) {
-  return value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, "");
+  geoLang,
+}: GetCountrySearchValuesParams) {
+  return [country.name[geoLang]];
 }

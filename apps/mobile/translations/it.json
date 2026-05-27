@@ -40,10 +40,41 @@
       "title": "Paesi",
       "search": {
         "label": "Cerca paesi",
-        "placeholder": "Cerca per paese, codice, capitale...",
+        "placeholder": "Cerca per paese...",
         "clear": "Cancella ricerca"
       },
       "empty": "Nessun paese trovato."
+    },
+    "flags": {
+      "title": "Bandiere",
+      "search": {
+        "label": "Cerca bandiere",
+        "placeholder": "Cerca per paese...",
+        "clear": "Cancella ricerca"
+      },
+      "colors": {
+        "label": "Colori della bandiera",
+        "placeholder": "Colori",
+        "trigger-label": "Filtra le bandiere per colore",
+        "selected": "{{count}} selezionati",
+        "clear": "Cancella",
+        "options": {
+          "red": "Rosso",
+          "orange": "Arancione",
+          "yellow": "Giallo",
+          "green": "Verde",
+          "blue": "Blu",
+          "purple": "Viola",
+          "black": "Nero",
+          "white": "Bianco",
+          "gray": "Grigio",
+          "brown": "Marrone"
+        }
+      },
+      "flag": {
+        "accessibility-label": "Apri la bandiera di {{country}}"
+      },
+      "empty": "Nessuna bandiera trovata."
     },
     "country": {
       "not-found": {

@@ -12,7 +12,10 @@ import type {
 import {
   FLAG_COLOR_SAMPLE_MAX_SIZE,
   FLAG_PNG_MAX_SIZE,
+  FLAG_THUMBNAIL_PNG_MAX_SIZE,
+  FLAG_THUMBNAIL_PNG_SCALES,
   GENERATED_FLAG_PNGS_DIRECTORY,
+  GENERATED_FLAG_THUMBNAIL_PNGS_DIRECTORY,
   GENERATED_FLAGS_DIRECTORY,
   GENERATED_LOW_RESOLUTION_FLAG_PNGS_DIRECTORY,
   LOW_RESOLUTION_FLAG_PNG_MAX_SIZE,
@@ -29,6 +32,7 @@ interface GeneratedCountryFlag {
   lowResolutionPng: FlagDimensions;
   png: FlagDimensions;
   svg: SvgMetadata;
+  thumbnailPng: FlagDimensions;
 }
 
 interface GeneratedFlagArtifacts {
@@ -85,6 +89,11 @@ interface ToGeneratedLowResolutionFlagPngPathParams {
   scale: number;
 }
 
+interface ToGeneratedFlagThumbnailPngPathParams {
+  code: string;
+  scale: number;
+}
+
 const require = createRequire(import.meta.url);
 const FLAG_SOURCE_PACKAGE_DIRECTORY = dirname(
   require.resolve("svg-country-flags/package.json"),
@@ -112,6 +121,16 @@ function toGeneratedFlagPath(code: string): string {
 
 function toGeneratedFlagPngPath(code: string): string {
   return resolve(GENERATED_FLAG_PNGS_DIRECTORY, toFlagPngFileName(code));
+}
+
+function toGeneratedFlagThumbnailPngPath({
+  code,
+  scale,
+}: ToGeneratedFlagThumbnailPngPathParams): string {
+  return resolve(
+    GENERATED_FLAG_THUMBNAIL_PNGS_DIRECTORY,
+    toFlagPngFileName(code, scale),
+  );
 }
 
 function toGeneratedLowResolutionFlagPngPath({
@@ -224,6 +243,10 @@ function buildCountryFlag({
     maxSize: LOW_RESOLUTION_FLAG_PNG_MAX_SIZE,
     viewBox,
   });
+  const thumbnailPng = toPngDimensions({
+    maxSize: FLAG_THUMBNAIL_PNG_MAX_SIZE,
+    viewBox,
+  });
   const colorSampleDimensions = toPngDimensions({
     maxSize: FLAG_COLOR_SAMPLE_MAX_SIZE,
     viewBox,
@@ -247,6 +270,7 @@ function buildCountryFlag({
       viewBox: viewBox.value,
       width: viewBox.width,
     },
+    thumbnailPng,
   };
 }
 
@@ -282,6 +306,16 @@ export async function buildCountryFlags({
           }),
           scale,
         })),
+        thumbnailPngFiles: FLAG_THUMBNAIL_PNG_SCALES.map((scale) => ({
+          png: renderFlagPng({
+            png: scaleFlagDimensions({
+              dimensions: flag.thumbnailPng,
+              scale,
+            }),
+            svg,
+          }),
+          scale,
+        })),
         svg,
       };
     }),
@@ -304,6 +338,16 @@ export async function buildCountryFlags({
         }),
       })),
   );
+  const thumbnailPngFiles = countryFlagAssets.flatMap(
+    ({ flag, thumbnailPngFiles }) =>
+      thumbnailPngFiles.map(({ png, scale }) => ({
+        content: png,
+        path: toGeneratedFlagThumbnailPngPath({
+          code: flag.code,
+          scale,
+        }),
+      })),
+  );
   const svgFiles = countryFlagAssets.map(({ flag, svg }) => ({
     content: svg,
     path: toGeneratedFlagPath(flag.code),
@@ -311,7 +355,7 @@ export async function buildCountryFlags({
 
   return {
     flags,
-    pngFiles: [...pngFiles, ...lowResolutionPngFiles],
+    pngFiles: [...pngFiles, ...lowResolutionPngFiles, ...thumbnailPngFiles],
     svgFiles,
   };
 }

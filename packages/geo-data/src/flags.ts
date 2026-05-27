@@ -17,6 +17,7 @@ export interface CountryFlag {
   lowResolutionPng: CountryFlagDimensions;
   png: CountryFlagDimensions;
   svg: CountryFlagSvg;
+  thumbnailPng: CountryFlagDimensions;
 }
 
 export interface CountryFlagDimensions {
@@ -57,6 +58,7 @@ function toCountryFlag(flag: CountryFlagData): CountryFlag {
     lowResolutionPng: flag.lowResolutionPng,
     png: flag.png,
     svg: flag.svg,
+    thumbnailPng: flag.thumbnailPng,
   };
 }
 

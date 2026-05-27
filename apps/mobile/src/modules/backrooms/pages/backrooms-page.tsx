@@ -7,6 +7,7 @@ import { getCountryFlag } from "@geopoto/geo-data/flags";
 
 import { useCountryFlagImageSource } from "@/components/country-flag";
 import { HapticButton } from "@/components/haptic-button";
+import { useGaleriaDarkMode } from "@/services/theme/galeria-dark-mode";
 
 import { BackroomsThemeSelector } from "../components/backrooms-theme-selector";
 
@@ -15,6 +16,7 @@ const PALESTINE_FLAG_WIDTH = 220;
 
 export function BackroomsPage() {
   const palestineFlag = getCountryFlag(PALESTINE_COUNTRY_CODE);
+  const { enableGaleriaDarkMode, restoreAppColorScheme } = useGaleriaDarkMode();
   const palestineFlagImageSource = useCountryFlagImageSource(
     PALESTINE_COUNTRY_CODE,
   );
@@ -32,10 +34,17 @@ export function BackroomsPage() {
       {palestineFlagImageSource !== null && palestineFlagSize !== null ? (
         <View className="items-center gap-2 py-4">
           <Galeria urls={[palestineFlagImageSource]} theme="dark">
-            <Galeria.Image dynamicAspectRatio edgeToEdge>
+            <Galeria.Image
+              dynamicAspectRatio
+              edgeToEdge
+              onDismiss={restoreAppColorScheme}
+              onLongPress={restoreAppColorScheme}
+            >
               <Image
                 accessibilityLabel="Palestine flag"
                 contentFit="contain"
+                onTouchCancel={restoreAppColorScheme}
+                onTouchStart={enableGaleriaDarkMode}
                 source={palestineFlagImageSource}
                 style={{
                   height: palestineFlagSize.height,

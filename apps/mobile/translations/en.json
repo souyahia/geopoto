@@ -40,10 +40,41 @@
       "title": "Countries",
       "search": {
         "label": "Search countries",
-        "placeholder": "Search by country, code, capital...",
+        "placeholder": "Search by country...",
         "clear": "Clear search"
       },
       "empty": "No countries found."
+    },
+    "flags": {
+      "title": "Flags",
+      "search": {
+        "label": "Search flags",
+        "placeholder": "Search by country...",
+        "clear": "Clear search"
+      },
+      "colors": {
+        "label": "Flag colors",
+        "placeholder": "Colors",
+        "trigger-label": "Filter flags by color",
+        "selected": "{{count}} selected",
+        "clear": "Clear",
+        "options": {
+          "red": "Red",
+          "orange": "Orange",
+          "yellow": "Yellow",
+          "green": "Green",
+          "blue": "Blue",
+          "purple": "Purple",
+          "black": "Black",
+          "white": "White",
+          "gray": "Gray",
+          "brown": "Brown"
+        }
+      },
+      "flag": {
+        "accessibility-label": "Open {{country}} flag"
+      },
+      "empty": "No flags found."
     },
     "country": {
       "not-found": {
