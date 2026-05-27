@@ -40,10 +40,50 @@
       "title": "Pays",
       "search": {
         "label": "Rechercher des pays",
-        "placeholder": "Rechercher par pays, code, capitale...",
+        "placeholder": "Rechercher par pays...",
         "clear": "Effacer la recherche"
       },
       "empty": "Aucun pays trouvé."
+    },
+    "capitals": {
+      "title": "Capitales",
+      "search": {
+        "label": "Rechercher des capitales",
+        "placeholder": "Rechercher par capitale ou pays...",
+        "clear": "Effacer la recherche"
+      },
+      "empty": "Aucune capitale trouvée."
+    },
+    "flags": {
+      "title": "Drapeaux",
+      "search": {
+        "label": "Rechercher des drapeaux",
+        "placeholder": "Rechercher par pays...",
+        "clear": "Effacer la recherche"
+      },
+      "colors": {
+        "label": "Couleurs du drapeau",
+        "placeholder": "Couleurs",
+        "trigger-label": "Filtrer les drapeaux par couleur",
+        "selected": "Sélection : {{count}}",
+        "clear": "Effacer",
+        "options": {
+          "red": "Rouge",
+          "orange": "Orange",
+          "yellow": "Jaune",
+          "green": "Vert",
+          "blue": "Bleu",
+          "purple": "Violet",
+          "black": "Noir",
+          "white": "Blanc",
+          "gray": "Gris",
+          "brown": "Marron"
+        }
+      },
+      "flag": {
+        "accessibility-label": "Ouvrir le drapeau de {{country}}"
+      },
+      "empty": "Aucun drapeau trouvé."
     },
     "country": {
       "not-found": {

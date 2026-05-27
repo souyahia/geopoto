@@ -26,7 +26,7 @@ export function LearnPage() {
             icon={Flag}
             title={t("learn.menu-cards.flags.title")}
             description={t("learn.menu-cards.flags.description")}
-            isDisabled
+            onPress={() => router.push("/learn/flags")}
           />
           <MenuCard
             icon={ScrollText}
@@ -38,7 +38,7 @@ export function LearnPage() {
             icon={Building2}
             title={t("learn.menu-cards.capitals.title")}
             description={t("learn.menu-cards.capitals.description")}
-            isDisabled
+            onPress={() => router.push("/learn/capitals")}
           />
         </View>
       </ScrollView>

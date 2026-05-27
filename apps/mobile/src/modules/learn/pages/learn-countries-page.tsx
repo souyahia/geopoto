@@ -1,5 +1,4 @@
 import { useRouter } from "expo-router";
-import { SearchField } from "heroui-native/search-field";
 import { Text } from "heroui-native/text";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,6 +17,7 @@ import {
   CountryListItem,
 } from "../components/country-list-item";
 import { LearnHeader } from "../components/learn-header";
+import { LearnSearchField } from "../components/learn-search-field";
 import { filterCountries } from "../utils/country-search";
 
 const COUNTRY_LIST_INITIAL_ITEMS = 12;
@@ -58,8 +58,8 @@ export function LearnCountriesPage() {
   const sortedCountries = COUNTRY_SUMMARIES_BY_NAME[geoLang];
 
   const countries = useMemo(
-    () => filterCountries({ countries: sortedCountries, searchQuery }),
-    [searchQuery, sortedCountries],
+    () => filterCountries({ countries: sortedCountries, geoLang, searchQuery }),
+    [geoLang, searchQuery, sortedCountries],
   );
 
   useEffect(() => {
@@ -85,21 +85,13 @@ export function LearnCountriesPage() {
     <View className="flex-1 p-safe">
       <LearnHeader title={t("learn.countries.title")} />
       <View className="px-6 pb-3 pt-4">
-        <SearchField value={searchQuery} onChange={setSearchQuery}>
-          <SearchField.Group>
-            <SearchField.SearchIcon />
-            <SearchField.Input
-              accessibilityLabel={t("learn.countries.search.label")}
-              autoCapitalize="none"
-              autoCorrect={false}
-              placeholder={t("learn.countries.search.placeholder")}
-              spellCheck={false}
-            />
-            <SearchField.ClearButton
-              accessibilityLabel={t("learn.countries.search.clear")}
-            />
-          </SearchField.Group>
-        </SearchField>
+        <LearnSearchField
+          accessibilityLabel={t("learn.countries.search.label")}
+          clearAccessibilityLabel={t("learn.countries.search.clear")}
+          onChange={setSearchQuery}
+          placeholder={t("learn.countries.search.placeholder")}
+          value={searchQuery}
+        />
       </View>
       <FlatList
         ref={listRef}

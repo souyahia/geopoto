@@ -40,10 +40,50 @@
       "title": "Países",
       "search": {
         "label": "Pesquisar países",
-        "placeholder": "Pesquisar por país, código, capital...",
+        "placeholder": "Pesquisar por país...",
         "clear": "Limpar pesquisa"
       },
       "empty": "Nenhum país encontrado."
+    },
+    "capitals": {
+      "title": "Capitais",
+      "search": {
+        "label": "Pesquisar capitais",
+        "placeholder": "Pesquisar por capital ou país...",
+        "clear": "Limpar pesquisa"
+      },
+      "empty": "Nenhuma capital encontrada."
+    },
+    "flags": {
+      "title": "Bandeiras",
+      "search": {
+        "label": "Pesquisar bandeiras",
+        "placeholder": "Pesquisar por país...",
+        "clear": "Limpar pesquisa"
+      },
+      "colors": {
+        "label": "Cores da bandeira",
+        "placeholder": "Cores",
+        "trigger-label": "Filtrar bandeiras por cor",
+        "selected": "{{count}} selecionadas",
+        "clear": "Limpar",
+        "options": {
+          "red": "Vermelho",
+          "orange": "Laranja",
+          "yellow": "Amarelo",
+          "green": "Verde",
+          "blue": "Azul",
+          "purple": "Roxo",
+          "black": "Preto",
+          "white": "Branco",
+          "gray": "Cinzento",
+          "brown": "Castanho"
+        }
+      },
+      "flag": {
+        "accessibility-label": "Abrir a bandeira de {{country}}"
+      },
+      "empty": "Nenhuma bandeira encontrada."
     },
     "country": {
       "not-found": {

@@ -1,10 +1,11 @@
+import type { SkPath } from "@shopify/react-native-skia";
+
 import type {
   Country,
   CountryMapPathResolution,
   MapBounds,
 } from "@geopoto/geo-data";
 import { COUNTRIES } from "@geopoto/geo-data";
-import type { SkPath } from "@shopify/react-native-skia";
 
 import type { MapViewerPathVisualState } from "./map-viewer-path-layer";
 import {

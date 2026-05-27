@@ -40,10 +40,50 @@
       "title": "Länder",
       "search": {
         "label": "Länder suchen",
-        "placeholder": "Nach Land, Code, Hauptstadt suchen...",
+        "placeholder": "Nach Land suchen...",
         "clear": "Suche löschen"
       },
       "empty": "Keine Länder gefunden."
+    },
+    "capitals": {
+      "title": "Hauptstädte",
+      "search": {
+        "label": "Hauptstädte suchen",
+        "placeholder": "Nach Hauptstadt oder Land suchen...",
+        "clear": "Suche löschen"
+      },
+      "empty": "Keine Hauptstädte gefunden."
+    },
+    "flags": {
+      "title": "Flaggen",
+      "search": {
+        "label": "Flaggen suchen",
+        "placeholder": "Nach Land suchen...",
+        "clear": "Suche löschen"
+      },
+      "colors": {
+        "label": "Flaggenfarben",
+        "placeholder": "Farben",
+        "trigger-label": "Flaggen nach Farbe filtern",
+        "selected": "{{count}} ausgewählt",
+        "clear": "Löschen",
+        "options": {
+          "red": "Rot",
+          "orange": "Orange",
+          "yellow": "Gelb",
+          "green": "Grün",
+          "blue": "Blau",
+          "purple": "Lila",
+          "black": "Schwarz",
+          "white": "Weiß",
+          "gray": "Grau",
+          "brown": "Braun"
+        }
+      },
+      "flag": {
+        "accessibility-label": "Flagge von {{country}} öffnen"
+      },
+      "empty": "Keine Flaggen gefunden."
     },
     "country": {
       "not-found": {

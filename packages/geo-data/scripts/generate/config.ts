@@ -12,11 +12,18 @@ export const GENERATED_FLAG_PNGS_DIRECTORY = resolve(
   GENERATED_DIRECTORY,
   "flags-png",
 );
+export const GENERATED_FLAG_THUMBNAIL_PNGS_DIRECTORY = resolve(
+  GENERATED_DIRECTORY,
+  "flags-png-thumbnail",
+);
 export const GENERATED_LOW_RESOLUTION_FLAG_PNGS_DIRECTORY = resolve(
   GENERATED_DIRECTORY,
   "flags-png-low",
 );
 export const FLAG_PNG_MAX_SIZE = 900;
+export const FLAG_COLOR_SAMPLE_MAX_SIZE = 512;
+export const FLAG_THUMBNAIL_PNG_MAX_SIZE = 120;
+export const FLAG_THUMBNAIL_PNG_SCALES = [1, 2, 3] as const;
 export const LOW_RESOLUTION_FLAG_PNG_MAX_SIZE = 32;
 export const LOW_RESOLUTION_FLAG_PNG_SCALES = [1, 2, 3] as const;
 

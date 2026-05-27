@@ -5,22 +5,34 @@ import { dirname, resolve } from "node:path";
 import { Resvg } from "@resvg/resvg-js";
 
 import type { Country } from "../../src/countries.ts";
+import type {
+  CountryFlagColor,
+  CountryFlagColorCoverage,
+} from "../../src/flag-colors.ts";
 import {
+  FLAG_COLOR_SAMPLE_MAX_SIZE,
   FLAG_PNG_MAX_SIZE,
+  FLAG_THUMBNAIL_PNG_MAX_SIZE,
+  FLAG_THUMBNAIL_PNG_SCALES,
   GENERATED_FLAG_PNGS_DIRECTORY,
+  GENERATED_FLAG_THUMBNAIL_PNGS_DIRECTORY,
   GENERATED_FLAGS_DIRECTORY,
   GENERATED_LOW_RESOLUTION_FLAG_PNGS_DIRECTORY,
   LOW_RESOLUTION_FLAG_PNG_MAX_SIZE,
   LOW_RESOLUTION_FLAG_PNG_SCALES,
 } from "./config.ts";
+import { extractCountryFlagColorMetadata } from "./flag-colors.ts";
 import type { GeneratedBinaryFile, GeneratedTextFile } from "./types.ts";
 
 interface GeneratedCountryFlag {
   aspectRatio: number;
   code: string;
+  colorCoverage: CountryFlagColorCoverage;
+  colors: readonly CountryFlagColor[];
   lowResolutionPng: FlagDimensions;
   png: FlagDimensions;
   svg: SvgMetadata;
+  thumbnailPng: FlagDimensions;
 }
 
 interface GeneratedFlagArtifacts {
@@ -58,12 +70,26 @@ interface RenderFlagPngParams {
   svg: string;
 }
 
+interface RenderFlagColorSampleParams {
+  dimensions: FlagDimensions;
+  svg: string;
+}
+
+interface RenderedFlagColorSample extends FlagDimensions {
+  pixels: Buffer;
+}
+
 interface ScaleFlagDimensionsParams {
   dimensions: FlagDimensions;
   scale: number;
 }
 
 interface ToGeneratedLowResolutionFlagPngPathParams {
+  code: string;
+  scale: number;
+}
+
+interface ToGeneratedFlagThumbnailPngPathParams {
   code: string;
   scale: number;
 }
@@ -95,6 +121,16 @@ function toGeneratedFlagPath(code: string): string {
 
 function toGeneratedFlagPngPath(code: string): string {
   return resolve(GENERATED_FLAG_PNGS_DIRECTORY, toFlagPngFileName(code));
+}
+
+function toGeneratedFlagThumbnailPngPath({
+  code,
+  scale,
+}: ToGeneratedFlagThumbnailPngPathParams): string {
+  return resolve(
+    GENERATED_FLAG_THUMBNAIL_PNGS_DIRECTORY,
+    toFlagPngFileName(code, scale),
+  );
 }
 
 function toGeneratedLowResolutionFlagPngPath({
@@ -177,6 +213,23 @@ function renderFlagPng({ png, svg }: RenderFlagPngParams): Buffer {
   return new Resvg(svg, { fitTo }).render().asPng();
 }
 
+function renderFlagColorSample({
+  dimensions,
+  svg,
+}: RenderFlagColorSampleParams): RenderedFlagColorSample {
+  const fitTo =
+    dimensions.width >= dimensions.height
+      ? { mode: "width" as const, value: dimensions.width }
+      : { mode: "height" as const, value: dimensions.height };
+  const renderedImage = new Resvg(svg, { fitTo }).render();
+
+  return {
+    height: renderedImage.height,
+    pixels: renderedImage.pixels,
+    width: renderedImage.width,
+  };
+}
+
 function buildCountryFlag({
   code,
   svg,
@@ -190,10 +243,26 @@ function buildCountryFlag({
     maxSize: LOW_RESOLUTION_FLAG_PNG_MAX_SIZE,
     viewBox,
   });
+  const thumbnailPng = toPngDimensions({
+    maxSize: FLAG_THUMBNAIL_PNG_MAX_SIZE,
+    viewBox,
+  });
+  const colorSampleDimensions = toPngDimensions({
+    maxSize: FLAG_COLOR_SAMPLE_MAX_SIZE,
+    viewBox,
+  });
+  const colorMetadata = extractCountryFlagColorMetadata(
+    renderFlagColorSample({
+      dimensions: colorSampleDimensions,
+      svg,
+    }),
+  );
 
   return {
     aspectRatio: viewBox.width / viewBox.height,
     code,
+    colorCoverage: colorMetadata.colorCoverage,
+    colors: colorMetadata.colors,
     lowResolutionPng,
     png,
     svg: {
@@ -201,6 +270,7 @@ function buildCountryFlag({
       viewBox: viewBox.value,
       width: viewBox.width,
     },
+    thumbnailPng,
   };
 }
 
@@ -236,6 +306,16 @@ export async function buildCountryFlags({
           }),
           scale,
         })),
+        thumbnailPngFiles: FLAG_THUMBNAIL_PNG_SCALES.map((scale) => ({
+          png: renderFlagPng({
+            png: scaleFlagDimensions({
+              dimensions: flag.thumbnailPng,
+              scale,
+            }),
+            svg,
+          }),
+          scale,
+        })),
         svg,
       };
     }),
@@ -258,6 +338,16 @@ export async function buildCountryFlags({
         }),
       })),
   );
+  const thumbnailPngFiles = countryFlagAssets.flatMap(
+    ({ flag, thumbnailPngFiles }) =>
+      thumbnailPngFiles.map(({ png, scale }) => ({
+        content: png,
+        path: toGeneratedFlagThumbnailPngPath({
+          code: flag.code,
+          scale,
+        }),
+      })),
+  );
   const svgFiles = countryFlagAssets.map(({ flag, svg }) => ({
     content: svg,
     path: toGeneratedFlagPath(flag.code),
@@ -265,7 +355,7 @@ export async function buildCountryFlags({
 
   return {
     flags,
-    pngFiles: [...pngFiles, ...lowResolutionPngFiles],
+    pngFiles: [...pngFiles, ...lowResolutionPngFiles, ...thumbnailPngFiles],
     svgFiles,
   };
 }

@@ -11,6 +11,14 @@ const config: ExpoConfig = {
     "expo-router",
     "expo-localization",
     "expo-image",
+    [
+      "expo-build-properties",
+      {
+        ios: {
+          deploymentTarget: "16.0",
+        },
+      },
+    ],
   ],
   ios: {
     bundleIdentifier: "souyahia.geopoto.dev",

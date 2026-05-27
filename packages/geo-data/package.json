@@ -16,9 +16,17 @@
       "types": "./src/flags.ts",
       "default": "./src/flags.ts"
     },
+    "./flag-colors": {
+      "types": "./src/flag-colors.ts",
+      "default": "./src/flag-colors.ts"
+    },
     "./flag-images": {
       "types": "./src/flag-images.ts",
       "default": "./src/flag-images.ts"
+    },
+    "./flag-thumbnail-images": {
+      "types": "./src/flag-thumbnail-images.ts",
+      "default": "./src/flag-thumbnail-images.ts"
     },
     "./low-resolution-flag-images": {
       "types": "./src/low-resolution-flag-images.ts",
@@ -37,6 +45,9 @@
     },
     "./flags-png-low/*.png": {
       "default": "./generated/flags-png-low/*.png"
+    },
+    "./flags-png-thumbnail/*.png": {
+      "default": "./generated/flags-png-thumbnail/*.png"
     },
     "./flags/*.svg": {
       "default": "./generated/flags/*.svg"
