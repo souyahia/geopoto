@@ -1,16 +1,22 @@
 import type { Country, MapRegionName } from "@geopoto/geo-data";
 import { COUNTRIES } from "@geopoto/geo-data";
 
-import { pickRandom } from "@/utils/random";
+import { pickRandom, shuffle } from "@/utils/random";
 
-const QUIZZ_FORMATS = {
-  COUNTRY_NAME: "country-name",
-  COUNTRY_CAPITAL: "country-capital",
-  COUNTRY_FLAG: "country-flag",
-  COUNTRY_MAP: "country-position",
-} as const;
+export const QUIZZ_FORMATS = [
+  "country-name",
+  "country-capital",
+  "country-flag",
+  "country-position",
+] as const;
 
-export type QuizzFormat = (typeof QUIZZ_FORMATS)[keyof typeof QUIZZ_FORMATS];
+export type QuizzFormat = (typeof QUIZZ_FORMATS)[number];
+
+export const QUIZZ_ANSWER_FORMATS = [
+  "country-name",
+  "country-capital",
+  "country-position",
+] satisfies readonly QuizzFormat[];
 
 export interface QuizzQuestion {
   countryCode: string;
@@ -20,9 +26,13 @@ export interface QuizzQuestion {
 
 export interface QuizzOptions {
   regions: MapRegionName[];
-  acceptedQuestionFormats: QuizzFormat[];
-  acceptedAnswerFormats: QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+  acceptedAnswerFormats: readonly QuizzFormat[];
   limit?: number;
+}
+
+export function isQuizzFormat(value: unknown): value is QuizzFormat {
+  return QUIZZ_FORMATS.some((format) => format === value);
 }
 
 export function createQuizz({
@@ -36,12 +46,11 @@ export function createQuizz({
   const regionCountries = COUNTRIES.filter((country) =>
     regions.some((region) => country.regions.includes(region)),
   );
-  const slicedCountries = limit
-    ? regionCountries.slice(0, limit)
-    : regionCountries;
-  const shuffledCountries = slicedCountries.sort(() => Math.random() - 0.5);
+  const shuffledCountries = shuffle([...regionCountries]);
+  const limitedCountries =
+    limit === undefined ? shuffledCountries : shuffledCountries.slice(0, limit);
 
-  return shuffledCountries.map((country) =>
+  return limitedCountries.map((country) =>
     createQuizzQuestion({
       country,
       acceptedQuestionFormats,
@@ -51,8 +60,8 @@ export function createQuizz({
 }
 
 interface ValidateQuizzFormatsParams {
-  acceptedQuestionFormats: QuizzFormat[];
-  acceptedAnswerFormats: QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+  acceptedAnswerFormats: readonly QuizzFormat[];
 }
 
 function validateQuizzFormats({
@@ -72,18 +81,35 @@ function validateQuizzFormats({
   }
 
   if (
-    acceptedQuestionFormats.length === 1 &&
-    acceptedAnswerFormats.length === 1 &&
-    firstQuestionFormat === firstAnswerFormat
+    hasQuizzFormatConflict({ acceptedQuestionFormats, acceptedAnswerFormats })
   ) {
     throw new Error("Question and answer formats cannot be the same");
   }
 }
 
+interface HasQuizzFormatConflictParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+}
+
+export function hasQuizzFormatConflict({
+  acceptedAnswerFormats,
+  acceptedQuestionFormats,
+}: HasQuizzFormatConflictParams) {
+  const firstQuestionFormat = acceptedQuestionFormats.at(0);
+  const firstAnswerFormat = acceptedAnswerFormats.at(0);
+
+  return (
+    acceptedQuestionFormats.length === 1 &&
+    acceptedAnswerFormats.length === 1 &&
+    firstQuestionFormat === firstAnswerFormat
+  );
+}
+
 interface CreateQuizzQuestionParams {
   country: Country;
-  acceptedQuestionFormats: QuizzFormat[];
-  acceptedAnswerFormats: QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+  acceptedAnswerFormats: readonly QuizzFormat[];
 }
 
 function createQuizzQuestion({

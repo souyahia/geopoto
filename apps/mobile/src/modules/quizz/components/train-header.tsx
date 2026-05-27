@@ -8,7 +8,13 @@ import { HapticButton } from "@/components/haptic-button";
 import { Header } from "@/components/header/header";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
-export function TrainHeader() {
+interface TrainHeaderProps {
+  shouldShowSettingsButton?: boolean;
+}
+
+export function TrainHeader({
+  shouldShowSettingsButton = true,
+}: TrainHeaderProps) {
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -22,16 +28,18 @@ export function TrainHeader() {
           {t("train.title")}
         </Text>
       </Header.Center>
-      <Header.Right>
-        <HapticButton
-          variant="ghost"
-          aria-label={t("train.settings")}
-          isIconOnly
-          onPress={() => router.push("/settings")}
-        >
-          <ThemedIcon icon={Settings} />
-        </HapticButton>
-      </Header.Right>
+      {shouldShowSettingsButton && (
+        <Header.Right>
+          <HapticButton
+            variant="ghost"
+            aria-label={t("train.settings")}
+            isIconOnly
+            onPress={() => router.push("/settings")}
+          >
+            <ThemedIcon icon={Settings} />
+          </HapticButton>
+        </Header.Right>
+      )}
     </Header>
   );
 }

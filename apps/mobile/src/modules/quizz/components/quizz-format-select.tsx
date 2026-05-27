@@ -17,7 +17,12 @@ import { View } from "react-native";
 import { HapticPressableFeedback } from "@/components/haptic-pressable-feedback";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
-import type { QuizzFormat } from "../utils/quizz";
+import {
+  isQuizzFormat,
+  QUIZZ_ANSWER_FORMATS,
+  QUIZZ_FORMATS,
+  type QuizzFormat,
+} from "../utils/quizz";
 
 type SelectedTrainSelectOption =
   | {
@@ -64,6 +69,7 @@ const QUIZZ_FORMAT_OPTIONS = [
 export const DEFAULT_QUIZZ_FORMATS = QUIZZ_FORMAT_OPTIONS.map(
   (option) => option.value,
 );
+export const DEFAULT_QUIZZ_ANSWER_FORMATS = [...QUIZZ_ANSWER_FORMATS];
 
 interface QuizzFormatDisplayOption {
   icon: LucideIcon;
@@ -74,14 +80,16 @@ interface QuizzFormatDisplayOption {
 interface QuizzFormatSelectProps {
   accessibilityLabel: string;
   errorMessage?: string;
+  availableFormats?: readonly QuizzFormat[];
   isInvalid: boolean;
   label: string;
   onSelectedFormatsChange: (formats: QuizzFormat[]) => void;
-  selectedFormats: QuizzFormat[];
+  selectedFormats: readonly QuizzFormat[];
 }
 
 export function QuizzFormatSelect({
   accessibilityLabel,
+  availableFormats = QUIZZ_FORMATS,
   errorMessage,
   isInvalid,
   label,
@@ -90,20 +98,24 @@ export function QuizzFormatSelect({
 }: QuizzFormatSelectProps) {
   const { t } = useTranslation();
   const hasAllFormatsSelected =
-    selectedFormats.length === QUIZZ_FORMAT_OPTIONS.length;
-  const formatOptions = useMemo(
+    selectedFormats.length === availableFormats.length;
+  const displayFormatOptions = useMemo(
     () =>
-      QUIZZ_FORMAT_OPTIONS.map((option) => ({
+      QUIZZ_FORMAT_OPTIONS.filter((option) =>
+        availableFormats.includes(option.value),
+      ).map((option) => ({
         icon: option.icon,
         label: t(option.labelKey),
         value: option.value,
       })),
-    [t],
+    [availableFormats, t],
   );
   const selectedFormatOptions = useMemo(
     () =>
-      formatOptions.filter((option) => selectedFormats.includes(option.value)),
-    [formatOptions, selectedFormats],
+      displayFormatOptions.filter((option) =>
+        selectedFormats.includes(option.value),
+      ),
+    [displayFormatOptions, selectedFormats],
   );
   const triggerLabel = hasAllFormatsSelected
     ? t("train.format-select.all")
@@ -111,7 +123,10 @@ export function QuizzFormatSelect({
 
   const handleValueChange = useCallback(
     (options: SelectedTrainSelectOption[]) => {
-      const formats = toQuizzFormats(options);
+      const formats = toQuizzFormats({
+        availableFormats,
+        options,
+      });
 
       if (formats.length === 0) {
         return;
@@ -119,7 +134,7 @@ export function QuizzFormatSelect({
 
       onSelectedFormatsChange(formats);
     },
-    [onSelectedFormatsChange],
+    [availableFormats, onSelectedFormatsChange],
   );
 
   return (
@@ -153,7 +168,7 @@ export function QuizzFormatSelect({
             <Select.ListLabel className="px-4 pb-2 pt-2">
               {label}
             </Select.ListLabel>
-            {formatOptions.map((option) => (
+            {displayFormatOptions.map((option) => (
               <QuizzFormatSelectItem key={option.value} option={option} />
             ))}
           </Select.Content>
@@ -216,20 +231,14 @@ function QuizzFormatSelectionMark({
   );
 }
 
-function toQuizzFormats(options: readonly SelectedTrainSelectOption[]) {
-  return options.map((option) => option?.value).filter(isQuizzFormat);
+interface ToQuizzFormatsParams {
+  availableFormats: readonly QuizzFormat[];
+  options: readonly SelectedTrainSelectOption[];
 }
 
-function isQuizzFormat(value: string | undefined): value is QuizzFormat {
-  switch (value) {
-    case "country-name":
-    case "country-capital":
-    case "country-flag":
-    case "country-position":
-      return true;
-    case undefined:
-      return false;
-    default:
-      return false;
-  }
+function toQuizzFormats({ availableFormats, options }: ToQuizzFormatsParams) {
+  return options
+    .map((option) => option?.value)
+    .filter(isQuizzFormat)
+    .filter((format) => availableFormats.includes(format));
 }

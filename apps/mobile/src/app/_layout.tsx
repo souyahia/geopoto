@@ -8,6 +8,7 @@ import { useThemeColor } from "heroui-native/hooks";
 import { HeroUINativeProvider } from "heroui-native/provider";
 import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 import { NavigationConfirmModal } from "@/services/navigation-confirm/navigation-confirm-modal";
 import { useSyncThemePreference } from "@/services/theme/sync-theme-preference";
@@ -41,7 +42,9 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <HeroUINativeProvider>
-        <AppRoot />
+        <KeyboardProvider>
+          <AppRoot />
+        </KeyboardProvider>
       </HeroUINativeProvider>
     </GestureHandlerRootView>
   );

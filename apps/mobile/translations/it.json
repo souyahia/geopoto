@@ -78,7 +78,38 @@
     "validation": {
       "formats-must-be-different": "I formati di domanda e risposta devono essere diversi."
     },
-    "start": "Avvia allenamento"
+    "start": "Avvia allenamento",
+    "session": {
+      "score": {
+        "title": "Punteggio",
+        "progress": "{{answered}} / {{total}}",
+        "correct": "Corrette",
+        "wrong": "Sbagliate",
+        "remaining": "Rimanenti",
+        "streak": "Serie",
+        "best-streak": "Serie migliore"
+      },
+      "answer": {
+        "country-name-label": "Inserisci il nome del paese:",
+        "country-capital-label": "Inserisci la capitale:",
+        "text-input-label": "Risposta",
+        "text-input-placeholder": "Inserisci la risposta",
+        "submit": "Invia",
+        "confirm": "Conferma"
+      },
+      "leave-confirm": {
+        "title": "Uscire dall’allenamento?",
+        "description": "I progressi dell’allenamento andranno persi.",
+        "cancel-label": "Continua ad allenarti",
+        "confirm-label": "Esci"
+      },
+      "complete": {
+        "title": "Allenamento completato",
+        "description": "{{correct}} corrette, {{wrong}} sbagliate, {{total}} in totale. Serie migliore: {{bestStreak}}.",
+        "play-again": "Gioca di nuovo",
+        "back": "Indietro"
+      }
+    }
   },
   "learn": {
     "title": "Impara",

@@ -22,6 +22,9 @@ const config: ExpoConfig = {
   ],
   ios: {
     bundleIdentifier: "souyahia.geopoto.dev",
+    infoPlist: {
+      CADisableMinimumFrameDurationOnPhone: true, // For 120FPS animations, as recommended here: https://kirillzyusko.github.io/react-native-keyboard-controller/docs/api/hooks/keyboard/use-keyboard-handler
+    },
   },
   android: {
     package: "souyahia.geopoto.dev",

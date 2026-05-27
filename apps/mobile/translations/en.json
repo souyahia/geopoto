@@ -78,7 +78,38 @@
     "validation": {
       "formats-must-be-different": "Question and answer formats must be different."
     },
-    "start": "Start training"
+    "start": "Start training",
+    "session": {
+      "score": {
+        "title": "Score",
+        "progress": "{{answered}} / {{total}}",
+        "correct": "Correct",
+        "wrong": "Wrong",
+        "remaining": "Remaining",
+        "streak": "Streak",
+        "best-streak": "Best streak"
+      },
+      "answer": {
+        "country-name-label": "Enter the country name:",
+        "country-capital-label": "Enter the capital:",
+        "text-input-label": "Answer",
+        "text-input-placeholder": "Type your answer",
+        "submit": "Submit",
+        "confirm": "Confirm"
+      },
+      "leave-confirm": {
+        "title": "Leave training?",
+        "description": "Your training progress will be lost.",
+        "cancel-label": "Keep training",
+        "confirm-label": "Leave"
+      },
+      "complete": {
+        "title": "Training complete",
+        "description": "{{correct}} correct, {{wrong}} wrong, {{total}} total. Best streak: {{bestStreak}}.",
+        "play-again": "Play again",
+        "back": "Back"
+      }
+    }
   },
   "learn": {
     "title": "Learn",

@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import type { TFunction } from "i18next";
 import { Play } from "lucide-react-native";
 import { useCallback, useEffect } from "react";
@@ -21,13 +22,15 @@ import {
   type QuestionLimitOptionValue,
 } from "../components/question-limit-select";
 import {
+  DEFAULT_QUIZZ_ANSWER_FORMATS,
   DEFAULT_QUIZZ_FORMATS,
   QuizzFormatSelect,
 } from "../components/quizz-format-select";
 import { RegionSelect } from "../components/region-select";
 import { TrainHeader } from "../components/train-header";
 import { TrainOptionSection } from "../components/train-option-section";
-import type { QuizzFormat, QuizzOptions } from "../utils/quizz";
+import { hasQuizzFormatConflict, type QuizzOptions } from "../utils/quizz";
+import { buildTrainingSessionSearchParams } from "../utils/training-session-params";
 
 const TRAIN_FORMAT_ERROR_KEY = "train.validation.formats-must-be-different";
 
@@ -39,7 +42,7 @@ interface TrainFormValues {
 }
 
 const TRAIN_FORM_DEFAULT_VALUES = {
-  acceptedAnswerFormats: DEFAULT_QUIZZ_FORMATS,
+  acceptedAnswerFormats: DEFAULT_QUIZZ_ANSWER_FORMATS,
   acceptedQuestionFormats: DEFAULT_QUIZZ_FORMATS,
   selectedQuestionLimit: "no-limit",
   selectedRegion: "world",
@@ -47,6 +50,7 @@ const TRAIN_FORM_DEFAULT_VALUES = {
 
 export function TrainPage() {
   const { t } = useTranslation();
+  const router = useRouter();
   const { control, formState, handleSubmit, trigger } =
     useForm<TrainFormValues>({
       defaultValues: TRAIN_FORM_DEFAULT_VALUES,
@@ -78,7 +82,22 @@ export function TrainPage() {
     questionFormatErrorMessage || answerFormatErrorMessage,
   );
 
-  const submitTrainForm = useCallback(() => undefined, []);
+  const submitTrainForm = useCallback(
+    (values: TrainFormValues) => {
+      const sessionSearchParams = buildTrainingSessionSearchParams({
+        options: {
+          acceptedAnswerFormats: values.acceptedAnswerFormats,
+          acceptedQuestionFormats: values.acceptedQuestionFormats,
+          limit: getQuestionLimit(values.selectedQuestionLimit),
+          regions: [values.selectedRegion],
+        },
+      });
+      const searchParams = new URLSearchParams(sessionSearchParams);
+
+      router.push(`/train/session?${searchParams.toString()}`);
+    },
+    [router],
+  );
 
   const handleStartPress = useCallback(() => {
     void handleSubmit(submitTrainForm)();
@@ -137,6 +156,7 @@ export function TrainPage() {
               render={({ field }) => (
                 <QuizzFormatSelect
                   accessibilityLabel={t("train.answer-formats.trigger-label")}
+                  availableFormats={DEFAULT_QUIZZ_ANSWER_FORMATS}
                   errorMessage={answerFormatErrorMessage}
                   isInvalid={Boolean(answerFormatErrorMessage)}
                   label={t("train.answer-formats.select-label")}
@@ -190,7 +210,7 @@ export function TrainPage() {
 const trainFormResolver: Resolver<TrainFormValues> = (
   values,
 ): ResolverResult<TrainFormValues> => {
-  if (!hasTrainFormFormatConflict(values)) {
+  if (!hasQuizzFormatConflict(values)) {
     return {
       errors: {},
       values,
@@ -212,25 +232,6 @@ const trainFormResolver: Resolver<TrainFormValues> = (
   };
 };
 
-interface HasTrainFormFormatConflictParams {
-  acceptedAnswerFormats: QuizzFormat[];
-  acceptedQuestionFormats: QuizzFormat[];
-}
-
-function hasTrainFormFormatConflict({
-  acceptedAnswerFormats,
-  acceptedQuestionFormats,
-}: HasTrainFormFormatConflictParams) {
-  const firstQuestionFormat = acceptedQuestionFormats.at(0);
-  const firstAnswerFormat = acceptedAnswerFormats.at(0);
-
-  return (
-    acceptedQuestionFormats.length === 1 &&
-    acceptedAnswerFormats.length === 1 &&
-    firstQuestionFormat === firstAnswerFormat
-  );
-}
-
 interface GetTrainFormErrorMessageParams {
   message: string | undefined;
   t: TFunction;
@@ -247,5 +248,24 @@ function getTrainFormErrorMessage({
       return undefined;
     default:
       return message;
+  }
+}
+
+function getQuestionLimit(
+  selectedQuestionLimit: QuestionLimitOptionValue,
+): number | undefined {
+  switch (selectedQuestionLimit) {
+    case "no-limit":
+      return undefined;
+    case "10":
+    case "20":
+    case "50":
+    case "100":
+      return Number(selectedQuestionLimit);
+    default: {
+      const exhaustiveQuestionLimit: never = selectedQuestionLimit;
+
+      return exhaustiveQuestionLimit;
+    }
   }
 }
