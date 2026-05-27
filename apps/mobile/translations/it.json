@@ -25,6 +25,12 @@
   "map-viewer": {
     "reset": "Reimposta vista mappa"
   },
+  "navigation-confirm": {
+    "title": "Uscire da questa schermata?",
+    "description": "Le modifiche non salvate potrebbero andare perse.",
+    "cancel-label": "Rimani",
+    "confirm-label": "Esci"
+  },
   "train": {
     "title": "Allenati",
     "settings": "Impostazioni",

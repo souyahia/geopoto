@@ -25,6 +25,12 @@
   "map-viewer": {
     "reset": "Reset map view"
   },
+  "navigation-confirm": {
+    "title": "Leave this screen?",
+    "description": "Any unsaved changes may be lost.",
+    "cancel-label": "Stay",
+    "confirm-label": "Leave"
+  },
   "train": {
     "title": "Train",
     "settings": "Settings",

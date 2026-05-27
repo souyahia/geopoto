@@ -19,6 +19,7 @@
     "@geopoto/geo-data": "workspace:*",
     "@gorhom/bottom-sheet": "^5.2.14",
     "@nandorojo/galeria": "3.0.2",
+    "@react-navigation/native": "7.2.4",
     "@shopify/react-native-skia": "^2.6.2",
     "expo": "55.0.23",
     "expo-build-properties": "~55.0.14",
@@ -49,7 +50,8 @@
     "tailwind-variants": "^3.2.2",
     "tailwindcss": "^4.2.2",
     "ts-pattern": "^5.9.0",
-    "uniwind": "^1.6.1"
+    "uniwind": "^1.6.1",
+    "zustand": "^5.0.13"
   },
   "devDependencies": {
     "@geopoto/tsconfig": "workspace:*",

@@ -9,6 +9,7 @@ import { HeroUINativeProvider } from "heroui-native/provider";
 import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import { NavigationConfirmModal } from "@/services/navigation-confirm/navigation-confirm-modal";
 import { useSyncThemePreference } from "@/services/theme/sync-theme-preference";
 import { useAppTheme } from "@/services/theme/theme";
 
@@ -31,6 +32,7 @@ function AppRoot() {
         <Stack.Screen name="index" />
         <Stack.Screen name="backrooms" options={{ presentation: "modal" }} />
       </Stack>
+      <NavigationConfirmModal />
     </View>
   );
 }

@@ -25,6 +25,12 @@
   "map-viewer": {
     "reset": "Restablecer vista del mapa"
   },
+  "navigation-confirm": {
+    "title": "¿Salir de esta pantalla?",
+    "description": "Los cambios no guardados pueden perderse.",
+    "cancel-label": "Permanecer",
+    "confirm-label": "Salir"
+  },
   "train": {
     "title": "Entrenar",
     "settings": "Ajustes",

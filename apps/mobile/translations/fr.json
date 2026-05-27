@@ -25,6 +25,12 @@
   "map-viewer": {
     "reset": "Réinitialiser la vue de la carte"
   },
+  "navigation-confirm": {
+    "title": "Quitter cet écran ?",
+    "description": "Les modifications non enregistrées peuvent être perdues.",
+    "cancel-label": "Rester",
+    "confirm-label": "Quitter"
+  },
   "train": {
     "title": "Entraînement",
     "settings": "Paramètres",
