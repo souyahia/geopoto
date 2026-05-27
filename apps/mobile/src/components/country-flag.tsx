@@ -26,7 +26,9 @@ interface GetFlagSizeParams {
 
 const DEFAULT_FLAG_WIDTH = 32;
 
-function useCountryFlagImageSource(code: string): CountryFlagImage | null {
+export function useCountryFlagImageSource(
+  code: string,
+): CountryFlagImage | null {
   const [imageSource, setImageSource] = useState<CountryFlagImage | null>(null);
 
   useEffect(() => {
