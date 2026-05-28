@@ -1,5 +1,16 @@
 import { useRouter } from "expo-router";
-import { BookOpenText, Dumbbell, Settings, Trophy } from "lucide-react-native";
+import { Text } from "heroui-native/text";
+import {
+  BookOpenText,
+  CalendarDays,
+  CheckCircle2,
+  CircleDashed,
+  CircleX,
+  Dumbbell,
+  Flame,
+  Settings,
+  type LucideIcon,
+} from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
@@ -9,9 +20,16 @@ import { HapticButton } from "@/components/haptic-button";
 import { MenuCard } from "@/components/menu-card";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
+type DailyChallengeStatus = "completed" | "failed" | "not-played";
+
 export function HomePage() {
   const { t } = useTranslation();
   const router = useRouter();
+  const dailyChallengeStatus: DailyChallengeStatus = "not-played";
+  const dailyChallengeStreak = 0;
+  const isDailyChallengePlayed = isDailyChallengeStatusPlayed({
+    status: dailyChallengeStatus,
+  });
 
   return (
     <View className="flex-1 p-safe">
@@ -38,10 +56,16 @@ export function HomePage() {
       </View>
       <View className="flex-1 items-center px-10 py-4 justify-stretch gap-4">
         <MenuCard
-          icon={Trophy}
-          title={t("home.game-modes.challenge.title")}
-          description={t("home.game-modes.coming-soon")}
-          isDisabled
+          icon={CalendarDays}
+          title={t("home.game-modes.daily-challenge.title")}
+          description={t("home.game-modes.daily-challenge.description")}
+          isDisabled={isDailyChallengePlayed}
+          titleAccessory={
+            <DailyChallengeStatusRow
+              status={dailyChallengeStatus}
+              streak={dailyChallengeStreak}
+            />
+          }
         />
         <MenuCard
           icon={Dumbbell}
@@ -58,4 +82,78 @@ export function HomePage() {
       </View>
     </View>
   );
+}
+
+interface DailyChallengeStatusRowProps {
+  status: DailyChallengeStatus;
+  streak: number;
+}
+
+function DailyChallengeStatusRow({
+  status,
+  streak,
+}: DailyChallengeStatusRowProps) {
+  const isStreakVisible = streak >= 1;
+
+  return (
+    <View className="flex-row items-center gap-1.5">
+      <DailyChallengeStatusIcon status={status} />
+      {isStreakVisible && (
+        <View className="flex-row items-center gap-1 rounded-full bg-surface-tertiary px-2 py-1">
+          <ThemedIcon colorClassName="text-warning" icon={Flame} size={14} />
+          <Text type="body-xs" weight="semibold" className="leading-4">
+            {streak}
+          </Text>
+        </View>
+      )}
+    </View>
+  );
+}
+
+interface DailyChallengeStatusIconProps {
+  status: DailyChallengeStatus;
+}
+
+function DailyChallengeStatusIcon({ status }: DailyChallengeStatusIconProps) {
+  const iconConfig = DAILY_CHALLENGE_STATUS_ICON_CONFIGS[status];
+
+  return (
+    <View className="h-6 w-6 items-center justify-center rounded-full bg-surface-tertiary">
+      <ThemedIcon
+        colorClassName={iconConfig.colorClassName}
+        icon={iconConfig.icon}
+        size={14}
+      />
+    </View>
+  );
+}
+
+interface DailyChallengeStatusIconConfig {
+  colorClassName: string;
+  icon: LucideIcon;
+}
+
+const DAILY_CHALLENGE_STATUS_ICON_CONFIGS = {
+  completed: {
+    colorClassName: "text-success",
+    icon: CheckCircle2,
+  },
+  failed: {
+    colorClassName: "text-danger",
+    icon: CircleX,
+  },
+  "not-played": {
+    colorClassName: "text-default-foreground",
+    icon: CircleDashed,
+  },
+} satisfies Record<DailyChallengeStatus, DailyChallengeStatusIconConfig>;
+
+interface IsDailyChallengeStatusPlayedParams {
+  status: DailyChallengeStatus;
+}
+
+function isDailyChallengeStatusPlayed({
+  status,
+}: IsDailyChallengeStatusPlayedParams) {
+  return status !== "not-played";
 }

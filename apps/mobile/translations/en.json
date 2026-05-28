@@ -8,9 +8,9 @@
   "home": {
     "settings": "Settings",
     "game-modes": {
-      "coming-soon": "Coming soon!",
-      "challenge": {
-        "title": "Challenge"
+      "daily-challenge": {
+        "title": "Daily Challenge",
+        "description": "Play today's geography puzzle and keep your streak alive."
       },
       "train": {
         "title": "Train",

@@ -8,9 +8,9 @@
   "home": {
     "settings": "Einstellungen",
     "game-modes": {
-      "coming-soon": "Demnächst verfügbar!",
-      "challenge": {
-        "title": "Herausforderung"
+      "daily-challenge": {
+        "title": "Tägliche Herausforderung",
+        "description": "Spiele die Geografieaufgabe des Tages und halte deine Serie am Laufen."
       },
       "train": {
         "title": "Trainieren",
