@@ -50,24 +50,25 @@ interface QuizzSessionState {
 
 interface UseQuizzParams {
   options: QuizzOptions;
+  questions?: readonly QuizzQuestion[];
 }
 
-export function useQuizz({ options }: UseQuizzParams) {
+export function useQuizz({ options, questions }: UseQuizzParams) {
   const { geoLang } = useGeoLangStore();
-  const optionsKey = getQuizzOptionsKey({ options });
-  const previousOptionsKeyRef = useRef(optionsKey);
+  const sessionKey = getQuizzSessionKey({ options, questions });
+  const previousSessionKeyRef = useRef(sessionKey);
   const [session, setSession] = useState(() =>
-    createQuizzSessionState({ options }),
+    createQuizzSessionState({ options, questions }),
   );
 
   useEffect(() => {
-    if (previousOptionsKeyRef.current === optionsKey) {
+    if (previousSessionKeyRef.current === sessionKey) {
       return;
     }
 
-    previousOptionsKeyRef.current = optionsKey;
-    setSession(createQuizzSessionState({ options }));
-  }, [options, optionsKey]);
+    previousSessionKeyRef.current = sessionKey;
+    setSession(createQuizzSessionState({ options, questions }));
+  }, [options, questions, sessionKey]);
 
   const currentQuestion = useMemo(
     () =>
@@ -98,8 +99,8 @@ export function useQuizz({ options }: UseQuizzParams) {
   );
 
   const restartQuizz = useCallback(() => {
-    setSession(createQuizzSessionState({ options }));
-  }, [options]);
+    setSession(createQuizzSessionState({ options, questions }));
+  }, [options, questions]);
 
   return {
     currentQuestion,
@@ -117,17 +118,19 @@ interface SubmitQuizzAnswerParams {
 
 interface CreateQuizzSessionStateParams {
   options: QuizzOptions;
+  questions?: readonly QuizzQuestion[];
 }
 
 function createQuizzSessionState({
   options,
+  questions,
 }: CreateQuizzSessionStateParams): QuizzSessionState {
   return {
     bestStreak: 0,
     correctAnswers: 0,
     currentQuestionIndex: 0,
     currentStreak: 0,
-    questions: createQuizz(options),
+    questions: questions ?? createQuizz(options),
     wrongAnswers: 0,
   };
 }
@@ -310,16 +313,40 @@ export function normalizeQuizzTextAnswer(value: string) {
     .replace(/[^\p{Letter}\p{Number}]/gu, "");
 }
 
-interface GetQuizzOptionsKeyParams {
+interface GetQuizzSessionKeyParams {
   options: QuizzOptions;
+  questions?: readonly QuizzQuestion[];
 }
 
-function getQuizzOptionsKey({ options }: GetQuizzOptionsKeyParams) {
+function getQuizzSessionKey({ options, questions }: GetQuizzSessionKeyParams) {
   return [
     options.regions.join(","),
     options.acceptedQuestionFormats.join(","),
     options.acceptedAnswerFormats.join(","),
     options.flagAnswerDifficulty,
     options.limit?.toString() ?? "no-limit",
+    getQuizzQuestionsKey({ questions }),
   ].join("|");
+}
+
+interface GetQuizzQuestionsKeyParams {
+  questions?: readonly QuizzQuestion[];
+}
+
+function getQuizzQuestionsKey({
+  questions,
+}: GetQuizzQuestionsKeyParams): string {
+  if (questions === undefined) {
+    return "generated";
+  }
+
+  return questions
+    .map((question) =>
+      [
+        question.countryCode,
+        question.questionFormat,
+        question.answerFormat,
+      ].join(":"),
+    )
+    .join(",");
 }

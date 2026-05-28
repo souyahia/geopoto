@@ -25,6 +25,20 @@
   "map-viewer": {
     "reset": "Reset map view"
   },
+  "daily-challenge": {
+    "title": "Daily Challenge",
+    "question": {
+      "title": "Daily Challenge",
+      "streak": "Current streak"
+    },
+    "complete": {
+      "completed-title": "Challenge completed",
+      "failed-title": "Challenge failed",
+      "completed-description": "Nice one. Your streak is now {{streak}}.",
+      "failed-description": "You can try again with a new challenge tomorrow.",
+      "back-home": "Back home"
+    }
+  },
   "navigation-confirm": {
     "title": "Leave this screen?",
     "description": "Any unsaved changes may be lost.",

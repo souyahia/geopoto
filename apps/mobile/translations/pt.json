@@ -25,6 +25,20 @@
   "map-viewer": {
     "reset": "Repor vista do mapa"
   },
+  "daily-challenge": {
+    "title": "Desafio diário",
+    "question": {
+      "title": "Desafio diário",
+      "streak": "Sequência atual"
+    },
+    "complete": {
+      "completed-title": "Desafio concluído",
+      "failed-title": "Desafio falhado",
+      "completed-description": "Boa. A sua sequência agora é de {{streak}}.",
+      "failed-description": "Poderá tentar novamente com um novo desafio amanhã.",
+      "back-home": "Voltar ao início"
+    }
+  },
   "navigation-confirm": {
     "title": "Sair deste ecrã?",
     "description": "As alterações não guardadas podem ser perdidas.",

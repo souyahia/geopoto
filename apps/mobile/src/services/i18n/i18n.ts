@@ -2,6 +2,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { createMMKV } from "react-native-mmkv";
 
+import { setDayjsLocale } from "./dayjs-locales";
 import {
   DEFAULT_LOCALE,
   getDeviceLanguage,
@@ -23,6 +24,8 @@ const LANGUAGE_STORAGE_KEY = "user-lang";
 const storedLang = langStorage.getString(LANGUAGE_STORAGE_KEY);
 const language = storedLang ?? getDeviceLanguage();
 
+setDayjsLocale({ locale: language });
+
 void i18n.use(initReactI18next).init({
   resources,
   lng: language,
@@ -30,6 +33,10 @@ void i18n.use(initReactI18next).init({
   interpolation: {
     escapeValue: false,
   },
+});
+
+i18n.on("languageChanged", (changedLanguage) => {
+  setDayjsLocale({ locale: changedLanguage });
 });
 
 export default i18n;

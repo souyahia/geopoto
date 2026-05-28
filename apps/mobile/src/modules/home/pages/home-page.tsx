@@ -11,6 +11,7 @@ import {
   Settings,
   type LucideIcon,
 } from "lucide-react-native";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
@@ -18,17 +19,22 @@ import { AssetImage, ASSET_IMAGES } from "@/components/asset-image";
 import { BackroomsButton } from "@/components/backrooms-button";
 import { HapticButton } from "@/components/haptic-button";
 import { MenuCard } from "@/components/menu-card";
+import { getDailyChallenge } from "@/modules/daily-challenge/utils/daily-challenge";
+import {
+  useDailyChallengeProgress,
+  type DailyChallengeStatus,
+} from "@/modules/daily-challenge/utils/daily-challenge-progress-storage";
 import { ThemedIcon } from "@/services/theme/themed-icon";
-
-type DailyChallengeStatus = "completed" | "failed" | "not-played";
 
 export function HomePage() {
   const { t } = useTranslation();
   const router = useRouter();
-  const dailyChallengeStatus: DailyChallengeStatus = "not-played";
-  const dailyChallengeStreak = 0;
+  const dailyChallenge = useMemo(() => getDailyChallenge({}), []);
+  const { progress: dailyChallengeProgress } = useDailyChallengeProgress({
+    challenge: dailyChallenge,
+  });
   const isDailyChallengePlayed = isDailyChallengeStatusPlayed({
-    status: dailyChallengeStatus,
+    status: dailyChallengeProgress.status,
   });
 
   return (
@@ -60,10 +66,11 @@ export function HomePage() {
           title={t("home.game-modes.daily-challenge.title")}
           description={t("home.game-modes.daily-challenge.description")}
           isDisabled={isDailyChallengePlayed}
+          onPress={() => router.push("/daily-challenge")}
           titleAccessory={
             <DailyChallengeStatusRow
-              status={dailyChallengeStatus}
-              streak={dailyChallengeStreak}
+              status={dailyChallengeProgress.status}
+              streak={dailyChallengeProgress.streak}
             />
           }
         />

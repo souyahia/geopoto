@@ -25,6 +25,20 @@
   "map-viewer": {
     "reset": "Réinitialiser la vue de la carte"
   },
+  "daily-challenge": {
+    "title": "Défi quotidien",
+    "question": {
+      "title": "Défi quotidien",
+      "streak": "Série actuelle"
+    },
+    "complete": {
+      "completed-title": "Défi réussi",
+      "failed-title": "Défi échoué",
+      "completed-description": "Bien joué. Votre série est maintenant de {{streak}}.",
+      "failed-description": "Vous pourrez retenter votre chance avec un nouveau défi demain.",
+      "back-home": "Retour à l’accueil"
+    }
+  },
   "navigation-confirm": {
     "title": "Quitter cet écran ?",
     "description": "Les modifications non enregistrées peuvent être perdues.",
