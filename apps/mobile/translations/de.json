@@ -8,9 +8,9 @@
   "home": {
     "settings": "Einstellungen",
     "game-modes": {
-      "coming-soon": "Demnächst verfügbar!",
-      "challenge": {
-        "title": "Herausforderung"
+      "daily-challenge": {
+        "title": "Tägliche Herausforderung",
+        "description": "Spiele die Geografieaufgabe des Tages und halte deine Serie am Laufen."
       },
       "train": {
         "title": "Trainieren",
@@ -24,6 +24,20 @@
   },
   "map-viewer": {
     "reset": "Kartenansicht zurücksetzen"
+  },
+  "daily-challenge": {
+    "title": "Tägliche Herausforderung",
+    "question": {
+      "title": "Tägliche Herausforderung",
+      "streak": "Aktuelle Serie"
+    },
+    "complete": {
+      "completed-title": "Herausforderung abgeschlossen",
+      "failed-title": "Herausforderung fehlgeschlagen",
+      "completed-description": "Gut gemacht. Deine Serie steht jetzt bei {{streak}}.",
+      "failed-description": "Morgen kannst du es mit einer neuen Herausforderung erneut versuchen.",
+      "back-home": "Zur Startseite"
+    }
   },
   "navigation-confirm": {
     "title": "Diesen Bildschirm verlassen?",

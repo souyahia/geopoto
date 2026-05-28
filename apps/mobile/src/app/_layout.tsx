@@ -1,4 +1,5 @@
 import "../../global.css";
+import "@/services/dates/dayjs";
 import "@/services/i18n/i18n";
 import "@/services/logging/ignore-known-warnings";
 

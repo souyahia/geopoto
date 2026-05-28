@@ -8,9 +8,9 @@
   "home": {
     "settings": "Impostazioni",
     "game-modes": {
-      "coming-soon": "Presto disponibile!",
-      "challenge": {
-        "title": "Sfida"
+      "daily-challenge": {
+        "title": "Sfida giornaliera",
+        "description": "Gioca la sfida geografica del giorno e mantieni viva la tua serie."
       },
       "train": {
         "title": "Allenati",
@@ -24,6 +24,20 @@
   },
   "map-viewer": {
     "reset": "Reimposta vista mappa"
+  },
+  "daily-challenge": {
+    "title": "Sfida giornaliera",
+    "question": {
+      "title": "Sfida giornaliera",
+      "streak": "Serie attuale"
+    },
+    "complete": {
+      "completed-title": "Sfida completata",
+      "failed-title": "Sfida fallita",
+      "completed-description": "Ben fatto. La tua serie è ora di {{streak}}.",
+      "failed-description": "Potrai riprovare con una nuova sfida domani.",
+      "back-home": "Torna alla home"
+    }
   },
   "navigation-confirm": {
     "title": "Uscire da questa schermata?",

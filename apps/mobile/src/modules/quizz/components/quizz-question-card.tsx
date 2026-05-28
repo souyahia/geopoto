@@ -63,8 +63,14 @@ interface QuizzQuestionCardProps {
   answerRegion: MapRegionName;
   country: Country;
   flagAnswerDifficulty: FlagAnswerDifficulty;
+  onAnswerResolved?: (resolution: QuizzAnswerResolution) => void;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
   questionFormat: QuizzFormat;
+}
+
+export interface QuizzAnswerResolution {
+  answer: QuizzAnswerSubmission;
+  isCorrectAnswer: boolean;
 }
 
 export function QuizzQuestionCard({
@@ -72,6 +78,7 @@ export function QuizzQuestionCard({
   answerRegion,
   country,
   flagAnswerDifficulty,
+  onAnswerResolved,
   onAnswerSubmit,
   questionFormat,
 }: QuizzQuestionCardProps) {
@@ -121,6 +128,8 @@ export function QuizzQuestionCard({
         geoLang,
       });
 
+      onAnswerResolved?.({ answer, isCorrectAnswer });
+
       if (isCorrectAnswer) {
         setAnswerFeedback({
           answer,
@@ -145,7 +154,14 @@ export function QuizzQuestionCard({
         });
       }, ANSWER_FEEDBACK_DURATION_MS);
     },
-    [answerFormat, country, geoLang, isAnswerLocked, onAnswerSubmit],
+    [
+      answerFormat,
+      country,
+      geoLang,
+      isAnswerLocked,
+      onAnswerResolved,
+      onAnswerSubmit,
+    ],
   );
 
   const handleNextQuestionPress = useCallback(() => {

@@ -8,9 +8,9 @@
   "home": {
     "settings": "Definições",
     "game-modes": {
-      "coming-soon": "Em breve!",
-      "challenge": {
-        "title": "Desafio"
+      "daily-challenge": {
+        "title": "Desafio diário",
+        "description": "Jogue o desafio geográfico do dia e mantenha a sua sequência ativa."
       },
       "train": {
         "title": "Treinar",
@@ -24,6 +24,20 @@
   },
   "map-viewer": {
     "reset": "Repor vista do mapa"
+  },
+  "daily-challenge": {
+    "title": "Desafio diário",
+    "question": {
+      "title": "Desafio diário",
+      "streak": "Sequência atual"
+    },
+    "complete": {
+      "completed-title": "Desafio concluído",
+      "failed-title": "Desafio falhado",
+      "completed-description": "Boa. A sua sequência agora é de {{streak}}.",
+      "failed-description": "Poderá tentar novamente com um novo desafio amanhã.",
+      "back-home": "Voltar ao início"
+    }
   },
   "navigation-confirm": {
     "title": "Sair deste ecrã?",

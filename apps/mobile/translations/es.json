@@ -8,9 +8,9 @@
   "home": {
     "settings": "Ajustes",
     "game-modes": {
-      "coming-soon": "¡Próximamente!",
-      "challenge": {
-        "title": "Desafío"
+      "daily-challenge": {
+        "title": "Desafío diario",
+        "description": "Juega el reto geográfico del día y mantén viva tu racha."
       },
       "train": {
         "title": "Entrenar",
@@ -24,6 +24,20 @@
   },
   "map-viewer": {
     "reset": "Restablecer vista del mapa"
+  },
+  "daily-challenge": {
+    "title": "Desafío diario",
+    "question": {
+      "title": "Desafío diario",
+      "streak": "Racha actual"
+    },
+    "complete": {
+      "completed-title": "Desafío completado",
+      "failed-title": "Desafío fallido",
+      "completed-description": "Bien hecho. Tu racha ahora es de {{streak}}.",
+      "failed-description": "Podrás intentarlo de nuevo con un nuevo desafío mañana.",
+      "back-home": "Volver al inicio"
+    }
   },
   "navigation-confirm": {
     "title": "¿Salir de esta pantalla?",
