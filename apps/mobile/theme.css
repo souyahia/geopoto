@@ -72,7 +72,7 @@
       /* Map */
       --map-background: #c6e5ff;
       --map-country-background: #e6d7ea;
-      --map-country-border: #b6a0b8;
+      --map-country-border: #cdb8cf;
       --map-active-country-background: #fef5ff;
       --map-active-country-border: #b6a0b8;
       --map-highlight-background: #fbbaff;
@@ -135,8 +135,8 @@
 
       /* Map */
       --map-background: #101923;
-      --map-country-background: #33404d;
-      --map-country-border: #7d97b4;
+      --map-country-background: #1d252e;
+      --map-country-border: #3c4e63;
       --map-active-country-background: #4b5e71;
       --map-active-country-border: #7d97b4;
       --map-highlight-background: #b568bc;
