@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   CircleX,
   Flame,
+  InfinityIcon,
   ListChecks,
   RotateCcw,
   type LucideIcon,
@@ -54,6 +55,7 @@ export function TrainingSessionPage() {
   const {
     currentQuestion,
     isComplete,
+    isInfiniteModeSession,
     progress,
     restartQuizz,
     score,
@@ -114,6 +116,7 @@ export function TrainingSessionPage() {
           currentQuestion={currentQuestion}
           currentQuestionKey={currentQuestionKey}
           flagAnswerDifficulty={quizzOptions.flagAnswerDifficulty}
+          isInfiniteMode={isInfiniteModeSession}
           onAnswerSubmit={handleAnswerSubmit}
           progress={progress}
           score={score}
@@ -128,6 +131,7 @@ interface TrainingSessionQuestionContentProps {
   currentQuestion: QuizzCurrentQuestion;
   currentQuestionKey: string;
   flagAnswerDifficulty: FlagAnswerDifficulty;
+  isInfiniteMode: boolean;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
   progress: number;
   score: QuizzScore;
@@ -138,6 +142,7 @@ function TrainingSessionQuestionContent({
   currentQuestion,
   currentQuestionKey,
   flagAnswerDifficulty,
+  isInfiniteMode,
   onAnswerSubmit,
   progress,
   score,
@@ -158,6 +163,7 @@ function TrainingSessionQuestionContent({
             answerRegion={answerRegion}
             currentQuestion={currentQuestion}
             flagAnswerDifficulty={flagAnswerDifficulty}
+            isInfiniteMode={isInfiniteMode}
             onAnswerSubmit={onAnswerSubmit}
             progress={progress}
             score={score}
@@ -180,6 +186,7 @@ function TrainingSessionQuestionContent({
         answerRegion={answerRegion}
         currentQuestion={currentQuestion}
         flagAnswerDifficulty={flagAnswerDifficulty}
+        isInfiniteMode={isInfiniteMode}
         onAnswerSubmit={onAnswerSubmit}
         progress={progress}
         score={score}
@@ -192,6 +199,7 @@ interface TrainingSessionQuestionBlocksProps {
   answerRegion: MapRegionName;
   currentQuestion: QuizzCurrentQuestion;
   flagAnswerDifficulty: FlagAnswerDifficulty;
+  isInfiniteMode: boolean;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
   progress: number;
   score: QuizzScore;
@@ -201,13 +209,18 @@ function TrainingSessionQuestionBlocks({
   answerRegion,
   currentQuestion,
   flagAnswerDifficulty,
+  isInfiniteMode,
   onAnswerSubmit,
   progress,
   score,
 }: TrainingSessionQuestionBlocksProps) {
   return (
     <>
-      <TrainingSessionScorePanel progress={progress} score={score} />
+      <TrainingSessionScorePanel
+        isInfiniteMode={isInfiniteMode}
+        progress={progress}
+        score={score}
+      />
       <QuizzQuestionCard
         answerFormat={currentQuestion.answerFormat}
         answerRegion={answerRegion}
@@ -221,37 +234,54 @@ function TrainingSessionQuestionBlocks({
 }
 
 interface TrainingSessionScorePanelProps {
+  isInfiniteMode: boolean;
   progress: number;
   score: QuizzScore;
 }
 
 function TrainingSessionScorePanel({
+  isInfiniteMode,
   progress,
   score,
 }: TrainingSessionScorePanelProps) {
   const { t } = useTranslation();
   const progressValue = Math.min(Math.max(progress, 0), 1);
   const remainingProgressValue = 1 - progressValue;
-  const isStreakVisible = score.currentStreak >= 5;
+  const isStreakVisible = isInfiniteMode || score.currentStreak >= 5;
 
   return (
     <Surface variant="secondary" className="gap-4">
       <View className="flex-row items-center justify-between gap-4">
         <Text type="h4">{t("train.session.score.title")}</Text>
-        <Text type="body-sm" color="muted">
-          {t("train.session.score.progress", {
-            answered: score.answeredQuestions,
-            total: score.totalQuestions,
-          })}
-        </Text>
+        {isInfiniteMode ? (
+          <View className="flex-row items-center gap-1.5 rounded-full bg-surface-tertiary px-2 py-1">
+            <ThemedIcon
+              icon={InfinityIcon}
+              size={14}
+              colorClassName="text-muted"
+            />
+            <Text type="body-xs" color="muted">
+              {t("train.session.score.infinite-mode")}
+            </Text>
+          </View>
+        ) : (
+          <Text type="body-sm" color="muted">
+            {t("train.session.score.progress", {
+              answered: score.answeredQuestions,
+              total: score.totalQuestions,
+            })}
+          </Text>
+        )}
       </View>
-      <View className="h-2 flex-row overflow-hidden rounded-full bg-default">
-        <View
-          className="h-full rounded-full bg-accent"
-          style={{ flex: progressValue }}
-        />
-        <View style={{ flex: remainingProgressValue }} />
-      </View>
+      {!isInfiniteMode && (
+        <View className="h-2 flex-row overflow-hidden rounded-full bg-default">
+          <View
+            className="h-full rounded-full bg-accent"
+            style={{ flex: progressValue }}
+          />
+          <View style={{ flex: remainingProgressValue }} />
+        </View>
+      )}
       <View className="flex-row gap-1.5">
         <TrainingSessionScorePill
           colorClassName="text-success"
@@ -267,8 +297,14 @@ function TrainingSessionScorePanel({
         />
         <TrainingSessionScorePill
           icon={ListChecks}
-          label={t("train.session.score.remaining")}
-          value={score.remainingQuestions}
+          label={
+            isInfiniteMode
+              ? t("train.session.score.questions")
+              : t("train.session.score.remaining")
+          }
+          value={
+            isInfiniteMode ? score.answeredQuestions : score.remainingQuestions
+          }
         />
         {isStreakVisible && (
           <TrainingSessionScorePill

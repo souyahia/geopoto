@@ -15,6 +15,7 @@ export const DAILY_CHALLENGE_QUIZZ_OPTIONS = {
   acceptedAnswerFormats: QUIZZ_ANSWER_FORMATS,
   acceptedQuestionFormats: QUIZZ_FORMATS,
   flagAnswerDifficulty: "hard",
+  isInfiniteMode: false,
   regions: ["world"],
 } satisfies QuizzOptions;
 

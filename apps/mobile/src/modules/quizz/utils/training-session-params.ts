@@ -34,6 +34,13 @@ export function buildTrainingSessionSearchParams({
     region,
   };
 
+  if (options.isInfiniteMode) {
+    return {
+      ...baseParams,
+      isInfiniteMode: "true",
+    };
+  }
+
   if (options.limit === undefined) {
     return baseParams;
   }
@@ -62,13 +69,19 @@ export function getTrainingSessionOptionsFromParams({
     fallbackFormats: QUIZZ_ANSWER_FORMATS,
     value: getStringParam(params.answerFormats),
   });
+  const isInfiniteMode = parseIsInfiniteModeParam(
+    getStringParam(params.isInfiniteMode),
+  );
   const parsedOptions = {
     acceptedAnswerFormats,
     acceptedQuestionFormats,
     flagAnswerDifficulty: parseFlagAnswerDifficultyParam(
       getStringParam(params.flagAnswerDifficulty),
     ),
-    limit: parseLimitParam(getStringParam(params.limit)),
+    isInfiniteMode,
+    limit: isInfiniteMode
+      ? undefined
+      : parseLimitParam(getStringParam(params.limit)),
     regions: [region],
   } satisfies QuizzOptions;
 
@@ -133,6 +146,10 @@ function parseFlagAnswerDifficultyParam(
   }
 
   return value;
+}
+
+function parseIsInfiniteModeParam(value: string | undefined): boolean {
+  return value === "true";
 }
 
 function parseLimitParam(value: string | undefined): number | undefined {

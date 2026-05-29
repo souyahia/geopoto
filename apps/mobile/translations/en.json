@@ -85,6 +85,7 @@
     "question-limit": {
       "title": "Question limit",
       "description": "Set how many questions the session can include.",
+      "infinite-mode": "Infinite mode",
       "select-label": "Maximum number of questions",
       "placeholder": "No limit",
       "options": {
@@ -117,8 +118,10 @@
       "score": {
         "title": "Score",
         "progress": "{{answered}} / {{total}}",
+        "infinite-mode": "Infinite mode",
         "correct": "Correct",
         "wrong": "Wrong",
+        "questions": "Questions",
         "remaining": "Remaining",
         "streak": "Streak",
         "best-streak": "Best streak"

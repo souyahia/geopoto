@@ -85,6 +85,7 @@
     "question-limit": {
       "title": "Limite de perguntas",
       "description": "Defina quantas perguntas a sessão pode incluir.",
+      "infinite-mode": "Modo infinito",
       "select-label": "Número máximo de perguntas",
       "placeholder": "Sem limite",
       "options": {
@@ -117,8 +118,10 @@
       "score": {
         "title": "Pontuação",
         "progress": "{{answered}} / {{total}}",
+        "infinite-mode": "Modo infinito",
         "correct": "Certas",
         "wrong": "Erradas",
+        "questions": "Perguntas",
         "remaining": "Restantes",
         "streak": "Série",
         "best-streak": "Melhor série"

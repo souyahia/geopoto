@@ -25,6 +25,7 @@ const DEFAULT_TRAINING_SESSION_OPTIONS = {
   acceptedAnswerFormats: QUIZZ_ANSWER_FORMATS,
   acceptedQuestionFormats: QUIZZ_FORMATS,
   flagAnswerDifficulty: DEFAULT_FLAG_ANSWER_DIFFICULTY,
+  isInfiniteMode: false,
   regions: [DEFAULT_TRAINING_SESSION_REGION],
 } satisfies QuizzOptions;
 
@@ -32,6 +33,7 @@ interface TrainingSessionOptionsSnapshot {
   acceptedAnswerFormats: readonly QuizzFormat[];
   acceptedQuestionFormats: readonly QuizzFormat[];
   flagAnswerDifficulty: FlagAnswerDifficulty;
+  isInfiniteMode: boolean;
   limit?: number;
   regions: readonly MapRegionName[];
 }
@@ -47,6 +49,7 @@ export function getTrainingSessionOptionsStorageValue({
     acceptedAnswerFormats: options.acceptedAnswerFormats,
     acceptedQuestionFormats: options.acceptedQuestionFormats,
     flagAnswerDifficulty: options.flagAnswerDifficulty,
+    isInfiniteMode: options.isInfiniteMode,
     limit: options.limit,
     regions: options.regions,
   } satisfies TrainingSessionOptionsSnapshot;
@@ -132,6 +135,7 @@ function parseTrainingSessionOptions({
     return DEFAULT_TRAINING_SESSION_OPTIONS;
   }
 
+  const isInfiniteMode = parseIsInfiniteMode({ value: value.isInfiniteMode });
   const parsedOptions = {
     acceptedAnswerFormats: parseQuizzFormats({
       allowedFormats: QUIZZ_ANSWER_FORMATS,
@@ -146,7 +150,8 @@ function parseTrainingSessionOptions({
     flagAnswerDifficulty: parseFlagAnswerDifficulty({
       value: value.flagAnswerDifficulty,
     }),
-    limit: parseLimit({ value: value.limit }),
+    isInfiniteMode,
+    limit: isInfiniteMode ? undefined : parseLimit({ value: value.limit }),
     regions: parseRegions({ value: value.regions }),
   } satisfies QuizzOptions;
 
@@ -220,6 +225,14 @@ function parseFlagAnswerDifficulty({
   }
 
   return value;
+}
+
+interface ParseIsInfiniteModeParams {
+  value: unknown;
+}
+
+function parseIsInfiniteMode({ value }: ParseIsInfiniteModeParams): boolean {
+  return value === true;
 }
 
 interface ParseLimitParams {

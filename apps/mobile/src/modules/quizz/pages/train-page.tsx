@@ -1,4 +1,6 @@
 import { useRouter } from "expo-router";
+import { Checkbox } from "heroui-native/checkbox";
+import { Text } from "heroui-native/text";
 import type { TFunction } from "i18next";
 import { Play } from "lucide-react-native";
 import { useCallback, useEffect, useMemo } from "react";
@@ -40,6 +42,7 @@ interface TrainFormValues {
   acceptedAnswerFormats: QuizzOptions["acceptedAnswerFormats"];
   acceptedQuestionFormats: QuizzOptions["acceptedQuestionFormats"];
   flagAnswerDifficulty: QuizzOptions["flagAnswerDifficulty"];
+  isInfiniteMode: boolean;
   selectedQuestionLimit: QuestionLimitOptionValue;
   selectedRegion: MapRegionName;
 }
@@ -72,6 +75,10 @@ export function TrainPage() {
   });
   const hasFlagAnswerFormatSelected =
     acceptedAnswerFormats.includes("country-flag");
+  const isInfiniteMode = useWatch({
+    control,
+    name: "isInfiniteMode",
+  });
 
   useEffect(() => {
     reset(defaultValues);
@@ -201,9 +208,28 @@ export function TrainPage() {
           >
             <Controller
               control={control}
+              name="isInfiniteMode"
+              render={({ field }) => (
+                <View className="flex-row items-center gap-2 px-1">
+                  <Checkbox
+                    accessibilityLabel={t("train.question-limit.infinite-mode")}
+                    isSelected={field.value}
+                    onSelectedChange={(isSelected) =>
+                      field.onChange(isSelected)
+                    }
+                  />
+                  <Text type="body-sm" className="flex-1 opacity-80">
+                    {t("train.question-limit.infinite-mode")}
+                  </Text>
+                </View>
+              )}
+            />
+            <Controller
+              control={control}
               name="selectedQuestionLimit"
               render={({ field }) => (
                 <QuestionLimitSelect
+                  isDisabled={isInfiniteMode}
                   selectedQuestionLimit={field.value}
                   onSelectedQuestionLimitChange={(selectedQuestionLimit) =>
                     field.onChange(selectedQuestionLimit)
@@ -270,6 +296,7 @@ function getTrainFormValuesFromQuizzOptions({
     acceptedAnswerFormats: options.acceptedAnswerFormats,
     acceptedQuestionFormats: options.acceptedQuestionFormats,
     flagAnswerDifficulty: options.flagAnswerDifficulty,
+    isInfiniteMode: options.isInfiniteMode,
     selectedQuestionLimit: getSelectedQuestionLimit({
       limit: options.limit,
     }),
@@ -288,7 +315,10 @@ function getQuizzOptionsFromTrainFormValues({
     acceptedAnswerFormats: values.acceptedAnswerFormats,
     acceptedQuestionFormats: values.acceptedQuestionFormats,
     flagAnswerDifficulty: values.flagAnswerDifficulty,
-    limit: getQuestionLimit(values.selectedQuestionLimit),
+    isInfiniteMode: values.isInfiniteMode,
+    limit: values.isInfiniteMode
+      ? undefined
+      : getQuestionLimit(values.selectedQuestionLimit),
     regions: [values.selectedRegion],
   };
 }

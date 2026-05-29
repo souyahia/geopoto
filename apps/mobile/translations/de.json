@@ -85,6 +85,7 @@
     "question-limit": {
       "title": "Fragenlimit",
       "description": "Lege fest, wie viele Fragen die Sitzung enthalten kann.",
+      "infinite-mode": "Unendlicher Modus",
       "select-label": "Maximale Anzahl von Fragen",
       "placeholder": "Kein Limit",
       "options": {
@@ -117,8 +118,10 @@
       "score": {
         "title": "Punktestand",
         "progress": "{{answered}} / {{total}}",
+        "infinite-mode": "Unendlicher Modus",
         "correct": "Richtig",
         "wrong": "Falsch",
+        "questions": "Fragen",
         "remaining": "Übrig",
         "streak": "Serie",
         "best-streak": "Beste Serie"
