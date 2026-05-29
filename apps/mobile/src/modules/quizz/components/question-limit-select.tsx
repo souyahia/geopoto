@@ -58,11 +58,13 @@ const QUESTION_LIMIT_OPTIONS = [
 ] satisfies readonly QuestionLimitOption[];
 
 interface QuestionLimitSelectProps {
+  isDisabled: boolean;
   onSelectedQuestionLimitChange: (value: QuestionLimitOptionValue) => void;
   selectedQuestionLimit: QuestionLimitOptionValue;
 }
 
 export function QuestionLimitSelect({
+  isDisabled,
   onSelectedQuestionLimitChange,
   selectedQuestionLimit,
 }: QuestionLimitSelectProps) {
@@ -94,6 +96,7 @@ export function QuestionLimitSelect({
 
   return (
     <Select
+      isDisabled={isDisabled}
       value={selectedQuestionLimitOption}
       onValueChange={handleValueChange}
     >

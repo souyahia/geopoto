@@ -18,6 +18,12 @@ const config: ExpoConfig = {
     "expo-localization",
     "expo-image",
     [
+      "expo-notifications",
+      {
+        defaultChannel: "daily-challenge-reminders",
+      },
+    ],
+    [
       "expo-splash-screen",
       {
         image: SPLASH_ICON,

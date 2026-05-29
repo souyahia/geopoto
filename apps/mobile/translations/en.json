@@ -3,6 +3,12 @@
     "language": {
       "description": "This will affect the language of the app, but also the language of geographic information and the expected answers.",
       "title": "Select your language"
+    },
+    "reminder-opt-in": {
+      "description": "Never miss a Daily Challenge by enabling notifications.",
+      "enable-label": "Enable reminders",
+      "skip-label": "Skip for now",
+      "title": "Enable Daily Challenge Reminders"
     }
   },
   "home": {
@@ -79,6 +85,7 @@
     "question-limit": {
       "title": "Question limit",
       "description": "Set how many questions the session can include.",
+      "infinite-mode": "Infinite mode",
       "select-label": "Maximum number of questions",
       "placeholder": "No limit",
       "options": {
@@ -111,8 +118,10 @@
       "score": {
         "title": "Score",
         "progress": "{{answered}} / {{total}}",
+        "infinite-mode": "Infinite mode",
         "correct": "Correct",
         "wrong": "Wrong",
+        "questions": "Questions",
         "remaining": "Remaining",
         "streak": "Streak",
         "best-streak": "Best streak"
@@ -255,6 +264,82 @@
       "title": "Haptic feedback",
       "description": "Play subtle vibrations for supported interactions.",
       "toggle-label": "Enable haptic feedback"
+    },
+    "daily-challenge-reminder": {
+      "title": "Daily Challenge Reminder",
+      "description": "Get a local notification for the Daily Challenge on this device.",
+      "toggle-label": "Enable Daily Challenge Reminder",
+      "time-label": "Reminder time: {{time}}",
+      "time-disabled-label": "Turn reminders on to change the time.",
+      "hour-label": "Hour",
+      "minute-label": "Minutes",
+      "hour-select-label": "Reminder hour",
+      "minute-select-label": "Reminder minutes",
+      "permission-denied": "Notifications are disabled for GeoPoto. Enable them in device settings before turning reminders on.",
+      "open-settings-label": "Open device settings",
+      "notification": {
+        "title": "Daily Challenge",
+        "body": "Your geography puzzle is ready.",
+        "channel-name": "Daily Challenge Reminders",
+        "copy-pools": {
+          "general": [
+            "A mystery country just checked in.",
+            "Today's map is hiding something.",
+            "Your tiny world tour is ready.",
+            "One place, one clue, no passport needed.",
+            "The globe has a question with your name on it.",
+            "GeoPoto found a fresh corner of the map.",
+            "A flag, a capital, or a country is waiting.",
+            "Time to give your map brain a snack.",
+            "The Daily Challenge has opened the atlas.",
+            "A five minute geography escape is ready.",
+            "Someone on the map wants to be found.",
+            "Your daily dose of world trivia is warm.",
+            "The compass is pointing at today's puzzle.",
+            "A surprise stop has appeared on the globe.",
+            "Open the map and follow the clue.",
+            "Today's country is playing hard to get.",
+            "Your next geography detour starts here.",
+            "The world left you a little riddle."
+          ],
+          "positive-streak": [
+            "{{streak}} days in a row. The compass approves.",
+            "Your {{streak}} day streak has a new stop.",
+            "{{streak}} days strong. Ready for another country?",
+            "The map noticed those {{streak}} days.",
+            "Your {{streak}} day run deserves a fresh clue.",
+            "Another stop for your {{streak}} day tour?",
+            "{{streak}} days without losing north. Nice.",
+            "Your streak of {{streak}} days has an atlas date.",
+            "The world came back for day {{streak}}.",
+            "Your {{streak}} day geography streak is boarding.",
+            "{{streak}} days on the globe. One more?",
+            "A new country is eyeing your {{streak}} days.",
+            "Your {{streak}} day streak brought a compass.",
+            "The Daily Challenge is ready for your {{streak}} days.",
+            "{{streak}} days already. The map is still warm.",
+            "Your {{streak}} day run has a destination."
+          ],
+          "zero-streak": [
+            "Fresh map, fresh chance.",
+            "Start with one country and see where it goes.",
+            "The first stop is waiting.",
+            "A new geography run can begin here.",
+            "No pressure. Just one place to find.",
+            "Plant a flag on today's puzzle.",
+            "The atlas is open to page one.",
+            "Your next map habit can start now.",
+            "Today's clue is a clean first step.",
+            "The globe is offering a blank page.",
+            "One tap can start the trip.",
+            "A small world tour begins with one question.",
+            "GeoPoto has a fresh route ready.",
+            "Pick up the compass and begin.",
+            "Today's country is a good place to start.",
+            "The first pin is yours to place."
+          ]
+        }
+      }
     },
     "language": {
       "title": "Language",

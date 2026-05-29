@@ -6,6 +6,7 @@ import { BackButton } from "@/components/back-button";
 import { BackroomsButton } from "@/components/backrooms-button";
 import { Header } from "@/components/header/header";
 
+import { DailyChallengeReminderSection } from "../components/daily-challenge-reminder-section";
 import { HapticFeedbackSection } from "../components/haptic-feedback-section";
 import { LanguageSection } from "../components/language-section";
 import { ThemePreferenceSection } from "../components/theme-preference-section";
@@ -29,6 +30,7 @@ export function SettingsPage() {
       <ScrollView className="flex-1">
         <View className="gap-4 px-6 pb-8 pt-4">
           <ThemePreferenceSection />
+          <DailyChallengeReminderSection />
           <LanguageSection />
           <HapticFeedbackSection />
         </View>

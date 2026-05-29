@@ -9,7 +9,9 @@ import {
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 
 import {
+  createWeightedRandomQuizzQuestion,
   createQuizz,
+  type CountryQuestionCounts,
   type QuizzFormat,
   type QuizzOptions,
   type QuizzQuestion,
@@ -42,6 +44,7 @@ export interface QuizzScore {
 interface QuizzSessionState {
   bestStreak: number;
   correctAnswers: number;
+  countryQuestionCounts: CountryQuestionCounts;
   currentQuestionIndex: number;
   currentStreak: number;
   questions: readonly QuizzQuestion[];
@@ -55,6 +58,10 @@ interface UseQuizzParams {
 
 export function useQuizz({ options, questions }: UseQuizzParams) {
   const { geoLang } = useGeoLangStore();
+  const isInfiniteModeSession = getIsInfiniteModeSession({
+    options,
+    questions,
+  });
   const sessionKey = getQuizzSessionKey({ options, questions });
   const previousSessionKeyRef = useRef(sessionKey);
   const [session, setSession] = useState(() =>
@@ -79,9 +86,9 @@ export function useQuizz({ options, questions }: UseQuizzParams) {
     [session.currentQuestionIndex, session.questions],
   );
   const score = useMemo(() => getQuizzScore({ session }), [session]);
-  const isComplete = score.remainingQuestions === 0;
+  const isComplete = !isInfiniteModeSession && score.remainingQuestions === 0;
   const progress =
-    score.totalQuestions === 0
+    isInfiniteModeSession || score.totalQuestions === 0
       ? 1
       : score.answeredQuestions / score.totalQuestions;
 
@@ -91,11 +98,13 @@ export function useQuizz({ options, questions }: UseQuizzParams) {
         submitAnswerToSession({
           answer,
           geoLang,
+          isInfiniteModeSession,
+          options,
           session: previousSession,
         }),
       );
     },
-    [geoLang],
+    [geoLang, isInfiniteModeSession, options],
   );
 
   const restartQuizz = useCallback(() => {
@@ -105,6 +114,7 @@ export function useQuizz({ options, questions }: UseQuizzParams) {
   return {
     currentQuestion,
     isComplete,
+    isInfiniteModeSession,
     progress,
     restartQuizz,
     score,
@@ -125,14 +135,43 @@ function createQuizzSessionState({
   options,
   questions,
 }: CreateQuizzSessionStateParams): QuizzSessionState {
+  const sessionQuestions = createQuizzSessionQuestions({ options, questions });
+
   return {
     bestStreak: 0,
     correctAnswers: 0,
+    countryQuestionCounts: getCountryQuestionCounts({
+      questions: sessionQuestions,
+    }),
     currentQuestionIndex: 0,
     currentStreak: 0,
-    questions: questions ?? createQuizz(options),
+    questions: sessionQuestions,
     wrongAnswers: 0,
   };
+}
+
+function createQuizzSessionQuestions({
+  options,
+  questions,
+}: CreateQuizzSessionStateParams): readonly QuizzQuestion[] {
+  if (questions !== undefined) {
+    return questions;
+  }
+
+  if (!options.isInfiniteMode) {
+    return createQuizz(options);
+  }
+
+  const firstQuestion = createWeightedRandomQuizzQuestion({
+    countryQuestionCounts: {},
+    options,
+  });
+
+  if (firstQuestion === null) {
+    return [];
+  }
+
+  return [firstQuestion];
 }
 
 interface GetCurrentQuestionParams {
@@ -192,12 +231,16 @@ function getQuizzScore({ session }: GetQuizzScoreParams): QuizzScore {
 interface SubmitAnswerToSessionParams {
   answer: QuizzAnswerSubmission;
   geoLang: SupportedGeoLanguage;
+  isInfiniteModeSession: boolean;
+  options: QuizzOptions;
   session: QuizzSessionState;
 }
 
 function submitAnswerToSession({
   answer,
   geoLang,
+  isInfiniteModeSession,
+  options,
   session,
 }: SubmitAnswerToSessionParams): QuizzSessionState {
   const currentQuestion = getCurrentQuestion({
@@ -215,14 +258,84 @@ function submitAnswerToSession({
     question: currentQuestion,
   });
   const currentStreak = isCorrectAnswer ? session.currentStreak + 1 : 0;
-
-  return {
+  const nextSession = {
     ...session,
     bestStreak: Math.max(session.bestStreak, currentStreak),
     correctAnswers: session.correctAnswers + (isCorrectAnswer ? 1 : 0),
     currentQuestionIndex: session.currentQuestionIndex + 1,
     currentStreak,
     wrongAnswers: session.wrongAnswers + (isCorrectAnswer ? 0 : 1),
+  };
+
+  if (!isInfiniteModeSession) {
+    return nextSession;
+  }
+
+  return appendInfiniteModeQuestion({
+    options,
+    session: nextSession,
+  });
+}
+
+interface AppendInfiniteModeQuestionParams {
+  options: QuizzOptions;
+  session: QuizzSessionState;
+}
+
+function appendInfiniteModeQuestion({
+  options,
+  session,
+}: AppendInfiniteModeQuestionParams): QuizzSessionState {
+  const nextQuestion = createWeightedRandomQuizzQuestion({
+    countryQuestionCounts: session.countryQuestionCounts,
+    options,
+  });
+
+  if (nextQuestion === null) {
+    return session;
+  }
+
+  return {
+    ...session,
+    countryQuestionCounts: addCountryQuestionCount({
+      countryCode: nextQuestion.countryCode,
+      countryQuestionCounts: session.countryQuestionCounts,
+    }),
+    questions: [...session.questions, nextQuestion],
+  };
+}
+
+interface GetCountryQuestionCountsParams {
+  questions: readonly QuizzQuestion[];
+}
+
+function getCountryQuestionCounts({
+  questions,
+}: GetCountryQuestionCountsParams): CountryQuestionCounts {
+  return questions.reduce<CountryQuestionCounts>(
+    (countryQuestionCounts, question) =>
+      addCountryQuestionCount({
+        countryCode: question.countryCode,
+        countryQuestionCounts,
+      }),
+    {},
+  );
+}
+
+interface AddCountryQuestionCountParams {
+  countryCode: string;
+  countryQuestionCounts: CountryQuestionCounts;
+}
+
+function addCountryQuestionCount({
+  countryCode,
+  countryQuestionCounts,
+}: AddCountryQuestionCountParams): CountryQuestionCounts {
+  const currentCount = countryQuestionCounts[countryCode] ?? 0;
+
+  return {
+    ...countryQuestionCounts,
+    [countryCode]: currentCount + 1,
   };
 }
 
@@ -324,9 +437,22 @@ function getQuizzSessionKey({ options, questions }: GetQuizzSessionKeyParams) {
     options.acceptedQuestionFormats.join(","),
     options.acceptedAnswerFormats.join(","),
     options.flagAnswerDifficulty,
+    options.isInfiniteMode ? "infinite" : "finite",
     options.limit?.toString() ?? "no-limit",
     getQuizzQuestionsKey({ questions }),
   ].join("|");
+}
+
+interface GetIsInfiniteModeSessionParams {
+  options: QuizzOptions;
+  questions?: readonly QuizzQuestion[];
+}
+
+function getIsInfiniteModeSession({
+  options,
+  questions,
+}: GetIsInfiniteModeSessionParams): boolean {
+  return options.isInfiniteMode && questions === undefined;
 }
 
 interface GetQuizzQuestionsKeyParams {

@@ -11,6 +11,7 @@ import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 
+import { useDailyChallengeReminderNotificationRouting } from "@/modules/daily-challenge-reminder/hooks/use-daily-challenge-reminder-notification-routing";
 import { NavigationConfirmModal } from "@/services/navigation-confirm/navigation-confirm-modal";
 import { useSyncThemePreference } from "@/services/theme/sync-theme-preference";
 import { useAppTheme } from "@/services/theme/theme";
@@ -21,6 +22,7 @@ function AppRoot() {
   const statusBarStyle = theme === "dark" ? "light" : "dark";
 
   useSyncThemePreference();
+  useDailyChallengeReminderNotificationRouting();
 
   return (
     <View className="flex-1 bg-background">

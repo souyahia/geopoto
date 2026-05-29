@@ -9,11 +9,8 @@ import type { SupportedLocale } from "@/services/i18n/locale";
 import { getLanguageCountryCode } from "@/utils/language/language-country-code";
 import { getLanguageName } from "@/utils/language/language-name";
 
-import { useOnboardingCompletion } from "../hooks/use-onboarding-completion";
-
 interface LangButtonProps {
   locale: SupportedLocale;
-  onPress?: () => void;
 }
 
 export function LangButton({
@@ -22,12 +19,10 @@ export function LangButton({
   ...props
 }: LangButtonProps & ButtonRootProps) {
   const router = useRouter();
-  const { setIsOnboardingCompleted } = useOnboardingCompletion();
 
   const handlePress = () => {
     setLanguage(locale);
-    setIsOnboardingCompleted(true);
-    router.replace("/home");
+    router.replace("/onboarding/reminder-opt-in");
   };
 
   return (
@@ -35,8 +30,8 @@ export function LangButton({
       size="sm"
       variant="tertiary"
       className={cn("justify-start", className)}
-      onPress={handlePress}
       {...props}
+      onPress={handlePress}
     >
       <FlagIcon code={getLanguageCountryCode(locale)} width={24} />
       <HapticButton.Label>{getLanguageName(locale)}</HapticButton.Label>

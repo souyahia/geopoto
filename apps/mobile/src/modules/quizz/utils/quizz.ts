@@ -34,8 +34,13 @@ export interface QuizzOptions {
   acceptedQuestionFormats: readonly QuizzFormat[];
   acceptedAnswerFormats: readonly QuizzFormat[];
   flagAnswerDifficulty: FlagAnswerDifficulty;
+  isInfiniteMode: boolean;
   limit?: number;
 }
+
+export type CountryQuestionCounts = Readonly<
+  Record<string, number | undefined>
+>;
 
 export function isQuizzFormat(value: unknown): value is QuizzFormat {
   return QUIZZ_FORMATS.some((format) => format === value);
@@ -55,9 +60,7 @@ export function createQuizz({
 }: QuizzOptions): QuizzQuestion[] {
   validateQuizzFormats({ acceptedQuestionFormats, acceptedAnswerFormats });
 
-  const regionCountries = COUNTRIES.filter((country) =>
-    regions.some((region) => country.regions.includes(region)),
-  );
+  const regionCountries = getQuizzCountries({ regions });
   const shuffledCountries = shuffle([...regionCountries]);
   const limitedCountries =
     limit === undefined ? shuffledCountries : shuffledCountries.slice(0, limit);
@@ -69,6 +72,90 @@ export function createQuizz({
       acceptedAnswerFormats,
     }),
   );
+}
+
+interface CreateWeightedRandomQuizzQuestionParams {
+  countryQuestionCounts: CountryQuestionCounts;
+  options: QuizzOptions;
+}
+
+export function createWeightedRandomQuizzQuestion({
+  countryQuestionCounts,
+  options,
+}: CreateWeightedRandomQuizzQuestionParams): QuizzQuestion | null {
+  validateQuizzFormats({
+    acceptedAnswerFormats: options.acceptedAnswerFormats,
+    acceptedQuestionFormats: options.acceptedQuestionFormats,
+  });
+
+  const regionCountries = getQuizzCountries({ regions: options.regions });
+  const country = pickWeightedRandomCountry({
+    countries: regionCountries,
+    countryQuestionCounts,
+  });
+
+  if (country === undefined) {
+    return null;
+  }
+
+  return createQuizzQuestion({
+    acceptedAnswerFormats: options.acceptedAnswerFormats,
+    acceptedQuestionFormats: options.acceptedQuestionFormats,
+    country,
+  });
+}
+
+interface GetQuizzCountriesParams {
+  regions: readonly MapRegionName[];
+}
+
+function getQuizzCountries({ regions }: GetQuizzCountriesParams): Country[] {
+  return COUNTRIES.filter((country) =>
+    regions.some((region) => country.regions.includes(region)),
+  );
+}
+
+interface PickWeightedRandomCountryParams {
+  countries: readonly Country[];
+  countryQuestionCounts: CountryQuestionCounts;
+}
+
+function pickWeightedRandomCountry({
+  countries,
+  countryQuestionCounts,
+}: PickWeightedRandomCountryParams): Country | undefined {
+  const weightedCountries = countries.map((country) => ({
+    country,
+    weight: getCountryQuestionWeight({ country, countryQuestionCounts }),
+  }));
+  const totalWeight = weightedCountries.reduce(
+    (sum, weightedCountry) => sum + weightedCountry.weight,
+    0,
+  );
+  const targetWeight = Math.random() * totalWeight;
+  let currentWeight = 0;
+
+  return (
+    weightedCountries.find((weightedCountry) => {
+      currentWeight += weightedCountry.weight;
+
+      return currentWeight >= targetWeight;
+    })?.country ?? weightedCountries.at(-1)?.country
+  );
+}
+
+interface GetCountryQuestionWeightParams {
+  country: Country;
+  countryQuestionCounts: CountryQuestionCounts;
+}
+
+function getCountryQuestionWeight({
+  country,
+  countryQuestionCounts,
+}: GetCountryQuestionWeightParams): number {
+  const questionCount = countryQuestionCounts[country.code] ?? 0;
+
+  return 1 / (questionCount + 1);
 }
 
 interface ValidateQuizzFormatsParams {

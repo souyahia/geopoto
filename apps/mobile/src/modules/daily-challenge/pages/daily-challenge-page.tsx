@@ -12,6 +12,7 @@ import type { MapRegionName } from "@geopoto/geo-data";
 import { BackButton } from "@/components/back-button";
 import { HapticButton } from "@/components/haptic-button";
 import { Header } from "@/components/header/header";
+import { reconcileStoredDailyChallengeReminders } from "@/modules/daily-challenge-reminder/utils/daily-challenge-reminder-reconciliation";
 import {
   QuizzQuestionCard,
   type QuizzAnswerResolution,
@@ -40,6 +41,16 @@ export function DailyChallengePage() {
   const router = useRouter();
   const { t } = useTranslation();
   const challenge = useMemo(() => getDailyChallenge({}), []);
+  const notificationContent = useMemo(
+    () => ({
+      body: t("settings.daily-challenge-reminder.notification.body"),
+      channelName: t(
+        "settings.daily-challenge-reminder.notification.channel-name",
+      ),
+      title: t("settings.daily-challenge-reminder.notification.title"),
+    }),
+    [t],
+  );
   const questions = useMemo(() => [challenge.question], [challenge.question]);
   const { completeDailyChallenge, progress: dailyChallengeProgress } =
     useDailyChallengeProgress({ challenge });
@@ -80,8 +91,11 @@ export function DailyChallengePage() {
       completeDailyChallenge({
         isSuccessful: resolution.isCorrectAnswer,
       });
+      void reconcileStoredDailyChallengeReminders({
+        content: notificationContent,
+      }).catch(() => undefined);
     },
-    [completeDailyChallenge],
+    [completeDailyChallenge, notificationContent],
   );
 
   const handleAnswerSubmit = useCallback(

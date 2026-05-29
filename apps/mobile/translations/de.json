@@ -3,6 +3,12 @@
     "language": {
       "description": "Dies wirkt sich auf die Sprache der App aus, aber auch auf die Sprache geografischer Informationen und der erwarteten Antworten.",
       "title": "Wähle deine Sprache aus"
+    },
+    "reminder-opt-in": {
+      "description": "Verpasse keine Tägliche Herausforderung, indem du Benachrichtigungen aktivierst.",
+      "enable-label": "Erinnerungen aktivieren",
+      "skip-label": "Vorerst überspringen",
+      "title": "Tägliche Erinnerungen aktivieren"
     }
   },
   "home": {
@@ -79,6 +85,7 @@
     "question-limit": {
       "title": "Fragenlimit",
       "description": "Lege fest, wie viele Fragen die Sitzung enthalten kann.",
+      "infinite-mode": "Unendlicher Modus",
       "select-label": "Maximale Anzahl von Fragen",
       "placeholder": "Kein Limit",
       "options": {
@@ -111,8 +118,10 @@
       "score": {
         "title": "Punktestand",
         "progress": "{{answered}} / {{total}}",
+        "infinite-mode": "Unendlicher Modus",
         "correct": "Richtig",
         "wrong": "Falsch",
+        "questions": "Fragen",
         "remaining": "Übrig",
         "streak": "Serie",
         "best-streak": "Beste Serie"
@@ -255,6 +264,82 @@
       "title": "Haptisches Feedback",
       "description": "Gibt bei unterstützten Interaktionen dezente Vibrationen aus.",
       "toggle-label": "Haptisches Feedback aktivieren"
+    },
+    "daily-challenge-reminder": {
+      "title": "Daily Challenge Erinnerung",
+      "description": "Erhalte auf diesem Gerät eine lokale Benachrichtigung für die Daily Challenge.",
+      "toggle-label": "Daily Challenge Erinnerung aktivieren",
+      "time-label": "Erinnerungszeit: {{time}}",
+      "time-disabled-label": "Aktiviere Erinnerungen, um die Zeit zu ändern.",
+      "hour-label": "Stunde",
+      "minute-label": "Minuten",
+      "hour-select-label": "Erinnerungsstunde",
+      "minute-select-label": "Erinnerungsminuten",
+      "permission-denied": "Benachrichtigungen sind für GeoPoto deaktiviert. Aktiviere sie in den Geräteeinstellungen, bevor du Erinnerungen einschaltest.",
+      "open-settings-label": "Geräteeinstellungen öffnen",
+      "notification": {
+        "title": "Daily Challenge",
+        "body": "Dein Geografierätsel ist bereit.",
+        "channel-name": "Daily Challenge Erinnerungen",
+        "copy-pools": {
+          "general": [
+            "Ein unbekanntes Land wartet auf dich.",
+            "Die Karte des Tages ist aufgeklappt.",
+            "Wohin geht die Reise heute?",
+            "Deine kleine Portion Geografie ist bereit.",
+            "Irgendwo auf der Welt versteckt sich die Antwort.",
+            "Der Kompass zeigt auf das Tagesrätsel.",
+            "GeoPoto hat einen neuen Zwischenstopp gefunden.",
+            "Eine Flagge, eine Hauptstadt oder eine Karte wartet.",
+            "Zeit für eine schnelle Runde Weltwissen.",
+            "Der Atlas hat heute eine Frage für dich.",
+            "Ein Land spielt Verstecken.",
+            "Mach die Karte warm, das Rätsel ist bereit.",
+            "Ein kurzer Weltblick wartet auf dich.",
+            "Heute gibt es eine frische Spur auf der Karte.",
+            "Der Globus hat etwas für dich markiert.",
+            "Öffne GeoPoto und folge der Spur.",
+            "Dein Kartenkopf bekommt Futter.",
+            "Das Tagesrätsel hat ein Reiseziel."
+          ],
+          "positive-streak": [
+            "{{streak}} Tage in Folge. Der Kompass nickt.",
+            "Deine {{streak}} Tage Serie hat einen neuen Halt.",
+            "{{streak}} starke Tage. Noch ein Land?",
+            "Die Karte hat deine {{streak}} Tage bemerkt.",
+            "Dein Lauf von {{streak}} Tagen bekommt eine frische Spur.",
+            "Noch ein Zwischenstopp für deine {{streak}} Tage?",
+            "{{streak}} Tage ohne den Norden zu verlieren. Stark.",
+            "Deine {{streak}} Tage Serie hat ein Date mit dem Atlas.",
+            "Die Welt ist für Tag {{streak}} zurück.",
+            "Deine Geografie Serie von {{streak}} Tagen steigt ein.",
+            "{{streak}} Tage auf dem Globus. Noch einer?",
+            "Ein neues Land schaut auf deine {{streak}} Tage.",
+            "Deine {{streak}} Tage Serie bringt den Kompass mit.",
+            "Das Tagesrätsel wartet auf deine {{streak}} Tage.",
+            "{{streak}} Tage schon. Die Karte ist noch warm.",
+            "Dein Lauf von {{streak}} Tagen hat ein Ziel."
+          ],
+          "zero-streak": [
+            "Frische Karte, frische Chance.",
+            "Ein Land reicht für den Anfang.",
+            "Der erste Zwischenstopp wartet.",
+            "Eine neue Geografie Runde kann hier losgehen.",
+            "Kein Druck. Nur ein Ort zum Finden.",
+            "Setz heute deine erste Markierung.",
+            "Der Atlas ist auf Seite eins offen.",
+            "Deine nächste Kartenroutine kann jetzt beginnen.",
+            "Der heutige Hinweis ist ein guter erster Schritt.",
+            "Der Globus bietet dir ein leeres Blatt.",
+            "Ein Tipp kann die Reise starten.",
+            "Eine kleine Weltreise beginnt mit einer Frage.",
+            "GeoPoto hat eine frische Route bereit.",
+            "Nimm den Kompass und leg los.",
+            "Das Land des Tages ist ein guter Einstieg.",
+            "Die erste Nadel gehört dir."
+          ]
+        }
+      }
     },
     "language": {
       "title": "Sprache",
