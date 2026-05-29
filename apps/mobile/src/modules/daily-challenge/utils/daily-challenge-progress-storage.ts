@@ -84,6 +84,36 @@ export function useDailyChallengeProgress({
   };
 }
 
+export function getStoredPlayedDailyChallengeDateKeys(): readonly string[] {
+  const snapshot = parseDailyChallengeProgressValue({
+    value: dailyChallengeProgressStorage.getString(
+      DAILY_CHALLENGE_PROGRESS_STORAGE_KEY,
+    ),
+  });
+
+  if (snapshot.lastPlayedDateKey === undefined) {
+    return [];
+  }
+
+  return [snapshot.lastPlayedDateKey];
+}
+
+interface GetStoredPendingDailyChallengeStreakParams {
+  challenge: DailyChallenge;
+}
+
+export function getStoredPendingDailyChallengeStreak({
+  challenge,
+}: GetStoredPendingDailyChallengeStreakParams): number {
+  const snapshot = parseDailyChallengeProgressValue({
+    value: dailyChallengeProgressStorage.getString(
+      DAILY_CHALLENGE_PROGRESS_STORAGE_KEY,
+    ),
+  });
+
+  return getPendingDailyChallengeStreak({ challenge, snapshot });
+}
+
 interface CompleteDailyChallengeParams {
   isSuccessful: boolean;
 }

@@ -3,6 +3,12 @@
     "language": {
       "description": "Cela affectera la langue de l’application, mais aussi la langue des informations géographiques et des réponses attendues.",
       "title": "Sélectionnez votre langue"
+    },
+    "reminder-opt-in": {
+      "description": "Ne manquez jamais un Défi quotidien en activant les notifications.",
+      "enable-label": "Activer les rappels",
+      "skip-label": "Passer pour l’instant",
+      "title": "Activez les rappels du Défi quotidien"
     }
   },
   "home": {
@@ -255,6 +261,82 @@
       "title": "Retour haptique",
       "description": "Émettre de légères vibrations pour les interactions prises en charge.",
       "toggle-label": "Activer le retour haptique"
+    },
+    "daily-challenge-reminder": {
+      "title": "Rappel du Défi quotidien",
+      "description": "Recevez une notification locale pour le Défi quotidien sur cet appareil.",
+      "toggle-label": "Activer le rappel du Défi quotidien",
+      "time-label": "Heure du rappel : {{time}}",
+      "time-disabled-label": "Activez les rappels pour modifier l’heure.",
+      "hour-label": "Heure",
+      "minute-label": "Minutes",
+      "hour-select-label": "Heure du rappel",
+      "minute-select-label": "Minutes du rappel",
+      "permission-denied": "Les notifications sont désactivées pour GeoPoto. Activez-les dans les paramètres de l’appareil avant d’activer les rappels.",
+      "open-settings-label": "Ouvrir les paramètres de l’appareil",
+      "notification": {
+        "title": "Défi quotidien",
+        "body": "Votre puzzle de géographie est prêt.",
+        "channel-name": "Rappels du Défi quotidien",
+        "copy-pools": {
+          "general": [
+            "Un pays mystère t'attend dans GeoPoto.",
+            "La carte du jour vient de s'ouvrir.",
+            "On part où aujourd'hui ?",
+            "Ta dose de géographie est prête.",
+            "Il y a un bout du monde à deviner.",
+            "Le défi du jour a sorti sa boussole.",
+            "Une escale surprise t'attend.",
+            "Prêt pour un mini tour du monde ?",
+            "La planète a gardé une question pour toi.",
+            "Un drapeau, une carte ou une capitale. À toi.",
+            "GeoPoto a préparé une destination surprise.",
+            "Le monde t'attend pour quelques minutes.",
+            "Un coin du globe veut tester ta mémoire.",
+            "Fais chauffer la carte, le défi est prêt.",
+            "Une nouvelle destination vient d'apparaître.",
+            "Le pays du jour ne va pas se trouver tout seul.",
+            "Ta pause carte est servie.",
+            "Le défi du jour a trouvé sa destination."
+          ],
+          "positive-streak": [
+            "{{streak}} jours d'affilée. On garde le cap ?",
+            "Ta série de {{streak}} jours mérite une escale.",
+            "{{streak}} jours au compteur. La carte t'attend.",
+            "Ta boussole tient depuis {{streak}} jours.",
+            "Encore un pays pour tes {{streak}} jours ?",
+            "{{streak}} jours sans perdre le nord. Joli.",
+            "Ta série de {{streak}} jours a rendez-vous avec le monde.",
+            "Le défi du jour attend tes {{streak}} jours.",
+            "{{streak}} jours de suite. Prêt à repartir ?",
+            "Ta carte chauffe depuis {{streak}} jours.",
+            "Une nouvelle escale pour tes {{streak}} jours.",
+            "{{streak}} jours et toujours le globe en tête.",
+            "Ta série de {{streak}} jours peut prendre l'avion.",
+            "Le monde revient saluer tes {{streak}} jours.",
+            "{{streak}} jours déjà. Ne laisse pas la carte refroidir.",
+            "Ta série de {{streak}} jours a une destination."
+          ],
+          "zero-streak": [
+            "On démarre une aventure aujourd'hui ?",
+            "Premier arrêt possible : le défi du jour.",
+            "Un pays mystère pour lancer la machine.",
+            "La carte est vierge, parfaite pour commencer.",
+            "Un petit tour du monde pour ouvrir le bal.",
+            "Pas de pression, juste un pays à trouver.",
+            "Et si aujourd'hui devenait le début ?",
+            "La boussole est prête pour le premier pas.",
+            "Un défi frais pour se remettre en route.",
+            "Le monde t'offre une page blanche.",
+            "Choisis une escale et lance-toi.",
+            "Une capitale, un drapeau, un départ.",
+            "Le premier voyage tient dans une question.",
+            "GeoPoto a préparé une carte toute neuve.",
+            "Le défi du jour est un bon point de départ.",
+            "Viens poser la première épingle."
+          ]
+        }
+      }
     },
     "language": {
       "title": "Langue",

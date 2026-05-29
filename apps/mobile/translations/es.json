@@ -3,6 +3,12 @@
     "language": {
       "description": "Esto afectará al idioma de la aplicación, pero también al idioma de la información geográfica y de las respuestas esperadas.",
       "title": "Selecciona tu idioma"
+    },
+    "reminder-opt-in": {
+      "description": "No te pierdas ningún Desafío diario activando las notificaciones.",
+      "enable-label": "Activar recordatorios",
+      "skip-label": "Omitir por ahora",
+      "title": "Activa los recordatorios diarios"
     }
   },
   "home": {
@@ -255,6 +261,82 @@
       "title": "Respuesta háptica",
       "description": "Emitir vibraciones sutiles en las interacciones compatibles.",
       "toggle-label": "Activar respuesta háptica"
+    },
+    "daily-challenge-reminder": {
+      "title": "Recordatorio del Reto diario",
+      "description": "Recibe una notificación local para el Reto diario en este dispositivo.",
+      "toggle-label": "Activar recordatorio del Reto diario",
+      "time-label": "Hora del recordatorio: {{time}}",
+      "time-disabled-label": "Activa los recordatorios para cambiar la hora.",
+      "hour-label": "Hora",
+      "minute-label": "Minutos",
+      "hour-select-label": "Hora del recordatorio",
+      "minute-select-label": "Minutos del recordatorio",
+      "permission-denied": "Las notificaciones están desactivadas para GeoPoto. Actívalas en los ajustes del dispositivo antes de activar los recordatorios.",
+      "open-settings-label": "Abrir ajustes del dispositivo",
+      "notification": {
+        "title": "Reto diario",
+        "body": "Tu rompecabezas de geografía está listo.",
+        "channel-name": "Recordatorios del Reto diario",
+        "copy-pools": {
+          "general": [
+            "Un país misterioso acaba de aparecer.",
+            "El mapa de hoy esconde algo.",
+            "¿A dónde viajamos hoy?",
+            "Tu dosis de geografía está lista.",
+            "Hay un rincón del mundo por adivinar.",
+            "La brújula apunta al reto del día.",
+            "GeoPoto encontró una parada sorpresa.",
+            "Una bandera, una capital o un mapa te espera.",
+            "Hora de darle cuerda a tu cerebro viajero.",
+            "El atlas abrió una pregunta para ti.",
+            "Un país está jugando al escondite.",
+            "Calienta el mapa, el reto está listo.",
+            "Una escapada geográfica cabe en unos minutos.",
+            "El globo dejó una pista para ti.",
+            "Abre GeoPoto y sigue la brújula.",
+            "El país de hoy no se adivina solo.",
+            "Tu pausa de mapa está servida.",
+            "El reto del día ya tiene destino."
+          ],
+          "positive-streak": [
+            "{{streak}} días seguidos. La brújula sonríe.",
+            "Tu racha de {{streak}} días tiene una nueva parada.",
+            "{{streak}} días fuertes. ¿Otro país?",
+            "El mapa vio esos {{streak}} días.",
+            "Tu recorrido de {{streak}} días merece una pista nueva.",
+            "¿Otra escala para tus {{streak}} días?",
+            "{{streak}} días sin perder el norte. Bien.",
+            "Tu racha de {{streak}} días tiene cita con el atlas.",
+            "El mundo volvió para el día {{streak}}.",
+            "Tu racha geográfica de {{streak}} días embarca ahora.",
+            "{{streak}} días sobre el globo. ¿Uno más?",
+            "Un país nuevo mira tus {{streak}} días.",
+            "Tu racha de {{streak}} días trajo brújula.",
+            "El reto del día espera tus {{streak}} días.",
+            "{{streak}} días ya. El mapa sigue caliente.",
+            "Tu recorrido de {{streak}} días tiene destino."
+          ],
+          "zero-streak": [
+            "Mapa limpio, oportunidad nueva.",
+            "Un país basta para empezar.",
+            "La primera parada está esperando.",
+            "Una vuelta geográfica puede arrancar aquí.",
+            "Sin presión. Solo un lugar por encontrar.",
+            "Pon la primera marca en el mapa.",
+            "El atlas está abierto en la página uno.",
+            "Tu próximo hábito de mapa puede empezar ahora.",
+            "La pista de hoy es un buen primer paso.",
+            "El globo te ofrece una página en blanco.",
+            "Un toque puede iniciar el viaje.",
+            "Una mini vuelta al mundo empieza con una pregunta.",
+            "GeoPoto tiene una ruta fresca preparada.",
+            "Toma la brújula y empieza.",
+            "El país de hoy es un buen punto de partida.",
+            "La primera chincheta es tuya."
+          ]
+        }
+      }
     },
     "language": {
       "title": "Idioma",
