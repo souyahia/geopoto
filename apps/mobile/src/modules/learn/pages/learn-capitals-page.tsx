@@ -28,7 +28,7 @@ interface CapitalListData extends CapitalSearchItem {
 }
 
 interface CompareCapitalListItemsParams {
-  geoLang: SupportedGeoLanguage;
+  collator: Intl.Collator;
   left: CapitalListData;
   right: CapitalListData;
 }
@@ -73,29 +73,31 @@ function CapitalListSeparator() {
 }
 
 function compareCapitalListItems({
-  geoLang,
+  collator,
   left,
   right,
 }: CompareCapitalListItemsParams) {
-  const capitalComparison = left.capitalName.localeCompare(
+  const capitalComparison = collator.compare(
+    left.capitalName,
     right.capitalName,
-    geoLang,
   );
 
   if (capitalComparison !== 0) {
     return capitalComparison;
   }
 
-  return left.countryName.localeCompare(right.countryName, geoLang);
+  return collator.compare(left.countryName, right.countryName);
 }
 
 function getCapitalListData({
   countries,
   geoLang,
 }: GetCapitalListDataParams): readonly CapitalListData[] {
+  const collator = new Intl.Collator(geoLang);
+
   return countries
     .map((country) => toCapitalListData({ country, geoLang }))
-    .sort((left, right) => compareCapitalListItems({ geoLang, left, right }));
+    .sort((left, right) => compareCapitalListItems({ collator, left, right }));
 }
 
 function toCapitalListData({
