@@ -12,6 +12,11 @@ const config: ExpoConfig = {
   version: "0.0.1",
   icon: APP_ICON,
   platforms: ["ios", "android"],
+  extra: {
+    eas: {
+      projectId: "f206006c-d47d-4905-8b6f-b2736c2fe456",
+    },
+  },
   plugins: [
     "expo-dev-client",
     "expo-router",
@@ -47,15 +52,16 @@ const config: ExpoConfig = {
     ],
   ],
   ios: {
-    bundleIdentifier: "souyahia.geopoto.dev",
+    bundleIdentifier: "com.souyahia.geopoto",
     icon: APP_ICON,
     userInterfaceStyle: "automatic",
     infoPlist: {
       CADisableMinimumFrameDurationOnPhone: true, // For 120FPS animations, as recommended here: https://kirillzyusko.github.io/react-native-keyboard-controller/docs/api/hooks/keyboard/use-keyboard-handler
+      ITSAppUsesNonExemptEncryption: false,
     },
   },
   android: {
-    package: "souyahia.geopoto.dev",
+    package: "com.souyahia.geopoto",
     icon: APP_ICON,
   },
   experiments: {
