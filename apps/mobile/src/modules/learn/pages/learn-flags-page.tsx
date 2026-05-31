@@ -178,7 +178,7 @@ export function LearnFlagsPage() {
     (_data: ArrayLike<FlagListItem> | null | undefined, index: number) => ({
       index,
       length: flagGridMetrics.rowHeight,
-      offset: flagGridMetrics.rowHeight * Math.floor(index / FLAG_GRID_COLUMNS),
+      offset: flagGridMetrics.rowHeight * index,
     }),
     [flagGridMetrics.rowHeight],
   );
