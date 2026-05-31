@@ -260,6 +260,18 @@
       },
       "title": "Tema"
     },
+    "adaptive-difficulty": {
+      "title": "Difficoltà adattiva",
+      "description": "Dai priorità alle domande di allenamento che sbagli spesso.",
+      "toggle-label": "Attiva difficoltà adattiva",
+      "reset": {
+        "label": "Reimposta cronologia della difficoltà adattiva",
+        "confirm-title": "Reimpostare la cronologia della difficoltà adattiva?",
+        "confirm-description": "Questo cancella i risultati locali usati per dare priorità alle domande di allenamento. La difficoltà adattiva resterà attiva.",
+        "cancel-label": "Annulla",
+        "confirm-label": "Reimposta"
+      }
+    },
     "haptic-feedback": {
       "title": "Feedback aptico",
       "description": "Emette vibrazioni leggere per le interazioni supportate.",

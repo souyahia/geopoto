@@ -50,7 +50,7 @@ export function useDailyChallengeProgress({
     [challenge, snapshot],
   );
   const completeDailyChallenge = useCallback(
-    ({ isSuccessful }: CompleteDailyChallengeParams) => {
+    ({ isSuccessful }: CompleteDailyChallengeParams): boolean => {
       const latestSnapshot = parseDailyChallengeProgressValue({
         value: dailyChallengeProgressStorage.getString(
           DAILY_CHALLENGE_PROGRESS_STORAGE_KEY,
@@ -62,7 +62,7 @@ export function useDailyChallengeProgress({
       });
 
       if (latestProgress.status !== "not-played") {
-        return;
+        return false;
       }
 
       const nextSnapshot = getCompletedDailyChallengeSnapshot({
@@ -74,6 +74,8 @@ export function useDailyChallengeProgress({
       setStoredProgressValue(
         getDailyChallengeProgressStorageValue({ snapshot: nextSnapshot }),
       );
+
+      return true;
     },
     [challenge, setStoredProgressValue],
   );

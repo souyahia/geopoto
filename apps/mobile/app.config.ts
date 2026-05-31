@@ -17,6 +17,7 @@ const config: ExpoConfig = {
     "expo-router",
     "expo-localization",
     "expo-image",
+    "expo-sqlite",
     [
       "expo-notifications",
       {

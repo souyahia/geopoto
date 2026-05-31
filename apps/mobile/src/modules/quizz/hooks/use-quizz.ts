@@ -6,6 +6,11 @@ import {
   type SupportedGeoLanguage,
 } from "@geopoto/geo-data";
 
+import { isAdaptiveDifficultyEnabled } from "@/modules/adaptive-difficulty/utils/adaptive-difficulty-settings-storage";
+import {
+  getAdaptiveHistoryEntries,
+  type AdaptiveHistoryEntry,
+} from "@/modules/adaptive-difficulty/utils/adaptive-history-storage";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 
 import {
@@ -62,20 +67,84 @@ export function useQuizz({ options, questions }: UseQuizzParams) {
     options,
     questions,
   });
+  const isAdaptiveDifficultySelectionEnabled =
+    getIsAdaptiveDifficultySelectionEnabled({ questions });
+  const [adaptiveHistoryEntries, setAdaptiveHistoryEntries] = useState<
+    readonly AdaptiveHistoryEntry[] | null
+  >(() => (isAdaptiveDifficultySelectionEnabled ? null : []));
+  const isPreparingAdaptiveHistory =
+    isAdaptiveDifficultySelectionEnabled && adaptiveHistoryEntries === null;
   const sessionKey = getQuizzSessionKey({ options, questions });
-  const previousSessionKeyRef = useRef(sessionKey);
+  const sessionStateKey = getQuizzSessionStateKey({
+    adaptiveHistoryEntries,
+    isAdaptiveDifficultySelectionEnabled,
+    sessionKey,
+  });
+  const previousSessionStateKeyRef = useRef(sessionStateKey);
   const [session, setSession] = useState(() =>
-    createQuizzSessionState({ options, questions }),
+    createQuizzSessionState({
+      adaptiveHistoryEntries,
+      isAdaptiveDifficultySelectionEnabled,
+      options,
+      questions,
+    }),
   );
 
   useEffect(() => {
-    if (previousSessionKeyRef.current === sessionKey) {
+    let isActive = true;
+
+    if (!isAdaptiveDifficultySelectionEnabled) {
+      setAdaptiveHistoryEntries([]);
+
+      return () => {
+        isActive = false;
+      };
+    }
+
+    void getAdaptiveHistoryEntries()
+      .then((entries) => {
+        if (!isActive) {
+          return;
+        }
+
+        setAdaptiveHistoryEntries(entries);
+      })
+      .catch((error: unknown) => {
+        console.error("Failed to load Adaptive History", error);
+
+        if (!isActive) {
+          return;
+        }
+
+        setAdaptiveHistoryEntries([]);
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [isAdaptiveDifficultySelectionEnabled, sessionKey]);
+
+  useEffect(() => {
+    if (previousSessionStateKeyRef.current === sessionStateKey) {
       return;
     }
 
-    previousSessionKeyRef.current = sessionKey;
-    setSession(createQuizzSessionState({ options, questions }));
-  }, [options, questions, sessionKey]);
+    previousSessionStateKeyRef.current = sessionStateKey;
+    setSession(
+      createQuizzSessionState({
+        adaptiveHistoryEntries,
+        isAdaptiveDifficultySelectionEnabled,
+        options,
+        questions,
+      }),
+    );
+  }, [
+    adaptiveHistoryEntries,
+    isAdaptiveDifficultySelectionEnabled,
+    options,
+    questions,
+    sessionStateKey,
+  ]);
 
   const currentQuestion = useMemo(
     () =>
@@ -86,7 +155,10 @@ export function useQuizz({ options, questions }: UseQuizzParams) {
     [session.currentQuestionIndex, session.questions],
   );
   const score = useMemo(() => getQuizzScore({ session }), [session]);
-  const isComplete = !isInfiniteModeSession && score.remainingQuestions === 0;
+  const isComplete =
+    !isPreparingAdaptiveHistory &&
+    !isInfiniteModeSession &&
+    score.remainingQuestions === 0;
   const progress =
     isInfiniteModeSession || score.totalQuestions === 0
       ? 1
@@ -96,25 +168,46 @@ export function useQuizz({ options, questions }: UseQuizzParams) {
     ({ answer }: SubmitQuizzAnswerParams) => {
       setSession((previousSession) =>
         submitAnswerToSession({
+          adaptiveHistoryEntries,
           answer,
           geoLang,
+          isAdaptiveDifficultySelectionEnabled,
           isInfiniteModeSession,
           options,
           session: previousSession,
         }),
       );
     },
-    [geoLang, isInfiniteModeSession, options],
+    [
+      adaptiveHistoryEntries,
+      geoLang,
+      isAdaptiveDifficultySelectionEnabled,
+      isInfiniteModeSession,
+      options,
+    ],
   );
 
   const restartQuizz = useCallback(() => {
-    setSession(createQuizzSessionState({ options, questions }));
-  }, [options, questions]);
+    setSession(
+      createQuizzSessionState({
+        adaptiveHistoryEntries,
+        isAdaptiveDifficultySelectionEnabled,
+        options,
+        questions,
+      }),
+    );
+  }, [
+    adaptiveHistoryEntries,
+    isAdaptiveDifficultySelectionEnabled,
+    options,
+    questions,
+  ]);
 
   return {
     currentQuestion,
     isComplete,
     isInfiniteModeSession,
+    isPreparingAdaptiveHistory,
     progress,
     restartQuizz,
     score,
@@ -127,15 +220,24 @@ interface SubmitQuizzAnswerParams {
 }
 
 interface CreateQuizzSessionStateParams {
+  adaptiveHistoryEntries: readonly AdaptiveHistoryEntry[] | null;
+  isAdaptiveDifficultySelectionEnabled: boolean;
   options: QuizzOptions;
   questions?: readonly QuizzQuestion[];
 }
 
 function createQuizzSessionState({
+  adaptiveHistoryEntries,
+  isAdaptiveDifficultySelectionEnabled,
   options,
   questions,
 }: CreateQuizzSessionStateParams): QuizzSessionState {
-  const sessionQuestions = createQuizzSessionQuestions({ options, questions });
+  const sessionQuestions = createQuizzSessionQuestions({
+    adaptiveHistoryEntries,
+    isAdaptiveDifficultySelectionEnabled,
+    options,
+    questions,
+  });
 
   return {
     bestStreak: 0,
@@ -151,6 +253,8 @@ function createQuizzSessionState({
 }
 
 function createQuizzSessionQuestions({
+  adaptiveHistoryEntries,
+  isAdaptiveDifficultySelectionEnabled,
   options,
   questions,
 }: CreateQuizzSessionStateParams): readonly QuizzQuestion[] {
@@ -158,12 +262,22 @@ function createQuizzSessionQuestions({
     return questions;
   }
 
+  if (isAdaptiveDifficultySelectionEnabled && adaptiveHistoryEntries === null) {
+    return [];
+  }
+
   if (!options.isInfiniteMode) {
-    return createQuizz(options);
+    return createQuizz({
+      ...options,
+      adaptiveHistoryEntries: adaptiveHistoryEntries ?? [],
+      isAdaptiveDifficultySelectionEnabled,
+    });
   }
 
   const firstQuestion = createWeightedRandomQuizzQuestion({
+    adaptiveHistoryEntries: adaptiveHistoryEntries ?? [],
     countryQuestionCounts: {},
+    isAdaptiveDifficultySelectionEnabled,
     options,
   });
 
@@ -229,16 +343,20 @@ function getQuizzScore({ session }: GetQuizzScoreParams): QuizzScore {
 }
 
 interface SubmitAnswerToSessionParams {
+  adaptiveHistoryEntries: readonly AdaptiveHistoryEntry[] | null;
   answer: QuizzAnswerSubmission;
   geoLang: SupportedGeoLanguage;
+  isAdaptiveDifficultySelectionEnabled: boolean;
   isInfiniteModeSession: boolean;
   options: QuizzOptions;
   session: QuizzSessionState;
 }
 
 function submitAnswerToSession({
+  adaptiveHistoryEntries,
   answer,
   geoLang,
+  isAdaptiveDifficultySelectionEnabled,
   isInfiniteModeSession,
   options,
   session,
@@ -272,22 +390,30 @@ function submitAnswerToSession({
   }
 
   return appendInfiniteModeQuestion({
+    adaptiveHistoryEntries,
+    isAdaptiveDifficultySelectionEnabled,
     options,
     session: nextSession,
   });
 }
 
 interface AppendInfiniteModeQuestionParams {
+  adaptiveHistoryEntries: readonly AdaptiveHistoryEntry[] | null;
+  isAdaptiveDifficultySelectionEnabled: boolean;
   options: QuizzOptions;
   session: QuizzSessionState;
 }
 
 function appendInfiniteModeQuestion({
+  adaptiveHistoryEntries,
+  isAdaptiveDifficultySelectionEnabled,
   options,
   session,
 }: AppendInfiniteModeQuestionParams): QuizzSessionState {
   const nextQuestion = createWeightedRandomQuizzQuestion({
+    adaptiveHistoryEntries: adaptiveHistoryEntries ?? [],
     countryQuestionCounts: session.countryQuestionCounts,
+    isAdaptiveDifficultySelectionEnabled,
     options,
   });
 
@@ -443,6 +569,48 @@ function getQuizzSessionKey({ options, questions }: GetQuizzSessionKeyParams) {
   ].join("|");
 }
 
+interface GetQuizzSessionStateKeyParams {
+  adaptiveHistoryEntries: readonly AdaptiveHistoryEntry[] | null;
+  isAdaptiveDifficultySelectionEnabled: boolean;
+  sessionKey: string;
+}
+
+function getQuizzSessionStateKey({
+  adaptiveHistoryEntries,
+  isAdaptiveDifficultySelectionEnabled,
+  sessionKey,
+}: GetQuizzSessionStateKeyParams): string {
+  return [
+    sessionKey,
+    isAdaptiveDifficultySelectionEnabled ? "adaptive" : "baseline",
+    getAdaptiveHistoryEntriesKey({ adaptiveHistoryEntries }),
+  ].join("|");
+}
+
+interface GetAdaptiveHistoryEntriesKeyParams {
+  adaptiveHistoryEntries: readonly AdaptiveHistoryEntry[] | null;
+}
+
+function getAdaptiveHistoryEntriesKey({
+  adaptiveHistoryEntries,
+}: GetAdaptiveHistoryEntriesKeyParams): string {
+  if (adaptiveHistoryEntries === null) {
+    return "loading";
+  }
+
+  return adaptiveHistoryEntries
+    .map((entry) =>
+      [
+        entry.countryCode,
+        entry.questionFormat,
+        entry.answerFormat,
+        entry.successCount,
+        entry.failureCount,
+      ].join(":"),
+    )
+    .join(",");
+}
+
 interface GetIsInfiniteModeSessionParams {
   options: QuizzOptions;
   questions?: readonly QuizzQuestion[];
@@ -453,6 +621,20 @@ function getIsInfiniteModeSession({
   questions,
 }: GetIsInfiniteModeSessionParams): boolean {
   return options.isInfiniteMode && questions === undefined;
+}
+
+interface GetIsAdaptiveDifficultySelectionEnabledParams {
+  questions?: readonly QuizzQuestion[];
+}
+
+function getIsAdaptiveDifficultySelectionEnabled({
+  questions,
+}: GetIsAdaptiveDifficultySelectionEnabledParams): boolean {
+  if (questions !== undefined) {
+    return false;
+  }
+
+  return isAdaptiveDifficultyEnabled();
 }
 
 interface GetQuizzQuestionsKeyParams {

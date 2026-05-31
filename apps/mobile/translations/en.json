@@ -260,6 +260,18 @@
       },
       "title": "Theme"
     },
+    "adaptive-difficulty": {
+      "title": "Adaptive Difficulty",
+      "description": "Prioritize training questions you often miss.",
+      "toggle-label": "Enable Adaptive Difficulty",
+      "reset": {
+        "label": "Reset Adaptive Difficulty History",
+        "confirm-title": "Reset Adaptive Difficulty History?",
+        "confirm-description": "This clears the local results used to prioritize training questions. Adaptive Difficulty will stay enabled.",
+        "cancel-label": "Cancel",
+        "confirm-label": "Reset"
+      }
+    },
     "haptic-feedback": {
       "title": "Haptic feedback",
       "description": "Play subtle vibrations for supported interactions.",

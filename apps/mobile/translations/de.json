@@ -260,6 +260,18 @@
       },
       "title": "Thema"
     },
+    "adaptive-difficulty": {
+      "title": "Adaptive Schwierigkeit",
+      "description": "Priorisiere Trainingsfragen, die du oft verfehlst.",
+      "toggle-label": "Adaptive Schwierigkeit aktivieren",
+      "reset": {
+        "label": "Verlauf der adaptiven Schwierigkeit zurücksetzen",
+        "confirm-title": "Verlauf der adaptiven Schwierigkeit zurücksetzen?",
+        "confirm-description": "Dadurch werden die lokalen Ergebnisse gelöscht, mit denen Trainingsfragen priorisiert werden. Adaptive Schwierigkeit bleibt aktiviert.",
+        "cancel-label": "Abbrechen",
+        "confirm-label": "Zurücksetzen"
+      }
+    },
     "haptic-feedback": {
       "title": "Haptisches Feedback",
       "description": "Gibt bei unterstützten Interaktionen dezente Vibrationen aus.",

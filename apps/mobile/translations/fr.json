@@ -260,6 +260,18 @@
       },
       "title": "Thème"
     },
+    "adaptive-difficulty": {
+      "title": "Difficulté adaptative",
+      "description": "Priorisez les questions d’entraînement que vous manquez souvent.",
+      "toggle-label": "Activer la difficulté adaptative",
+      "reset": {
+        "label": "Réinitialiser l’historique de difficulté adaptative",
+        "confirm-title": "Réinitialiser l’historique de difficulté adaptative ?",
+        "confirm-description": "Cela efface les résultats locaux utilisés pour prioriser les questions d’entraînement. La difficulté adaptative restera activée.",
+        "cancel-label": "Annuler",
+        "confirm-label": "Réinitialiser"
+      }
+    },
     "haptic-feedback": {
       "title": "Retour haptique",
       "description": "Émettre de légères vibrations pour les interactions prises en charge.",
