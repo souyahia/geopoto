@@ -260,6 +260,18 @@
       },
       "title": "Tema"
     },
+    "adaptive-difficulty": {
+      "title": "Dificultad adaptativa",
+      "description": "Prioriza las preguntas de entrenamiento que sueles fallar.",
+      "toggle-label": "Activar dificultad adaptativa",
+      "reset": {
+        "label": "Restablecer historial de dificultad adaptativa",
+        "confirm-title": "¿Restablecer historial de dificultad adaptativa?",
+        "confirm-description": "Esto borra los resultados locales usados para priorizar preguntas de entrenamiento. La dificultad adaptativa seguirá activada.",
+        "cancel-label": "Cancelar",
+        "confirm-label": "Restablecer"
+      }
+    },
     "haptic-feedback": {
       "title": "Respuesta háptica",
       "description": "Emitir vibraciones sutiles en las interacciones compatibles.",

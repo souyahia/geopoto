@@ -18,11 +18,13 @@ import { ScrollView, View } from "react-native";
 import type { MapRegionName } from "@geopoto/geo-data";
 
 import { HapticButton } from "@/components/haptic-button";
+import { recordPracticeResult } from "@/modules/adaptive-difficulty/utils/adaptive-history-storage";
 import { KeyboardAwareScrollView } from "@/services/keyboard/keyboard-aware-scroll-view";
 import { useNavigationConfirm } from "@/services/navigation-confirm/use-navigation-confirm";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
 import { QuizzQuestionCard } from "../components/quizz-question-card";
+import type { QuizzAnswerResolution } from "../components/quizz-question-card";
 import { TrainHeader } from "../components/train-header";
 import {
   useQuizz,
@@ -56,12 +58,14 @@ export function TrainingSessionPage() {
     currentQuestion,
     isComplete,
     isInfiniteModeSession,
+    isPreparingAdaptiveHistory,
     progress,
     restartQuizz,
     score,
     submitAnswer,
   } = useQuizz({ options: quizzOptions });
-  const isSessionFinished = isComplete || currentQuestion === null;
+  const isSessionFinished =
+    !isPreparingAdaptiveHistory && (isComplete || currentQuestion === null);
   const currentQuestionKey =
     currentQuestion === null
       ? "complete"
@@ -104,7 +108,9 @@ export function TrainingSessionPage() {
   return (
     <View className="flex-1 p-safe">
       <TrainHeader shouldShowSettingsButton={false} />
-      {isSessionFinished ? (
+      {isPreparingAdaptiveHistory ? (
+        <View className="flex-1" />
+      ) : currentQuestion === null || isComplete ? (
         <TrainingSessionComplete
           onBackPress={handleBackPress}
           onPlayAgainPress={restartQuizz}
@@ -214,6 +220,24 @@ function TrainingSessionQuestionBlocks({
   progress,
   score,
 }: TrainingSessionQuestionBlocksProps) {
+  const handleAnswerResolved = useCallback(
+    ({ isCorrectAnswer }: QuizzAnswerResolution) => {
+      void recordPracticeResult({
+        answerFormat: currentQuestion.answerFormat,
+        countryCode: currentQuestion.countryCode,
+        isCorrectAnswer,
+        questionFormat: currentQuestion.questionFormat,
+      }).catch((error: unknown) => {
+        console.error("Failed to record Practice Result", error);
+      });
+    },
+    [
+      currentQuestion.answerFormat,
+      currentQuestion.countryCode,
+      currentQuestion.questionFormat,
+    ],
+  );
+
   return (
     <>
       <TrainingSessionScorePanel
@@ -226,6 +250,7 @@ function TrainingSessionQuestionBlocks({
         answerRegion={answerRegion}
         country={currentQuestion.country}
         flagAnswerDifficulty={flagAnswerDifficulty}
+        onAnswerResolved={handleAnswerResolved}
         onAnswerSubmit={onAnswerSubmit}
         questionFormat={currentQuestion.questionFormat}
       />

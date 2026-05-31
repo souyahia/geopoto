@@ -88,6 +88,7 @@ export function QuizzQuestionCard({
   const answerFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
     null,
   );
+  const hasResolvedAnswerRef = useRef(false);
   const [answerFeedback, setAnswerFeedback] = useState<QuizzAnswerFeedback>({
     status: "idle",
   });
@@ -112,14 +113,17 @@ export function QuizzQuestionCard({
 
   useEffect(() => {
     clearAnswerFeedbackTimeout();
+    hasResolvedAnswerRef.current = false;
     setAnswerFeedback({ status: "idle" });
   }, [answerFormat, clearAnswerFeedbackTimeout, country.code, questionFormat]);
 
   const handleAnswerSubmit = useCallback(
     (answer: QuizzAnswerSubmission) => {
-      if (isAnswerLocked) {
+      if (isAnswerLocked || hasResolvedAnswerRef.current) {
         return;
       }
+
+      hasResolvedAnswerRef.current = true;
 
       const isCorrectAnswer = isQuizzAnswerSubmissionCorrect({
         answer,

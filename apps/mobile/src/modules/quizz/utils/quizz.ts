@@ -1,6 +1,12 @@
 import type { Country, MapRegionName } from "@geopoto/geo-data";
 import { COUNTRIES } from "@geopoto/geo-data";
 
+import type { AdaptiveHistoryEntry } from "@/modules/adaptive-difficulty/utils/adaptive-history-storage";
+import {
+  getAdaptiveItemWeight,
+  pickAdaptiveWeightedRandomItem,
+  type AdaptivePracticeItemAggregate,
+} from "@/modules/adaptive-difficulty/utils/adaptive-weighting";
 import { pickRandom, shuffle } from "@/utils/random";
 
 export const QUIZZ_FORMATS = [
@@ -27,6 +33,8 @@ export interface QuizzQuestion {
   answerFormat: QuizzFormat;
 }
 
+export type PracticeItem = QuizzQuestion;
+
 export type FlagAnswerDifficulty = (typeof FLAG_ANSWER_DIFFICULTIES)[number];
 
 export interface QuizzOptions {
@@ -52,13 +60,30 @@ export function isFlagAnswerDifficulty(
   return FLAG_ANSWER_DIFFICULTIES.some((difficulty) => difficulty === value);
 }
 
+export interface CreateQuizzParams extends QuizzOptions {
+  adaptiveHistoryEntries?: readonly AdaptiveHistoryEntry[];
+  isAdaptiveDifficultySelectionEnabled?: boolean;
+}
+
 export function createQuizz({
   acceptedQuestionFormats,
   acceptedAnswerFormats,
+  adaptiveHistoryEntries = [],
+  isAdaptiveDifficultySelectionEnabled = false,
   regions,
   limit,
-}: QuizzOptions): QuizzQuestion[] {
+}: CreateQuizzParams): QuizzQuestion[] {
   validateQuizzFormats({ acceptedQuestionFormats, acceptedAnswerFormats });
+
+  if (isAdaptiveDifficultySelectionEnabled) {
+    return createAdaptiveQuizz({
+      acceptedAnswerFormats,
+      acceptedQuestionFormats,
+      adaptiveHistoryEntries,
+      limit,
+      regions,
+    });
+  }
 
   const regionCountries = getQuizzCountries({ regions });
   const shuffledCountries = shuffle([...regionCountries]);
@@ -74,13 +99,252 @@ export function createQuizz({
   );
 }
 
+interface CreateAdaptiveQuizzParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+  adaptiveHistoryEntries: readonly AdaptiveHistoryEntry[];
+  limit?: number;
+  regions: readonly MapRegionName[];
+}
+
+function createAdaptiveQuizz({
+  acceptedAnswerFormats,
+  acceptedQuestionFormats,
+  adaptiveHistoryEntries,
+  limit,
+  regions,
+}: CreateAdaptiveQuizzParams): QuizzQuestion[] {
+  const adaptiveHistoryByPracticeItem = getAdaptiveHistoryByPracticeItem({
+    adaptiveHistoryEntries,
+  });
+  const eligibleCountries = getQuizzCountries({ regions }).filter((country) =>
+    hasEligiblePracticeItem({
+      acceptedAnswerFormats,
+      acceptedQuestionFormats,
+      country,
+    }),
+  );
+  const includedCountries =
+    limit === undefined || limit >= eligibleCountries.length
+      ? shuffle([...eligibleCountries])
+      : pickLimitedAdaptiveCountries({
+          acceptedAnswerFormats,
+          acceptedQuestionFormats,
+          adaptiveHistoryByPracticeItem,
+          countries: eligibleCountries,
+          limit,
+        });
+
+  return includedCountries.flatMap((country) => {
+    const practiceItem = pickAdaptivePracticeItemForCountry({
+      acceptedAnswerFormats,
+      acceptedQuestionFormats,
+      adaptiveHistoryByPracticeItem,
+      country,
+    });
+
+    if (practiceItem === undefined) {
+      return [];
+    }
+
+    return [practiceItem];
+  });
+}
+
+type AdaptiveHistoryByPracticeItem = Readonly<
+  Record<string, AdaptivePracticeItemAggregate | undefined>
+>;
+
+interface GetAdaptiveHistoryByPracticeItemParams {
+  adaptiveHistoryEntries: readonly AdaptiveHistoryEntry[];
+}
+
+function getAdaptiveHistoryByPracticeItem({
+  adaptiveHistoryEntries,
+}: GetAdaptiveHistoryByPracticeItemParams): AdaptiveHistoryByPracticeItem {
+  return Object.fromEntries(
+    adaptiveHistoryEntries.map((entry) => [
+      getPracticeItemKey({
+        answerFormat: entry.answerFormat,
+        countryCode: entry.countryCode,
+        questionFormat: entry.questionFormat,
+      }),
+      {
+        failureCount: entry.failureCount,
+        successCount: entry.successCount,
+      },
+    ]),
+  );
+}
+
+interface HasEligiblePracticeItemParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+  country: Country;
+}
+
+function hasEligiblePracticeItem({
+  acceptedAnswerFormats,
+  acceptedQuestionFormats,
+  country,
+}: HasEligiblePracticeItemParams): boolean {
+  return (
+    getEligiblePracticeItemsForCountry({
+      acceptedAnswerFormats,
+      acceptedQuestionFormats,
+      country,
+    }).length > 0
+  );
+}
+
+interface PickLimitedAdaptiveCountriesParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+  adaptiveHistoryByPracticeItem: AdaptiveHistoryByPracticeItem;
+  countries: readonly Country[];
+  limit: number;
+}
+
+function pickLimitedAdaptiveCountries({
+  acceptedAnswerFormats,
+  acceptedQuestionFormats,
+  adaptiveHistoryByPracticeItem,
+  countries,
+  limit,
+}: PickLimitedAdaptiveCountriesParams): Country[] {
+  return Array.from({ length: limit }).reduce<Country[]>(
+    (selectedCountries) => {
+      const selectedCountryCodes = new Set(
+        selectedCountries.map((country) => country.code),
+      );
+      const remainingCountries = countries.filter(
+        (country) => !selectedCountryCodes.has(country.code),
+      );
+      const country = pickAdaptiveWeightedRandomItem({
+        getWeight: (candidateCountry) =>
+          getCountryAdaptiveInclusionWeight({
+            acceptedAnswerFormats,
+            acceptedQuestionFormats,
+            adaptiveHistoryByPracticeItem,
+            country: candidateCountry,
+          }),
+        items: remainingCountries,
+      });
+
+      if (country === undefined) {
+        return selectedCountries;
+      }
+
+      return [...selectedCountries, country];
+    },
+    [],
+  );
+}
+
+interface GetCountryAdaptiveInclusionWeightParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+  adaptiveHistoryByPracticeItem: AdaptiveHistoryByPracticeItem;
+  country: Country;
+}
+
+function getCountryAdaptiveInclusionWeight({
+  acceptedAnswerFormats,
+  acceptedQuestionFormats,
+  adaptiveHistoryByPracticeItem,
+  country,
+}: GetCountryAdaptiveInclusionWeightParams): number {
+  const practiceItems = getEligiblePracticeItemsForCountry({
+    acceptedAnswerFormats,
+    acceptedQuestionFormats,
+    country,
+  });
+  const weights = practiceItems.map((practiceItem) =>
+    getPracticeItemAdaptiveWeight({
+      adaptiveHistoryByPracticeItem,
+      practiceItem,
+    }),
+  );
+
+  return weights.reduce((highestWeight, weight) => {
+    return Math.max(highestWeight, weight);
+  }, 0);
+}
+
+interface PickAdaptivePracticeItemForCountryParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+  adaptiveHistoryByPracticeItem: AdaptiveHistoryByPracticeItem;
+  country: Country;
+}
+
+function pickAdaptivePracticeItemForCountry({
+  acceptedAnswerFormats,
+  acceptedQuestionFormats,
+  adaptiveHistoryByPracticeItem,
+  country,
+}: PickAdaptivePracticeItemForCountryParams): PracticeItem | undefined {
+  const practiceItems = getEligiblePracticeItemsForCountry({
+    acceptedAnswerFormats,
+    acceptedQuestionFormats,
+    country,
+  });
+
+  return pickAdaptiveWeightedRandomItem({
+    getWeight: (practiceItem) =>
+      getPracticeItemAdaptiveWeight({
+        adaptiveHistoryByPracticeItem,
+        practiceItem,
+      }),
+    items: practiceItems,
+  });
+}
+
+interface GetPracticeItemAdaptiveWeightParams {
+  adaptiveHistoryByPracticeItem: AdaptiveHistoryByPracticeItem;
+  practiceItem: PracticeItem;
+}
+
+function getPracticeItemAdaptiveWeight({
+  adaptiveHistoryByPracticeItem,
+  practiceItem,
+}: GetPracticeItemAdaptiveWeightParams): number {
+  const aggregate = adaptiveHistoryByPracticeItem[
+    getPracticeItemKey({
+      answerFormat: practiceItem.answerFormat,
+      countryCode: practiceItem.countryCode,
+      questionFormat: practiceItem.questionFormat,
+    })
+  ] ?? { failureCount: 0, successCount: 0 };
+
+  return getAdaptiveItemWeight({ aggregate });
+}
+
+interface GetPracticeItemKeyParams {
+  answerFormat: QuizzFormat;
+  countryCode: string;
+  questionFormat: QuizzFormat;
+}
+
+function getPracticeItemKey({
+  answerFormat,
+  countryCode,
+  questionFormat,
+}: GetPracticeItemKeyParams): string {
+  return [countryCode, questionFormat, answerFormat].join(":");
+}
+
 interface CreateWeightedRandomQuizzQuestionParams {
+  adaptiveHistoryEntries?: readonly AdaptiveHistoryEntry[];
   countryQuestionCounts: CountryQuestionCounts;
+  isAdaptiveDifficultySelectionEnabled?: boolean;
   options: QuizzOptions;
 }
 
 export function createWeightedRandomQuizzQuestion({
+  adaptiveHistoryEntries = [],
   countryQuestionCounts,
+  isAdaptiveDifficultySelectionEnabled = false,
   options,
 }: CreateWeightedRandomQuizzQuestionParams): QuizzQuestion | null {
   validateQuizzFormats({
@@ -88,14 +352,39 @@ export function createWeightedRandomQuizzQuestion({
     acceptedQuestionFormats: options.acceptedQuestionFormats,
   });
 
+  const adaptiveHistoryByPracticeItem = getAdaptiveHistoryByPracticeItem({
+    adaptiveHistoryEntries,
+  });
   const regionCountries = getQuizzCountries({ regions: options.regions });
+  const eligibleCountries = regionCountries.filter((country) =>
+    hasEligiblePracticeItem({
+      acceptedAnswerFormats: options.acceptedAnswerFormats,
+      acceptedQuestionFormats: options.acceptedQuestionFormats,
+      country,
+    }),
+  );
   const country = pickWeightedRandomCountry({
-    countries: regionCountries,
+    acceptedAnswerFormats: options.acceptedAnswerFormats,
+    acceptedQuestionFormats: options.acceptedQuestionFormats,
+    adaptiveHistoryByPracticeItem,
+    countries: eligibleCountries,
     countryQuestionCounts,
+    isAdaptiveDifficultySelectionEnabled,
   });
 
   if (country === undefined) {
     return null;
+  }
+
+  if (isAdaptiveDifficultySelectionEnabled) {
+    return (
+      pickAdaptivePracticeItemForCountry({
+        acceptedAnswerFormats: options.acceptedAnswerFormats,
+        acceptedQuestionFormats: options.acceptedQuestionFormats,
+        adaptiveHistoryByPracticeItem,
+        country,
+      }) ?? null
+    );
   }
 
   return createQuizzQuestion({
@@ -116,17 +405,32 @@ function getQuizzCountries({ regions }: GetQuizzCountriesParams): Country[] {
 }
 
 interface PickWeightedRandomCountryParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+  adaptiveHistoryByPracticeItem: AdaptiveHistoryByPracticeItem;
   countries: readonly Country[];
   countryQuestionCounts: CountryQuestionCounts;
+  isAdaptiveDifficultySelectionEnabled: boolean;
 }
 
 function pickWeightedRandomCountry({
+  acceptedAnswerFormats,
+  acceptedQuestionFormats,
+  adaptiveHistoryByPracticeItem,
   countries,
   countryQuestionCounts,
+  isAdaptiveDifficultySelectionEnabled,
 }: PickWeightedRandomCountryParams): Country | undefined {
   const weightedCountries = countries.map((country) => ({
     country,
-    weight: getCountryQuestionWeight({ country, countryQuestionCounts }),
+    weight: getCountryQuestionWeight({
+      acceptedAnswerFormats,
+      acceptedQuestionFormats,
+      adaptiveHistoryByPracticeItem,
+      country,
+      countryQuestionCounts,
+      isAdaptiveDifficultySelectionEnabled,
+    }),
   }));
   const totalWeight = weightedCountries.reduce(
     (sum, weightedCountry) => sum + weightedCountry.weight,
@@ -145,17 +449,38 @@ function pickWeightedRandomCountry({
 }
 
 interface GetCountryQuestionWeightParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+  adaptiveHistoryByPracticeItem: AdaptiveHistoryByPracticeItem;
   country: Country;
   countryQuestionCounts: CountryQuestionCounts;
+  isAdaptiveDifficultySelectionEnabled: boolean;
 }
 
 function getCountryQuestionWeight({
+  acceptedAnswerFormats,
+  acceptedQuestionFormats,
+  adaptiveHistoryByPracticeItem,
   country,
   countryQuestionCounts,
+  isAdaptiveDifficultySelectionEnabled,
 }: GetCountryQuestionWeightParams): number {
   const questionCount = countryQuestionCounts[country.code] ?? 0;
+  const repeatDampeningWeight = 1 / (questionCount + 1);
 
-  return 1 / (questionCount + 1);
+  if (!isAdaptiveDifficultySelectionEnabled) {
+    return repeatDampeningWeight;
+  }
+
+  return (
+    repeatDampeningWeight *
+    getCountryAdaptiveInclusionWeight({
+      acceptedAnswerFormats,
+      acceptedQuestionFormats,
+      adaptiveHistoryByPracticeItem,
+      country,
+    })
+  );
 }
 
 interface ValidateQuizzFormatsParams {
@@ -240,6 +565,32 @@ function createQuizzQuestion({
     questionFormat,
     answerFormat,
   };
+}
+
+interface GetEligiblePracticeItemsForCountryParams {
+  acceptedAnswerFormats: readonly QuizzFormat[];
+  acceptedQuestionFormats: readonly QuizzFormat[];
+  country: Country;
+}
+
+function getEligiblePracticeItemsForCountry({
+  acceptedAnswerFormats,
+  acceptedQuestionFormats,
+  country,
+}: GetEligiblePracticeItemsForCountryParams): PracticeItem[] {
+  return getCompatibleQuestionFormats({
+    acceptedAnswerFormats,
+    acceptedQuestionFormats,
+  }).flatMap((questionFormat) =>
+    getCompatibleAnswerFormats({
+      acceptedAnswerFormats,
+      questionFormat,
+    }).map((answerFormat) => ({
+      answerFormat,
+      countryCode: country.code,
+      questionFormat,
+    })),
+  );
 }
 
 interface HasQuizzFormatPairParams {

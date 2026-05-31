@@ -12,6 +12,7 @@ import type { MapRegionName } from "@geopoto/geo-data";
 import { BackButton } from "@/components/back-button";
 import { HapticButton } from "@/components/haptic-button";
 import { Header } from "@/components/header/header";
+import { recordPracticeResult } from "@/modules/adaptive-difficulty/utils/adaptive-history-storage";
 import { reconcileStoredDailyChallengeReminders } from "@/modules/daily-challenge-reminder/utils/daily-challenge-reminder-reconciliation";
 import {
   QuizzQuestionCard,
@@ -88,14 +89,27 @@ export function DailyChallengePage() {
       }
 
       hasRecordedAnswerRef.current = true;
-      completeDailyChallenge({
+      const isDailyChallengeCompletionAccepted = completeDailyChallenge({
         isSuccessful: resolution.isCorrectAnswer,
+      });
+
+      if (!isDailyChallengeCompletionAccepted) {
+        return;
+      }
+
+      void recordPracticeResult({
+        answerFormat: challenge.question.answerFormat,
+        countryCode: challenge.question.countryCode,
+        isCorrectAnswer: resolution.isCorrectAnswer,
+        questionFormat: challenge.question.questionFormat,
+      }).catch((error: unknown) => {
+        console.error("Failed to record Practice Result", error);
       });
       void reconcileStoredDailyChallengeReminders({
         content: notificationContent,
       }).catch(() => undefined);
     },
-    [completeDailyChallenge, notificationContent],
+    [challenge.question, completeDailyChallenge, notificationContent],
   );
 
   const handleAnswerSubmit = useCallback(
