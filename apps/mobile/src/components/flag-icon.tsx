@@ -1,4 +1,5 @@
 import { Image, type ImageProps } from "expo-image";
+import { cn } from "heroui-native/utils";
 import { View, type StyleProp, type ViewStyle } from "react-native";
 
 import { getCountryFlag } from "@geopoto/geo-data/flags";
@@ -6,9 +7,10 @@ import { getLowResolutionCountryFlagImage } from "@geopoto/geo-data/low-resoluti
 
 export interface FlagIconProps extends Omit<
   ImageProps,
-  "contentFit" | "source" | "style"
+  "className" | "contentFit" | "source" | "style"
 > {
   code: string;
+  containerClassName?: string;
   style?: StyleProp<ViewStyle>;
   width?: number;
 }
@@ -56,7 +58,13 @@ function getContainedFlagIconSize({
   };
 }
 
-export function FlagIcon({ code, width = 24, style, ...props }: FlagIconProps) {
+export function FlagIcon({
+  code,
+  containerClassName,
+  width = 24,
+  style,
+  ...props
+}: FlagIconProps) {
   const flag = getCountryFlag(code);
 
   if (flag === null) {
@@ -84,7 +92,7 @@ export function FlagIcon({ code, width = 24, style, ...props }: FlagIconProps) {
 
   return (
     <View
-      className="items-center justify-center"
+      className={cn("items-center justify-center", containerClassName)}
       style={[
         {
           borderRadius: FLAG_ICON_BORDER_RADIUS,

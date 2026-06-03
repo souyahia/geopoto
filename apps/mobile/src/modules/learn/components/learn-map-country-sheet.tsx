@@ -69,6 +69,7 @@ export function LearnMapCountrySheet({
               <View className="flex-row items-center gap-4">
                 <FlagIcon
                   code={countryInfo.countryCode}
+                  containerClassName="border border-default"
                   width={LEARN_MAP_COUNTRY_FLAG_ICON_WIDTH}
                 />
                 <View className="min-w-0 flex-1 justify-center">

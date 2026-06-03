@@ -5,7 +5,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { Country } from "@geopoto/geo-data";
 
-import { PageContent } from "@/components/page-content";
 import { MapViewer } from "@/modules/map-viewer/components/map-viewer";
 import type {
   MapViewerHighlight,
@@ -83,7 +82,7 @@ export function LearnMapPage() {
   return (
     <View className="flex-1" style={{ paddingTop: safeAreaInsets.top }}>
       <LearnHeader title={t("learn.menu-cards.map.title")} />
-      <PageContent className="flex-1">
+      <View className="flex-1">
         <MapViewer
           activeTargets={LEARN_MAP_ACTIVE_TARGETS}
           centersOn={LEARN_MAP_WORLD_TARGET}
@@ -95,7 +94,7 @@ export function LearnMapPage() {
           onReset={handleMapReset}
           shouldLimitZoomOutToInitialViewport
         />
-      </PageContent>
+      </View>
       <LearnMapCountrySheet
         country={highlightedCountry}
         isOpen={isCountryInfoSheetOpen}

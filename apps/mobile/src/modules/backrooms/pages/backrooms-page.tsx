@@ -41,17 +41,25 @@ export function BackroomsPage() {
               onDismiss={restoreAppColorScheme}
               onLongPress={restoreAppColorScheme}
             >
-              <Image
-                accessibilityLabel="Palestine flag"
-                contentFit="contain"
-                onTouchCancel={restoreAppColorScheme}
-                onTouchStart={enableGaleriaDarkMode}
-                source={palestineFlagImageSource}
+              <View
+                className="border border-default"
                 style={{
                   height: palestineFlagSize.height,
                   width: palestineFlagSize.width,
                 }}
-              />
+              >
+                <Image
+                  accessibilityLabel="Palestine flag"
+                  contentFit="contain"
+                  onTouchCancel={restoreAppColorScheme}
+                  onTouchStart={enableGaleriaDarkMode}
+                  source={palestineFlagImageSource}
+                  style={{
+                    height: palestineFlagSize.height,
+                    width: palestineFlagSize.width,
+                  }}
+                />
+              </View>
             </Galeria.Image>
           </Galeria>
           <Text type="body-sm" color="muted">

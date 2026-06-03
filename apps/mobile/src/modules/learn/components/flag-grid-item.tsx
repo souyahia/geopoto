@@ -70,14 +70,16 @@ function FlagGridItemComponent({
           onLongPress={restoreAppColorScheme}
           style={imageFrameStyle}
         >
-          <Image
-            accessibilityLabel={accessibilityLabel}
-            contentFit="contain"
-            onTouchCancel={restoreAppColorScheme}
-            onTouchStart={enableGaleriaDarkMode}
-            source={flag.thumbnailImageSource}
-            style={imageStyle}
-          />
+          <View className="border border-default" style={imageFrameStyle}>
+            <Image
+              accessibilityLabel={accessibilityLabel}
+              contentFit="contain"
+              onTouchCancel={restoreAppColorScheme}
+              onTouchStart={enableGaleriaDarkMode}
+              source={flag.thumbnailImageSource}
+              style={imageStyle}
+            />
+          </View>
         </Galeria.Image>
       </Galeria>
       <Text

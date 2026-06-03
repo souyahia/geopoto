@@ -51,6 +51,7 @@ export function LearnCountryPage() {
           <View className="items-center justify-center px-4 py-6">
             <CountryFlag
               code={countryCode}
+              className="border border-default"
               height={flagSize.height}
               width={flagSize.width}
             />
