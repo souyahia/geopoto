@@ -13,7 +13,7 @@ import {
 } from "lucide-react-native";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 import { AssetImage, ASSET_IMAGES } from "@/components/asset-image";
 import { BackroomsButton } from "@/components/backrooms-button";
@@ -50,43 +50,49 @@ export function HomePage() {
           <ThemedIcon icon={Settings} />
         </HapticButton>
       </View>
-      <View className="items-center justify-center px-8 pb-2">
-        <AssetImage
-          image={ASSET_IMAGES.GEOPOTO_ILLUSTRATION}
-          contentFit="contain"
-          style={{
-            width: "95%",
-            maxWidth: 400,
-          }}
-        />
-      </View>
-      <View className="flex-1 items-center px-10 py-4 justify-stretch gap-4">
-        <MenuCard
-          icon={CalendarDays}
-          title={t("home.game-modes.daily-challenge.title")}
-          description={t("home.game-modes.daily-challenge.description")}
-          isDisabled={isDailyChallengePlayed}
-          onPress={() => router.push("/daily-challenge")}
-          titleAccessory={
-            <DailyChallengeStatusRow
-              status={dailyChallengeProgress.status}
-              streak={dailyChallengeProgress.streak}
-            />
-          }
-        />
-        <MenuCard
-          icon={Dumbbell}
-          title={t("home.game-modes.train.title")}
-          description={t("home.game-modes.train.description")}
-          onPress={() => router.push("/train")}
-        />
-        <MenuCard
-          icon={BookOpenText}
-          title={t("home.game-modes.learn.title")}
-          description={t("home.game-modes.learn.description")}
-          onPress={() => router.push("/learn")}
-        />
-      </View>
+      <ScrollView
+        alwaysBounceVertical={false}
+        bounces={false}
+        className="flex-1"
+      >
+        <View className="items-center justify-center px-8 pb-2">
+          <AssetImage
+            image={ASSET_IMAGES.GEOPOTO_ILLUSTRATION}
+            contentFit="contain"
+            style={{
+              width: "95%",
+              maxWidth: 400,
+            }}
+          />
+        </View>
+        <View className="gap-4 px-10 py-4">
+          <MenuCard
+            icon={CalendarDays}
+            title={t("home.game-modes.daily-challenge.title")}
+            description={t("home.game-modes.daily-challenge.description")}
+            isDisabled={isDailyChallengePlayed}
+            onPress={() => router.push("/daily-challenge")}
+            titleAccessory={
+              <DailyChallengeStatusRow
+                status={dailyChallengeProgress.status}
+                streak={dailyChallengeProgress.streak}
+              />
+            }
+          />
+          <MenuCard
+            icon={Dumbbell}
+            title={t("home.game-modes.train.title")}
+            description={t("home.game-modes.train.description")}
+            onPress={() => router.push("/train")}
+          />
+          <MenuCard
+            icon={BookOpenText}
+            title={t("home.game-modes.learn.title")}
+            description={t("home.game-modes.learn.description")}
+            onPress={() => router.push("/learn")}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
