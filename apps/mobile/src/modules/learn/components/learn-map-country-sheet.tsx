@@ -11,6 +11,7 @@ import type {
 } from "@geopoto/geo-data";
 
 import { FlagIcon } from "@/components/flag-icon";
+import { PAGE_MODAL_SURFACE_STYLE } from "@/components/page-content";
 import { getContinentName } from "@/services/geo-data/continents";
 import { getRegionName } from "@/services/geo-data/regions";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
@@ -61,6 +62,7 @@ export function LearnMapCountrySheet({
         <BottomSheet.Content
           contentContainerClassName="gap-5 px-6 pb-safe-offset-6 pt-2"
           snapPoints={LEARN_MAP_COUNTRY_SHEET_SNAP_POINTS}
+          style={PAGE_MODAL_SURFACE_STYLE}
         >
           {countryInfo === null ? null : (
             <>

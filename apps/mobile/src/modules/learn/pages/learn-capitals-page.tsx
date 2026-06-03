@@ -1,7 +1,12 @@
 import { Text } from "heroui-native/text";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, View, type ListRenderItemInfo } from "react-native";
+import {
+  FlatList,
+  View,
+  type ListRenderItemInfo,
+  type ViewStyle,
+} from "react-native";
 
 import type { SupportedGeoLanguage } from "@geopoto/geo-data";
 import {
@@ -9,6 +14,10 @@ import {
   type CountrySummary,
 } from "@geopoto/geo-data/country-summaries";
 
+import {
+  PAGE_CONTENT_MAX_WIDTH,
+  PageContent,
+} from "@/components/page-content";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 
 import {
@@ -46,9 +55,12 @@ interface ToCapitalListDataParams {
 const CAPITAL_LIST_INITIAL_ITEMS = 12;
 const CAPITAL_LIST_WINDOW_SIZE = 7;
 const CAPITAL_LIST_CONTENT_CONTAINER_STYLE = {
+  alignSelf: "center",
+  maxWidth: PAGE_CONTENT_MAX_WIDTH,
   paddingBottom: 32,
   paddingHorizontal: 24,
-};
+  width: "100%",
+} satisfies ViewStyle;
 const CAPITAL_LIST_SEPARATOR_STYLE = {
   height: CAPITAL_LIST_ITEM_SEPARATOR_HEIGHT,
 };
@@ -149,7 +161,7 @@ export function LearnCapitalsPage() {
   return (
     <View className="flex-1 p-safe">
       <LearnHeader title={t("learn.capitals.title")} />
-      <View className="px-6 pb-3 pt-4">
+      <PageContent className="px-6 pb-3 pt-4">
         <LearnSearchField
           accessibilityLabel={t("learn.capitals.search.label")}
           clearAccessibilityLabel={t("learn.capitals.search.clear")}
@@ -157,7 +169,7 @@ export function LearnCapitalsPage() {
           placeholder={t("learn.capitals.search.placeholder")}
           value={searchQuery}
         />
-      </View>
+      </PageContent>
       <FlatList
         ref={listRef}
         data={capitals}

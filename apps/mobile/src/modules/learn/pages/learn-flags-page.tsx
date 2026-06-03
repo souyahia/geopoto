@@ -6,6 +6,7 @@ import {
   useWindowDimensions,
   View,
   type ListRenderItemInfo,
+  type ViewStyle,
 } from "react-native";
 
 import type { SupportedGeoLanguage } from "@geopoto/geo-data";
@@ -18,6 +19,10 @@ import { getCountryFlagImage } from "@geopoto/geo-data/flag-images";
 import { getCountryFlagThumbnailImage } from "@geopoto/geo-data/flag-thumbnail-images";
 import { getCountryFlag } from "@geopoto/geo-data/flags";
 
+import {
+  PAGE_CONTENT_MAX_WIDTH,
+  PageContent,
+} from "@/components/page-content";
 import { useGaleriaDarkMode } from "@/services/theme/galeria-dark-mode";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 
@@ -65,9 +70,12 @@ const FLAG_GRID_INITIAL_ITEMS = 18;
 const FLAG_GRID_MAX_BATCH_ITEMS = 24;
 const FLAG_GRID_WINDOW_SIZE = 9;
 const FLAG_GRID_CONTENT_CONTAINER_STYLE = {
+  alignSelf: "center",
+  maxWidth: PAGE_CONTENT_MAX_WIDTH,
   paddingBottom: 32,
   paddingHorizontal: FLAG_GRID_HORIZONTAL_PADDING,
-};
+  width: "100%",
+} satisfies ViewStyle;
 const FLAG_GRID_COLUMN_WRAPPER_STYLE = {
   gap: FLAG_GRID_COLUMN_GAP,
 };
@@ -158,7 +166,10 @@ export function LearnFlagsPage() {
   >([]);
   const sortedCountries = COUNTRY_SUMMARIES_BY_NAME[geoLang];
   const flagGridMetrics = useMemo(
-    () => getFlagGridMetrics({ screenWidth: width }),
+    () =>
+      getFlagGridMetrics({
+        screenWidth: Math.min(width, PAGE_CONTENT_MAX_WIDTH),
+      }),
     [width],
   );
   const allFlags = useMemo(
@@ -216,7 +227,7 @@ export function LearnFlagsPage() {
   return (
     <View className="flex-1 p-safe">
       <LearnHeader title={t("learn.flags.title")} />
-      <View className="gap-3 px-6 pb-3 pt-4">
+      <PageContent className="gap-3 px-6 pb-3 pt-4">
         <LearnSearchField
           accessibilityLabel={t("learn.flags.search.label")}
           clearAccessibilityLabel={t("learn.flags.search.clear")}
@@ -228,7 +239,7 @@ export function LearnFlagsPage() {
           onSelectedColorsChange={setSelectedColors}
           selectedColors={selectedColors}
         />
-      </View>
+      </PageContent>
       <FlatList
         ref={listRef}
         ItemSeparatorComponent={null}

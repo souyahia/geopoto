@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
 import { HapticButton } from "@/components/haptic-button";
+import { PageContent } from "@/components/page-content";
 import { useDailyChallengeReminderSettings } from "@/modules/daily-challenge-reminder/hooks/use-daily-challenge-reminder-settings";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
@@ -61,7 +62,7 @@ export function ReminderOptInPage() {
   };
 
   return (
-    <View className="flex-1 items-center justify-center gap-6 px-6 py-safe">
+    <PageContent className="flex-1 items-center justify-center gap-6 px-6 py-safe">
       <View className="items-center gap-4">
         <View className="h-16 w-16 items-center justify-center rounded-full bg-surface-secondary">
           <ThemedIcon
@@ -106,6 +107,6 @@ export function ReminderOptInPage() {
           </HapticButton.Label>
         </HapticButton>
       </View>
-    </View>
+    </PageContent>
   );
 }

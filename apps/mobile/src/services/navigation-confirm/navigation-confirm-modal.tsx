@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
 import { HapticButton } from "@/components/haptic-button";
+import { PAGE_MODAL_SURFACE_STYLE } from "@/components/page-content";
 
 import {
   type NavigationConfirmModalTexts,
@@ -61,7 +62,11 @@ export function NavigationConfirmModal() {
     <Dialog isOpen={isModalVisible} onOpenChange={handleOpenChange}>
       <Dialog.Portal unstable_accessibilityContainerViewIsModal>
         <Dialog.Overlay isCloseOnPress={false} />
-        <Dialog.Content className="gap-5" isSwipeable={false}>
+        <Dialog.Content
+          className="gap-5"
+          isSwipeable={false}
+          style={PAGE_MODAL_SURFACE_STYLE}
+        >
           <View className="gap-1.5">
             <Dialog.Title>{resolvedModalTexts.title}</Dialog.Title>
             <Dialog.Description>

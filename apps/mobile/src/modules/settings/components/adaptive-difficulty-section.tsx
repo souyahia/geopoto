@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
 import { HapticButton } from "@/components/haptic-button";
+import { PAGE_MODAL_SURFACE_STYLE } from "@/components/page-content";
 import { useAdaptiveDifficultySettings } from "@/modules/adaptive-difficulty/utils/adaptive-difficulty-settings-storage";
 import { resetAdaptiveHistory } from "@/modules/adaptive-difficulty/utils/adaptive-history-storage";
 import { ThemedIcon } from "@/services/theme/themed-icon";
@@ -84,7 +85,7 @@ export function AdaptiveDifficultySection() {
       </SettingsSection>
       <Dialog.Portal unstable_accessibilityContainerViewIsModal>
         <Dialog.Overlay />
-        <Dialog.Content className="gap-5">
+        <Dialog.Content className="gap-5" style={PAGE_MODAL_SURFACE_STYLE}>
           <View className="gap-1.5">
             <Dialog.Title>
               {t("settings.adaptive-difficulty.reset.confirm-title")}

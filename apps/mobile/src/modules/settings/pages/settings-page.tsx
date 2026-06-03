@@ -5,6 +5,7 @@ import { ScrollView, View } from "react-native";
 import { BackButton } from "@/components/back-button";
 import { BackroomsButton } from "@/components/backrooms-button";
 import { Header } from "@/components/header/header";
+import { PageContent } from "@/components/page-content";
 
 import { AdaptiveDifficultySection } from "../components/adaptive-difficulty-section";
 import { DailyChallengeReminderSection } from "../components/daily-challenge-reminder-section";
@@ -29,13 +30,13 @@ export function SettingsPage() {
         </Header.Right>
       </Header>
       <ScrollView className="flex-1">
-        <View className="gap-4 px-6 pb-8 pt-4">
+        <PageContent className="gap-4 px-6 pb-8 pt-4">
           <ThemePreferenceSection />
           <LanguageSection />
           <AdaptiveDifficultySection />
           <DailyChallengeReminderSection />
           <HapticFeedbackSection />
-        </View>
+        </PageContent>
       </ScrollView>
     </View>
   );

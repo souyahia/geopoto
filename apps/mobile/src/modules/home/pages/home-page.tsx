@@ -19,6 +19,7 @@ import { AssetImage, ASSET_IMAGES } from "@/components/asset-image";
 import { BackroomsButton } from "@/components/backrooms-button";
 import { HapticButton } from "@/components/haptic-button";
 import { MenuCard } from "@/components/menu-card";
+import { PageContent } from "@/components/page-content";
 import { getDailyChallenge } from "@/modules/daily-challenge/utils/daily-challenge";
 import {
   useDailyChallengeProgress,
@@ -55,43 +56,45 @@ export function HomePage() {
         bounces={false}
         className="flex-1"
       >
-        <View className="items-center justify-center px-8 pb-2">
-          <AssetImage
-            image={ASSET_IMAGES.GEOPOTO_ILLUSTRATION}
-            contentFit="contain"
-            style={{
-              width: "95%",
-              maxWidth: 400,
-            }}
-          />
-        </View>
-        <View className="gap-4 px-10 py-4">
-          <MenuCard
-            icon={CalendarDays}
-            title={t("home.game-modes.daily-challenge.title")}
-            description={t("home.game-modes.daily-challenge.description")}
-            isDisabled={isDailyChallengePlayed}
-            onPress={() => router.push("/daily-challenge")}
-            titleAccessory={
-              <DailyChallengeStatusRow
-                status={dailyChallengeProgress.status}
-                streak={dailyChallengeProgress.streak}
-              />
-            }
-          />
-          <MenuCard
-            icon={Dumbbell}
-            title={t("home.game-modes.train.title")}
-            description={t("home.game-modes.train.description")}
-            onPress={() => router.push("/train")}
-          />
-          <MenuCard
-            icon={BookOpenText}
-            title={t("home.game-modes.learn.title")}
-            description={t("home.game-modes.learn.description")}
-            onPress={() => router.push("/learn")}
-          />
-        </View>
+        <PageContent>
+          <View className="items-center justify-center px-8 pb-2">
+            <AssetImage
+              image={ASSET_IMAGES.GEOPOTO_ILLUSTRATION}
+              contentFit="contain"
+              style={{
+                width: "95%",
+                maxWidth: 400,
+              }}
+            />
+          </View>
+          <View className="gap-4 px-10 py-4">
+            <MenuCard
+              icon={CalendarDays}
+              title={t("home.game-modes.daily-challenge.title")}
+              description={t("home.game-modes.daily-challenge.description")}
+              isDisabled={isDailyChallengePlayed}
+              onPress={() => router.push("/daily-challenge")}
+              titleAccessory={
+                <DailyChallengeStatusRow
+                  status={dailyChallengeProgress.status}
+                  streak={dailyChallengeProgress.streak}
+                />
+              }
+            />
+            <MenuCard
+              icon={Dumbbell}
+              title={t("home.game-modes.train.title")}
+              description={t("home.game-modes.train.description")}
+              onPress={() => router.push("/train")}
+            />
+            <MenuCard
+              icon={BookOpenText}
+              title={t("home.game-modes.learn.title")}
+              description={t("home.game-modes.learn.description")}
+              onPress={() => router.push("/learn")}
+            />
+          </View>
+        </PageContent>
       </ScrollView>
     </View>
   );
