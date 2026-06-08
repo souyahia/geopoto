@@ -14,7 +14,7 @@ export const PAGE_MODAL_SURFACE_STYLE = {
   width: "100%",
 } satisfies ViewStyle;
 
-interface PageContentProps extends ComponentProps<typeof View> {}
+type PageContentProps = ComponentProps<typeof View>;
 
 export function PageContent({ className, style, ...props }: PageContentProps) {
   return (

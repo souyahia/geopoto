@@ -14,10 +14,7 @@ import {
   type CountrySummary,
 } from "@geopoto/geo-data/country-summaries";
 
-import {
-  PAGE_CONTENT_MAX_WIDTH,
-  PageContent,
-} from "@/components/page-content";
+import { PAGE_CONTENT_MAX_WIDTH, PageContent } from "@/components/page-content";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 
 import {

@@ -19,10 +19,7 @@ import { getCountryFlagImage } from "@geopoto/geo-data/flag-images";
 import { getCountryFlagThumbnailImage } from "@geopoto/geo-data/flag-thumbnail-images";
 import { getCountryFlag } from "@geopoto/geo-data/flags";
 
-import {
-  PAGE_CONTENT_MAX_WIDTH,
-  PageContent,
-} from "@/components/page-content";
+import { PAGE_CONTENT_MAX_WIDTH, PageContent } from "@/components/page-content";
 import { useGaleriaDarkMode } from "@/services/theme/galeria-dark-mode";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 
