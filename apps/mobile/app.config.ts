@@ -11,6 +11,7 @@ const config: ExpoConfig = {
   scheme: "geopoto",
   version: "0.0.1",
   icon: APP_ICON,
+  orientation: "portrait",
   platforms: ["ios", "android"],
   extra: {
     eas: {
@@ -54,6 +55,8 @@ const config: ExpoConfig = {
   ios: {
     bundleIdentifier: "com.souyahia.geopoto",
     icon: APP_ICON,
+    requireFullScreen: true,
+    supportsTablet: true,
     userInterfaceStyle: "automatic",
     infoPlist: {
       CADisableMinimumFrameDurationOnPhone: true, // For 120FPS animations, as recommended here: https://kirillzyusko.github.io/react-native-keyboard-controller/docs/api/hooks/keyboard/use-keyboard-handler

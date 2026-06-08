@@ -1,5 +1,6 @@
 import { Image, type ImageProps } from "expo-image";
 import { useEffect, useState } from "react";
+import { useResolveClassNames } from "uniwind";
 
 import type { CountryFlagImage } from "@geopoto/geo-data/flag-images";
 import {
@@ -85,6 +86,7 @@ function getFlagSize({ flag, height, width }: GetFlagSizeParams): FlagSize {
 }
 
 export function CountryFlag({
+  className,
   code,
   contentFit = "contain",
   height,
@@ -92,6 +94,7 @@ export function CountryFlag({
   width,
   ...props
 }: CountryFlagProps) {
+  const resolvedClassNameStyle = useResolveClassNames(className ?? "");
   const flag = getCountryFlag(code);
   const imageSource = useCountryFlagImageSource(code);
 
@@ -106,7 +109,11 @@ export function CountryFlag({
       {...props}
       contentFit={contentFit}
       source={imageSource}
-      style={[{ height: size.height, width: size.width }, style]}
+      style={[
+        resolvedClassNameStyle,
+        { height: size.height, width: size.width },
+        style,
+      ]}
     />
   );
 }

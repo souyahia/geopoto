@@ -36,7 +36,11 @@ export function CapitalListItem({
         variant="secondary"
       >
         <View className="items-center justify-center">
-          <FlagIcon code={code} width={30} />
+          <FlagIcon
+            code={code}
+            containerClassName="border border-default"
+            width={30}
+          />
         </View>
         <Card.Body className="min-w-0 flex-1 px-0">
           <Text type="body" numberOfLines={1} className="font-semibold">

@@ -2,7 +2,7 @@ import { BottomSheet } from "heroui-native/bottom-sheet";
 import type { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { useWindowDimensions, View, type ViewStyle } from "react-native";
 
 import type {
   Country,
@@ -11,6 +11,10 @@ import type {
 } from "@geopoto/geo-data";
 
 import { FlagIcon } from "@/components/flag-icon";
+import {
+  PAGE_CONTENT_MAX_WIDTH,
+  PAGE_MODAL_SURFACE_STYLE,
+} from "@/components/page-content";
 import { getContinentName } from "@/services/geo-data/continents";
 import { getRegionName } from "@/services/geo-data/regions";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
@@ -45,7 +49,16 @@ export function LearnMapCountrySheet({
   onOpenChange,
 }: LearnMapCountrySheetProps) {
   const { t } = useTranslation();
+  const { width: windowWidth } = useWindowDimensions();
   const { geoLang } = useGeoLangStore();
+  const bottomSheetWidth = Math.min(windowWidth, PAGE_CONTENT_MAX_WIDTH);
+  const bottomSheetSurfaceStyle = useMemo<ViewStyle>(
+    () => ({
+      marginHorizontal: Math.max((windowWidth - bottomSheetWidth) / 2, 0),
+      width: bottomSheetWidth,
+    }),
+    [bottomSheetWidth, windowWidth],
+  );
   const countryInfo = useMemo(() => {
     if (country === null) {
       return null;
@@ -61,12 +74,14 @@ export function LearnMapCountrySheet({
         <BottomSheet.Content
           contentContainerClassName="gap-5 px-6 pb-safe-offset-6 pt-2"
           snapPoints={LEARN_MAP_COUNTRY_SHEET_SNAP_POINTS}
+          style={[PAGE_MODAL_SURFACE_STYLE, bottomSheetSurfaceStyle]}
         >
           {countryInfo === null ? null : (
             <>
               <View className="flex-row items-center gap-4">
                 <FlagIcon
                   code={countryInfo.countryCode}
+                  containerClassName="border border-default"
                   width={LEARN_MAP_COUNTRY_FLAG_ICON_WIDTH}
                 />
                 <View className="min-w-0 flex-1 justify-center">

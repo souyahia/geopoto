@@ -6,6 +6,7 @@ import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { CountryFlag } from "@/components/country-flag";
+import { PageContent } from "@/components/page-content";
 import { MapViewer } from "@/modules/map-viewer/components/map-viewer";
 
 import { CountryInfoRow } from "../components/country-info-section";
@@ -23,11 +24,11 @@ export function LearnCountryPage() {
     return (
       <View className="flex-1 p-safe">
         <LearnHeader title={t("learn.country.not-found.title")} />
-        <View className="flex-1 items-center justify-center px-8">
+        <PageContent className="flex-1 items-center justify-center px-8">
           <Text type="body" color="muted" align="center">
             {t("learn.country.not-found.description")}
           </Text>
-        </View>
+        </PageContent>
       </View>
     );
   }
@@ -46,10 +47,11 @@ export function LearnCountryPage() {
     <View className="flex-1 p-safe">
       <LearnHeader title={countryName} />
       <ScrollView className="flex-1">
-        <View className="gap-4 px-6 pb-8 pt-4">
+        <PageContent className="gap-4 px-6 pb-8 pt-4">
           <View className="items-center justify-center px-4 py-6">
             <CountryFlag
               code={countryCode}
+              className="border border-default"
               height={flagSize.height}
               width={flagSize.width}
             />
@@ -81,7 +83,7 @@ export function LearnCountryPage() {
               value={regionNames}
             />
           </Surface>
-        </View>
+        </PageContent>
       </ScrollView>
     </View>
   );

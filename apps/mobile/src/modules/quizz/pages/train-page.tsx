@@ -17,6 +17,7 @@ import { ScrollView, View } from "react-native";
 import type { MapRegionName } from "@geopoto/geo-data";
 
 import { HapticButton } from "@/components/haptic-button";
+import { PageContent } from "@/components/page-content";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
 import { FlagAnswerDifficultySelect } from "../components/flag-answer-difficulty-select";
@@ -123,7 +124,7 @@ export function TrainPage() {
     <View className="flex-1 p-safe">
       <TrainHeader />
       <ScrollView className="flex-1">
-        <View className="gap-4 px-6 pb-8 pt-4">
+        <PageContent className="gap-4 px-6 pb-8 pt-4">
           <TrainOptionSection
             title={t("train.region.title")}
             description={t("train.region.description")}
@@ -238,9 +239,9 @@ export function TrainPage() {
               )}
             />
           </TrainOptionSection>
-        </View>
+        </PageContent>
       </ScrollView>
-      <View className="px-6 pb-6 pt-3">
+      <PageContent className="px-6 pb-6 pt-3">
         <HapticButton
           accessibilityLabel={t("train.start")}
           className="w-full"
@@ -255,7 +256,7 @@ export function TrainPage() {
           />
           <HapticButton.Label>{t("train.start")}</HapticButton.Label>
         </HapticButton>
-      </View>
+      </PageContent>
     </View>
   );
 }

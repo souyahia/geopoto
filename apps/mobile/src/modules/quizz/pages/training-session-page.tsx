@@ -18,6 +18,7 @@ import { ScrollView, View } from "react-native";
 import type { MapRegionName } from "@geopoto/geo-data";
 
 import { HapticButton } from "@/components/haptic-button";
+import { PageContent } from "@/components/page-content";
 import { recordPracticeResult } from "@/modules/adaptive-difficulty/utils/adaptive-history-storage";
 import { KeyboardAwareScrollView } from "@/services/keyboard/keyboard-aware-scroll-view";
 import { useNavigationConfirm } from "@/services/navigation-confirm/use-navigation-confirm";
@@ -164,7 +165,7 @@ function TrainingSessionQuestionContent({
         className="flex-1"
         keyboardShouldPersistTaps="handled"
       >
-        <View className="gap-5 px-6 pb-8 pt-4">
+        <PageContent className="gap-5 px-6 pb-8 pt-4">
           <TrainingSessionQuestionBlocks
             answerRegion={answerRegion}
             currentQuestion={currentQuestion}
@@ -174,7 +175,7 @@ function TrainingSessionQuestionContent({
             progress={progress}
             score={score}
           />
-        </View>
+        </PageContent>
       </ScrollView>
     );
   }
@@ -185,18 +186,19 @@ function TrainingSessionQuestionContent({
       alwaysBounceVertical={false}
       bottomOffset={TRAINING_SESSION_KEYBOARD_BOTTOM_OFFSET}
       className="flex-1"
-      contentContainerClassName="gap-5 px-6 pb-8 pt-4"
       keyboardShouldPersistTaps="handled"
     >
-      <TrainingSessionQuestionBlocks
-        answerRegion={answerRegion}
-        currentQuestion={currentQuestion}
-        flagAnswerDifficulty={flagAnswerDifficulty}
-        isInfiniteMode={isInfiniteMode}
-        onAnswerSubmit={onAnswerSubmit}
-        progress={progress}
-        score={score}
-      />
+      <PageContent className="gap-5 px-6 pb-8 pt-4">
+        <TrainingSessionQuestionBlocks
+          answerRegion={answerRegion}
+          currentQuestion={currentQuestion}
+          flagAnswerDifficulty={flagAnswerDifficulty}
+          isInfiniteMode={isInfiniteMode}
+          onAnswerSubmit={onAnswerSubmit}
+          progress={progress}
+          score={score}
+        />
+      </PageContent>
     </KeyboardAwareScrollView>
   );
 }
@@ -427,7 +429,7 @@ function TrainingSessionComplete({
 
   return (
     <ScrollView className="flex-1">
-      <View className="gap-5 px-6 pb-8 pt-8">
+      <PageContent className="gap-5 px-6 pb-8 pt-8">
         <Surface variant="secondary" className="gap-5">
           <View className="gap-2">
             <Text type="h2" align="center">
@@ -481,7 +483,7 @@ function TrainingSessionComplete({
             </HapticButton.Label>
           </HapticButton>
         </View>
-      </View>
+      </PageContent>
     </ScrollView>
   );
 }

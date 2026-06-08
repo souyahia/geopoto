@@ -349,6 +349,7 @@ function FlagQuestion({ country }: FlagQuestionProps) {
         code={country.code}
         height={flagSize.height}
         width={flagSize.width}
+        className="border border-default"
       />
     </View>
   );

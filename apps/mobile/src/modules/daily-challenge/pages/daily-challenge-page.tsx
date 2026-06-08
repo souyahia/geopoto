@@ -12,6 +12,7 @@ import type { MapRegionName } from "@geopoto/geo-data";
 import { BackButton } from "@/components/back-button";
 import { HapticButton } from "@/components/haptic-button";
 import { Header } from "@/components/header/header";
+import { PageContent } from "@/components/page-content";
 import { recordPracticeResult } from "@/modules/adaptive-difficulty/utils/adaptive-history-storage";
 import { reconcileStoredDailyChallengeReminders } from "@/modules/daily-challenge-reminder/utils/daily-challenge-reminder-reconciliation";
 import {
@@ -198,7 +199,7 @@ function DailyChallengeQuestionContent({
         className="flex-1"
         keyboardShouldPersistTaps="handled"
       >
-        <View className="gap-5 px-6 pb-8 pt-4">
+        <PageContent className="gap-5 px-6 pb-8 pt-4">
           <DailyChallengeInfoPanel dateKey={dateKey} streak={streak} />
           <QuizzQuestionCard
             answerFormat={currentQuestion.answerFormat}
@@ -209,7 +210,7 @@ function DailyChallengeQuestionContent({
             onAnswerSubmit={onAnswerSubmit}
             questionFormat={currentQuestion.questionFormat}
           />
-        </View>
+        </PageContent>
       </ScrollView>
     );
   }
@@ -220,19 +221,20 @@ function DailyChallengeQuestionContent({
       alwaysBounceVertical={false}
       bottomOffset={DAILY_CHALLENGE_KEYBOARD_BOTTOM_OFFSET}
       className="flex-1"
-      contentContainerClassName="gap-5 px-6 pb-8 pt-4"
       keyboardShouldPersistTaps="handled"
     >
-      <DailyChallengeInfoPanel dateKey={dateKey} streak={streak} />
-      <QuizzQuestionCard
-        answerFormat={currentQuestion.answerFormat}
-        answerRegion={answerRegion}
-        country={currentQuestion.country}
-        flagAnswerDifficulty={flagAnswerDifficulty}
-        onAnswerResolved={onAnswerResolved}
-        onAnswerSubmit={onAnswerSubmit}
-        questionFormat={currentQuestion.questionFormat}
-      />
+      <PageContent className="gap-5 px-6 pb-8 pt-4">
+        <DailyChallengeInfoPanel dateKey={dateKey} streak={streak} />
+        <QuizzQuestionCard
+          answerFormat={currentQuestion.answerFormat}
+          answerRegion={answerRegion}
+          country={currentQuestion.country}
+          flagAnswerDifficulty={flagAnswerDifficulty}
+          onAnswerResolved={onAnswerResolved}
+          onAnswerSubmit={onAnswerSubmit}
+          questionFormat={currentQuestion.questionFormat}
+        />
+      </PageContent>
     </KeyboardAwareScrollView>
   );
 }
@@ -309,7 +311,7 @@ function DailyChallengeResult({
 
   return (
     <ScrollView className="flex-1">
-      <View className="gap-5 px-6 pb-8 pt-8">
+      <PageContent className="gap-5 px-6 pb-8 pt-8">
         <Surface variant="secondary" className="items-center gap-5">
           <View className="items-center gap-3">
             <View className="h-20 w-20 items-center justify-center rounded-full bg-surface-tertiary">
@@ -346,7 +348,7 @@ function DailyChallengeResult({
             {t("daily-challenge.complete.back-home")}
           </HapticButton.Label>
         </HapticButton>
-      </View>
+      </PageContent>
     </ScrollView>
   );
 }

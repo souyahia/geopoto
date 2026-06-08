@@ -2,13 +2,19 @@ import { useRouter } from "expo-router";
 import { Text } from "heroui-native/text";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, View, type ListRenderItemInfo } from "react-native";
+import {
+  FlatList,
+  View,
+  type ListRenderItemInfo,
+  type ViewStyle,
+} from "react-native";
 
 import {
   COUNTRY_SUMMARIES_BY_NAME,
   type CountrySummary,
 } from "@geopoto/geo-data/country-summaries";
 
+import { PAGE_CONTENT_MAX_WIDTH, PageContent } from "@/components/page-content";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 
 import {
@@ -23,9 +29,12 @@ import { filterCountries } from "../utils/country-search";
 const COUNTRY_LIST_INITIAL_ITEMS = 12;
 const COUNTRY_LIST_WINDOW_SIZE = 7;
 const COUNTRY_LIST_CONTENT_CONTAINER_STYLE = {
+  alignSelf: "center",
+  maxWidth: PAGE_CONTENT_MAX_WIDTH,
   paddingBottom: 32,
   paddingHorizontal: 24,
-};
+  width: "100%",
+} satisfies ViewStyle;
 const COUNTRY_LIST_SEPARATOR_STYLE = {
   height: COUNTRY_LIST_ITEM_SEPARATOR_HEIGHT,
 };
@@ -84,7 +93,7 @@ export function LearnCountriesPage() {
   return (
     <View className="flex-1 p-safe">
       <LearnHeader title={t("learn.countries.title")} />
-      <View className="px-6 pb-3 pt-4">
+      <PageContent className="px-6 pb-3 pt-4">
         <LearnSearchField
           accessibilityLabel={t("learn.countries.search.label")}
           clearAccessibilityLabel={t("learn.countries.search.clear")}
@@ -92,7 +101,7 @@ export function LearnCountriesPage() {
           placeholder={t("learn.countries.search.placeholder")}
           value={searchQuery}
         />
-      </View>
+      </PageContent>
       <FlatList
         ref={listRef}
         data={countries}

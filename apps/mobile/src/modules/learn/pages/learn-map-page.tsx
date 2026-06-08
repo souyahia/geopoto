@@ -82,17 +82,19 @@ export function LearnMapPage() {
   return (
     <View className="flex-1" style={{ paddingTop: safeAreaInsets.top }}>
       <LearnHeader title={t("learn.menu-cards.map.title")} />
-      <MapViewer
-        activeTargets={LEARN_MAP_ACTIVE_TARGETS}
-        centersOn={LEARN_MAP_WORLD_TARGET}
-        className="flex-1 rounded-none border-0"
-        highlights={highlights}
-        isInteractive
-        mapContainerStyle={mapContainerStyle}
-        onCountryPressed={handleCountryPressed}
-        onReset={handleMapReset}
-        shouldLimitZoomOutToInitialViewport
-      />
+      <View className="flex-1">
+        <MapViewer
+          activeTargets={LEARN_MAP_ACTIVE_TARGETS}
+          centersOn={LEARN_MAP_WORLD_TARGET}
+          className="flex-1 rounded-none border-0"
+          highlights={highlights}
+          isInteractive
+          mapContainerStyle={mapContainerStyle}
+          onCountryPressed={handleCountryPressed}
+          onReset={handleMapReset}
+          shouldLimitZoomOutToInitialViewport
+        />
+      </View>
       <LearnMapCountrySheet
         country={highlightedCountry}
         isOpen={isCountryInfoSheetOpen}

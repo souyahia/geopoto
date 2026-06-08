@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ScrollView, View } from "react-native";
 
 import { MenuCard } from "@/components/menu-card";
+import { PageContent } from "@/components/page-content";
 
 import { LearnHeader } from "../components/learn-header";
 
@@ -15,7 +16,7 @@ export function LearnPage() {
     <View className="flex-1 p-safe">
       <LearnHeader title={t("learn.title")} />
       <ScrollView className="flex-1">
-        <View className="gap-4 px-6 pb-8 pt-4">
+        <PageContent className="gap-4 px-6 pb-8 pt-4">
           <MenuCard
             icon={Map}
             title={t("learn.menu-cards.map.title")}
@@ -40,7 +41,7 @@ export function LearnPage() {
             description={t("learn.menu-cards.capitals.description")}
             onPress={() => router.push("/learn/capitals")}
           />
-        </View>
+        </PageContent>
       </ScrollView>
     </View>
   );

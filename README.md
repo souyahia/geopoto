@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="apps/mobile/assets/images/geopoto_illustration.png" alt="Geopoto illustration" width="360" />
+  <img src="https://raw.githubusercontent.com/souyahia/geopoto/main/apps/mobile/assets/images/geopoto_illustration.png" alt="Geopoto illustration" width="360" />
 
   <h1>Geopoto</h1>
 

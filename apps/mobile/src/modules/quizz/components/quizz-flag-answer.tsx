@@ -34,6 +34,7 @@ import { getCountryFlag } from "@geopoto/geo-data/flags";
 import { CountryFlag } from "@/components/country-flag";
 import { FlagIcon } from "@/components/flag-icon";
 import { HapticButton } from "@/components/haptic-button";
+import { PAGE_CONTENT_MAX_WIDTH } from "@/components/page-content";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 import { FLAG_COLOR_SWATCH_BY_COLOR } from "@/utils/flag-colors";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
@@ -427,6 +428,7 @@ function HardFlagAnswer({
   const { t } = useTranslation();
   const { geoLang } = useGeoLangStore();
   const { width } = useWindowDimensions();
+  const answerContentWidth = Math.min(width, PAGE_CONTENT_MAX_WIDTH);
   const listRef = useRef<ScrollView>(null);
   const [selectedColors, setSelectedColors] = useState<
     readonly CountryFlagColor[]
@@ -435,8 +437,8 @@ function HardFlagAnswer({
     null,
   );
   const flagGridMetrics = useMemo(
-    () => getFlagAnswerGridMetrics({ screenWidth: width }),
-    [width],
+    () => getFlagAnswerGridMetrics({ screenWidth: answerContentWidth }),
+    [answerContentWidth],
   );
   const flagCountries = useMemo(
     () => getFlagAnswerCountries({ geoLang }),
@@ -554,12 +556,13 @@ function EasyFlagAnswer({
   const { t } = useTranslation();
   const { geoLang } = useGeoLangStore();
   const { width } = useWindowDimensions();
+  const answerContentWidth = Math.min(width, PAGE_CONTENT_MAX_WIDTH);
   const [selectedCountryCode, setSelectedCountryCode] = useState<string | null>(
     null,
   );
   const flagAnswerMetrics = useMemo(
-    () => getEasyFlagAnswerMetrics({ screenWidth: width }),
-    [width],
+    () => getEasyFlagAnswerMetrics({ screenWidth: answerContentWidth }),
+    [answerContentWidth],
   );
   const flagCountries = useMemo(
     () => getEasyFlagAnswerCountries({ country, geoLang }),
