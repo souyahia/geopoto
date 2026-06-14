@@ -1,5 +1,7 @@
 import type { ExpoConfig } from "expo/config";
 
+import { version } from "./package.json";
+
 const APP_ICON = "./assets/images/geopoto-app-icon.png";
 const SPLASH_ICON = "./assets/images/geopoto-app-icon-transparent.png";
 const SPLASH_BACKGROUND_LIGHT = "#fff4f4";
@@ -9,7 +11,7 @@ const config: ExpoConfig = {
   name: "Geopoto",
   slug: "geopoto",
   scheme: "geopoto",
-  version: "0.0.1",
+  version,
   icon: APP_ICON,
   orientation: "portrait",
   platforms: ["ios", "android"],
