@@ -8,6 +8,7 @@ import { getCountryFlag } from "@geopoto/geo-data/flags";
 import { useCountryFlagImageSource } from "@/components/country-flag";
 import { HapticButton } from "@/components/haptic-button";
 import { PageContent } from "@/components/page-content";
+import { useGaleriaImageUrl } from "@/services/galeria/galeria-image-url";
 import { useGaleriaDarkMode } from "@/services/theme/galeria-dark-mode";
 
 import { BackroomsThemeSelector } from "../components/backrooms-theme-selector";
@@ -21,6 +22,7 @@ export function BackroomsPage() {
   const palestineFlagImageSource = useCountryFlagImageSource(
     PALESTINE_COUNTRY_CODE,
   );
+  const palestineFlagGaleriaUrl = useGaleriaImageUrl(palestineFlagImageSource);
   const palestineFlagSize =
     palestineFlag === null
       ? null
@@ -34,7 +36,10 @@ export function BackroomsPage() {
       <BackroomsThemeSelector />
       {palestineFlagImageSource !== null && palestineFlagSize !== null ? (
         <View className="items-center gap-2 py-4">
-          <Galeria urls={[palestineFlagImageSource]} theme="dark">
+          <Galeria
+            urls={[palestineFlagGaleriaUrl ?? palestineFlagImageSource]}
+            theme="dark"
+          >
             <Galeria.Image
               dynamicAspectRatio
               edgeToEdge

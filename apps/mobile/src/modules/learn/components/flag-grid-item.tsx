@@ -7,6 +7,8 @@ import { View, type ViewStyle } from "react-native";
 import type { CountryFlagImage } from "@geopoto/geo-data/flag-images";
 import type { CountryFlagImage as CountryFlagThumbnailImage } from "@geopoto/geo-data/flag-thumbnail-images";
 
+import { useGaleriaImageUrl } from "@/services/galeria/galeria-image-url";
+
 export interface FlagGridItemData {
   code: string;
   countryName: string;
@@ -60,9 +62,15 @@ function FlagGridItemComponent({
     [flagFrameHeight, itemWidth],
   );
 
+  const galeriaImageUrl = useGaleriaImageUrl(flag.fullImageSource);
+
   return (
     <View className="items-center" style={containerStyle}>
-      <Galeria hidePageIndicators theme="dark" urls={[flag.fullImageSource]}>
+      <Galeria
+        hidePageIndicators
+        theme="dark"
+        urls={[galeriaImageUrl ?? flag.fullImageSource]}
+      >
         <Galeria.Image
           dynamicAspectRatio
           edgeToEdge
