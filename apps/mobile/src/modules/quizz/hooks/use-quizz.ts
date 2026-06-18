@@ -481,7 +481,7 @@ function isQuizzAnswerCorrect({
     case "country-capital":
       return isTextAnswerCorrect({
         answer,
-        expectedAnswer: getTextAnswer({
+        acceptedAnswers: getAcceptedTextAnswers({
           answerFormat: question.answerFormat,
           country: question.country,
           geoLang,
@@ -503,39 +503,44 @@ function isQuizzAnswerCorrect({
 
 interface IsTextAnswerCorrectParams {
   answer: QuizzAnswerSubmission;
-  expectedAnswer: string;
+  acceptedAnswers: readonly string[];
 }
 
-function isTextAnswerCorrect({
+export function isTextAnswerCorrect({
   answer,
-  expectedAnswer,
+  acceptedAnswers,
 }: IsTextAnswerCorrectParams) {
   if (answer.type !== "text") {
     return false;
   }
 
-  return (
-    normalizeQuizzTextAnswer(answer.value) ===
-    normalizeQuizzTextAnswer(expectedAnswer)
+  const normalizedValue = normalizeQuizzTextAnswer(answer.value);
+
+  return acceptedAnswers.some(
+    (acceptedAnswer) =>
+      normalizeQuizzTextAnswer(acceptedAnswer) === normalizedValue,
   );
 }
 
-interface GetTextAnswerParams {
+interface GetAcceptedTextAnswersParams {
   answerFormat: Extract<QuizzFormat, "country-capital" | "country-name">;
   country: Country;
   geoLang: SupportedGeoLanguage;
 }
 
-function getTextAnswer({
+export function getAcceptedTextAnswers({
   answerFormat,
   country,
   geoLang,
-}: GetTextAnswerParams) {
+}: GetAcceptedTextAnswersParams): readonly string[] {
   switch (answerFormat) {
     case "country-name":
-      return country.name[geoLang];
+      return [country.name[geoLang], ...(country.nameAliases?.[geoLang] ?? [])];
     case "country-capital":
-      return country.capital[geoLang];
+      return [
+        country.capital[geoLang],
+        ...(country.capitalAliases?.[geoLang] ?? []),
+      ];
     default: {
       const exhaustiveFormat: never = answerFormat;
 

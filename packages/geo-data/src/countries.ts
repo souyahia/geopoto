@@ -1,5 +1,5 @@
 import countriesData from "../generated/countries.json";
-import { type LocalizedText } from "./geo-language";
+import { type LocalizedAliases, type LocalizedText } from "./geo-language";
 import {
   type CountryMap,
   type CountryPressArea,
@@ -25,9 +25,11 @@ export interface Country {
   code: string;
   continent: Continent;
   capital: LocalizedText;
+  capitalAliases?: LocalizedAliases;
   countryPressArea?: CountryPressArea;
   map: CountryMap;
   name: LocalizedText;
+  nameAliases?: LocalizedAliases;
   outlyingTerritoryCodes?: readonly string[];
   regions: readonly MapRegionName[];
 }

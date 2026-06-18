@@ -72,6 +72,14 @@
       "it": "Emirati Arabi Uniti",
       "pt": "Emirados Árabes Unidos"
     },
+    "nameAliases": {
+      "de": ["VAE"],
+      "en": ["UAE", "Emirates"],
+      "es": ["EAU"],
+      "fr": ["EAU"],
+      "it": ["EAU"],
+      "pt": ["EAU"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -411,6 +419,12 @@
       "it": "Bosnia ed Erzegovina",
       "pt": "Bósnia e Herzegovina"
     },
+    "nameAliases": {
+      "de": ["Bosnien"],
+      "es": ["Bosnia"],
+      "it": ["Bosnia"],
+      "pt": ["Bosnia"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -735,6 +749,10 @@
       "it": "Brunei",
       "pt": "Brunei"
     },
+    "nameAliases": {
+      "en": ["Brunei Darussalam"],
+      "fr": ["Brunei Darussalam"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -942,6 +960,9 @@
       "it": "Bielorussia",
       "pt": "Bielorússia"
     },
+    "nameAliases": {
+      "de": ["Belarus"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -1041,6 +1062,29 @@
       "it": "Congo (Rep. Dem.)",
       "pt": "República Democrática do Congo"
     },
+    "nameAliases": {
+      "de": ["DR Kongo", "Demokratische Republik Kongo", "Kongo-Kinshasa"],
+      "en": ["DRC", "Democratic Republic of the Congo", "Congo Kinshasa"],
+      "es": [
+        "RDC",
+        "RD Congo",
+        "Congo Kinsasa",
+        "Republica Democratica del Congo"
+      ],
+      "fr": [
+        "République Démocratique du Congo",
+        "RD Congo",
+        "RDC",
+        "Congo Kinshasa"
+      ],
+      "it": [
+        "RDC",
+        "RD Congo",
+        "Repubblica Democratica del Congo",
+        "Congo Kinshasa"
+      ],
+      "pt": ["RDC", "RD Congo", "Congo Kinshasa"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -1074,6 +1118,10 @@
       "it": "Repubblica Centrafricana",
       "pt": "República Centro-Africana"
     },
+    "nameAliases": {
+      "en": ["CAR"],
+      "fr": ["Centrafrique"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -1106,6 +1154,14 @@
       "fr": "Congo",
       "it": "Congo",
       "pt": "Congo"
+    },
+    "nameAliases": {
+      "de": ["Republik Kongo", "Kongo-Brazzaville"],
+      "en": ["Congo Brazzaville", "Congo Republic"],
+      "es": ["Congo Brazzaville", "Republica del Congo"],
+      "fr": ["République du Congo", "Congo Brazzaville"],
+      "it": ["Repubblica del Congo", "Congo Brazzaville"],
+      "pt": ["Congo Brazzaville", "Republica do Congo"]
     },
     "regions": ["world", "africa"]
   },
@@ -1172,6 +1228,9 @@
       "fr": "Côte d'Ivoire",
       "it": "Costa d'Avorio",
       "pt": "Costa do Marfim"
+    },
+    "nameAliases": {
+      "en": ["Cote d'Ivoire"]
     },
     "regions": ["world", "africa"]
   },
@@ -1249,6 +1308,12 @@
       "fr": "Pékin",
       "it": "Pechino",
       "pt": "Pequim"
+    },
+    "capitalAliases": {
+      "en": ["Peking"],
+      "es": ["Beijing"],
+      "fr": ["Beijing"],
+      "pt": ["Beijing"]
     },
     "code": "CN",
     "continent": "asia",
@@ -1413,6 +1478,11 @@
       "it": "Capo Verde",
       "pt": "Cabo Verde"
     },
+    "nameAliases": {
+      "de": ["Cabo Verde"],
+      "en": ["Cabo Verde"],
+      "fr": ["Cap Vert"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -1478,6 +1548,14 @@
       "fr": "Tchéquie",
       "it": "Cechia",
       "pt": "Chéquia"
+    },
+    "nameAliases": {
+      "de": ["Tschechische Republik", "Tschechei"],
+      "en": ["Czech Republic"],
+      "es": ["Republica Checa"],
+      "fr": ["République Tchèque"],
+      "it": ["Repubblica Ceca"],
+      "pt": ["Republica Checa", "Tchequia", "Republica Tcheca"]
     },
     "regions": ["world", "europe"]
   },
@@ -2135,6 +2213,14 @@
       "fr": "Royaume-Uni",
       "it": "Regno Unito",
       "pt": "Reino Unido"
+    },
+    "nameAliases": {
+      "de": ["Großbritannien", "UK"],
+      "en": ["UK", "Britain", "Great Britain"],
+      "es": ["RU", "UK", "Gran Bretana"],
+      "fr": ["UK", "Grande-Bretagne"],
+      "it": ["Gran Bretagna"],
+      "pt": ["RU"]
     },
     "regions": ["world", "europe"]
   },
@@ -2805,6 +2891,9 @@
       "it": "Iran",
       "pt": "Irão"
     },
+    "nameAliases": {
+      "pt": ["Ira"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -3194,6 +3283,9 @@
       "fr": "Saint-Christophe-et-Niévès",
       "it": "Saint Kitts e Nevis",
       "pt": "São Cristóvão e Nevis"
+    },
+    "nameAliases": {
+      "fr": ["Saint-Kitts-et-Nevis"]
     },
     "regions": ["world", "north-america", "caribbean"]
   },
@@ -3816,6 +3908,9 @@
       "it": "Moldavia",
       "pt": "Moldávia"
     },
+    "nameAliases": {
+      "de": ["Moldau"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -3957,6 +4052,9 @@
       "it": "Macedonia del Nord",
       "pt": "Macedónia do Norte"
     },
+    "nameAliases": {
+      "it": ["Macedonia"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -4001,6 +4099,9 @@
       "it": "Naypyidaw",
       "pt": "Naypyidaw"
     },
+    "capitalAliases": {
+      "es": ["Naypyidaw"]
+    },
     "code": "MM",
     "continent": "asia",
     "map": {
@@ -4023,6 +4124,14 @@
       "it": "Birmania",
       "pt": "Myanmar"
     },
+    "nameAliases": {
+      "de": ["Birma", "Burma"],
+      "en": ["Burma"],
+      "es": ["Birmania"],
+      "fr": ["Myanmar"],
+      "it": ["Myanmar"],
+      "pt": ["Birmania"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -4033,6 +4142,9 @@
       "fr": "Oulan-Bator",
       "it": "Ulan Bator",
       "pt": "Ulã Bator"
+    },
+    "capitalAliases": {
+      "en": ["Ulaanbaatar"]
     },
     "code": "MN",
     "continent": "asia",
@@ -4511,6 +4623,14 @@
       "fr": "Pays-Bas",
       "it": "Paesi Bassi",
       "pt": "Holanda"
+    },
+    "nameAliases": {
+      "de": ["Holland"],
+      "en": ["Holland"],
+      "es": ["Holanda"],
+      "fr": ["Hollande"],
+      "it": ["Olanda"],
+      "pt": ["Paises Baixos"]
     },
     "regions": ["world", "europe"],
     "outlyingTerritoryCodes": ["AW", "BQ", "CW", "SX"]
@@ -4995,6 +5115,9 @@
       "it": "Palau",
       "pt": "Palau"
     },
+    "nameAliases": {
+      "fr": ["Palaos", "Palau"]
+    },
     "regions": ["world", "oceania"]
   },
   {
@@ -5060,6 +5183,9 @@
       "fr": "Qatar",
       "it": "Qatar",
       "pt": "Catar"
+    },
+    "nameAliases": {
+      "es": ["Qatar"]
     },
     "regions": ["world", "asia"]
   },
@@ -5832,6 +5958,14 @@
       "it": "Swaziland",
       "pt": "Suazilândia"
     },
+    "nameAliases": {
+      "de": ["Eswatini"],
+      "en": ["Swaziland"],
+      "es": ["Esuatini", "Eswatini"],
+      "fr": ["Eswatini"],
+      "it": ["Eswatini"],
+      "pt": ["Essuatini", "Eswatini"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -5996,6 +6130,13 @@
       "fr": "Timor oriental",
       "it": "Timor Est",
       "pt": "Timor-Leste"
+    },
+    "nameAliases": {
+      "de": ["Timor-Leste"],
+      "en": ["East Timor"],
+      "es": ["Timor-Leste"],
+      "fr": ["Timor-Leste"],
+      "pt": ["Timor Oriental"]
     },
     "regions": ["world", "asia"]
   },
@@ -6266,6 +6407,11 @@
       "it": "Kiev",
       "pt": "Kiev"
     },
+    "capitalAliases": {
+      "es": ["Kyiv"],
+      "fr": ["Kyiv"],
+      "pt": ["Kyiv"]
+    },
     "code": "UA",
     "continent": "europe",
     "map": {
@@ -6353,6 +6499,14 @@
       "fr": "États-Unis",
       "it": "Stati Uniti d'America",
       "pt": "Estados Unidos"
+    },
+    "nameAliases": {
+      "de": ["USA", "Vereinigte Staaten von Amerika", "Amerika"],
+      "en": ["USA", "US", "United States of America", "America"],
+      "es": ["EEUU", "USA", "Estados Unidos de America"],
+      "fr": ["USA", "États-Unis d'Amérique", "Amérique"],
+      "it": ["USA", "Stati Uniti"],
+      "pt": ["EUA", "USA", "Estados Unidos da America"]
     },
     "regions": ["world", "north-america"],
     "outlyingTerritoryCodes": ["AS", "GU", "MP", "PR", "US-HI", "VI"]
@@ -6463,6 +6617,11 @@
       "it": "Città del Vaticano",
       "pt": "Cidade do Vaticano"
     },
+    "nameAliases": {
+      "en": ["Vatican", "Holy See"],
+      "fr": ["Vatican", "Saint-Siège"],
+      "it": ["Vaticano", "Santa Sede"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -6570,6 +6729,9 @@
       "fr": "Viêt Nam",
       "it": "Vietnam",
       "pt": "Vietname"
+    },
+    "nameAliases": {
+      "pt": ["Vietna"]
     },
     "regions": ["world", "asia"]
   },

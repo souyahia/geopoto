@@ -154,5 +154,5 @@ Localized App Store and Google Play copy lives in `stores/content`, with marketi
 - [App Store](https://apps.apple.com/fr/app/geopoto/id6775186079)
 - [Privacy Policy](https://doc-hosting.flycricket.io/geopoto-privacy-policy/51dd5aaf-4af9-410c-a1b0-46b3bd5b5f47/privacy)
 - [Terms of Use](https://doc-hosting.flycricket.io/geopoto-terms-of-use/34b0bdc1-57a3-4e10-8bbd-aac9f884f0a5/terms)
-</content>
-</invoke>
+  </content>
+  </invoke>

@@ -34,6 +34,8 @@ import { ThemedIcon } from "@/services/theme/themed-icon";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 
 import {
+  getAcceptedTextAnswers,
+  isTextAnswerCorrect,
   normalizeQuizzTextAnswer,
   type QuizzAnswerSubmission,
 } from "../hooks/use-quizz";
@@ -823,9 +825,9 @@ function isQuizzAnswerSubmissionCorrect({
   switch (answerFormat) {
     case "country-name":
     case "country-capital":
-      return isTextAnswerSubmissionCorrect({
+      return isTextAnswerCorrect({
         answer,
-        expectedAnswer: getQuizzTextAnswer({
+        acceptedAnswers: getAcceptedTextAnswers({
           answerFormat,
           country,
           geoLang,
@@ -834,49 +836,6 @@ function isQuizzAnswerSubmissionCorrect({
     case "country-flag":
     case "country-position":
       return answer.type === "country" && answer.countryCode === country.code;
-    default: {
-      const exhaustiveFormat: never = answerFormat;
-
-      return exhaustiveFormat;
-    }
-  }
-}
-
-interface IsTextAnswerSubmissionCorrectParams {
-  answer: QuizzAnswerSubmission;
-  expectedAnswer: string;
-}
-
-function isTextAnswerSubmissionCorrect({
-  answer,
-  expectedAnswer,
-}: IsTextAnswerSubmissionCorrectParams) {
-  if (answer.type !== "text") {
-    return false;
-  }
-
-  return (
-    normalizeQuizzTextAnswer(answer.value) ===
-    normalizeQuizzTextAnswer(expectedAnswer)
-  );
-}
-
-interface GetQuizzTextAnswerParams {
-  answerFormat: Extract<QuizzFormat, "country-capital" | "country-name">;
-  country: Country;
-  geoLang: SupportedGeoLanguage;
-}
-
-function getQuizzTextAnswer({
-  answerFormat,
-  country,
-  geoLang,
-}: GetQuizzTextAnswerParams) {
-  switch (answerFormat) {
-    case "country-name":
-      return country.name[geoLang];
-    case "country-capital":
-      return country.capital[geoLang];
     default: {
       const exhaustiveFormat: never = answerFormat;
 
