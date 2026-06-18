@@ -163,7 +163,6 @@ function TrainingSessionQuestionContent({
         key={currentQuestionKey}
         alwaysBounceVertical={false}
         className="flex-1"
-        delaysContentTouches={false}
         keyboardShouldPersistTaps="handled"
       >
         <PageContent className="gap-5 px-6 pb-8 pt-4">
@@ -187,8 +186,7 @@ function TrainingSessionQuestionContent({
       alwaysBounceVertical={false}
       bottomOffset={TRAINING_SESSION_KEYBOARD_BOTTOM_OFFSET}
       className="flex-1"
-      delaysContentTouches={false}
-      keyboardShouldPersistTaps="handled"
+      keyboardShouldPersistTaps="always"
     >
       <PageContent className="gap-5 px-6 pb-8 pt-4">
         <TrainingSessionQuestionBlocks

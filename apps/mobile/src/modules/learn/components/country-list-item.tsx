@@ -6,6 +6,7 @@ import { Pressable, View } from "react-native";
 import { FlagIcon } from "@/components/flag-icon";
 import { useHaptics } from "@/services/haptics";
 import { ThemedIcon } from "@/services/theme/themed-icon";
+import { usePressGuard } from "@/utils/use-press-guard";
 
 export const COUNTRY_LIST_ITEM_SEPARATOR_HEIGHT = 8;
 export const COUNTRY_LIST_ITEM_TOTAL_HEIGHT = 70;
@@ -25,10 +26,12 @@ interface CountryListItemProps {
 export function CountryListItem({ code, name, onPress }: CountryListItemProps) {
   const { sendHapticImpact } = useHaptics();
 
-  const handlePress = () => {
-    sendHapticImpact(ImpactFeedbackStyle.Light);
-    onPress();
-  };
+  const handlePress = usePressGuard({
+    onPress: () => {
+      sendHapticImpact(ImpactFeedbackStyle.Light);
+      onPress();
+    },
+  });
 
   return (
     <Pressable

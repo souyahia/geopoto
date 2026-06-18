@@ -756,7 +756,6 @@ function FlagAnswerGrid({
     <ScrollView
       ref={listRef}
       className="flex-1"
-      delaysContentTouches={false}
       keyboardShouldPersistTaps="handled"
       nestedScrollEnabled
       onScroll={handleScroll}
