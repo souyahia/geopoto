@@ -8,13 +8,20 @@
   </p>
 
   <p>
-    <a href="https://www.google.com">
+    <a href="https://apps.apple.com/fr/app/geopoto/id6775186079">
       <img alt="Download on the App Store" src="https://img.shields.io/badge/App_Store-Download-0D96F6?style=for-the-badge&logo=apple&logoColor=white" />
     </a>
-    <a href="https://www.google.com">
-      <img alt="Get it on Google Play" src="https://img.shields.io/badge/Google_Play-Get_it-34A853?style=for-the-badge&logo=googleplay&logoColor=white" />
-    </a>
+    <img alt="Google Play coming soon" src="https://img.shields.io/badge/Google_Play-Coming_soon-9E9E9E?style=for-the-badge&logo=googleplay&logoColor=white" />
   </p>
+</div>
+
+## Screenshots
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/souyahia/geopoto/main/stores/screenshots/store_screenshot_1.jpg" alt="Home" width="200" />
+  <img src="https://raw.githubusercontent.com/souyahia/geopoto/main/stores/screenshots/store_screenshot_4.jpg" alt="Adaptive training" width="200" />
+  <img src="https://raw.githubusercontent.com/souyahia/geopoto/main/stores/screenshots/store_screenshot_6.jpg" alt="Interactive map" width="200" />
+  <img src="https://raw.githubusercontent.com/souyahia/geopoto/main/stores/screenshots/store_screenshot_5.jpg" alt="Encyclopedia" width="200" />
 </div>
 
 ## About
@@ -54,14 +61,16 @@ The app combines quick practice sessions with a daily habit loop. Users can trai
 ├── packages
 │   └── geo-data        # Generated country, flag and map data
 ├── stores
-│   ├── content         # Store listing copy
+│   ├── content         # Localized store listing copy
+│   ├── icons           # App and store icons
+│   ├── images          # Marketing images
 │   └── screenshots     # Store screenshots
 └── tooling             # Shared tooling packages
 ```
 
 ## Requirements
 
-- Node.js
+- Node.js 22
 - pnpm 10.26.1
 - Xcode for iOS development
 - Android Studio for Android development
@@ -136,12 +145,14 @@ Apply formatting fixes:
 pnpm format:fix
 ```
 
-## Store Content
+## Store Listing
 
-Localized store listing drafts live in:
+Localized App Store and Google Play copy lives in `stores/content`, with marketing assets in `stores/icons`, `stores/images` and `stores/screenshots`.
 
-```text
-stores/content
-```
+## Links
 
-The current store button links in this README are placeholders and should be replaced once the App Store and Google Play pages are available.
+- [App Store](https://apps.apple.com/fr/app/geopoto/id6775186079)
+- [Privacy Policy](https://doc-hosting.flycricket.io/geopoto-privacy-policy/51dd5aaf-4af9-410c-a1b0-46b3bd5b5f47/privacy)
+- [Terms of Use](https://doc-hosting.flycricket.io/geopoto-terms-of-use/34b0bdc1-57a3-4e10-8bbd-aac9f884f0a5/terms)
+</content>
+</invoke>
