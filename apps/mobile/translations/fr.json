@@ -129,6 +129,8 @@
       "answer": {
         "country-name-label": "Quel est ce pays ?",
         "country-capital-label": "Quelle est la capitale ?",
+        "country-name-badge": "Pays",
+        "country-capital-badge": "Capitale",
         "text-input-label": "Réponse",
         "text-input-placeholder": "Écris ta réponse",
         "submit": "Valider",
