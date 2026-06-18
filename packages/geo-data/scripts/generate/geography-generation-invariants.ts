@@ -1,7 +1,12 @@
 import { basename } from "node:path";
 
 import type { Country } from "../../src/countries.ts";
-import type { SupportedGeoLanguage } from "../../src/geo-language.ts";
+import {
+  SUPPORTED_GEO_LANGUAGES,
+  type LocalizedAliases,
+  type LocalizedText,
+  type SupportedGeoLanguage,
+} from "../../src/geo-language.ts";
 import type {
   CountryMap,
   CountryMapPathResolution,
@@ -123,6 +128,16 @@ interface ExpectedLocalizedCapitalSanityCheck {
 
 interface ValidateExpectedLocalizedCapitalSanityChecksParams {
   countries: readonly Country[];
+}
+
+interface ValidateAnswerAliasUniquenessParams {
+  countries: readonly Country[];
+}
+
+interface AnswerAliasEntry {
+  countryCode: string;
+  isAlias: boolean;
+  value: string;
 }
 
 interface ValidateCountryPressAreasParams {
@@ -339,7 +354,83 @@ export function validateGeographyGenerationInvariants({
     restCountries,
   });
   validateExpectedLocalizedCapitalSanityChecks({ countries });
+  validateAnswerAliasUniqueness({ countries });
   validateGeneratedJsonFiles({ generatedJsonFiles });
+}
+
+// Mirrors `normalizeQuizzTextAnswer` in the mobile app. NFD decomposition moves
+// accents into combining marks, which (like every other non-alphanumeric) are
+// removed by the final strip, so no explicit diacritics pass is needed.
+function normalizeAnswerForUniqueness(value: string): string {
+  return value
+    .normalize("NFD")
+    .toLocaleLowerCase()
+    .replace(/[^\p{Letter}\p{Number}]/gu, "");
+}
+
+function collectAnswerAliasEntries(
+  canonicalByCountry: LocalizedText,
+  aliasesByCountry: LocalizedAliases | undefined,
+  countryCode: string,
+): readonly AnswerAliasEntry[] {
+  return SUPPORTED_GEO_LANGUAGES.flatMap((language) => {
+    const canonicalEntry: AnswerAliasEntry = {
+      countryCode,
+      isAlias: false,
+      value: `${language}:${normalizeAnswerForUniqueness(canonicalByCountry[language])}`,
+    };
+    const aliasEntries = (aliasesByCountry?.[language] ?? []).map((alias) => ({
+      countryCode,
+      isAlias: true,
+      value: `${language}:${normalizeAnswerForUniqueness(alias)}`,
+    }));
+
+    return [canonicalEntry, ...aliasEntries];
+  });
+}
+
+function validateAnswerAliasField(
+  entries: readonly AnswerAliasEntry[],
+  field: "capital" | "name",
+): void {
+  const entriesByNormalizedValue = new Map<string, AnswerAliasEntry[]>();
+
+  for (const entry of entries) {
+    const existingEntries = entriesByNormalizedValue.get(entry.value) ?? [];
+    existingEntries.push(entry);
+    entriesByNormalizedValue.set(entry.value, existingEntries);
+  }
+
+  for (const [normalizedValue, collidingEntries] of entriesByNormalizedValue) {
+    const countryCodes = new Set(
+      collidingEntries.map((entry) => entry.countryCode),
+    );
+    const hasAliasInvolved = collidingEntries.some((entry) => entry.isAlias);
+
+    if (countryCodes.size > 1 && hasAliasInvolved) {
+      throw new Error(
+        `Generation invariant failed: ${field} answer alias "${normalizedValue}" is accepted for multiple countries (${toSortedCodes([...countryCodes]).join(", ")}). Aliases must be unique across countries.`,
+      );
+    }
+  }
+}
+
+function validateAnswerAliasUniqueness({
+  countries,
+}: ValidateAnswerAliasUniquenessParams): void {
+  const nameEntries = countries.flatMap((country) =>
+    collectAnswerAliasEntries(country.name, country.nameAliases, country.code),
+  );
+  const capitalEntries = countries.flatMap((country) =>
+    collectAnswerAliasEntries(
+      country.capital,
+      country.capitalAliases,
+      country.code,
+    ),
+  );
+
+  validateAnswerAliasField(nameEntries, "name");
+  validateAnswerAliasField(capitalEntries, "capital");
 }
 
 function validateCountryPressAreas({

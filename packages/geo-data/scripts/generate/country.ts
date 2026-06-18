@@ -7,6 +7,10 @@ import type {
 } from "../../src/geo-language.ts";
 import type { MapRegionName } from "../../src/map-definition.ts";
 import { REST_COUNTRIES_TRANSLATION_CONFIG } from "./config.ts";
+import {
+  getCountryCapitalAliases,
+  getCountryNameAliases,
+} from "./country-aliases-config.ts";
 import { buildCountryCoreFeature } from "./country-core.ts";
 import { buildCountryMap } from "./country-map.ts";
 import { buildCountryPressArea } from "./country-press-area.ts";
@@ -292,6 +296,8 @@ export function buildCountry({
     }),
   });
   const outlyingTerritoryCodes = getOutlyingTerritoryCodes(restCountry.cca2);
+  const capitalAliases = getCountryCapitalAliases(restCountry.cca2);
+  const nameAliases = getCountryNameAliases(restCountry.cca2);
   const map = buildCountryMap({
     highResolutionFeature,
     lowResolutionFeature,
@@ -309,11 +315,13 @@ export function buildCountry({
       country: restCountry,
       wikidataCapitalLabelsByCountryCode,
     }),
+    ...(capitalAliases === undefined ? {} : { capitalAliases }),
     code: restCountry.cca2,
     continent,
     ...(countryPressArea === undefined ? {} : { countryPressArea }),
     map,
     name: toLocalizedCountryName(restCountry),
+    ...(nameAliases === undefined ? {} : { nameAliases }),
     regions: toMapRegions(restCountry, continent),
   };
 

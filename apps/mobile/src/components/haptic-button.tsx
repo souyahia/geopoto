@@ -6,6 +6,7 @@ import {
 import type { GestureResponderEvent } from "react-native";
 
 import { useHaptics } from "@/services/haptics";
+import { usePressGuard } from "@/utils/use-press-guard";
 
 type HapticButtonProps = ButtonRootProps & {
   hapticImpactStyle?: ImpactFeedbackStyle;
@@ -17,13 +18,15 @@ const HapticButtonRoot = ({
 }: HapticButtonProps) => {
   const { sendHapticImpact } = useHaptics();
 
-  const handlePress = (event: GestureResponderEvent) => {
-    sendHapticImpact(hapticImpactStyle);
+  const handlePress = usePressGuard({
+    onPress: (event: GestureResponderEvent) => {
+      sendHapticImpact(hapticImpactStyle);
 
-    if (typeof props.onPress === "function") {
-      props.onPress(event);
-    }
-  };
+      if (typeof props.onPress === "function") {
+        props.onPress(event);
+      }
+    },
+  });
 
   return <HeroButton {...props} onPress={handlePress} />;
 };

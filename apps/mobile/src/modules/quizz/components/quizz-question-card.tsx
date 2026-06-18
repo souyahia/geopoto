@@ -2,9 +2,17 @@ import { Input } from "heroui-native/input";
 import { Surface } from "heroui-native/surface";
 import { Text } from "heroui-native/text";
 import type { TFunction } from "i18next";
-import { ArrowRight, Check, CheckCircle2, CircleX } from "lucide-react-native";
+import {
+  ArrowRight,
+  Check,
+  CheckCircle2,
+  CircleX,
+  Globe,
+  Landmark,
+} from "lucide-react-native";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { LayoutChangeEvent } from "react-native";
 import { View, useWindowDimensions } from "react-native";
 
 import type {
@@ -26,6 +34,8 @@ import { ThemedIcon } from "@/services/theme/themed-icon";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 
 import {
+  getAcceptedTextAnswers,
+  isTextAnswerCorrect,
   normalizeQuizzTextAnswer,
   type QuizzAnswerSubmission,
 } from "../hooks/use-quizz";
@@ -515,6 +525,11 @@ function TextAnswer({
 }: TextAnswerProps) {
   const { t } = useTranslation();
   const [answerValue, setAnswerValue] = useState("");
+  const [badgeWidth, setBadgeWidth] = useState(0);
+  const { icon: BadgeIcon, label: badgeLabel } = getTextAnswerBadge({
+    answerFormat,
+    t,
+  });
   const isEmptyAnswer = normalizeQuizzTextAnswer(answerValue).length === 0;
   const isSubmitDisabled =
     !shouldShowCorrectAnswer && (isDisabled || isEmptyAnswer);
@@ -529,6 +544,7 @@ function TextAnswer({
     : undefined;
   const isTextInputDisabled = isDisabled && !shouldShowCorrectAnswer;
   const isTextInputEditable = !isDisabled;
+  const shouldAutoFocusInput = isTextInputEditable && !shouldShowCorrectAnswer;
   const submitButtonLabel = shouldShowCorrectAnswer
     ? t("train.session.answer.next")
     : t("train.session.answer.submit");
@@ -556,6 +572,9 @@ function TextAnswer({
   const handleButtonPress = shouldShowCorrectAnswer
     ? onNextQuestionPress
     : handleSubmit;
+  const handleBadgeLayout = useCallback((event: LayoutChangeEvent) => {
+    setBadgeWidth(event.nativeEvent.layout.width);
+  }, []);
 
   return (
     <View className="gap-3">
@@ -566,20 +585,34 @@ function TextAnswer({
       >
         {answerInputLabel}
       </Text>
-      <Input
-        accessibilityLabel={t("train.session.answer.text-input-label")}
-        autoCapitalize="none"
-        autoCorrect={false}
-        className={answerInputClassName}
-        editable={isTextInputEditable}
-        isDisabled={isTextInputDisabled}
-        onChangeText={setAnswerValue}
-        onSubmitEditing={shouldShowCorrectAnswer ? undefined : handleSubmit}
-        placeholder={t("train.session.answer.text-input-placeholder")}
-        returnKeyType="done"
-        spellCheck={false}
-        value={answerValue}
-      />
+      <View className="relative justify-center">
+        <View
+          className="absolute left-2 z-10 flex-row items-center gap-1.5 rounded-md border border-default bg-surface-tertiary px-2 py-1"
+          onLayout={handleBadgeLayout}
+          pointerEvents="none"
+        >
+          <ThemedIcon colorClassName="text-muted" icon={BadgeIcon} size={13} />
+          <Text color="muted" type="body-xs" weight="semibold">
+            {badgeLabel}
+          </Text>
+        </View>
+        <Input
+          accessibilityLabel={t("train.session.answer.text-input-label")}
+          autoCapitalize="none"
+          autoCorrect={false}
+          autoFocus={shouldAutoFocusInput}
+          className={answerInputClassName}
+          editable={isTextInputEditable}
+          isDisabled={isTextInputDisabled}
+          onChangeText={setAnswerValue}
+          onSubmitEditing={shouldShowCorrectAnswer ? undefined : handleSubmit}
+          placeholder={t("train.session.answer.text-input-placeholder")}
+          returnKeyType="done"
+          spellCheck={false}
+          style={{ paddingLeft: badgeWidth + 16 }}
+          value={answerValue}
+        />
+      </View>
       <HapticButton
         isDisabled={isSubmitDisabled}
         onPress={handleButtonPress}
@@ -610,6 +643,31 @@ function getTextAnswerInputLabel({
       return t("train.session.answer.country-name-label");
     case "country-capital":
       return t("train.session.answer.country-capital-label");
+    default: {
+      const exhaustiveAnswerFormat: never = answerFormat;
+
+      return exhaustiveAnswerFormat;
+    }
+  }
+}
+
+interface GetTextAnswerBadgeParams {
+  answerFormat: Extract<QuizzFormat, "country-capital" | "country-name">;
+  t: TFunction;
+}
+
+function getTextAnswerBadge({ answerFormat, t }: GetTextAnswerBadgeParams) {
+  switch (answerFormat) {
+    case "country-name":
+      return {
+        icon: Globe,
+        label: t("train.session.answer.country-name-badge"),
+      };
+    case "country-capital":
+      return {
+        icon: Landmark,
+        label: t("train.session.answer.country-capital-badge"),
+      };
     default: {
       const exhaustiveAnswerFormat: never = answerFormat;
 
@@ -767,9 +825,9 @@ function isQuizzAnswerSubmissionCorrect({
   switch (answerFormat) {
     case "country-name":
     case "country-capital":
-      return isTextAnswerSubmissionCorrect({
+      return isTextAnswerCorrect({
         answer,
-        expectedAnswer: getQuizzTextAnswer({
+        acceptedAnswers: getAcceptedTextAnswers({
           answerFormat,
           country,
           geoLang,
@@ -778,49 +836,6 @@ function isQuizzAnswerSubmissionCorrect({
     case "country-flag":
     case "country-position":
       return answer.type === "country" && answer.countryCode === country.code;
-    default: {
-      const exhaustiveFormat: never = answerFormat;
-
-      return exhaustiveFormat;
-    }
-  }
-}
-
-interface IsTextAnswerSubmissionCorrectParams {
-  answer: QuizzAnswerSubmission;
-  expectedAnswer: string;
-}
-
-function isTextAnswerSubmissionCorrect({
-  answer,
-  expectedAnswer,
-}: IsTextAnswerSubmissionCorrectParams) {
-  if (answer.type !== "text") {
-    return false;
-  }
-
-  return (
-    normalizeQuizzTextAnswer(answer.value) ===
-    normalizeQuizzTextAnswer(expectedAnswer)
-  );
-}
-
-interface GetQuizzTextAnswerParams {
-  answerFormat: Extract<QuizzFormat, "country-capital" | "country-name">;
-  country: Country;
-  geoLang: SupportedGeoLanguage;
-}
-
-function getQuizzTextAnswer({
-  answerFormat,
-  country,
-  geoLang,
-}: GetQuizzTextAnswerParams) {
-  switch (answerFormat) {
-    case "country-name":
-      return country.name[geoLang];
-    case "country-capital":
-      return country.capital[geoLang];
     default: {
       const exhaustiveFormat: never = answerFormat;
 

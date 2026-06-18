@@ -129,6 +129,8 @@
       "answer": {
         "country-name-label": "Enter the country name:",
         "country-capital-label": "Enter the capital:",
+        "country-name-badge": "Country",
+        "country-capital-badge": "Capital",
         "text-input-label": "Answer",
         "text-input-placeholder": "Type your answer",
         "submit": "Submit",

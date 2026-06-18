@@ -1,14 +1,14 @@
 {
   "onboarding": {
     "language": {
-      "description": "Cela affectera la langue de l’application, mais aussi la langue des informations géographiques et des réponses attendues.",
-      "title": "Sélectionnez votre langue"
+      "description": "Ça change la langue de l’application, mais aussi celle des infos géographiques et des réponses attendues.",
+      "title": "Choisis ta langue"
     },
     "reminder-opt-in": {
-      "description": "Ne manquez jamais un Défi quotidien en activant les notifications.",
+      "description": "Active les notifications pour ne jamais rater un Défi quotidien.",
       "enable-label": "Activer les rappels",
-      "skip-label": "Passer pour l’instant",
-      "title": "Activez les rappels du Défi quotidien"
+      "skip-label": "Plus tard",
+      "title": "Active les rappels du Défi quotidien"
     }
   },
   "home": {
@@ -16,38 +16,38 @@
     "game-modes": {
       "daily-challenge": {
         "title": "Défi quotidien",
-        "description": "Relevez le défi géographique du jour et gardez votre série active."
+        "description": "Relève le défi du jour et garde ta série en vie."
       },
       "train": {
         "title": "Entraînement",
-        "description": "Entraînez vos connaissances géographiques."
+        "description": "Mets tes connaissances géo à l’épreuve."
       },
       "learn": {
         "title": "Apprendre",
-        "description": "Parcourez la base de connaissances géographiques."
+        "description": "Explore la base de connaissances géographique."
       }
     }
   },
   "map-viewer": {
-    "reset": "Réinitialiser la vue de la carte"
+    "reset": "Recentrer la carte"
   },
   "daily-challenge": {
     "title": "Défi quotidien",
     "question": {
       "title": "Défi quotidien",
-      "streak": "Série actuelle"
+      "streak": "Série en cours"
     },
     "complete": {
-      "completed-title": "Défi réussi",
-      "failed-title": "Défi échoué",
-      "completed-description": "Bien joué. Votre série est maintenant de {{streak}}.",
-      "failed-description": "Vous pourrez retenter votre chance avec un nouveau défi demain.",
+      "completed-title": "Défi relevé !",
+      "failed-title": "Raté !",
+      "completed-description": "Bien joué ! Ta série est maintenant à {{streak}}.",
+      "failed-description": "Pas grave ! Un nouveau défi t’attend demain.",
       "back-home": "Retour à l’accueil"
     }
   },
   "navigation-confirm": {
     "title": "Quitter cet écran ?",
-    "description": "Les modifications non enregistrées peuvent être perdues.",
+    "description": "Tu risques de perdre les modifications non enregistrées.",
     "cancel-label": "Rester",
     "confirm-label": "Quitter"
   },
@@ -56,25 +56,25 @@
     "settings": "Paramètres",
     "region": {
       "title": "Région",
-      "description": "Concentrez la session sur une région de la carte.",
+      "description": "Cible une région de la carte pour ta session.",
       "select-label": "Région d’entraînement",
-      "placeholder": "Sélectionnez une région"
+      "placeholder": "Choisis une région"
     },
     "question-formats": {
       "title": "Formats de question",
-      "description": "Choisissez les formats pouvant être utilisés pour les questions.",
+      "description": "Choisis les formats utilisés pour les questions.",
       "select-label": "Formats de question acceptés",
       "trigger-label": "Sélectionner les formats de question acceptés"
     },
     "answer-formats": {
       "title": "Formats de réponse",
-      "description": "Choisissez les formats pouvant être utilisés pour les réponses.",
+      "description": "Choisis les formats utilisés pour les réponses.",
       "select-label": "Formats de réponse acceptés",
       "trigger-label": "Sélectionner les formats de réponse acceptés"
     },
     "flag-answer-difficulty": {
       "title": "Difficulté des drapeaux",
-      "description": "Choisissez comment les réponses de drapeau sont présentées.",
+      "description": "Choisis comment les réponses en drapeau te sont présentées.",
       "select-label": "Difficulté des réponses de drapeau",
       "placeholder": "Mode facile",
       "options": {
@@ -84,7 +84,7 @@
     },
     "question-limit": {
       "title": "Limite de questions",
-      "description": "Définissez le nombre maximal de questions de la session.",
+      "description": "Définis le nombre max de questions par session.",
       "infinite-mode": "Mode infini",
       "select-label": "Nombre maximal de questions",
       "placeholder": "Sans limite",
@@ -109,7 +109,7 @@
     "validation": {
       "formats-must-be-different": "Les formats de question et de réponse doivent être différents."
     },
-    "start": "Démarrer l’entraînement",
+    "start": "Lancer l’entraînement",
     "session": {
       "question": {
         "country-label": "Pays",
@@ -119,34 +119,36 @@
         "title": "Score",
         "progress": "{{answered}} / {{total}}",
         "infinite-mode": "Mode infini",
-        "correct": "Correct",
-        "wrong": "Incorrect",
+        "correct": "Bonnes",
+        "wrong": "Ratées",
         "questions": "Questions",
-        "remaining": "Restant",
+        "remaining": "Restantes",
         "streak": "Série",
-        "best-streak": "Meilleure série"
+        "best-streak": "Record"
       },
       "answer": {
-        "country-name-label": "Saisissez le nom du pays :",
-        "country-capital-label": "Saisissez la capitale :",
+        "country-name-label": "Quel est ce pays ?",
+        "country-capital-label": "Quelle est la capitale ?",
+        "country-name-badge": "Pays",
+        "country-capital-badge": "Capitale",
         "text-input-label": "Réponse",
-        "text-input-placeholder": "Saisissez votre réponse",
+        "text-input-placeholder": "Écris ta réponse",
         "submit": "Valider",
         "confirm": "Confirmer",
         "next": "Suivant",
-        "correct-answer-label": "Bonne réponse :",
+        "correct-answer-label": "La bonne réponse :",
         "flag-option-label": "Sélectionner le drapeau de {{country}}",
         "flag-empty": "Aucun drapeau ne correspond à ces couleurs."
       },
       "leave-confirm": {
         "title": "Quitter l’entraînement ?",
-        "description": "Votre progression d’entraînement sera perdue.",
+        "description": "Tu vas perdre ta progression.",
         "cancel-label": "Continuer",
         "confirm-label": "Quitter"
       },
       "complete": {
-        "title": "Entraînement terminé",
-        "description": "{{correct}} correctes, {{wrong}} incorrectes, {{total}} au total. Meilleure série : {{bestStreak}}.",
+        "title": "Entraînement terminé !",
+        "description": "{{correct}} bonnes et {{wrong}} ratées sur {{total}}. Record : {{bestStreak}}.",
         "play-again": "Rejouer",
         "back": "Retour"
       }
@@ -157,7 +159,7 @@
     "settings": "Paramètres",
     "map": {
       "country-sheet": {
-        "close": "Fermer les informations du pays",
+        "close": "Fermer la fiche du pays",
         "fields": {
           "region": "Continent / région"
         }
@@ -167,7 +169,7 @@
       "title": "Pays",
       "search": {
         "label": "Rechercher des pays",
-        "placeholder": "Rechercher par pays...",
+        "placeholder": "Rechercher un pays...",
         "clear": "Effacer la recherche"
       },
       "empty": "Aucun pays trouvé."
@@ -176,7 +178,7 @@
       "title": "Capitales",
       "search": {
         "label": "Rechercher des capitales",
-        "placeholder": "Rechercher par capitale ou pays...",
+        "placeholder": "Rechercher une capitale ou un pays...",
         "clear": "Effacer la recherche"
       },
       "empty": "Aucune capitale trouvée."
@@ -185,7 +187,7 @@
       "title": "Drapeaux",
       "search": {
         "label": "Rechercher des drapeaux",
-        "placeholder": "Rechercher par pays...",
+        "placeholder": "Rechercher un pays...",
         "clear": "Effacer la recherche"
       },
       "colors": {
@@ -215,7 +217,7 @@
     "country": {
       "not-found": {
         "title": "Pays introuvable",
-        "description": "Ce pays est introuvable dans les données géographiques."
+        "description": "Ce pays est introuvable dans nos données géographiques."
       },
       "sections": {
         "overview": "Vue d’ensemble",
@@ -233,26 +235,26 @@
     "menu-cards": {
       "map": {
         "title": "Carte",
-        "description": "Étudiez les pays à partir de leur position sur la carte."
+        "description": "Repère les pays grâce à leur position sur la carte."
       },
       "flags": {
         "title": "Drapeaux",
-        "description": "Révisez les drapeaux nationaux à votre rythme."
+        "description": "Révise les drapeaux du monde à ton rythme."
       },
       "countries": {
         "title": "Pays",
-        "description": "Parcourez les pays et leurs informations clés."
+        "description": "Parcours les pays et leurs infos clés."
       },
       "capitals": {
         "title": "Capitales",
-        "description": "Mémorisez les capitales pays par pays."
+        "description": "Mémorise les capitales, pays par pays."
       }
     }
   },
   "settings": {
     "title": "Paramètres",
     "theme": {
-      "description": "Choisissez l’apparence de GeoPoto sur cet appareil.",
+      "description": "Choisis l’apparence de GeoPoto sur cet appareil.",
       "options": {
         "dark": "Sombre",
         "light": "Clair",
@@ -262,36 +264,36 @@
     },
     "adaptive-difficulty": {
       "title": "Difficulté adaptative",
-      "description": "Priorisez les questions d’entraînement que vous manquez souvent.",
+      "description": "Mets en avant les questions que tu rates le plus souvent.",
       "toggle-label": "Activer la difficulté adaptative",
       "reset": {
         "label": "Réinitialiser l’historique de difficulté adaptative",
         "confirm-title": "Réinitialiser l’historique de difficulté adaptative ?",
-        "confirm-description": "Cela efface les résultats locaux utilisés pour prioriser les questions d’entraînement. La difficulté adaptative restera activée.",
+        "confirm-description": "Ça efface les résultats locaux utilisés pour prioriser tes questions. La difficulté adaptative restera activée.",
         "cancel-label": "Annuler",
         "confirm-label": "Réinitialiser"
       }
     },
     "haptic-feedback": {
       "title": "Retour haptique",
-      "description": "Émettre de légères vibrations pour les interactions prises en charge.",
+      "description": "Active de légères vibrations sur les interactions compatibles.",
       "toggle-label": "Activer le retour haptique"
     },
     "daily-challenge-reminder": {
       "title": "Rappel du Défi quotidien",
-      "description": "Recevez une notification locale pour le Défi quotidien sur cet appareil.",
+      "description": "Reçois une notification pour le Défi quotidien sur cet appareil.",
       "toggle-label": "Activer le rappel du Défi quotidien",
       "time-label": "Heure du rappel : {{time}}",
-      "time-disabled-label": "Activez les rappels pour modifier l’heure.",
+      "time-disabled-label": "Active les rappels pour modifier l’heure.",
       "hour-label": "Heure",
       "minute-label": "Minutes",
       "hour-select-label": "Heure du rappel",
       "minute-select-label": "Minutes du rappel",
-      "permission-denied": "Les notifications sont désactivées pour GeoPoto. Activez-les dans les paramètres de l’appareil avant d’activer les rappels.",
+      "permission-denied": "Les notifications sont désactivées pour GeoPoto. Active-les dans les paramètres de ton appareil avant d’activer les rappels.",
       "open-settings-label": "Ouvrir les paramètres de l’appareil",
       "notification": {
         "title": "Défi quotidien",
-        "body": "Votre puzzle de géographie est prêt.",
+        "body": "Ton défi géo du jour t’attend.",
         "channel-name": "Rappels du Défi quotidien",
         "copy-pools": {
           "general": [
@@ -355,12 +357,12 @@
     },
     "language": {
       "title": "Langue",
-      "description": "Choisissez la langue de l’application.",
-      "placeholder": "Sélectionnez une langue",
+      "description": "Choisis la langue de l’application.",
+      "placeholder": "Choisis une langue",
       "select-label": "Langue de l’application",
       "geo-lang": {
         "sync-label": "Synchroniser la langue géographique avec la langue de l’application",
-        "description": "Choisissez la langue utilisée pour les données géographiques.",
+        "description": "Choisis la langue utilisée pour les données géographiques.",
         "select-label": "Langue géographique"
       }
     }

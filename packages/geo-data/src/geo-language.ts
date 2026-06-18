@@ -16,3 +16,7 @@ export function isSupportedGeoLanguage(
 }
 
 export type LocalizedText = Record<SupportedGeoLanguage, string>;
+
+export type LocalizedAliases = Partial<
+  Record<SupportedGeoLanguage, readonly string[]>
+>;
