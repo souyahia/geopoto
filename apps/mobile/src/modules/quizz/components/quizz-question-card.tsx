@@ -542,6 +542,7 @@ function TextAnswer({
     : undefined;
   const isTextInputDisabled = isDisabled && !shouldShowCorrectAnswer;
   const isTextInputEditable = !isDisabled;
+  const shouldAutoFocusInput = isTextInputEditable && !shouldShowCorrectAnswer;
   const submitButtonLabel = shouldShowCorrectAnswer
     ? t("train.session.answer.next")
     : t("train.session.answer.submit");
@@ -597,6 +598,7 @@ function TextAnswer({
           accessibilityLabel={t("train.session.answer.text-input-label")}
           autoCapitalize="none"
           autoCorrect={false}
+          autoFocus={shouldAutoFocusInput}
           className={answerInputClassName}
           editable={isTextInputEditable}
           isDisabled={isTextInputDisabled}
