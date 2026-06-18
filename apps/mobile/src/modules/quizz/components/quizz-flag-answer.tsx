@@ -1164,7 +1164,7 @@ function getFlagAnswerGridItemClassName({
   }
 
   if (isSelected) {
-    return "border-2 border-success bg-success/10";
+    return "border-2 border-accent bg-accent/10";
   }
 
   return "border-border";
