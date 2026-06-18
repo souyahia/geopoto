@@ -2,13 +2,27 @@ import type { ExpoConfig } from "expo/config";
 
 import { version } from "./package.json";
 
-const APP_ICON = "./assets/images/geopoto-app-icon.png";
-const SPLASH_ICON = "./assets/images/geopoto-app-icon-transparent.png";
+// Set via the local dev scripts and the EAS "development" profile so the dev
+// build installs alongside the production app instead of overwriting it.
+const IS_DEV = process.env.APP_VARIANT === "development";
+
+const APP_ICON = IS_DEV
+  ? "./assets/images/geopoto-app-icon-dev.png"
+  : "./assets/images/geopoto-app-icon.png";
+const SPLASH_ICON = IS_DEV
+  ? "./assets/images/geopoto-app-icon-transparent-dev.png"
+  : "./assets/images/geopoto-app-icon-transparent.png";
 const SPLASH_BACKGROUND_LIGHT = "#fff4f4";
 const SPLASH_BACKGROUND_DARK = "#110d0f";
 
+const APP_NAME = IS_DEV ? "Geopoto Dev" : "Geopoto";
+// A distinct bundle id/package is what lets both apps coexist on one device.
+const BUNDLE_IDENTIFIER = IS_DEV
+  ? "com.souyahia.geopoto.dev"
+  : "com.souyahia.geopoto";
+
 const config: ExpoConfig = {
-  name: "Geopoto",
+  name: APP_NAME,
   slug: "geopoto",
   scheme: "geopoto",
   version,
@@ -55,7 +69,7 @@ const config: ExpoConfig = {
     ],
   ],
   ios: {
-    bundleIdentifier: "com.souyahia.geopoto",
+    bundleIdentifier: BUNDLE_IDENTIFIER,
     icon: APP_ICON,
     requireFullScreen: true,
     supportsTablet: true,
@@ -66,7 +80,7 @@ const config: ExpoConfig = {
     },
   },
   android: {
-    package: "com.souyahia.geopoto",
+    package: BUNDLE_IDENTIFIER,
     icon: APP_ICON,
   },
   experiments: {
