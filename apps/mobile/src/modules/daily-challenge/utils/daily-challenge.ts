@@ -14,7 +14,7 @@ const MILLISECONDS_PER_DAY = 86_400_000;
 export const DAILY_CHALLENGE_QUIZZ_OPTIONS = {
   acceptedAnswerFormats: QUIZZ_ANSWER_FORMATS,
   acceptedQuestionFormats: QUIZZ_FORMATS,
-  flagAnswerDifficulty: "hard",
+  answerDifficulty: "hard",
   isInfiniteMode: false,
   regions: ["world"],
 } satisfies QuizzOptions;

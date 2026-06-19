@@ -5,11 +5,11 @@ import { isMapRegionName, type MapRegionName } from "@geopoto/geo-data";
 
 import {
   hasQuizzFormatConflict,
-  isFlagAnswerDifficulty,
+  isAnswerDifficulty,
   isQuizzFormat,
   QUIZZ_ANSWER_FORMATS,
   QUIZZ_FORMATS,
-  type FlagAnswerDifficulty,
+  type AnswerDifficulty,
   type QuizzFormat,
   type QuizzOptions,
 } from "./quizz";
@@ -18,13 +18,13 @@ const trainingSessionOptionsStorage = createMMKV({
   id: "training-session-options-storage",
 });
 const TRAINING_SESSION_OPTIONS_STORAGE_KEY = "last-training-session-options";
-const DEFAULT_FLAG_ANSWER_DIFFICULTY: FlagAnswerDifficulty = "easy";
+const DEFAULT_ANSWER_DIFFICULTY: AnswerDifficulty = "easy";
 const DEFAULT_TRAINING_SESSION_REGION: MapRegionName = "world";
 
 const DEFAULT_TRAINING_SESSION_OPTIONS = {
   acceptedAnswerFormats: QUIZZ_ANSWER_FORMATS,
   acceptedQuestionFormats: QUIZZ_FORMATS,
-  flagAnswerDifficulty: DEFAULT_FLAG_ANSWER_DIFFICULTY,
+  answerDifficulty: DEFAULT_ANSWER_DIFFICULTY,
   isInfiniteMode: false,
   regions: [DEFAULT_TRAINING_SESSION_REGION],
 } satisfies QuizzOptions;
@@ -32,7 +32,7 @@ const DEFAULT_TRAINING_SESSION_OPTIONS = {
 interface TrainingSessionOptionsSnapshot {
   acceptedAnswerFormats: readonly QuizzFormat[];
   acceptedQuestionFormats: readonly QuizzFormat[];
-  flagAnswerDifficulty: FlagAnswerDifficulty;
+  answerDifficulty: AnswerDifficulty;
   isInfiniteMode: boolean;
   limit?: number;
   regions: readonly MapRegionName[];
@@ -48,7 +48,7 @@ export function getTrainingSessionOptionsStorageValue({
   const snapshot = {
     acceptedAnswerFormats: options.acceptedAnswerFormats,
     acceptedQuestionFormats: options.acceptedQuestionFormats,
-    flagAnswerDifficulty: options.flagAnswerDifficulty,
+    answerDifficulty: options.answerDifficulty,
     isInfiniteMode: options.isInfiniteMode,
     limit: options.limit,
     regions: options.regions,
@@ -147,8 +147,8 @@ function parseTrainingSessionOptions({
       fallbackFormats: QUIZZ_FORMATS,
       value: value.acceptedQuestionFormats,
     }),
-    flagAnswerDifficulty: parseFlagAnswerDifficulty({
-      value: value.flagAnswerDifficulty,
+    answerDifficulty: parseAnswerDifficulty({
+      value: value.answerDifficulty,
     }),
     isInfiniteMode,
     limit: isInfiniteMode ? undefined : parseLimit({ value: value.limit }),
@@ -213,15 +213,15 @@ function parseQuizzFormats({
   return formats;
 }
 
-interface ParseFlagAnswerDifficultyParams {
+interface ParseAnswerDifficultyParams {
   value: unknown;
 }
 
-function parseFlagAnswerDifficulty({
+function parseAnswerDifficulty({
   value,
-}: ParseFlagAnswerDifficultyParams): FlagAnswerDifficulty {
-  if (!isFlagAnswerDifficulty(value)) {
-    return DEFAULT_FLAG_ANSWER_DIFFICULTY;
+}: ParseAnswerDifficultyParams): AnswerDifficulty {
+  if (!isAnswerDifficulty(value)) {
+    return DEFAULT_ANSWER_DIFFICULTY;
   }
 
   return value;

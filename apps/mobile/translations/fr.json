@@ -72,10 +72,10 @@
       "select-label": "Formats de réponse acceptés",
       "trigger-label": "Sélectionner les formats de réponse acceptés"
     },
-    "flag-answer-difficulty": {
-      "title": "Difficulté des drapeaux",
-      "description": "Choisis comment les réponses en drapeau te sont présentées.",
-      "select-label": "Difficulté des réponses de drapeau",
+    "answer-difficulty": {
+      "title": "Difficulté",
+      "description": "Choisis comment les réponses en drapeau et en texte te sont présentées.",
+      "select-label": "Difficulté des réponses",
       "placeholder": "Mode facile",
       "options": {
         "easy": "Mode facile",
@@ -129,6 +129,9 @@
       "answer": {
         "country-name-label": "Quel est ce pays ?",
         "country-capital-label": "Quelle est la capitale ?",
+        "country-name-choose-label": "Choisis le pays :",
+        "country-capital-choose-label": "Choisis la capitale :",
+        "text-option-label": "Sélectionner {{value}}",
         "country-name-badge": "Pays",
         "country-capital-badge": "Capitale",
         "text-input-label": "Réponse",

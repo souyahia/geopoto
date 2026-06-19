@@ -72,10 +72,10 @@
       "select-label": "Akzeptierte Antwortformate",
       "trigger-label": "Akzeptierte Antwortformate auswählen"
     },
-    "flag-answer-difficulty": {
-      "title": "Flaggen-Schwierigkeit",
-      "description": "Lege fest, wie Flaggenantworten angezeigt werden.",
-      "select-label": "Schwierigkeit der Flaggenantworten",
+    "answer-difficulty": {
+      "title": "Schwierigkeit",
+      "description": "Lege fest, wie Flaggen- und Textantworten angezeigt werden.",
+      "select-label": "Schwierigkeit der Antworten",
       "placeholder": "Einfacher Modus",
       "options": {
         "easy": "Einfacher Modus",
@@ -129,6 +129,9 @@
       "answer": {
         "country-name-label": "Gib den Ländernamen ein:",
         "country-capital-label": "Gib die Hauptstadt ein:",
+        "country-name-choose-label": "Wähle das Land:",
+        "country-capital-choose-label": "Wähle die Hauptstadt:",
+        "text-option-label": "{{value}} auswählen",
         "country-name-badge": "Land",
         "country-capital-badge": "Hauptstadt",
         "text-input-label": "Antwort",

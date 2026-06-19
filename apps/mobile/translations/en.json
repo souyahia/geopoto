@@ -72,10 +72,10 @@
       "select-label": "Accepted answer formats",
       "trigger-label": "Select accepted answer formats"
     },
-    "flag-answer-difficulty": {
-      "title": "Flag difficulty",
-      "description": "Choose how flag answers are presented.",
-      "select-label": "Flag answer difficulty",
+    "answer-difficulty": {
+      "title": "Difficulty",
+      "description": "Choose how flag and text answers are presented.",
+      "select-label": "Answer difficulty",
       "placeholder": "Easy mode",
       "options": {
         "easy": "Easy mode",
@@ -129,6 +129,9 @@
       "answer": {
         "country-name-label": "Enter the country name:",
         "country-capital-label": "Enter the capital:",
+        "country-name-choose-label": "Choose the country:",
+        "country-capital-choose-label": "Choose the capital:",
+        "text-option-label": "Select {{value}}",
         "country-name-badge": "Country",
         "country-capital-badge": "Capital",
         "text-input-label": "Answer",

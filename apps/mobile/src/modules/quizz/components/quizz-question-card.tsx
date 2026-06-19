@@ -1,18 +1,8 @@
-import { Input } from "heroui-native/input";
 import { Surface } from "heroui-native/surface";
 import { Text } from "heroui-native/text";
-import type { TFunction } from "i18next";
-import {
-  ArrowRight,
-  Check,
-  CheckCircle2,
-  CircleX,
-  Globe,
-  Landmark,
-} from "lucide-react-native";
+import { ArrowRight, Check, CheckCircle2, CircleX } from "lucide-react-native";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { LayoutChangeEvent } from "react-native";
 import { View, useWindowDimensions } from "react-native";
 
 import type {
@@ -36,11 +26,11 @@ import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 import {
   getAcceptedTextAnswers,
   isTextAnswerCorrect,
-  normalizeQuizzTextAnswer,
   type QuizzAnswerSubmission,
 } from "../hooks/use-quizz";
-import type { FlagAnswerDifficulty, QuizzFormat } from "../utils/quizz";
+import type { AnswerDifficulty, QuizzFormat } from "../utils/quizz";
 import { QuizzFlagAnswer } from "./quizz-flag-answer";
+import { QuizzTextAnswer } from "./quizz-text-answer";
 
 const EMPTY_QUIZZ_QUESTION_HIGHLIGHTS: readonly MapViewerHighlight[] = [];
 const QUIZZ_QUESTION_MAP_CLASS_NAME = "h-[202px]";
@@ -69,10 +59,10 @@ type QuizzAnswerFeedback =
     };
 
 interface QuizzQuestionCardProps {
+  answerDifficulty: AnswerDifficulty;
   answerFormat: QuizzFormat;
   answerRegion: MapRegionName;
   country: Country;
-  flagAnswerDifficulty: FlagAnswerDifficulty;
   onAnswerResolved?: (resolution: QuizzAnswerResolution) => void;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
   questionFormat: QuizzFormat;
@@ -84,10 +74,10 @@ export interface QuizzAnswerResolution {
 }
 
 export function QuizzQuestionCard({
+  answerDifficulty,
   answerFormat,
   answerRegion,
   country,
-  flagAnswerDifficulty,
   onAnswerResolved,
   onAnswerSubmit,
   questionFormat,
@@ -202,13 +192,13 @@ export function QuizzQuestionCard({
       </Surface>
       <Surface variant="secondary" className="gap-4">
         <QuizzQuestionAnswer
+          answerDifficulty={answerDifficulty}
           answerFormat={answerFormat}
           answerRegion={answerRegion}
           capitalName={capitalName}
           countryCode={country.code}
           country={country}
           countryName={countryName}
-          flagAnswerDifficulty={flagAnswerDifficulty}
           isDisabled={isAnswerLocked}
           onAnswerSubmit={handleAnswerSubmit}
           onNextQuestionPress={handleNextQuestionPress}
@@ -419,13 +409,13 @@ function CountryPositionQuestion({ country }: CountryPositionQuestionProps) {
 }
 
 interface QuizzQuestionAnswerProps {
+  answerDifficulty: AnswerDifficulty;
   answerFormat: QuizzFormat;
   answerRegion: MapRegionName;
   capitalName: string;
   country: Country;
   countryCode: string;
   countryName: string;
-  flagAnswerDifficulty: FlagAnswerDifficulty;
   isDisabled: boolean;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
   onNextQuestionPress: () => void;
@@ -433,13 +423,13 @@ interface QuizzQuestionAnswerProps {
 }
 
 function QuizzQuestionAnswer({
+  answerDifficulty,
   answerFormat,
   answerRegion,
   capitalName,
   country,
   countryCode,
   countryName,
-  flagAnswerDifficulty,
   isDisabled,
   onAnswerSubmit,
   onNextQuestionPress,
@@ -448,11 +438,14 @@ function QuizzQuestionAnswer({
   switch (answerFormat) {
     case "country-name":
       return (
-        <TextAnswer
+        <QuizzTextAnswer
+          answerDifficulty={answerDifficulty}
           answerFormat={answerFormat}
+          answerRegion={answerRegion}
           correctAnswer={countryName}
-          countryCode={countryCode}
+          country={country}
           isDisabled={isDisabled}
+          key={countryCode}
           onAnswerSubmit={onAnswerSubmit}
           onNextQuestionPress={onNextQuestionPress}
           shouldShowCorrectAnswer={shouldShowCorrectAnswer}
@@ -460,11 +453,14 @@ function QuizzQuestionAnswer({
       );
     case "country-capital":
       return (
-        <TextAnswer
+        <QuizzTextAnswer
+          answerDifficulty={answerDifficulty}
           answerFormat={answerFormat}
+          answerRegion={answerRegion}
           correctAnswer={capitalName}
-          countryCode={countryCode}
+          country={country}
           isDisabled={isDisabled}
+          key={countryCode}
           onAnswerSubmit={onAnswerSubmit}
           onNextQuestionPress={onNextQuestionPress}
           shouldShowCorrectAnswer={shouldShowCorrectAnswer}
@@ -473,9 +469,10 @@ function QuizzQuestionAnswer({
     case "country-flag":
       return (
         <QuizzFlagAnswer
+          answerDifficulty={answerDifficulty}
+          answerRegion={answerRegion}
           country={country}
           countryName={countryName}
-          flagAnswerDifficulty={flagAnswerDifficulty}
           isDisabled={isDisabled}
           key={country.code}
           onAnswerSubmit={onAnswerSubmit}
@@ -500,178 +497,6 @@ function QuizzQuestionAnswer({
       const exhaustiveFormat: never = answerFormat;
 
       return exhaustiveFormat;
-    }
-  }
-}
-
-interface TextAnswerProps {
-  answerFormat: Extract<QuizzFormat, "country-capital" | "country-name">;
-  correctAnswer: string;
-  countryCode: string;
-  isDisabled: boolean;
-  onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
-  onNextQuestionPress: () => void;
-  shouldShowCorrectAnswer: boolean;
-}
-
-function TextAnswer({
-  answerFormat,
-  correctAnswer,
-  countryCode,
-  isDisabled,
-  onAnswerSubmit,
-  onNextQuestionPress,
-  shouldShowCorrectAnswer,
-}: TextAnswerProps) {
-  const { t } = useTranslation();
-  const [answerValue, setAnswerValue] = useState("");
-  const [badgeWidth, setBadgeWidth] = useState(0);
-  const { icon: BadgeIcon, label: badgeLabel } = getTextAnswerBadge({
-    answerFormat,
-    t,
-  });
-  const isEmptyAnswer = normalizeQuizzTextAnswer(answerValue).length === 0;
-  const isSubmitDisabled =
-    !shouldShowCorrectAnswer && (isDisabled || isEmptyAnswer);
-  const answerInputLabel = shouldShowCorrectAnswer
-    ? t("train.session.answer.correct-answer-label")
-    : getTextAnswerInputLabel({ answerFormat, t });
-  const answerInputLabelClassName = shouldShowCorrectAnswer
-    ? "text-success"
-    : undefined;
-  const answerInputClassName = shouldShowCorrectAnswer
-    ? "border-success bg-success/10"
-    : undefined;
-  const isTextInputDisabled = isDisabled && !shouldShowCorrectAnswer;
-  const isTextInputEditable = !isDisabled;
-  const shouldAutoFocusInput = isTextInputEditable && !shouldShowCorrectAnswer;
-  const submitButtonLabel = shouldShowCorrectAnswer
-    ? t("train.session.answer.next")
-    : t("train.session.answer.submit");
-  const SubmitButtonIcon = shouldShowCorrectAnswer ? ArrowRight : Check;
-
-  useEffect(() => {
-    if (shouldShowCorrectAnswer) {
-      setAnswerValue(correctAnswer);
-      return;
-    }
-
-    setAnswerValue("");
-  }, [answerFormat, correctAnswer, countryCode, shouldShowCorrectAnswer]);
-
-  const handleSubmit = useCallback(() => {
-    if (isSubmitDisabled) {
-      return;
-    }
-
-    onAnswerSubmit({
-      type: "text",
-      value: answerValue,
-    });
-  }, [answerValue, isSubmitDisabled, onAnswerSubmit]);
-  const handleButtonPress = shouldShowCorrectAnswer
-    ? onNextQuestionPress
-    : handleSubmit;
-  const handleBadgeLayout = useCallback((event: LayoutChangeEvent) => {
-    setBadgeWidth(event.nativeEvent.layout.width);
-  }, []);
-
-  return (
-    <View className="gap-3">
-      <Text
-        className={answerInputLabelClassName}
-        type="body-sm"
-        weight="semibold"
-      >
-        {answerInputLabel}
-      </Text>
-      <View className="relative justify-center">
-        <View
-          className="absolute left-2 z-10 flex-row items-center gap-1.5 rounded-md border border-default bg-surface-tertiary px-2 py-1"
-          onLayout={handleBadgeLayout}
-          pointerEvents="none"
-        >
-          <ThemedIcon colorClassName="text-muted" icon={BadgeIcon} size={13} />
-          <Text color="muted" type="body-xs" weight="semibold">
-            {badgeLabel}
-          </Text>
-        </View>
-        <Input
-          accessibilityLabel={t("train.session.answer.text-input-label")}
-          autoCapitalize="none"
-          autoCorrect={false}
-          autoFocus={shouldAutoFocusInput}
-          className={answerInputClassName}
-          editable={isTextInputEditable}
-          isDisabled={isTextInputDisabled}
-          onChangeText={setAnswerValue}
-          onSubmitEditing={shouldShowCorrectAnswer ? undefined : handleSubmit}
-          placeholder={t("train.session.answer.text-input-placeholder")}
-          returnKeyType="done"
-          spellCheck={false}
-          style={{ paddingLeft: badgeWidth + 16 }}
-          value={answerValue}
-        />
-      </View>
-      <HapticButton
-        isDisabled={isSubmitDisabled}
-        onPress={handleButtonPress}
-        variant="primary"
-      >
-        <ThemedIcon
-          colorClassName="text-accent-foreground"
-          icon={SubmitButtonIcon}
-          size={18}
-        />
-        <HapticButton.Label>{submitButtonLabel}</HapticButton.Label>
-      </HapticButton>
-    </View>
-  );
-}
-
-interface GetTextAnswerInputLabelParams {
-  answerFormat: Extract<QuizzFormat, "country-capital" | "country-name">;
-  t: TFunction;
-}
-
-function getTextAnswerInputLabel({
-  answerFormat,
-  t,
-}: GetTextAnswerInputLabelParams) {
-  switch (answerFormat) {
-    case "country-name":
-      return t("train.session.answer.country-name-label");
-    case "country-capital":
-      return t("train.session.answer.country-capital-label");
-    default: {
-      const exhaustiveAnswerFormat: never = answerFormat;
-
-      return exhaustiveAnswerFormat;
-    }
-  }
-}
-
-interface GetTextAnswerBadgeParams {
-  answerFormat: Extract<QuizzFormat, "country-capital" | "country-name">;
-  t: TFunction;
-}
-
-function getTextAnswerBadge({ answerFormat, t }: GetTextAnswerBadgeParams) {
-  switch (answerFormat) {
-    case "country-name":
-      return {
-        icon: Globe,
-        label: t("train.session.answer.country-name-badge"),
-      };
-    case "country-capital":
-      return {
-        icon: Landmark,
-        label: t("train.session.answer.country-capital-badge"),
-      };
-    default: {
-      const exhaustiveAnswerFormat: never = answerFormat;
-
-      return exhaustiveAnswerFormat;
     }
   }
 }

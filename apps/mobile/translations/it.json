@@ -72,10 +72,10 @@
       "select-label": "Formati risposta accettati",
       "trigger-label": "Seleziona i formati risposta accettati"
     },
-    "flag-answer-difficulty": {
-      "title": "Difficoltà delle bandiere",
-      "description": "Scegli come vengono presentate le risposte con le bandiere.",
-      "select-label": "Difficoltà delle risposte con bandiere",
+    "answer-difficulty": {
+      "title": "Difficoltà",
+      "description": "Scegli come vengono presentate le risposte con le bandiere e di testo.",
+      "select-label": "Difficoltà delle risposte",
       "placeholder": "Modalità facile",
       "options": {
         "easy": "Modalità facile",
@@ -129,6 +129,9 @@
       "answer": {
         "country-name-label": "Inserisci il nome del paese:",
         "country-capital-label": "Inserisci la capitale:",
+        "country-name-choose-label": "Scegli il paese:",
+        "country-capital-choose-label": "Scegli la capitale:",
+        "text-option-label": "Seleziona {{value}}",
         "country-name-badge": "Paese",
         "country-capital-badge": "Capitale",
         "text-input-label": "Risposta",
