@@ -25,7 +25,7 @@ import {
   type QuizzCurrentQuestion,
   type QuizzScore,
 } from "@/modules/quizz/hooks/use-quizz";
-import type { FlagAnswerDifficulty } from "@/modules/quizz/utils/quizz";
+import type { AnswerDifficulty } from "@/modules/quizz/utils/quizz";
 import { KeyboardAwareScrollView } from "@/services/keyboard/keyboard-aware-scroll-view";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
@@ -134,10 +134,10 @@ export function DailyChallengePage() {
         />
       ) : (
         <DailyChallengeQuestionContent
+          answerDifficulty={challenge.options.answerDifficulty}
           answerRegion={answerRegion}
           currentQuestion={currentQuestion}
           currentQuestionKey={currentQuestionKey}
-          flagAnswerDifficulty={challenge.options.flagAnswerDifficulty}
           onAnswerResolved={handleAnswerResolved}
           onAnswerSubmit={handleAnswerSubmit}
           dateKey={dailyChallengeProgress.dateKey}
@@ -168,22 +168,22 @@ function DailyChallengeHeader({ title }: DailyChallengeHeaderProps) {
 }
 
 interface DailyChallengeQuestionContentProps {
+  answerDifficulty: AnswerDifficulty;
   answerRegion: MapRegionName;
   currentQuestion: QuizzCurrentQuestion;
   currentQuestionKey: string;
   dateKey: string;
-  flagAnswerDifficulty: FlagAnswerDifficulty;
   onAnswerResolved: (resolution: QuizzAnswerResolution) => void;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
   streak: number;
 }
 
 function DailyChallengeQuestionContent({
+  answerDifficulty,
   answerRegion,
   currentQuestion,
   currentQuestionKey,
   dateKey,
-  flagAnswerDifficulty,
   onAnswerResolved,
   onAnswerSubmit,
   streak,
@@ -202,10 +202,10 @@ function DailyChallengeQuestionContent({
         <PageContent className="gap-5 px-6 pb-8 pt-4">
           <DailyChallengeInfoPanel dateKey={dateKey} streak={streak} />
           <QuizzQuestionCard
+            answerDifficulty={answerDifficulty}
             answerFormat={currentQuestion.answerFormat}
             answerRegion={answerRegion}
             country={currentQuestion.country}
-            flagAnswerDifficulty={flagAnswerDifficulty}
             onAnswerResolved={onAnswerResolved}
             onAnswerSubmit={onAnswerSubmit}
             questionFormat={currentQuestion.questionFormat}
@@ -226,10 +226,10 @@ function DailyChallengeQuestionContent({
       <PageContent className="gap-5 px-6 pb-8 pt-4">
         <DailyChallengeInfoPanel dateKey={dateKey} streak={streak} />
         <QuizzQuestionCard
+          answerDifficulty={answerDifficulty}
           answerFormat={currentQuestion.answerFormat}
           answerRegion={answerRegion}
           country={currentQuestion.country}
-          flagAnswerDifficulty={flagAnswerDifficulty}
           onAnswerResolved={onAnswerResolved}
           onAnswerSubmit={onAnswerSubmit}
           questionFormat={currentQuestion.questionFormat}

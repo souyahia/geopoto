@@ -23,6 +23,7 @@ import {
 import {
   COUNTRIES,
   type Country,
+  type MapRegionName,
   type SupportedGeoLanguage,
 } from "@geopoto/geo-data";
 import {
@@ -41,9 +42,10 @@ import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 import { shuffle } from "@/utils/random";
 
 import type { QuizzAnswerSubmission } from "../hooks/use-quizz";
-import type { FlagAnswerDifficulty } from "../utils/quizz";
+import type { AnswerDifficulty } from "../utils/quizz";
 
 interface FlagAnswerContentProps {
+  answerRegion: MapRegionName;
   country: Country;
   countryName: string;
   isDisabled: boolean;
@@ -53,7 +55,7 @@ interface FlagAnswerContentProps {
 }
 
 interface QuizzFlagAnswerProps extends FlagAnswerContentProps {
-  flagAnswerDifficulty: FlagAnswerDifficulty;
+  answerDifficulty: AnswerDifficulty;
 }
 
 interface FlagAnswerCountry {
@@ -127,6 +129,7 @@ interface GetEasyFlagAnswerMetricsParams {
 }
 
 interface GetEasyFlagAnswerCountriesParams {
+  answerRegion: MapRegionName;
   country: Country;
   geoLang: SupportedGeoLanguage;
 }
@@ -271,6 +274,7 @@ function getFlagAnswerCountries({
 }
 
 function getEasyFlagAnswerCountries({
+  answerRegion,
   country,
   geoLang,
 }: GetEasyFlagAnswerCountriesParams): readonly FlagAnswerCountry[] {
@@ -280,17 +284,51 @@ function getEasyFlagAnswerCountries({
     return [];
   }
 
-  const distractorCountries = COUNTRIES.filter(
-    (candidateCountry) => candidateCountry.code !== country.code,
-  ).flatMap((candidateCountry) =>
-    toFlagAnswerCountry({ country: candidateCountry, geoLang }),
-  );
-  const selectedDistractorCountries = shuffle(distractorCountries).slice(
-    0,
-    EASY_FLAG_ANSWER_OPTION_COUNT - 1,
+  const selectedDistractorCountries = getEasyDistractorCountries({
+    answerRegion,
+    country,
+  }).flatMap((distractorCountry) =>
+    toFlagAnswerCountry({ country: distractorCountry, geoLang }),
   );
 
   return shuffle([correctCountry, ...selectedDistractorCountries]);
+}
+
+interface GetEasyDistractorCountriesParams {
+  answerRegion: MapRegionName;
+  country: Country;
+}
+
+function getEasyDistractorCountries({
+  answerRegion,
+  country,
+}: GetEasyDistractorCountriesParams): readonly Country[] {
+  const distractorCount = EASY_FLAG_ANSWER_OPTION_COUNT - 1;
+  const otherCountries = COUNTRIES.filter(
+    (candidateCountry) => candidateCountry.code !== country.code,
+  );
+  const regionCountries = otherCountries.filter((candidateCountry) =>
+    candidateCountry.regions.includes(answerRegion),
+  );
+  const selectedRegionCountries = shuffle(regionCountries).slice(
+    0,
+    distractorCount,
+  );
+
+  if (selectedRegionCountries.length >= distractorCount) {
+    return selectedRegionCountries;
+  }
+
+  const selectedCodes = new Set(
+    selectedRegionCountries.map((selectedCountry) => selectedCountry.code),
+  );
+  const fallbackCountries = shuffle(
+    otherCountries.filter(
+      (candidateCountry) => !selectedCodes.has(candidateCountry.code),
+    ),
+  ).slice(0, distractorCount - selectedRegionCountries.length);
+
+  return [...selectedRegionCountries, ...fallbackCountries];
 }
 
 function toFlagAnswerCountry({
@@ -387,15 +425,17 @@ function getFlagAnswerRows({
 }
 
 export function QuizzFlagAnswer({
+  answerDifficulty,
+  answerRegion,
   country,
   countryName,
-  flagAnswerDifficulty,
   isDisabled,
   onAnswerSubmit,
   onNextQuestionPress,
   shouldShowCorrectAnswer,
 }: QuizzFlagAnswerProps) {
   const flagAnswerProps = {
+    answerRegion,
     country,
     countryName,
     isDisabled,
@@ -404,15 +444,15 @@ export function QuizzFlagAnswer({
     shouldShowCorrectAnswer,
   } satisfies FlagAnswerContentProps;
 
-  switch (flagAnswerDifficulty) {
+  switch (answerDifficulty) {
     case "easy":
       return <EasyFlagAnswer {...flagAnswerProps} />;
     case "hard":
       return <HardFlagAnswer {...flagAnswerProps} />;
     default: {
-      const exhaustiveFlagAnswerDifficulty: never = flagAnswerDifficulty;
+      const exhaustiveAnswerDifficulty: never = answerDifficulty;
 
-      return exhaustiveFlagAnswerDifficulty;
+      return exhaustiveAnswerDifficulty;
     }
   }
 }
@@ -546,6 +586,7 @@ function HardFlagAnswer({
 }
 
 function EasyFlagAnswer({
+  answerRegion,
   country,
   countryName,
   isDisabled,
@@ -565,8 +606,8 @@ function EasyFlagAnswer({
     [answerContentWidth],
   );
   const flagCountries = useMemo(
-    () => getEasyFlagAnswerCountries({ country, geoLang }),
-    [country, geoLang],
+    () => getEasyFlagAnswerCountries({ answerRegion, country, geoLang }),
+    [answerRegion, country, geoLang],
   );
   const hasSelectedCountry = selectedCountryCode !== null;
   const isAnswerButtonDisabled =

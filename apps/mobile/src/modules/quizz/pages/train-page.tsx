@@ -20,7 +20,7 @@ import { HapticButton } from "@/components/haptic-button";
 import { PageContent } from "@/components/page-content";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 
-import { FlagAnswerDifficultySelect } from "../components/flag-answer-difficulty-select";
+import { AnswerDifficultySelect } from "../components/answer-difficulty-select";
 import {
   QuestionLimitSelect,
   type QuestionLimitOptionValue,
@@ -38,11 +38,16 @@ import { buildTrainingSessionSearchParams } from "../utils/training-session-para
 
 const TRAIN_FORMAT_ERROR_KEY = "train.validation.formats-must-be-different";
 const TRAIN_FORM_DEFAULT_REGION: MapRegionName = "world";
+const DIFFICULTY_ANSWER_FORMATS: QuizzOptions["acceptedAnswerFormats"] = [
+  "country-flag",
+  "country-name",
+  "country-capital",
+];
 
 interface TrainFormValues {
   acceptedAnswerFormats: QuizzOptions["acceptedAnswerFormats"];
   acceptedQuestionFormats: QuizzOptions["acceptedQuestionFormats"];
-  flagAnswerDifficulty: QuizzOptions["flagAnswerDifficulty"];
+  answerDifficulty: QuizzOptions["answerDifficulty"];
   isInfiniteMode: boolean;
   selectedQuestionLimit: QuestionLimitOptionValue;
   selectedRegion: MapRegionName;
@@ -74,8 +79,9 @@ export function TrainPage() {
     control,
     name: "acceptedAnswerFormats",
   });
-  const hasFlagAnswerFormatSelected =
-    acceptedAnswerFormats.includes("country-flag");
+  const hasDifficultyAnswerFormatSelected = acceptedAnswerFormats.some(
+    (answerFormat) => DIFFICULTY_ANSWER_FORMATS.includes(answerFormat),
+  );
   const isInfiniteMode = useWatch({
     control,
     name: "isInfiniteMode",
@@ -186,19 +192,19 @@ export function TrainPage() {
             />
           </TrainOptionSection>
           <TrainOptionSection
-            title={t("train.flag-answer-difficulty.title")}
-            description={t("train.flag-answer-difficulty.description")}
+            title={t("train.answer-difficulty.title")}
+            description={t("train.answer-difficulty.description")}
           >
             <Controller
               control={control}
-              name="flagAnswerDifficulty"
+              name="answerDifficulty"
               render={({ field }) => (
-                <FlagAnswerDifficultySelect
-                  isDisabled={!hasFlagAnswerFormatSelected}
-                  selectedFlagAnswerDifficulty={field.value}
-                  onSelectedFlagAnswerDifficultyChange={(
-                    flagAnswerDifficulty,
-                  ) => field.onChange(flagAnswerDifficulty)}
+                <AnswerDifficultySelect
+                  isDisabled={!hasDifficultyAnswerFormatSelected}
+                  selectedAnswerDifficulty={field.value}
+                  onSelectedAnswerDifficultyChange={(answerDifficulty) =>
+                    field.onChange(answerDifficulty)
+                  }
                 />
               )}
             />
@@ -296,7 +302,7 @@ function getTrainFormValuesFromQuizzOptions({
   return {
     acceptedAnswerFormats: options.acceptedAnswerFormats,
     acceptedQuestionFormats: options.acceptedQuestionFormats,
-    flagAnswerDifficulty: options.flagAnswerDifficulty,
+    answerDifficulty: options.answerDifficulty,
     isInfiniteMode: options.isInfiniteMode,
     selectedQuestionLimit: getSelectedQuestionLimit({
       limit: options.limit,
@@ -315,7 +321,7 @@ function getQuizzOptionsFromTrainFormValues({
   return {
     acceptedAnswerFormats: values.acceptedAnswerFormats,
     acceptedQuestionFormats: values.acceptedQuestionFormats,
-    flagAnswerDifficulty: values.flagAnswerDifficulty,
+    answerDifficulty: values.answerDifficulty,
     isInfiniteMode: values.isInfiniteMode,
     limit: values.isInfiniteMode
       ? undefined

@@ -567,7 +567,7 @@ function getQuizzSessionKey({ options, questions }: GetQuizzSessionKeyParams) {
     options.regions.join(","),
     options.acceptedQuestionFormats.join(","),
     options.acceptedAnswerFormats.join(","),
-    options.flagAnswerDifficulty,
+    options.answerDifficulty,
     options.isInfiniteMode ? "infinite" : "finite",
     options.limit?.toString() ?? "no-limit",
     getQuizzQuestionsKey({ questions }),

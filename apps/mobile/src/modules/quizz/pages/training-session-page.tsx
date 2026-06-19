@@ -33,7 +33,7 @@ import {
   type QuizzScore,
   type QuizzAnswerSubmission,
 } from "../hooks/use-quizz";
-import type { FlagAnswerDifficulty } from "../utils/quizz";
+import type { AnswerDifficulty } from "../utils/quizz";
 import {
   getTrainingSessionOptionsStorageValue,
   saveTrainingSessionOptionsValue,
@@ -75,7 +75,7 @@ export function TrainingSessionPage() {
           currentQuestion.countryCode,
           currentQuestion.questionFormat,
           currentQuestion.answerFormat,
-          quizzOptions.flagAnswerDifficulty,
+          quizzOptions.answerDifficulty,
         ].join(":");
 
   useEffect(() => {
@@ -119,10 +119,10 @@ export function TrainingSessionPage() {
         />
       ) : (
         <TrainingSessionQuestionContent
+          answerDifficulty={quizzOptions.answerDifficulty}
           answerRegion={answerRegion}
           currentQuestion={currentQuestion}
           currentQuestionKey={currentQuestionKey}
-          flagAnswerDifficulty={quizzOptions.flagAnswerDifficulty}
           isInfiniteMode={isInfiniteModeSession}
           onAnswerSubmit={handleAnswerSubmit}
           progress={progress}
@@ -134,10 +134,10 @@ export function TrainingSessionPage() {
 }
 
 interface TrainingSessionQuestionContentProps {
+  answerDifficulty: AnswerDifficulty;
   answerRegion: MapRegionName;
   currentQuestion: QuizzCurrentQuestion;
   currentQuestionKey: string;
-  flagAnswerDifficulty: FlagAnswerDifficulty;
   isInfiniteMode: boolean;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
   progress: number;
@@ -145,10 +145,10 @@ interface TrainingSessionQuestionContentProps {
 }
 
 function TrainingSessionQuestionContent({
+  answerDifficulty,
   answerRegion,
   currentQuestion,
   currentQuestionKey,
-  flagAnswerDifficulty,
   isInfiniteMode,
   onAnswerSubmit,
   progress,
@@ -167,9 +167,9 @@ function TrainingSessionQuestionContent({
       >
         <PageContent className="gap-5 px-6 pb-8 pt-4">
           <TrainingSessionQuestionBlocks
+            answerDifficulty={answerDifficulty}
             answerRegion={answerRegion}
             currentQuestion={currentQuestion}
-            flagAnswerDifficulty={flagAnswerDifficulty}
             isInfiniteMode={isInfiniteMode}
             onAnswerSubmit={onAnswerSubmit}
             progress={progress}
@@ -190,9 +190,9 @@ function TrainingSessionQuestionContent({
     >
       <PageContent className="gap-5 px-6 pb-8 pt-4">
         <TrainingSessionQuestionBlocks
+          answerDifficulty={answerDifficulty}
           answerRegion={answerRegion}
           currentQuestion={currentQuestion}
-          flagAnswerDifficulty={flagAnswerDifficulty}
           isInfiniteMode={isInfiniteMode}
           onAnswerSubmit={onAnswerSubmit}
           progress={progress}
@@ -204,9 +204,9 @@ function TrainingSessionQuestionContent({
 }
 
 interface TrainingSessionQuestionBlocksProps {
+  answerDifficulty: AnswerDifficulty;
   answerRegion: MapRegionName;
   currentQuestion: QuizzCurrentQuestion;
-  flagAnswerDifficulty: FlagAnswerDifficulty;
   isInfiniteMode: boolean;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
   progress: number;
@@ -214,9 +214,9 @@ interface TrainingSessionQuestionBlocksProps {
 }
 
 function TrainingSessionQuestionBlocks({
+  answerDifficulty,
   answerRegion,
   currentQuestion,
-  flagAnswerDifficulty,
   isInfiniteMode,
   onAnswerSubmit,
   progress,
@@ -248,10 +248,10 @@ function TrainingSessionQuestionBlocks({
         score={score}
       />
       <QuizzQuestionCard
+        answerDifficulty={answerDifficulty}
         answerFormat={currentQuestion.answerFormat}
         answerRegion={answerRegion}
         country={currentQuestion.country}
-        flagAnswerDifficulty={flagAnswerDifficulty}
         onAnswerResolved={handleAnswerResolved}
         onAnswerSubmit={onAnswerSubmit}
         questionFormat={currentQuestion.questionFormat}

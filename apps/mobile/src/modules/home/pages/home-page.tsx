@@ -8,6 +8,7 @@ import {
   CircleX,
   Dumbbell,
   Flame,
+  GraduationCap,
   Settings,
   type LucideIcon,
 } from "lucide-react-native";
@@ -25,7 +26,13 @@ import {
   useDailyChallengeProgress,
   type DailyChallengeStatus,
 } from "@/modules/daily-challenge/utils/daily-challenge-progress-storage";
+import {
+  isTodaysDailyTestDone,
+  type TrainingProgramSnapshot,
+} from "@/modules/training-program/utils/training-program";
+import { useTrainingProgram } from "@/modules/training-program/utils/training-program-storage";
 import { ThemedIcon } from "@/services/theme/themed-icon";
+import { getUtcDayIndex } from "@/utils/dates";
 
 export function HomePage() {
   const { t } = useTranslation();
@@ -36,6 +43,10 @@ export function HomePage() {
   });
   const isDailyChallengePlayed = isDailyChallengeStatusPlayed({
     status: dailyChallengeProgress.status,
+  });
+  const { snapshot: trainingProgramSnapshot } = useTrainingProgram();
+  const isTrainingProgramTestReady = isTrainingProgramDailyTestReady({
+    snapshot: trainingProgramSnapshot,
   });
 
   return (
@@ -80,6 +91,13 @@ export function HomePage() {
                   streak={dailyChallengeProgress.streak}
                 />
               }
+            />
+            <MenuCard
+              icon={GraduationCap}
+              title={t("home.game-modes.training-program.title")}
+              description={t("home.game-modes.training-program.description")}
+              onPress={() => router.push("/training-program")}
+              hasNotificationDot={isTrainingProgramTestReady}
             />
             <MenuCard
               icon={Dumbbell}
@@ -163,6 +181,23 @@ const DAILY_CHALLENGE_STATUS_ICON_CONFIGS = {
     icon: CircleDashed,
   },
 } satisfies Record<DailyChallengeStatus, DailyChallengeStatusIconConfig>;
+
+interface IsTrainingProgramDailyTestReadyParams {
+  snapshot: TrainingProgramSnapshot | undefined;
+}
+
+function isTrainingProgramDailyTestReady({
+  snapshot,
+}: IsTrainingProgramDailyTestReadyParams): boolean {
+  if (snapshot === undefined || snapshot.status !== "active") {
+    return false;
+  }
+
+  return !isTodaysDailyTestDone({
+    currentUtcDayIndex: getUtcDayIndex({ date: new Date() }),
+    snapshot,
+  });
+}
 
 interface IsDailyChallengeStatusPlayedParams {
   status: DailyChallengeStatus;

@@ -18,9 +18,13 @@
         "title": "Sfida giornaliera",
         "description": "Gioca la sfida geografica del giorno e mantieni viva la tua serie."
       },
+      "training-program": {
+        "title": "Programmi di allenamento",
+        "description": "Segui un percorso guidato di più giorni incentrato su una regione."
+      },
       "train": {
-        "title": "Allenati",
-        "description": "Esercita le tue conoscenze geografiche."
+        "title": "Quiz casuale",
+        "description": "Crea il tuo quiz e metti alla prova le tue conoscenze geografiche."
       },
       "learn": {
         "title": "Impara",
@@ -52,7 +56,7 @@
     "confirm-label": "Esci"
   },
   "train": {
-    "title": "Allenati",
+    "title": "Quiz casuale",
     "settings": "Impostazioni",
     "region": {
       "title": "Regione",
@@ -72,10 +76,10 @@
       "select-label": "Formati risposta accettati",
       "trigger-label": "Seleziona i formati risposta accettati"
     },
-    "flag-answer-difficulty": {
-      "title": "Difficoltà delle bandiere",
-      "description": "Scegli come vengono presentate le risposte con le bandiere.",
-      "select-label": "Difficoltà delle risposte con bandiere",
+    "answer-difficulty": {
+      "title": "Difficoltà",
+      "description": "Scegli come vengono presentate le risposte con le bandiere e di testo.",
+      "select-label": "Difficoltà delle risposte",
       "placeholder": "Modalità facile",
       "options": {
         "easy": "Modalità facile",
@@ -89,11 +93,11 @@
       "select-label": "Numero massimo di domande",
       "placeholder": "Nessun limite",
       "options": {
-        "no-limit": "Nessun limite",
         "10": "10 domande",
         "20": "20 domande",
         "50": "50 domande",
-        "100": "100 domande"
+        "100": "100 domande",
+        "no-limit": "Nessun limite"
       }
     },
     "formats": {
@@ -129,6 +133,9 @@
       "answer": {
         "country-name-label": "Inserisci il nome del paese:",
         "country-capital-label": "Inserisci la capitale:",
+        "country-name-choose-label": "Scegli il paese:",
+        "country-capital-choose-label": "Scegli la capitale:",
+        "text-option-label": "Seleziona {{value}}",
         "country-name-badge": "Paese",
         "country-capital-badge": "Capitale",
         "text-input-label": "Risposta",
@@ -152,6 +159,89 @@
         "play-again": "Gioca di nuovo",
         "back": "Indietro"
       }
+    }
+  },
+  "training-program": {
+    "title": "Programmi di allenamento",
+    "no-program": {
+      "tutorial": {
+        "title": "Come funzionano i programmi di allenamento",
+        "intro": "Scegli una regione su cui concentrarti. Il programma ti guida passo dopo passo, lezione dopo lezione.",
+        "step-1": "Scegli una regione e il programma crea le lezioni adatte.",
+        "step-2": "Ogni giorno, affronta il test del giorno sulla tua lezione attuale.",
+        "step-3": "Superalo al primo tentativo della giornata (95 %) per sbloccare la lezione successiva. Se lo manchi, domani resti sulla stessa lezione.",
+        "step-4": "Dopo il test, allenati sulla lezione quanto vuoi. Più ti eserciti oggi, più sarà facile superare il test di domani al primo colpo."
+      },
+      "area": {
+        "title": "Regione",
+        "description": "Scegli la regione su cui si concentrerà il tuo programma.",
+        "select-label": "Regione del programma",
+        "placeholder": "Seleziona una regione"
+      },
+      "start": "Avvia programma"
+    },
+    "active": {
+      "title": "Programma in corso",
+      "area": "Regione: {{area}}",
+      "daily-test": {
+        "start": "Fai il test di oggi",
+        "locked-practice": "L’allenamento libero si sblocca dopo che hai fatto il test di oggi.",
+        "done-title": "Test di oggi completato",
+        "done-description": "Torna domani per il prossimo test.",
+        "score": {
+          "title": "Test giornaliero"
+        },
+        "result": {
+          "title": "Test giornaliero completato",
+          "pass": "Bravo! Lezione successiva sbloccata.",
+          "fail": "Quasi! Continua ad allenarti e riprova domani.",
+          "score": "Punteggio: {{correct}} / {{total}}",
+          "back": "Torna al programma"
+        },
+        "leave-confirm": {
+          "title": "Vuoi uscire dal test giornaliero?",
+          "description": "I tuoi progressi in questo test andranno persi e non conterà per oggi.",
+          "confirm-label": "Esci",
+          "cancel-label": "Continua"
+        }
+      },
+      "practice": {
+        "start": "Allenamento libero",
+        "description": "Allenati su questa lezione quanto vuoi. Ogni risposta conta comunque per i tuoi progressi.",
+        "score": {
+          "title": "Allenamento libero"
+        },
+        "complete": {
+          "title": "Allenamento completato",
+          "description": "{{correct}} corrette, {{wrong}} sbagliate, {{total}} in totale. Serie migliore: {{bestStreak}}.",
+          "retry": "Riprova",
+          "back": "Torna al programma"
+        }
+      },
+      "stats": {
+        "title": "Le tue statistiche",
+        "correct": "Corrette",
+        "wrong": "Sbagliate",
+        "best-streak": "Serie migliore",
+        "days-trained": "Giorni di allenamento",
+        "hardest-country": "Paese più difficile: {{country}}",
+        "hardest-country-empty": "Ancora nessun paese difficile. Continua così!"
+      },
+      "cancel": {
+        "action": "Annulla questo programma",
+        "confirm": {
+          "title": "Annullare questo programma?",
+          "description": "Perderai tutti i tuoi progressi e le tue statistiche. Questa azione è irreversibile.",
+          "confirm-label": "Annulla programma",
+          "cancel-label": "Mantieni programma"
+        }
+      }
+    },
+    "completed": {
+      "title": "Programma completato",
+      "area": "Regione: {{area}}",
+      "congrats": "Congratulazioni! Hai completato tutte le lezioni di questo programma. Ecco il riepilogo del tuo allenamento.",
+      "start-new": "Inizia un nuovo programma"
     }
   },
   "learn": {
