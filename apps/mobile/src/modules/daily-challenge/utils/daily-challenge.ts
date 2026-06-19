@@ -7,9 +7,9 @@ import {
   type QuizzOptions,
   type QuizzQuestion,
 } from "@/modules/quizz/utils/quizz";
+import { getUtcDateKey, getUtcDayIndex } from "@/utils/dates";
 
 const DAILY_CHALLENGE_SEED_NAMESPACE = "geopoto-daily-challenge-v1";
-const MILLISECONDS_PER_DAY = 86_400_000;
 
 export const DAILY_CHALLENGE_QUIZZ_OPTIONS = {
   acceptedAnswerFormats: QUIZZ_ANSWER_FORMATS,
@@ -118,38 +118,4 @@ function hashStringToUint32({ value }: HashStringToUint32Params): number {
 
     return Math.imul(mixedHash, 16_777_619) >>> 0;
   }, 2_166_136_261);
-}
-
-interface GetUtcDateKeyParams {
-  date: Date;
-}
-
-function getUtcDateKey({ date }: GetUtcDateKeyParams): string {
-  const year = date.getUTCFullYear();
-  const month = formatDatePart({ value: date.getUTCMonth() + 1 });
-  const day = formatDatePart({ value: date.getUTCDate() });
-
-  return `${year}-${month}-${day}`;
-}
-
-interface GetUtcDayIndexParams {
-  date: Date;
-}
-
-function getUtcDayIndex({ date }: GetUtcDayIndexParams): number {
-  const utcMidnight = Date.UTC(
-    date.getUTCFullYear(),
-    date.getUTCMonth(),
-    date.getUTCDate(),
-  );
-
-  return Math.floor(utcMidnight / MILLISECONDS_PER_DAY);
-}
-
-interface FormatDatePartParams {
-  value: number;
-}
-
-function formatDatePart({ value }: FormatDatePartParams): string {
-  return value.toString().padStart(2, "0");
 }

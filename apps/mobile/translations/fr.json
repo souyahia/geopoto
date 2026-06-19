@@ -18,9 +18,13 @@
         "title": "Défi quotidien",
         "description": "Relève le défi du jour et garde ta série en vie."
       },
+      "training-program": {
+        "title": "Programmes d’entraînement",
+        "description": "Suis un parcours guidé sur plusieurs jours, axé sur une région."
+      },
       "train": {
-        "title": "Entraînement",
-        "description": "Mets tes connaissances géo à l’épreuve."
+        "title": "Quiz aléatoire",
+        "description": "Crée ton propre quiz et mets tes connaissances géo à l’épreuve."
       },
       "learn": {
         "title": "Apprendre",
@@ -52,7 +56,7 @@
     "confirm-label": "Quitter"
   },
   "train": {
-    "title": "Entraînement",
+    "title": "Quiz aléatoire",
     "settings": "Paramètres",
     "region": {
       "title": "Région",
@@ -89,11 +93,11 @@
       "select-label": "Nombre maximal de questions",
       "placeholder": "Sans limite",
       "options": {
-        "no-limit": "Sans limite",
         "10": "10 questions",
         "20": "20 questions",
         "50": "50 questions",
-        "100": "100 questions"
+        "100": "100 questions",
+        "no-limit": "Sans limite"
       }
     },
     "formats": {
@@ -155,6 +159,89 @@
         "play-again": "Rejouer",
         "back": "Retour"
       }
+    }
+  },
+  "training-program": {
+    "title": "Programmes d’entraînement",
+    "no-program": {
+      "tutorial": {
+        "title": "Comment fonctionnent les programmes d’entraînement",
+        "intro": "Choisis une région à travailler. Le programme te guide pas à pas, leçon après leçon.",
+        "step-1": "Choisis une région, et le programme crée les leçons qui vont avec.",
+        "step-2": "Chaque jour, passe le test du jour sur ta leçon en cours.",
+        "step-3": "Réussis-le du premier coup (95 %) pour débloquer la leçon suivante. Sinon, tu repars sur la même leçon le lendemain.",
+        "step-4": "Après le test, entraîne-toi autant que tu veux. Plus tu travailles ta leçon aujourd’hui, plus tu réussiras facilement le test de demain du premier coup."
+      },
+      "area": {
+        "title": "Région",
+        "description": "Choisis la région sur laquelle ton programme va porter.",
+        "select-label": "Région du programme",
+        "placeholder": "Choisis une région"
+      },
+      "start": "Démarrer le programme"
+    },
+    "active": {
+      "title": "Programme en cours",
+      "area": "Région : {{area}}",
+      "daily-test": {
+        "start": "Passer le test du jour",
+        "locked-practice": "L’entraînement libre se débloque une fois le test du jour passé.",
+        "done-title": "Test du jour terminé",
+        "done-description": "Reviens demain pour le prochain test.",
+        "score": {
+          "title": "Test du jour"
+        },
+        "result": {
+          "title": "Test du jour terminé",
+          "pass": "Bravo ! Leçon suivante débloquée.",
+          "fail": "Presque ! Continue à t’entraîner et retente ta chance demain.",
+          "score": "Score : {{correct}} / {{total}}",
+          "back": "Retour au programme"
+        },
+        "leave-confirm": {
+          "title": "Quitter le test du jour ?",
+          "description": "Ta progression dans ce test sera perdue et il ne comptera pas pour aujourd’hui.",
+          "confirm-label": "Quitter",
+          "cancel-label": "Continuer"
+        }
+      },
+      "practice": {
+        "start": "Entraînement libre",
+        "description": "Entraîne-toi sur cette leçon autant que tu veux. Chaque réponse compte toujours pour ta progression.",
+        "score": {
+          "title": "Entraînement libre"
+        },
+        "complete": {
+          "title": "Entraînement terminé",
+          "description": "{{correct}} bonnes, {{wrong}} mauvaises, {{total}} au total. Meilleure série : {{bestStreak}}.",
+          "retry": "Réessayer",
+          "back": "Retour au programme"
+        }
+      },
+      "stats": {
+        "title": "Tes statistiques",
+        "correct": "Bonnes",
+        "wrong": "Mauvaises",
+        "best-streak": "Meilleure série",
+        "days-trained": "Jours d’entraînement",
+        "hardest-country": "Pays le plus difficile : {{country}}",
+        "hardest-country-empty": "Aucun pays difficile pour l’instant. Continue comme ça !"
+      },
+      "cancel": {
+        "action": "Annuler ce programme",
+        "confirm": {
+          "title": "Annuler ce programme ?",
+          "description": "Tu vas perdre toute ta progression et tes statistiques. Cette action est irréversible.",
+          "confirm-label": "Annuler le programme",
+          "cancel-label": "Garder le programme"
+        }
+      }
+    },
+    "completed": {
+      "title": "Programme terminé",
+      "area": "Région : {{area}}",
+      "congrats": "Félicitations ! Tu as terminé toutes les leçons de ce programme. Voici le bilan de ton entraînement.",
+      "start-new": "Commencer un nouveau programme"
     }
   },
   "learn": {

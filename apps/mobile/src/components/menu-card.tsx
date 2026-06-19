@@ -13,6 +13,7 @@ interface MenuCardProps {
   onPress?: () => void;
   title: string;
   titleAccessory?: ReactNode;
+  hasNotificationDot?: boolean;
   isDisabled?: boolean;
 }
 
@@ -22,6 +23,7 @@ export function MenuCard({
   onPress,
   title,
   titleAccessory,
+  hasNotificationDot,
   isDisabled,
 }: MenuCardProps) {
   const card = (
@@ -36,11 +38,16 @@ export function MenuCard({
         </>
       )}
       <View className="pl-2 pr-5 items-center justify-center self-stretch">
-        <ThemedIcon
-          icon={icon}
-          size={28}
-          className={cn(isDisabled && "opacity-50")}
-        />
+        <View>
+          <ThemedIcon
+            icon={icon}
+            size={28}
+            className={cn(isDisabled && "opacity-50")}
+          />
+          {hasNotificationDot && (
+            <View className="absolute -right-1.5 -top-1.5 h-3 w-3 rounded-full border-2 border-surface-secondary bg-accent" />
+          )}
+        </View>
       </View>
       <Card.Body className="flex-1">
         {titleAccessory === undefined ? (

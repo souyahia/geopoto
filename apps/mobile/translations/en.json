@@ -18,9 +18,13 @@
         "title": "Daily Challenge",
         "description": "Play today's geography puzzle and keep your streak alive."
       },
+      "training-program": {
+        "title": "Training Programs",
+        "description": "Follow a guided, multi-day track on one region."
+      },
       "train": {
-        "title": "Train",
-        "description": "Practice your geographic knowledge."
+        "title": "Random Quiz",
+        "description": "Build your own quiz and test your geographic knowledge."
       },
       "learn": {
         "title": "Learn",
@@ -52,7 +56,7 @@
     "confirm-label": "Leave"
   },
   "train": {
-    "title": "Train",
+    "title": "Random Quiz",
     "settings": "Settings",
     "region": {
       "title": "Region",
@@ -89,11 +93,11 @@
       "select-label": "Maximum number of questions",
       "placeholder": "No limit",
       "options": {
-        "no-limit": "No limit",
         "10": "10 questions",
         "20": "20 questions",
         "50": "50 questions",
-        "100": "100 questions"
+        "100": "100 questions",
+        "no-limit": "No limit"
       }
     },
     "formats": {
@@ -155,6 +159,89 @@
         "play-again": "Play again",
         "back": "Back"
       }
+    }
+  },
+  "training-program": {
+    "title": "Training Programs",
+    "no-program": {
+      "tutorial": {
+        "title": "How training programs work",
+        "intro": "Pick one region to focus on. The program guides you through it, one lesson at a time.",
+        "step-1": "Choose a region, and the program builds a sequence of lessons just for it.",
+        "step-2": "Each day, take that day's test for your current lesson.",
+        "step-3": "Pass on your first try of the day (95%) to unlock the next lesson. Miss it, and you stay on the same lesson tomorrow.",
+        "step-4": "After the test, practice the lesson as much as you like. The more you drill today, the easier it is to one-shot tomorrow's test."
+      },
+      "area": {
+        "title": "Region",
+        "description": "Choose the region your program will focus on.",
+        "select-label": "Program region",
+        "placeholder": "Select a region"
+      },
+      "start": "Start program"
+    },
+    "active": {
+      "title": "Program in progress",
+      "area": "Region: {{area}}",
+      "daily-test": {
+        "start": "Take today's test",
+        "locked-practice": "Practice unlocks once you've taken today's test.",
+        "done-title": "Today's test is done",
+        "done-description": "Come back tomorrow for the next test.",
+        "score": {
+          "title": "Daily test"
+        },
+        "result": {
+          "title": "Daily test complete",
+          "pass": "Bravo! Next lesson unlocked.",
+          "fail": "Almost! Keep training and try again tomorrow.",
+          "score": "Score: {{correct}} / {{total}}",
+          "back": "Back to program"
+        },
+        "leave-confirm": {
+          "title": "Leave the daily test?",
+          "description": "Your progress in this test will be lost and it won't count for today.",
+          "confirm-label": "Leave",
+          "cancel-label": "Keep going"
+        }
+      },
+      "practice": {
+        "start": "Practice",
+        "description": "Practice this lesson as much as you like. Every answer still counts toward your progress.",
+        "score": {
+          "title": "Practice"
+        },
+        "complete": {
+          "title": "Practice complete",
+          "description": "{{correct}} correct, {{wrong}} wrong, {{total}} total. Best streak: {{bestStreak}}.",
+          "retry": "Try again",
+          "back": "Back to program"
+        }
+      },
+      "stats": {
+        "title": "Your stats",
+        "correct": "Correct",
+        "wrong": "Wrong",
+        "best-streak": "Best streak",
+        "days-trained": "Days trained",
+        "hardest-country": "Hardest country: {{country}}",
+        "hardest-country-empty": "No tricky country yet. Keep it up!"
+      },
+      "cancel": {
+        "action": "Cancel this program",
+        "confirm": {
+          "title": "Cancel this program?",
+          "description": "You'll lose all your progress and stats. This can't be undone.",
+          "confirm-label": "Cancel program",
+          "cancel-label": "Keep program"
+        }
+      }
+    },
+    "completed": {
+      "title": "Program completed",
+      "area": "Region: {{area}}",
+      "congrats": "Congratulations! You finished every lesson of this program. Here is how your training went.",
+      "start-new": "Start a new program"
     }
   },
   "learn": {
