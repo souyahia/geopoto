@@ -177,7 +177,7 @@ export function QuizzQuestionCard({
   }, [answerFeedback, onAnswerSubmit]);
 
   return (
-    <View className="relative gap-5">
+    <View className="relative gap-4">
       <QuizzQuestionFeedbackOverlay
         shouldShowCorrectOverlay={shouldShowCorrectOverlay}
         shouldShowWrongOverlay={shouldShowWrongOverlay}
@@ -254,7 +254,7 @@ function getQuestionSurfaceClassName({
   switch (questionFormat) {
     case "country-name":
     case "country-capital":
-      return "justify-center gap-4 py-6";
+      return "justify-center gap-4 py-4";
     case "country-position":
       return "min-h-64 justify-center gap-4";
     case "country-flag":
