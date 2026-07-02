@@ -10,6 +10,7 @@ import { PageContent } from "@/components/page-content";
 import { MapViewer } from "@/modules/map-viewer/components/map-viewer";
 
 import { CountryInfoRow } from "../components/country-info-section";
+import { FreePalestineBadge } from "../components/free-palestine-badge";
 import { LearnHeader } from "../components/learn-header";
 import { useCountryDetails } from "../hooks/use-country-details";
 
@@ -48,13 +49,14 @@ export function LearnCountryPage() {
       <LearnHeader title={countryName} />
       <ScrollView className="flex-1">
         <PageContent className="gap-4 px-6 pb-8 pt-4">
-          <View className="items-center justify-center px-4 py-6">
+          <View className="items-center justify-center gap-3 px-4 py-6">
             <CountryFlag
               code={countryCode}
               className="border border-default"
               height={flagSize.height}
               width={flagSize.width}
             />
+            <FreePalestineBadge countryCode={countryCode} />
           </View>
           <MapViewer
             centersOn={mapViewerTarget}
