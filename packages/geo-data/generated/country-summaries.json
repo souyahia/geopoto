@@ -4054,6 +4054,27 @@
   },
   {
     "capital": {
+      "de": "Hargeisa",
+      "en": "Hargeisa",
+      "es": "Hargeisa",
+      "fr": "Hargeisa",
+      "it": "Hargeisa",
+      "pt": "Hargeisa"
+    },
+    "code": "XS",
+    "continent": "africa",
+    "name": {
+      "de": "Somaliland",
+      "en": "Somaliland",
+      "es": "Somalilandia",
+      "fr": "Somaliland",
+      "it": "Somaliland",
+      "pt": "Somalilândia"
+    },
+    "regions": ["world", "africa"]
+  },
+  {
+    "capital": {
       "de": "Sanaa",
       "en": "Sana'a",
       "es": "Saná",

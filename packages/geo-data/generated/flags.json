@@ -5311,6 +5311,34 @@
       "width": 120
     }
   },
+  "XS": {
+    "aspectRatio": 2,
+    "code": "XS",
+    "colorCoverage": {
+      "white": 0.3437,
+      "red": 0.3357,
+      "green": 0.3111,
+      "black": 0.005
+    },
+    "colors": ["white", "red", "green", "black"],
+    "lowResolutionPng": {
+      "height": 16,
+      "width": 32
+    },
+    "png": {
+      "height": 450,
+      "width": 900
+    },
+    "svg": {
+      "height": 600,
+      "viewBox": "0 0 1200 600",
+      "width": 1200
+    },
+    "thumbnailPng": {
+      "height": 60,
+      "width": 120
+    }
+  },
   "YE": {
     "aspectRatio": 1.5,
     "code": "YE",
