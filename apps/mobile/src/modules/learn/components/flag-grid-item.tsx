@@ -1,5 +1,5 @@
 import { Galeria } from "@nandorojo/galeria";
-import { Image, type ImageStyle } from "expo-image";
+import { Image } from "expo-image";
 import { Text } from "heroui-native/text";
 import { memo, useMemo } from "react";
 import { View, type ViewStyle } from "react-native";
@@ -10,6 +10,7 @@ import type { CountryFlagImage as CountryFlagThumbnailImage } from "@geopoto/geo
 import { useGaleriaImageUrl } from "@/services/galeria/galeria-image-url";
 
 export interface FlagGridItemData {
+  aspectRatio: number;
   code: string;
   countryName: string;
   fullImageSource: CountryFlagImage;
@@ -29,6 +30,37 @@ interface FlagGridItemProps {
 const FLAG_GRID_LABEL_GAP = 8;
 const FLAG_GRID_LABEL_HEIGHT = 40;
 
+interface FlagDisplaySize {
+  height: number;
+  width: number;
+}
+
+interface GetContainedFlagSizeParams {
+  aspectRatio: number;
+  frameHeight: number;
+  frameWidth: number;
+}
+
+function getContainedFlagSize({
+  aspectRatio,
+  frameHeight,
+  frameWidth,
+}: GetContainedFlagSizeParams): FlagDisplaySize {
+  const heightFromFrameWidth = frameWidth / aspectRatio;
+
+  if (heightFromFrameWidth <= frameHeight) {
+    return {
+      height: heightFromFrameWidth,
+      width: frameWidth,
+    };
+  }
+
+  return {
+    height: frameHeight,
+    width: frameHeight * aspectRatio,
+  };
+}
+
 function FlagGridItemComponent({
   accessibilityLabel,
   enableGaleriaDarkMode,
@@ -46,50 +78,57 @@ function FlagGridItemComponent({
     [itemHeight, itemWidth],
   );
 
-  const imageFrameStyle = useMemo<ViewStyle>(
+  const frameAreaStyle = useMemo<ViewStyle>(
     () => ({
       height: flagFrameHeight,
-      width: itemWidth,
+      justifyContent: "center",
     }),
-    [flagFrameHeight, itemWidth],
+    [flagFrameHeight],
   );
 
-  const imageStyle = useMemo<ImageStyle>(
-    () => ({
-      height: flagFrameHeight,
-      width: itemWidth,
-    }),
-    [flagFrameHeight, itemWidth],
+  const flagStyle = useMemo(
+    () =>
+      getContainedFlagSize({
+        aspectRatio: flag.aspectRatio,
+        frameHeight: flagFrameHeight,
+        frameWidth: itemWidth,
+      }),
+    [flag.aspectRatio, flagFrameHeight, itemWidth],
   );
 
   const galeriaImageUrl = useGaleriaImageUrl(flag.fullImageSource);
 
   return (
     <View className="items-center" style={containerStyle}>
-      <Galeria
-        hidePageIndicators
-        theme="dark"
-        urls={[galeriaImageUrl ?? flag.fullImageSource]}
-      >
-        <Galeria.Image
-          dynamicAspectRatio
-          edgeToEdge
-          onDismiss={restoreAppColorScheme}
-          onLongPress={restoreAppColorScheme}
-          style={imageFrameStyle}
+      <View style={frameAreaStyle}>
+        <Galeria
+          hidePageIndicators
+          theme="dark"
+          urls={[galeriaImageUrl ?? flag.fullImageSource]}
         >
-          <View className="border border-default" style={imageFrameStyle}>
-            <Image
-              accessibilityLabel={accessibilityLabel}
-              contentFit="contain"
-              onTouchCancel={restoreAppColorScheme}
-              onTouchStart={enableGaleriaDarkMode}
-              source={flag.thumbnailImageSource}
-              style={imageStyle}
-            />
-          </View>
-        </Galeria.Image>
-      </Galeria>
+          <Galeria.Image
+            dynamicAspectRatio
+            edgeToEdge
+            onDismiss={restoreAppColorScheme}
+            onLongPress={restoreAppColorScheme}
+            style={flagStyle}
+          >
+            <View
+              className="overflow-hidden border border-default"
+              style={flagStyle}
+            >
+              <Image
+                accessibilityLabel={accessibilityLabel}
+                contentFit="fill"
+                onTouchCancel={restoreAppColorScheme}
+                onTouchStart={enableGaleriaDarkMode}
+                source={flag.thumbnailImageSource}
+                style={flagStyle}
+              />
+            </View>
+          </Galeria.Image>
+        </Galeria>
+      </View>
       <Text
         align="center"
         className="pt-2"
