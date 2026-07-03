@@ -22,6 +22,7 @@ import {
 
 import {
   COUNTRIES,
+  isCountryDisabled,
   type Country,
   type MapRegionName,
   type SupportedGeoLanguage,
@@ -266,9 +267,9 @@ function getEasyFlagAnswerMetrics({
 function getFlagAnswerCountries({
   geoLang,
 }: GetFlagAnswerCountriesParams): readonly FlagAnswerCountry[] {
-  const countries = COUNTRIES.flatMap((country) =>
-    toFlagAnswerCountry({ country, geoLang }),
-  );
+  const countries = COUNTRIES.filter(
+    (country) => !isCountryDisabled(country.code),
+  ).flatMap((country) => toFlagAnswerCountry({ country, geoLang }));
 
   return shuffle(countries);
 }
@@ -305,7 +306,9 @@ function getEasyDistractorCountries({
 }: GetEasyDistractorCountriesParams): readonly Country[] {
   const distractorCount = EASY_FLAG_ANSWER_OPTION_COUNT - 1;
   const otherCountries = COUNTRIES.filter(
-    (candidateCountry) => candidateCountry.code !== country.code,
+    (candidateCountry) =>
+      !isCountryDisabled(candidateCountry.code) &&
+      candidateCountry.code !== country.code,
   );
   const regionCountries = otherCountries.filter((candidateCountry) =>
     candidateCountry.regions.includes(answerRegion),

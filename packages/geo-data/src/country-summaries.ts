@@ -1,6 +1,6 @@
 import countrySummariesData from "../generated/country-summaries.json";
 import countrySummaryCodesByNameData from "../generated/country-summary-codes-by-name.json";
-import type { Continent } from "./countries";
+import { isCountryDisabled, type Continent } from "./countries";
 import { type LocalizedText, type SupportedGeoLanguage } from "./geo-language";
 import type { MapRegionName } from "./map-definition";
 
@@ -34,11 +34,13 @@ function getCountrySummaryByCode(code: string) {
 }
 
 function toCountrySummariesByCode(codes: readonly string[]) {
-  return codes.map(getCountrySummaryByCode);
+  return codes
+    .filter((code) => !isCountryDisabled(code))
+    .map(getCountrySummaryByCode);
 }
 
 export const COUNTRY_SUMMARIES: readonly CountrySummary[] =
-  COUNTRY_SUMMARIES_DATA;
+  COUNTRY_SUMMARIES_DATA.filter((country) => !isCountryDisabled(country.code));
 
 export const COUNTRY_SUMMARIES_BY_NAME: Readonly<
   Record<SupportedGeoLanguage, readonly CountrySummary[]>

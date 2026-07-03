@@ -9,6 +9,7 @@ import { Pressable, View } from "react-native";
 
 import {
   COUNTRIES,
+  isCountryDisabled,
   type Country,
   type MapRegionName,
   type SupportedGeoLanguage,
@@ -414,7 +415,9 @@ function getEasyTextDistractorValues({
   const distractorCount = EASY_TEXT_ANSWER_OPTION_COUNT - 1;
   const correctNormalizedValue = normalizeQuizzTextAnswer(correctValue);
   const otherCountries = COUNTRIES.filter(
-    (candidateCountry) => candidateCountry.code !== country.code,
+    (candidateCountry) =>
+      !isCountryDisabled(candidateCountry.code) &&
+      candidateCountry.code !== country.code,
   );
   const regionCountries = otherCountries.filter((candidateCountry) =>
     candidateCountry.regions.includes(answerRegion),

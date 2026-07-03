@@ -5,7 +5,11 @@ import type {
   CountryMapPathResolution,
   OutlyingTerritory,
 } from "@geopoto/geo-data";
-import { COUNTRIES, OUTLYING_TERRITORIES } from "@geopoto/geo-data";
+import {
+  COUNTRIES,
+  isCountryDisabled,
+  OUTLYING_TERRITORIES,
+} from "@geopoto/geo-data";
 
 import type {
   MapViewerPathGroup,
@@ -169,6 +173,10 @@ function getCountryVisualStyle({
   country,
   highlights,
 }: GetCountryVisualStyleParams): StyledCountry | null {
+  if (isCountryDisabled(country.code)) {
+    return null;
+  }
+
   const highlightStyle = getMapEntityHighlightStyle({
     entity: country,
     highlights,
