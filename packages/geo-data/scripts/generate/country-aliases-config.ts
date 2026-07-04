@@ -238,6 +238,20 @@ export const COUNTRY_ALIASES_CONFIGS: Readonly<
       pt: ["Vietna"],
     },
   },
+  XS: {
+    name: {
+      es: ["Somaliland"],
+      pt: ["Somaliland"],
+    },
+    capital: {
+      de: ["Hargeysa"],
+      en: ["Hargeysa"],
+      es: ["Hargeysa"],
+      fr: ["Hargeysa"],
+      it: ["Hargeysa"],
+      pt: ["Hargeysa"],
+    },
+  },
 };
 
 export function getCountryNameAliases(

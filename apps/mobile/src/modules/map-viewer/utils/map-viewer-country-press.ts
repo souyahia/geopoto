@@ -5,7 +5,7 @@ import type {
   CountryMapPathResolution,
   MapBounds,
 } from "@geopoto/geo-data";
-import { COUNTRIES } from "@geopoto/geo-data";
+import { COUNTRIES, isCountryDisabled } from "@geopoto/geo-data";
 
 import type { MapViewerPathVisualState } from "./map-viewer-path-layer";
 import {
@@ -152,6 +152,10 @@ function getMapViewerCountryPressVisualState({
   country,
   highlights,
 }: GetMapViewerCountryPressVisualStateParams): MapViewerPathVisualState | null {
+  if (isCountryDisabled(country.code)) {
+    return null;
+  }
+
   const isCountryHighlighted = highlights.some((highlight) =>
     doesMapViewerTargetMatchEntity({
       entity: country,

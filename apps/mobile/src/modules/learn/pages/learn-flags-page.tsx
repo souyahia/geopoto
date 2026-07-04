@@ -143,6 +143,7 @@ function toFlagListItem({
   }
 
   return {
+    aspectRatio: flag.aspectRatio,
     code: country.code,
     colors: flag.colors,
     countryName: country.name[geoLang],

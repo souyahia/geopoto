@@ -35,3 +35,9 @@ export interface Country {
 }
 
 export const COUNTRIES = countriesData as readonly Country[];
+
+export const DISABLED_COUNTRY_CODES: ReadonlySet<string> = new Set(["IL"]);
+
+export function isCountryDisabled(code: string): boolean {
+  return DISABLED_COUNTRY_CODES.has(code);
+}

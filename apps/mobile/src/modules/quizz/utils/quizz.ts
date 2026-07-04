@@ -1,5 +1,5 @@
 import type { Country, MapRegionName } from "@geopoto/geo-data";
-import { COUNTRIES } from "@geopoto/geo-data";
+import { COUNTRIES, isCountryDisabled } from "@geopoto/geo-data";
 
 import type { AdaptiveHistoryEntry } from "@/modules/adaptive-difficulty/utils/adaptive-history-storage";
 import {
@@ -397,8 +397,10 @@ interface GetQuizzCountriesParams {
 }
 
 function getQuizzCountries({ regions }: GetQuizzCountriesParams): Country[] {
-  return COUNTRIES.filter((country) =>
-    regions.some((region) => country.regions.includes(region)),
+  return COUNTRIES.filter(
+    (country) =>
+      !isCountryDisabled(country.code) &&
+      regions.some((region) => country.regions.includes(region)),
   );
 }
 

@@ -40,8 +40,34 @@ const REST_COUNTRIES_SCHEMA = z.array(REST_COUNTRY_SCHEMA);
 
 export type RestCountry = z.infer<typeof REST_COUNTRY_SCHEMA>;
 
+// Somaliland is a de-facto independent state with no ISO 3166-1 code, so it is
+// absent from RestCountries entirely. We inject a synthetic record here using the
+// user-assigned code "XS" (consistent with Kosovo's "XK"). A null ccn3 forces the
+// map feature to be matched by name, which resolves to the world-atlas
+// "Somaliland" geometry and fills the gap left in the Horn of Africa.
+const SUPPLEMENTAL_REST_COUNTRIES: readonly RestCountry[] = [
+  {
+    capital: ["Hargeisa"],
+    cca2: "XS",
+    ccn3: null,
+    independent: false,
+    latlng: [9.5, 46.5],
+    name: { common: "Somaliland" },
+    region: "Africa",
+    subregion: "Eastern Africa",
+    translations: {
+      deu: { common: "Somaliland" },
+      fra: { common: "Somaliland" },
+      ita: { common: "Somaliland" },
+      por: { common: "Somalilândia" },
+      spa: { common: "Somalilandia" },
+    },
+    unMember: false,
+  },
+];
+
 // Also include Palestine because FREE PALESTINE <3
-const ADDITIONAL_INCLUDED_COUNTRY_CODES: readonly string[] = ["EH", "PS"];
+const ADDITIONAL_INCLUDED_COUNTRY_CODES: readonly string[] = ["EH", "PS", "XS"];
 
 function shouldIncludeCountry(country: RestCountry): boolean {
   const isRecognizedCountry = country.independent === true || country.unMember;
@@ -63,11 +89,13 @@ export async function loadRestCountryRecords(): Promise<
   readonly RestCountry[]
 > {
   const restCountries = await fetchJson(REST_COUNTRIES_URL);
-  return parseWithSchema({
+  const parsedRestCountries = parseWithSchema({
     schema: REST_COUNTRIES_SCHEMA,
     source: "RestCountries",
     value: restCountries,
   });
+
+  return [...parsedRestCountries, ...SUPPLEMENTAL_REST_COUNTRIES];
 }
 
 export async function loadRestCountries(): Promise<readonly RestCountry[]> {

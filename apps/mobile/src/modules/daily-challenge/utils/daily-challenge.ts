@@ -1,4 +1,4 @@
-import { COUNTRIES, type Country } from "@geopoto/geo-data";
+import { COUNTRIES, isCountryDisabled, type Country } from "@geopoto/geo-data";
 
 import {
   QUIZZ_ANSWER_FORMATS,
@@ -73,7 +73,10 @@ function getCompatibleDailyAnswerFormats({
 }
 
 function getDailyChallengeCountries(): readonly Country[] {
-  return COUNTRIES.filter((country) => country.regions.includes("world"))
+  return COUNTRIES.filter(
+    (country) =>
+      !isCountryDisabled(country.code) && country.regions.includes("world"),
+  )
     .slice()
     .sort((leftCountry, rightCountry) =>
       leftCountry.code.localeCompare(rightCountry.code),

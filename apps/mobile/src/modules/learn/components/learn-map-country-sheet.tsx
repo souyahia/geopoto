@@ -20,6 +20,7 @@ import { getRegionName } from "@/services/geo-data/regions";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 
 import { CountryInfoRow } from "./country-info-section";
+import { FreePalestineBadge } from "./free-palestine-badge";
 
 interface LearnMapCountrySheetProps {
   country: Country | null;
@@ -84,10 +85,14 @@ export function LearnMapCountrySheet({
                   containerClassName="border border-default"
                   width={LEARN_MAP_COUNTRY_FLAG_ICON_WIDTH}
                 />
-                <View className="min-w-0 flex-1 justify-center">
+                <View className="min-w-0 flex-1 justify-center gap-1">
                   <BottomSheet.Title className="text-xl font-semibold leading-7">
                     {countryInfo.countryName}
                   </BottomSheet.Title>
+                  <FreePalestineBadge
+                    className="self-start"
+                    countryCode={countryInfo.countryCode}
+                  />
                 </View>
                 <BottomSheet.Close
                   accessibilityLabel={t("learn.map.country-sheet.close")}

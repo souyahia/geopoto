@@ -165,7 +165,7 @@ function TrainingSessionQuestionContent({
         className="flex-1"
         keyboardShouldPersistTaps="handled"
       >
-        <PageContent className="gap-5 px-6 pb-8 pt-4">
+        <PageContent className="gap-4 px-6 pb-8 pt-4">
           <TrainingSessionQuestionBlocks
             answerDifficulty={answerDifficulty}
             answerRegion={answerRegion}
@@ -188,7 +188,7 @@ function TrainingSessionQuestionContent({
       className="flex-1"
       keyboardShouldPersistTaps="always"
     >
-      <PageContent className="gap-5 px-6 pb-8 pt-4">
+      <PageContent className="gap-4 px-6 pb-8 pt-4">
         <TrainingSessionQuestionBlocks
           answerDifficulty={answerDifficulty}
           answerRegion={answerRegion}

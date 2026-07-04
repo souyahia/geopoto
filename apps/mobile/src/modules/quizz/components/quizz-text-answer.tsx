@@ -9,6 +9,7 @@ import { Pressable, View } from "react-native";
 
 import {
   COUNTRIES,
+  isCountryDisabled,
   type Country,
   type MapRegionName,
   type SupportedGeoLanguage,
@@ -267,7 +268,7 @@ function EasyTextAnswer({
       <Text className={answerLabelClassName} type="body-sm" weight="semibold">
         {answerLabel}
       </Text>
-      <View className="gap-2">
+      <View className="gap-1.5">
         {options.map((option) => {
           const isSelected = option === selectedValue;
           const isCorrectOption =
@@ -320,11 +321,11 @@ function EasyTextAnswerOption({
   const content = (
     <View
       className={[
-        "min-h-12 justify-center rounded-xl border bg-field px-4 py-3",
+        "min-h-11 justify-center rounded-xl border bg-field px-4 py-2.5",
         getEasyTextAnswerOptionClassName({ isSelected, shouldUseSuccessStyle }),
       ].join(" ")}
     >
-      <Text type="body" weight="medium" numberOfLines={2}>
+      <Text type="body-sm" weight="medium" numberOfLines={2}>
         {value}
       </Text>
     </View>
@@ -414,7 +415,9 @@ function getEasyTextDistractorValues({
   const distractorCount = EASY_TEXT_ANSWER_OPTION_COUNT - 1;
   const correctNormalizedValue = normalizeQuizzTextAnswer(correctValue);
   const otherCountries = COUNTRIES.filter(
-    (candidateCountry) => candidateCountry.code !== country.code,
+    (candidateCountry) =>
+      !isCountryDisabled(candidateCountry.code) &&
+      candidateCountry.code !== country.code,
   );
   const regionCountries = otherCountries.filter((candidateCountry) =>
     candidateCountry.regions.includes(answerRegion),

@@ -10,6 +10,7 @@ import type {
   CountryFlagColorCoverage,
 } from "../../src/flag-colors.ts";
 import {
+  CUSTOM_FLAGS_DIRECTORY,
   FLAG_COLOR_SAMPLE_MAX_SIZE,
   FLAG_PNG_MAX_SIZE,
   FLAG_THUMBNAIL_PNG_MAX_SIZE,
@@ -113,6 +114,31 @@ function toFlagPngFileName(code: string, scale = 1): string {
 
 function toFlagSourcePath(code: string): string {
   return resolve(FLAG_SOURCE_DIRECTORY, toFlagFileName(code));
+}
+
+function toCustomFlagSourcePath(code: string): string {
+  return resolve(CUSTOM_FLAGS_DIRECTORY, toFlagFileName(code));
+}
+
+// Countries without an ISO code (e.g. Somaliland) are not in svg-country-flags,
+// so we vendor their flag under assets/custom-flags and prefer it when present.
+async function readCountryFlagSvg(code: string): Promise<string> {
+  const customFlagSvg = await readFile(
+    toCustomFlagSourcePath(code),
+    "utf8",
+  ).catch(() => null);
+
+  if (customFlagSvg !== null) {
+    return customFlagSvg;
+  }
+
+  const sourcePath = toFlagSourcePath(code);
+
+  return readFile(sourcePath, "utf8").catch((error: unknown) => {
+    throw new Error(`Missing flag for ${code} at ${sourcePath}`, {
+      cause: error,
+    });
+  });
 }
 
 function toGeneratedFlagPath(code: string): string {
@@ -279,12 +305,7 @@ export async function buildCountryFlags({
 }: BuildCountryFlagsParams): Promise<GeneratedFlagArtifacts> {
   const countryFlagAssets = await Promise.all(
     countries.map(async (country) => {
-      const sourcePath = toFlagSourcePath(country.code);
-      const svg = await readFile(sourcePath, "utf8").catch((error: unknown) => {
-        throw new Error(`Missing flag for ${country.code} at ${sourcePath}`, {
-          cause: error,
-        });
-      });
+      const svg = await readCountryFlagSvg(country.code);
       const flag = buildCountryFlag({
         code: country.code,
         svg,

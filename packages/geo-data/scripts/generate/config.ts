@@ -6,6 +6,10 @@ import type { RestCountriesTranslationConfig } from "./types.ts";
 const CURRENT_DIRECTORY = dirname(fileURLToPath(import.meta.url));
 
 export const PACKAGE_DIRECTORY = resolve(CURRENT_DIRECTORY, "../..");
+export const CUSTOM_FLAGS_DIRECTORY = resolve(
+  PACKAGE_DIRECTORY,
+  "assets/custom-flags",
+);
 export const GENERATED_DIRECTORY = resolve(PACKAGE_DIRECTORY, "generated");
 export const GENERATED_FLAGS_DIRECTORY = resolve(GENERATED_DIRECTORY, "flags");
 export const GENERATED_FLAG_PNGS_DIRECTORY = resolve(
