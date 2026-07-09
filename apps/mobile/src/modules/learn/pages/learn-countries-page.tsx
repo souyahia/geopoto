@@ -23,8 +23,13 @@ import {
   CountryListItem,
 } from "../components/country-list-item";
 import { LearnHeader } from "../components/learn-header";
+import { LearnRegionFilterSelect } from "../components/learn-region-filter-select";
 import { LearnSearchField } from "../components/learn-search-field";
 import { filterCountries } from "../utils/country-search";
+import {
+  filterCountrySummariesByRegion,
+  useLearnRegionFilter,
+} from "../utils/learn-region-filter";
 
 const COUNTRY_LIST_INITIAL_ITEMS = 12;
 const COUNTRY_LIST_WINDOW_SIZE = 7;
@@ -64,16 +69,25 @@ export function LearnCountriesPage() {
   const { geoLang } = useGeoLangStore();
   const listRef = useRef<FlatList<CountrySummary>>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const { selectedRegion, setSelectedRegion } = useLearnRegionFilter();
   const sortedCountries = COUNTRY_SUMMARIES_BY_NAME[geoLang];
+  const regionCountries = useMemo(
+    () =>
+      filterCountrySummariesByRegion({
+        countries: sortedCountries,
+        region: selectedRegion,
+      }),
+    [selectedRegion, sortedCountries],
+  );
 
   const countries = useMemo(
-    () => filterCountries({ countries: sortedCountries, geoLang, searchQuery }),
-    [geoLang, searchQuery, sortedCountries],
+    () => filterCountries({ countries: regionCountries, geoLang, searchQuery }),
+    [geoLang, regionCountries, searchQuery],
   );
 
   useEffect(() => {
     listRef.current?.scrollToOffset({ offset: 0, animated: false });
-  }, [searchQuery]);
+  }, [searchQuery, selectedRegion]);
 
   const renderCountryItem = useCallback(
     (props: ListRenderItemInfo<CountrySummary>) => {
@@ -93,13 +107,17 @@ export function LearnCountriesPage() {
   return (
     <View className="flex-1 p-safe">
       <LearnHeader title={t("learn.countries.title")} />
-      <PageContent className="px-6 pb-3 pt-4">
+      <PageContent className="gap-3 px-6 pb-3 pt-4">
         <LearnSearchField
           accessibilityLabel={t("learn.countries.search.label")}
           clearAccessibilityLabel={t("learn.countries.search.clear")}
           onChange={setSearchQuery}
           placeholder={t("learn.countries.search.placeholder")}
           value={searchQuery}
+        />
+        <LearnRegionFilterSelect
+          onSelectedRegionChange={setSelectedRegion}
+          selectedRegion={selectedRegion}
         />
       </PageContent>
       <FlatList

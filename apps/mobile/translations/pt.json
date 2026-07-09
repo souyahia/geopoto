@@ -245,6 +245,9 @@
     }
   },
   "learn": {
+    "region-filter": {
+      "select-label": "Filtrar por região"
+    },
     "title": "Aprender",
     "settings": "Definições",
     "map": {
