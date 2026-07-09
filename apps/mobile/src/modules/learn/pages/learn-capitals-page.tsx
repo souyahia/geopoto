@@ -23,11 +23,16 @@ import {
   CapitalListItem,
 } from "../components/capital-list-item";
 import { LearnHeader } from "../components/learn-header";
+import { LearnRegionFilterSelect } from "../components/learn-region-filter-select";
 import { LearnSearchField } from "../components/learn-search-field";
 import {
   filterCapitals,
   type CapitalSearchItem,
 } from "../utils/capital-search";
+import {
+  filterCountrySummariesByRegion,
+  useLearnRegionFilter,
+} from "../utils/learn-region-filter";
 
 interface CapitalListData extends CapitalSearchItem {
   code: string;
@@ -125,10 +130,19 @@ export function LearnCapitalsPage() {
   const { geoLang } = useGeoLangStore();
   const listRef = useRef<FlatList<CapitalListData>>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const { selectedRegion, setSelectedRegion } = useLearnRegionFilter();
+  const regionSummaries = useMemo(
+    () =>
+      filterCountrySummariesByRegion({
+        countries: COUNTRY_SUMMARIES,
+        region: selectedRegion,
+      }),
+    [selectedRegion],
+  );
 
   const sortedCapitals = useMemo(
-    () => getCapitalListData({ countries: COUNTRY_SUMMARIES, geoLang }),
-    [geoLang],
+    () => getCapitalListData({ countries: regionSummaries, geoLang }),
+    [geoLang, regionSummaries],
   );
 
   const capitals = useMemo(
@@ -138,7 +152,7 @@ export function LearnCapitalsPage() {
 
   useEffect(() => {
     listRef.current?.scrollToOffset({ offset: 0, animated: false });
-  }, [searchQuery]);
+  }, [searchQuery, selectedRegion]);
 
   const renderCapitalItem = useCallback(
     (props: ListRenderItemInfo<CapitalListData>) => {
@@ -158,13 +172,17 @@ export function LearnCapitalsPage() {
   return (
     <View className="flex-1 p-safe">
       <LearnHeader title={t("learn.capitals.title")} />
-      <PageContent className="px-6 pb-3 pt-4">
+      <PageContent className="gap-3 px-6 pb-3 pt-4">
         <LearnSearchField
           accessibilityLabel={t("learn.capitals.search.label")}
           clearAccessibilityLabel={t("learn.capitals.search.clear")}
           onChange={setSearchQuery}
           placeholder={t("learn.capitals.search.placeholder")}
           value={searchQuery}
+        />
+        <LearnRegionFilterSelect
+          onSelectedRegionChange={setSelectedRegion}
+          selectedRegion={selectedRegion}
         />
       </PageContent>
       <FlatList

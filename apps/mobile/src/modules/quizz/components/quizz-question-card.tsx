@@ -614,9 +614,9 @@ function CountrySelectionAnswer({
         centersOn={centerTarget}
         className={answerMapClassName}
         highlights={highlights}
-        isInteractive={!isDisabled}
+        isInteractive={!isDisabled || shouldShowCorrectAnswer}
         onCountryPressed={isDisabled ? undefined : setSelectedCountry}
-        shouldLimitZoomOutToInitialViewport
+        shouldLimitZoomOutToInitialViewport={!shouldShowCorrectAnswer}
       />
       <HapticButton
         isDisabled={isAnswerButtonDisabled}

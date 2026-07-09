@@ -30,8 +30,13 @@ import {
   type FlagGridItemData,
 } from "../components/flag-grid-item";
 import { LearnHeader } from "../components/learn-header";
+import { LearnRegionFilterSelect } from "../components/learn-region-filter-select";
 import { LearnSearchField } from "../components/learn-search-field";
 import { filterFlags, type FlagSearchItem } from "../utils/flag-search";
+import {
+  filterCountrySummariesByRegion,
+  useLearnRegionFilter,
+} from "../utils/learn-region-filter";
 
 interface FlagListItem extends FlagGridItemData, FlagSearchItem {
   colors: readonly CountryFlagColor[];
@@ -162,7 +167,16 @@ export function LearnFlagsPage() {
   const [selectedColors, setSelectedColors] = useState<
     readonly CountryFlagColor[]
   >([]);
+  const { selectedRegion, setSelectedRegion } = useLearnRegionFilter();
   const sortedCountries = COUNTRY_SUMMARIES_BY_NAME[geoLang];
+  const regionCountries = useMemo(
+    () =>
+      filterCountrySummariesByRegion({
+        countries: sortedCountries,
+        region: selectedRegion,
+      }),
+    [selectedRegion, sortedCountries],
+  );
   const flagGridMetrics = useMemo(
     () =>
       getFlagGridMetrics({
@@ -171,8 +185,8 @@ export function LearnFlagsPage() {
     [width],
   );
   const allFlags = useMemo(
-    () => getFlagListItems({ countries: sortedCountries, geoLang }),
-    [geoLang, sortedCountries],
+    () => getFlagListItems({ countries: regionCountries, geoLang }),
+    [geoLang, regionCountries],
   );
   const flags = useMemo(
     () => filterFlags({ flags: allFlags, searchQuery, selectedColors }),
@@ -181,7 +195,7 @@ export function LearnFlagsPage() {
 
   useEffect(() => {
     listRef.current?.scrollToOffset({ animated: false, offset: 0 });
-  }, [searchQuery, selectedColors]);
+  }, [searchQuery, selectedColors, selectedRegion]);
 
   const getFlagGridItemLayout = useCallback(
     (_data: ArrayLike<FlagListItem> | null | undefined, index: number) => ({
@@ -232,6 +246,10 @@ export function LearnFlagsPage() {
           onChange={setSearchQuery}
           placeholder={t("learn.flags.search.placeholder")}
           value={searchQuery}
+        />
+        <LearnRegionFilterSelect
+          onSelectedRegionChange={setSelectedRegion}
+          selectedRegion={selectedRegion}
         />
         <FlagColorFilterSelect
           onSelectedColorsChange={setSelectedColors}
