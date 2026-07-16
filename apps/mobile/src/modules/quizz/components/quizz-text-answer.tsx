@@ -93,6 +93,8 @@ function HardTextAnswer({
   shouldShowCorrectAnswer,
 }: TextAnswerContentProps) {
   const { t } = useTranslation();
+  const { geoLang } = useGeoLangStore();
+  const countryName = country.name[geoLang];
   const [answerValue, setAnswerValue] = useState("");
   const [badgeWidth, setBadgeWidth] = useState(0);
   const { icon: BadgeIcon, label: badgeLabel } = getTextAnswerBadge({
@@ -182,6 +184,12 @@ function HardTextAnswer({
           value={answerValue}
         />
       </View>
+      {shouldShowCorrectAnswer && (
+        <TextAnswerCorrectCountryHint
+          answerFormat={answerFormat}
+          countryName={countryName}
+        />
+      )}
       <HapticButton
         isDisabled={isSubmitDisabled}
         onPress={handleButtonPress}
@@ -210,6 +218,7 @@ function EasyTextAnswer({
 }: TextAnswerContentProps) {
   const { t } = useTranslation();
   const { geoLang } = useGeoLangStore();
+  const countryName = country.name[geoLang];
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const options = useMemo(
     () =>
@@ -286,6 +295,12 @@ function EasyTextAnswer({
           );
         })}
       </View>
+      {shouldShowCorrectAnswer && (
+        <TextAnswerCorrectCountryHint
+          answerFormat={answerFormat}
+          countryName={countryName}
+        />
+      )}
       <HapticButton
         isDisabled={isAnswerButtonDisabled}
         onPress={handleButtonPress}
@@ -299,6 +314,30 @@ function EasyTextAnswer({
         <HapticButton.Label>{answerButtonLabel}</HapticButton.Label>
       </HapticButton>
     </View>
+  );
+}
+
+interface TextAnswerCorrectCountryHintProps {
+  answerFormat: TextAnswerFormat;
+  countryName: string;
+}
+
+function TextAnswerCorrectCountryHint({
+  answerFormat,
+  countryName,
+}: TextAnswerCorrectCountryHintProps) {
+  const { t } = useTranslation();
+
+  if (answerFormat !== "country-capital") {
+    return null;
+  }
+
+  return (
+    <Text color="muted" type="body-sm" weight="medium">
+      {t("train.session.answer.correct-answer-country", {
+        country: countryName,
+      })}
+    </Text>
   );
 }
 

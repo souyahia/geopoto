@@ -146,6 +146,7 @@
         "confirm": "Conferma",
         "next": "Avanti",
         "correct-answer-label": "Risposta corretta:",
+        "correct-answer-country": "Paese: {{country}}",
         "flag-option-label": "Seleziona la bandiera di {{country}}",
         "flag-empty": "Nessuna bandiera corrisponde a questi colori."
       },

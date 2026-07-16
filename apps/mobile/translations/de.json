@@ -146,6 +146,7 @@
         "confirm": "Bestätigen",
         "next": "Weiter",
         "correct-answer-label": "Richtige Antwort:",
+        "correct-answer-country": "Land: {{country}}",
         "flag-option-label": "Flagge von {{country}} auswählen",
         "flag-empty": "Keine Flaggen passen zu diesen Farben."
       },

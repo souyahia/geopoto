@@ -146,6 +146,7 @@
         "confirm": "Confirmer",
         "next": "Suivant",
         "correct-answer-label": "La bonne réponse :",
+        "correct-answer-country": "Pays : {{country}}",
         "flag-option-label": "Sélectionner le drapeau de {{country}}",
         "flag-empty": "Aucun drapeau ne correspond à ces couleurs."
       },
