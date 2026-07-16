@@ -11,7 +11,9 @@
     <a href="https://apps.apple.com/fr/app/geopoto/id6775186079">
       <img alt="Download on the App Store" src="https://img.shields.io/badge/App_Store-Download-0D96F6?style=for-the-badge&logo=apple&logoColor=white" />
     </a>
-    <img alt="Google Play coming soon" src="https://img.shields.io/badge/Google_Play-Coming_soon-9E9E9E?style=for-the-badge&logo=googleplay&logoColor=white" />
+    <a href="https://play.google.com/store/apps/details?id=com.souyahia.geopoto">
+      <img alt="Get it on Google Play" src="https://img.shields.io/badge/Google_Play-Download-48B563?style=for-the-badge&logo=googleplay&logoColor=white" />
+    </a>
   </p>
 </div>
 
