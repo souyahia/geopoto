@@ -3539,12 +3539,12 @@
     "code": "SZ",
     "continent": "africa",
     "name": {
-      "de": "Swasiland",
+      "de": "Eswatini",
       "en": "Eswatini",
-      "es": "Suazilandia",
-      "fr": "Swaziland",
-      "it": "Swaziland",
-      "pt": "Suazilândia"
+      "es": "Eswatini",
+      "fr": "Eswatini",
+      "it": "Eswatini",
+      "pt": "Eswatini"
     },
     "regions": ["world", "africa"]
   },

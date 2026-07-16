@@ -192,12 +192,12 @@ export const COUNTRY_ALIASES_CONFIGS: Readonly<
   },
   SZ: {
     name: {
-      de: ["Eswatini"],
+      de: ["Swasiland"],
       en: ["Swaziland"],
-      es: ["Esuatini", "Eswatini"],
-      fr: ["Eswatini"],
-      it: ["Eswatini"],
-      pt: ["Essuatini", "Eswatini"],
+      es: ["Suazilandia", "Esuatini"],
+      fr: ["Swaziland"],
+      it: ["Swaziland"],
+      pt: ["Suazilândia", "Essuatini"],
     },
   },
   TL: {

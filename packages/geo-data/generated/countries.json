@@ -5951,20 +5951,20 @@
       }
     },
     "name": {
-      "de": "Swasiland",
+      "de": "Eswatini",
       "en": "Eswatini",
-      "es": "Suazilandia",
-      "fr": "Swaziland",
-      "it": "Swaziland",
-      "pt": "Suazilândia"
+      "es": "Eswatini",
+      "fr": "Eswatini",
+      "it": "Eswatini",
+      "pt": "Eswatini"
     },
     "nameAliases": {
-      "de": ["Eswatini"],
+      "de": ["Swasiland"],
       "en": ["Swaziland"],
-      "es": ["Esuatini", "Eswatini"],
-      "fr": ["Eswatini"],
-      "it": ["Eswatini"],
-      "pt": ["Essuatini", "Eswatini"]
+      "es": ["Suazilandia", "Esuatini"],
+      "fr": ["Swaziland"],
+      "it": ["Swaziland"],
+      "pt": ["Suazilândia", "Essuatini"]
     },
     "regions": ["world", "africa"]
   },
