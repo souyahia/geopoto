@@ -14,6 +14,7 @@ import type {
   MapRegion,
 } from "../../src/map-definition.ts";
 import type { OutlyingTerritory } from "../../src/outlying-territories.ts";
+import { MAP_REGION_BOUNDS_ANCHORS } from "./config.ts";
 import { buildCountryCoreFeature } from "./country-core.ts";
 import {
   ANTIMERIDIAN_DISPLAY_WRAP_COUNTRY_CODES,
@@ -160,6 +161,10 @@ interface ValidateMapRegionNavigationBoundsParams {
   countries: readonly Country[];
   mapRegions: readonly MapRegion[];
   outlyingTerritories: readonly OutlyingTerritory[];
+}
+
+interface ValidateMapRegionBoundsAnchorsParams {
+  mapRegions: readonly MapRegion[];
 }
 
 interface ValidateContainedMapBoundsParams {
@@ -348,6 +353,7 @@ export function validateGeographyGenerationInvariants({
     mapRegions,
     outlyingTerritories,
   });
+  validateMapRegionBoundsAnchors({ mapRegions });
   validateKnownCountryCoreExclusions({
     highResolutionFeatureLookup,
     lowResolutionFeatureLookup,
@@ -586,11 +592,15 @@ function validateMapRegionNavigationBounds({
   outlyingTerritories,
 }: ValidateMapRegionNavigationBoundsParams): void {
   for (const region of mapRegions) {
+    // Regions with curated framing anchors intentionally crop members out of the
+    // initial-view bounds, so the "bounds contain every member" invariant does
+    // not apply to them.
+    if (MAP_REGION_BOUNDS_ANCHORS[region.name] !== undefined) {
+      continue;
+    }
+
     const regionCountries = countries.filter((country) =>
       country.regions.includes(region.name),
-    );
-    const regionOutlyingTerritories = outlyingTerritories.filter(
-      (outlyingTerritory) => outlyingTerritory.regions.includes(region.name),
     );
 
     for (const country of regionCountries) {
@@ -615,6 +625,16 @@ function validateMapRegionNavigationBounds({
       });
     }
 
+    // Outlying territories only frame (and must be contained by) the world
+    // region; continents are framed by their member countries alone.
+    if (region.name !== "world") {
+      continue;
+    }
+
+    const regionOutlyingTerritories = outlyingTerritories.filter(
+      (outlyingTerritory) => outlyingTerritory.regions.includes(region.name),
+    );
+
     for (const outlyingTerritory of regionOutlyingTerritories) {
       validateContainedMapBounds({
         bounds: region.bounds,
@@ -624,6 +644,29 @@ function validateMapRegionNavigationBounds({
         regionName: region.name,
       });
     }
+  }
+}
+
+function validateMapRegionBoundsAnchors({
+  mapRegions,
+}: ValidateMapRegionBoundsAnchorsParams): void {
+  for (const region of mapRegions) {
+    if (MAP_REGION_BOUNDS_ANCHORS[region.name] === undefined) {
+      continue;
+    }
+
+    const hasFiniteBounds = areMapBoundsFinite({ bounds: region.bounds });
+    const hasPositiveBounds =
+      region.bounds.maxX > region.bounds.minX &&
+      region.bounds.maxY > region.bounds.minY;
+
+    if (hasFiniteBounds && hasPositiveBounds) {
+      continue;
+    }
+
+    throw new Error(
+      `Generation invariant failed: map region ${region.name} has invalid curated bounds. Check its bounds anchors.`,
+    );
   }
 }
 

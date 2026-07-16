@@ -91,7 +91,22 @@ async function generateGeoData(): Promise<void> {
     projection,
     restCountries: restCountryRecords,
   });
-  const mapRegions = buildMapRegions({ countries, outlyingTerritories });
+  const latitudeToY = (latitude: number): number => {
+    const point = projection([0, latitude]);
+
+    if (point === null) {
+      throw new Error(
+        `Cannot project latitude ${latitude} to a map Y coordinate.`,
+      );
+    }
+
+    return point[1];
+  };
+  const mapRegions = buildMapRegions({
+    countries,
+    latitudeToY,
+    outlyingTerritories,
+  });
   const generatedJsonFiles = buildGeneratedData({
     countries,
     countryFlags: countryFlags.flags,
