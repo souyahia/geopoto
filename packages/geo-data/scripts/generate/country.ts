@@ -11,9 +11,9 @@ import {
   getCountryCapitalAliases,
   getCountryNameAliases,
 } from "./country-aliases-config.ts";
-import { getCountryNameOverride } from "./country-name-overrides-config.ts";
 import { buildCountryCoreFeature } from "./country-core.ts";
 import { buildCountryMap } from "./country-map.ts";
+import { getCountryNameOverride } from "./country-name-overrides-config.ts";
 import { buildCountryPressArea } from "./country-press-area.ts";
 import { buildLocalizedText } from "./localized-text.ts";
 import { getOutlyingTerritoryCodes } from "./outlying-territory-config.ts";

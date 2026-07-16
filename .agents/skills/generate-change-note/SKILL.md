@@ -148,4 +148,3 @@ Once the change note file is written:
 
 1. Run the formatter from the root of the repository with `pnpm format:fix` so the new file matches the project formatting.
 2. Commit all of the changes.
-
