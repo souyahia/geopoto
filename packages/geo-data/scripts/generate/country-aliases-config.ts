@@ -1355,7 +1355,7 @@ export const COUNTRY_ALIASES_CONFIGS: Readonly<
       de: ["Surinam"],
       en: ["Surinam", "Dutch Guiana"],
       es: ["Suriname"],
-      fr: ["Suriname"],
+      fr: ["Surinam"],
       pt: ["Surinam"],
     },
   },

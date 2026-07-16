@@ -6696,7 +6696,7 @@
       "de": "Suriname",
       "en": "Suriname",
       "es": "Surinam",
-      "fr": "Surinam",
+      "fr": "Suriname",
       "it": "Suriname",
       "pt": "Suriname"
     },
@@ -6704,7 +6704,7 @@
       "de": ["Surinam"],
       "en": ["Surinam", "Dutch Guiana"],
       "es": ["Suriname"],
-      "fr": ["Suriname"],
+      "fr": ["Surinam"],
       "pt": ["Surinam"]
     },
     "regions": ["world", "south-america"]

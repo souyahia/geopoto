@@ -14,6 +14,11 @@ import type { SupportedGeoLanguage } from "../../src/geo-language.ts";
 export const COUNTRY_NAME_OVERRIDES: Readonly<
   Record<string, Partial<Record<SupportedGeoLanguage, string>>>
 > = {
+  // Prefer the more common French spelling "Suriname" over RestCountries'
+  // "Surinam" (the "Surinam" form stays accepted via the aliases config).
+  SR: {
+    fr: "Suriname",
+  },
   // Eswatini was renamed from Swaziland in 2018, but RestCountries still returns
   // the old "Swaziland"-derived name in every language.
   SZ: {
