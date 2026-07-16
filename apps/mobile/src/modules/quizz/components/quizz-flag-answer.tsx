@@ -361,9 +361,17 @@ function filterFlagAnswerCountries({
     return countries;
   }
 
-  return countries.filter((country) =>
+  const matchingCountries = countries.filter((country) =>
     hasSelectedFlagColors({ country, selectedColors }),
   );
+  const exactColorCountries = matchingCountries.filter((country) =>
+    hasExactFlagColors({ country, selectedColors }),
+  );
+  const additionalColorCountries = matchingCountries.filter(
+    (country) => !hasExactFlagColors({ country, selectedColors }),
+  );
+
+  return [...exactColorCountries, ...additionalColorCountries];
 }
 
 function hasSelectedFlagColors({
@@ -371,6 +379,13 @@ function hasSelectedFlagColors({
   selectedColors,
 }: HasSelectedFlagColorsParams) {
   return selectedColors.every((color) => country.colors.includes(color));
+}
+
+function hasExactFlagColors({
+  country,
+  selectedColors,
+}: HasSelectedFlagColorsParams) {
+  return country.colors.every((color) => selectedColors.includes(color));
 }
 
 function getVisibleFlagAnswerRows({
