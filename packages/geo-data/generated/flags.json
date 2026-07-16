@@ -4511,13 +4511,14 @@
     "aspectRatio": 2,
     "code": "SS",
     "colorCoverage": {
-      "green": 0.2614,
+      "green": 0.2622,
       "black": 0.2584,
-      "blue": 0.217,
-      "red": 0.1928,
-      "white": 0.0673
+      "blue": 0.2022,
+      "red": 0.1927,
+      "white": 0.0673,
+      "yellow": 0.0142
     },
-    "colors": ["green", "black", "blue", "red", "white"],
+    "colors": ["green", "black", "blue", "red", "white", "yellow"],
     "lowResolutionPng": {
       "height": 16,
       "width": 32
