@@ -59,10 +59,12 @@
     "title": "Quiz aléatoire",
     "settings": "Paramètres",
     "region": {
-      "title": "Région",
-      "description": "Cible une région de la carte pour ta session.",
-      "select-label": "Région d’entraînement",
-      "placeholder": "Choisis une région"
+      "title": "Régions",
+      "description": "Cible une ou plusieurs régions de la carte pour ta session.",
+      "select-label": "Régions d’entraînement",
+      "placeholder": "Choisis des régions",
+      "all": "Toutes les régions",
+      "selected": "{{count}} sélectionnées"
     },
     "question-formats": {
       "title": "Formats de question",
@@ -144,6 +146,7 @@
         "confirm": "Confirmer",
         "next": "Suivant",
         "correct-answer-label": "La bonne réponse :",
+        "correct-answer-country": "Pays : {{country}}",
         "flag-option-label": "Sélectionner le drapeau de {{country}}",
         "flag-empty": "Aucun drapeau ne correspond à ces couleurs."
       },

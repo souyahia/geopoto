@@ -59,10 +59,12 @@
     "title": "Quiz aleatório",
     "settings": "Definições",
     "region": {
-      "title": "Região",
-      "description": "Concentre a sessão numa região do mapa.",
-      "select-label": "Região de treino",
-      "placeholder": "Selecione uma região"
+      "title": "Regiões",
+      "description": "Concentre a sessão numa ou mais regiões do mapa.",
+      "select-label": "Regiões de treino",
+      "placeholder": "Selecione regiões",
+      "all": "Todas as regiões",
+      "selected": "{{count}} selecionadas"
     },
     "question-formats": {
       "title": "Formatos de pergunta",
@@ -144,6 +146,7 @@
         "confirm": "Confirmar",
         "next": "Seguinte",
         "correct-answer-label": "Resposta correta:",
+        "correct-answer-country": "País: {{country}}",
         "flag-option-label": "Selecionar a bandeira de {{country}}",
         "flag-empty": "Nenhuma bandeira corresponde a estas cores."
       },

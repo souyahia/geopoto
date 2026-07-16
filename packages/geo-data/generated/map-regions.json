@@ -1,73 +1,73 @@
 [
   {
     "bounds": {
-      "maxX": 822.459,
-      "maxY": 375.894,
-      "minX": 227.761,
-      "minY": -11.358
+      "maxX": 798.565,
+      "maxY": 352,
+      "minX": 251.655,
+      "minY": 12.536
     },
     "name": "world"
   },
   {
     "bounds": {
-      "maxX": 589.24,
-      "maxY": 331.865,
-      "minX": 455.847,
-      "minY": 186.22
+      "maxX": 583.205,
+      "maxY": 303.718,
+      "minX": 461.882,
+      "minY": 192.255
     },
     "name": "africa"
   },
   {
     "bounds": {
-      "maxX": 458.343,
-      "maxY": 350.721,
-      "minX": 341.32,
-      "minY": 225.908
+      "maxX": 453.329,
+      "maxY": 345.707,
+      "minX": 346.334,
+      "minY": 230.922
     },
     "name": "south-america"
   },
   {
     "bounds": {
-      "maxX": 497.603,
-      "maxY": 253.416,
-      "minX": 246.149,
-      "minY": 7.03
+      "maxX": 429.381,
+      "maxY": 242.454,
+      "minX": 257.111,
+      "minY": 103.472
     },
     "name": "north-america"
   },
   {
     "bounds": {
-      "maxX": 712.559,
-      "maxY": 275.259,
-      "minX": 525.639,
-      "minY": 147.187
+      "maxX": 705.048,
+      "maxY": 267.748,
+      "minX": 533.15,
+      "minY": 154.698
     },
     "name": "asia"
   },
   {
     "bounds": {
-      "maxX": 782.728,
-      "maxY": 228.482,
-      "minX": 438.089,
-      "minY": 21.271
+      "maxX": 557.079,
+      "maxY": 199.506,
+      "minX": 464.661,
+      "minY": 123.61
     },
     "name": "europe"
   },
   {
     "bounds": {
-      "maxX": 798.627,
-      "maxY": 349.273,
-      "minX": 648.792,
-      "minY": 210.303
+      "maxX": 792.607,
+      "maxY": 327.167,
+      "minX": 654.812,
+      "minY": 230.993
     },
     "name": "oceania"
   },
   {
     "bounds": {
-      "maxX": 419.942,
-      "maxY": 238.292,
-      "minX": 379.959,
-      "minY": 208.32
+      "maxX": 418.335,
+      "maxY": 236.685,
+      "minX": 381.566,
+      "minY": 209.927
     },
     "name": "caribbean"
   }

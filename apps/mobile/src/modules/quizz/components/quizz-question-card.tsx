@@ -20,6 +20,7 @@ import type {
   MapViewerHighlight,
   MapViewerHighlightTarget,
 } from "@/modules/map-viewer/utils/map-viewer-viewport";
+import { getRegionsCenterTarget } from "@/modules/map-viewer/utils/map-viewer-viewport";
 import { ThemedIcon } from "@/services/theme/themed-icon";
 import { useGeoLangStore } from "@/utils/language/geo-lang-store";
 
@@ -61,7 +62,7 @@ type QuizzAnswerFeedback =
 interface QuizzQuestionCardProps {
   answerDifficulty: AnswerDifficulty;
   answerFormat: QuizzFormat;
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   country: Country;
   onAnswerResolved?: (resolution: QuizzAnswerResolution) => void;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
@@ -76,7 +77,7 @@ export interface QuizzAnswerResolution {
 export function QuizzQuestionCard({
   answerDifficulty,
   answerFormat,
-  answerRegion,
+  answerRegions,
   country,
   onAnswerResolved,
   onAnswerSubmit,
@@ -194,7 +195,7 @@ export function QuizzQuestionCard({
         <QuizzQuestionAnswer
           answerDifficulty={answerDifficulty}
           answerFormat={answerFormat}
-          answerRegion={answerRegion}
+          answerRegions={answerRegions}
           capitalName={capitalName}
           countryCode={country.code}
           country={country}
@@ -411,7 +412,7 @@ function CountryPositionQuestion({ country }: CountryPositionQuestionProps) {
 interface QuizzQuestionAnswerProps {
   answerDifficulty: AnswerDifficulty;
   answerFormat: QuizzFormat;
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   capitalName: string;
   country: Country;
   countryCode: string;
@@ -425,7 +426,7 @@ interface QuizzQuestionAnswerProps {
 function QuizzQuestionAnswer({
   answerDifficulty,
   answerFormat,
-  answerRegion,
+  answerRegions,
   capitalName,
   country,
   countryCode,
@@ -441,7 +442,7 @@ function QuizzQuestionAnswer({
         <QuizzTextAnswer
           answerDifficulty={answerDifficulty}
           answerFormat={answerFormat}
-          answerRegion={answerRegion}
+          answerRegions={answerRegions}
           correctAnswer={countryName}
           country={country}
           isDisabled={isDisabled}
@@ -456,7 +457,7 @@ function QuizzQuestionAnswer({
         <QuizzTextAnswer
           answerDifficulty={answerDifficulty}
           answerFormat={answerFormat}
-          answerRegion={answerRegion}
+          answerRegions={answerRegions}
           correctAnswer={capitalName}
           country={country}
           isDisabled={isDisabled}
@@ -470,7 +471,7 @@ function QuizzQuestionAnswer({
       return (
         <QuizzFlagAnswer
           answerDifficulty={answerDifficulty}
-          answerRegion={answerRegion}
+          answerRegions={answerRegions}
           country={country}
           countryName={countryName}
           isDisabled={isDisabled}
@@ -483,7 +484,7 @@ function QuizzQuestionAnswer({
     case "country-position":
       return (
         <CountrySelectionAnswer
-          answerRegion={answerRegion}
+          answerRegions={answerRegions}
           country={country}
           countryCode={countryCode}
           countryName={countryName}
@@ -502,7 +503,7 @@ function QuizzQuestionAnswer({
 }
 
 interface CountrySelectionAnswerProps {
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   country: Country;
   countryCode: string;
   countryName: string;
@@ -513,7 +514,7 @@ interface CountrySelectionAnswerProps {
 }
 
 function CountrySelectionAnswer({
-  answerRegion,
+  answerRegions,
   country,
   countryCode,
   countryName,
@@ -528,13 +529,12 @@ function CountrySelectionAnswer({
     ? country
     : selectedCountry;
   const activeTargets = useMemo<readonly MapViewerHighlightTarget[]>(
-    () => [
-      {
-        region: answerRegion,
+    () =>
+      answerRegions.map((region) => ({
+        region,
         type: "region",
-      },
-    ],
-    [answerRegion],
+      })),
+    [answerRegions],
   );
   const centerTarget = useMemo<MapViewerCenterTarget>(() => {
     if (shouldShowCorrectAnswer) {
@@ -544,11 +544,8 @@ function CountrySelectionAnswer({
       };
     }
 
-    return {
-      region: answerRegion,
-      type: "region",
-    };
-  }, [answerRegion, country, shouldShowCorrectAnswer]);
+    return getRegionsCenterTarget(answerRegions);
+  }, [answerRegions, country, shouldShowCorrectAnswer]);
   const highlights = useMemo<readonly MapViewerHighlight[]>(() => {
     if (highlightedCountry === null) {
       return EMPTY_QUIZZ_QUESTION_HIGHLIGHTS;

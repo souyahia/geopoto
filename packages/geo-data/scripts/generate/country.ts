@@ -13,6 +13,7 @@ import {
 } from "./country-aliases-config.ts";
 import { buildCountryCoreFeature } from "./country-core.ts";
 import { buildCountryMap } from "./country-map.ts";
+import { getCountryNameOverride } from "./country-name-overrides-config.ts";
 import { buildCountryPressArea } from "./country-press-area.ts";
 import { buildLocalizedText } from "./localized-text.ts";
 import { getOutlyingTerritoryCodes } from "./outlying-territory-config.ts";
@@ -111,6 +112,15 @@ function getLocalizedCountryName({
   country,
   language,
 }: GetLocalizedCountryNameParams): string {
+  const nameOverride = getCountryNameOverride({
+    countryCode: country.cca2,
+    language,
+  });
+
+  if (nameOverride !== undefined) {
+    return nameOverride;
+  }
+
   const translationConfig = REST_COUNTRIES_TRANSLATION_CONFIG.find(
     (config) => config.language === language,
   );

@@ -59,10 +59,12 @@
     "title": "Random Quiz",
     "settings": "Settings",
     "region": {
-      "title": "Region",
-      "description": "Focus the session on a map region.",
-      "select-label": "Training region",
-      "placeholder": "Select a region"
+      "title": "Regions",
+      "description": "Focus the session on one or more map regions.",
+      "select-label": "Training regions",
+      "placeholder": "Select regions",
+      "all": "All regions",
+      "selected": "{{count}} selected"
     },
     "question-formats": {
       "title": "Question formats",
@@ -144,6 +146,7 @@
         "confirm": "Confirm",
         "next": "Next",
         "correct-answer-label": "Correct answer:",
+        "correct-answer-country": "Country: {{country}}",
         "flag-option-label": "Select {{country}} flag",
         "flag-empty": "No flags match these colors."
       },

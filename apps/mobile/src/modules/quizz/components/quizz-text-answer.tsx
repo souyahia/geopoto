@@ -35,7 +35,7 @@ const EASY_TEXT_ANSWER_OPTION_COUNT = 4;
 
 interface TextAnswerContentProps {
   answerFormat: TextAnswerFormat;
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   correctAnswer: string;
   country: Country;
   isDisabled: boolean;
@@ -51,7 +51,7 @@ interface QuizzTextAnswerProps extends TextAnswerContentProps {
 export function QuizzTextAnswer({
   answerDifficulty,
   answerFormat,
-  answerRegion,
+  answerRegions,
   correctAnswer,
   country,
   isDisabled,
@@ -61,7 +61,7 @@ export function QuizzTextAnswer({
 }: QuizzTextAnswerProps) {
   const textAnswerProps = {
     answerFormat,
-    answerRegion,
+    answerRegions,
     correctAnswer,
     country,
     isDisabled,
@@ -93,6 +93,8 @@ function HardTextAnswer({
   shouldShowCorrectAnswer,
 }: TextAnswerContentProps) {
   const { t } = useTranslation();
+  const { geoLang } = useGeoLangStore();
+  const countryName = country.name[geoLang];
   const [answerValue, setAnswerValue] = useState("");
   const [badgeWidth, setBadgeWidth] = useState(0);
   const { icon: BadgeIcon, label: badgeLabel } = getTextAnswerBadge({
@@ -182,6 +184,12 @@ function HardTextAnswer({
           value={answerValue}
         />
       </View>
+      {shouldShowCorrectAnswer && (
+        <TextAnswerCorrectCountryHint
+          answerFormat={answerFormat}
+          countryName={countryName}
+        />
+      )}
       <HapticButton
         isDisabled={isSubmitDisabled}
         onPress={handleButtonPress}
@@ -200,7 +208,7 @@ function HardTextAnswer({
 
 function EasyTextAnswer({
   answerFormat,
-  answerRegion,
+  answerRegions,
   correctAnswer,
   country,
   isDisabled,
@@ -210,16 +218,17 @@ function EasyTextAnswer({
 }: TextAnswerContentProps) {
   const { t } = useTranslation();
   const { geoLang } = useGeoLangStore();
+  const countryName = country.name[geoLang];
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const options = useMemo(
     () =>
       getEasyTextAnswerOptions({
         answerFormat,
-        answerRegion,
+        answerRegions,
         country,
         geoLang,
       }),
-    [answerFormat, answerRegion, country, geoLang],
+    [answerFormat, answerRegions, country, geoLang],
   );
   const hasSelectedValue = selectedValue !== null;
   const isAnswerButtonDisabled =
@@ -286,6 +295,12 @@ function EasyTextAnswer({
           );
         })}
       </View>
+      {shouldShowCorrectAnswer && (
+        <TextAnswerCorrectCountryHint
+          answerFormat={answerFormat}
+          countryName={countryName}
+        />
+      )}
       <HapticButton
         isDisabled={isAnswerButtonDisabled}
         onPress={handleButtonPress}
@@ -299,6 +314,30 @@ function EasyTextAnswer({
         <HapticButton.Label>{answerButtonLabel}</HapticButton.Label>
       </HapticButton>
     </View>
+  );
+}
+
+interface TextAnswerCorrectCountryHintProps {
+  answerFormat: TextAnswerFormat;
+  countryName: string;
+}
+
+function TextAnswerCorrectCountryHint({
+  answerFormat,
+  countryName,
+}: TextAnswerCorrectCountryHintProps) {
+  const { t } = useTranslation();
+
+  if (answerFormat !== "country-capital") {
+    return null;
+  }
+
+  return (
+    <Text color="muted" type="body-sm" weight="medium">
+      {t("train.session.answer.correct-answer-country", {
+        country: countryName,
+      })}
+    </Text>
   );
 }
 
@@ -374,21 +413,21 @@ function getEasyTextAnswerOptionClassName({
 
 interface GetEasyTextAnswerOptionsParams {
   answerFormat: TextAnswerFormat;
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   country: Country;
   geoLang: SupportedGeoLanguage;
 }
 
 function getEasyTextAnswerOptions({
   answerFormat,
-  answerRegion,
+  answerRegions,
   country,
   geoLang,
 }: GetEasyTextAnswerOptionsParams): readonly string[] {
   const correctValue = getTextAnswerValue({ answerFormat, country, geoLang });
   const distractorValues = getEasyTextDistractorValues({
     answerFormat,
-    answerRegion,
+    answerRegions,
     correctValue,
     country,
     geoLang,
@@ -399,7 +438,7 @@ function getEasyTextAnswerOptions({
 
 interface GetEasyTextDistractorValuesParams {
   answerFormat: TextAnswerFormat;
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   correctValue: string;
   country: Country;
   geoLang: SupportedGeoLanguage;
@@ -407,7 +446,7 @@ interface GetEasyTextDistractorValuesParams {
 
 function getEasyTextDistractorValues({
   answerFormat,
-  answerRegion,
+  answerRegions,
   correctValue,
   country,
   geoLang,
@@ -420,10 +459,13 @@ function getEasyTextDistractorValues({
       candidateCountry.code !== country.code,
   );
   const regionCountries = otherCountries.filter((candidateCountry) =>
-    candidateCountry.regions.includes(answerRegion),
+    answerRegions.some((region) => candidateCountry.regions.includes(region)),
   );
   const fallbackCountries = otherCountries.filter(
-    (candidateCountry) => !candidateCountry.regions.includes(answerRegion),
+    (candidateCountry) =>
+      !answerRegions.some((region) =>
+        candidateCountry.regions.includes(region),
+      ),
   );
   const orderedCandidates = [
     ...shuffle(regionCountries),

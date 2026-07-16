@@ -204,7 +204,7 @@ function DailyChallengeQuestionContent({
           <QuizzQuestionCard
             answerDifficulty={answerDifficulty}
             answerFormat={currentQuestion.answerFormat}
-            answerRegion={answerRegion}
+            answerRegions={[answerRegion]}
             country={currentQuestion.country}
             onAnswerResolved={onAnswerResolved}
             onAnswerSubmit={onAnswerSubmit}
@@ -228,7 +228,7 @@ function DailyChallengeQuestionContent({
         <QuizzQuestionCard
           answerDifficulty={answerDifficulty}
           answerFormat={currentQuestion.answerFormat}
-          answerRegion={answerRegion}
+          answerRegions={[answerRegion]}
           country={currentQuestion.country}
           onAnswerResolved={onAnswerResolved}
           onAnswerSubmit={onAnswerSubmit}

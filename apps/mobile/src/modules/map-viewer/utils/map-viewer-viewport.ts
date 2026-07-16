@@ -109,7 +109,7 @@ interface DoesMapViewerTargetMatchEntityParams {
 
 const COUNTRY_TARGET_PADDING_RATIO = 0.42;
 const HIGH_RESOLUTION_VIEWPORT_AREA = 3_000;
-const REGION_TARGET_PADDING_RATIO = 0.08;
+const REGION_TARGET_PADDING_RATIO = 0.02;
 const COUNTRY_TARGET_MINIMUM_HEIGHT = 34;
 const COUNTRY_TARGET_MINIMUM_WIDTH = 50;
 const WORLD_PADDING_RATIO = 0.06;
@@ -192,6 +192,55 @@ function getTargetBounds(target: MapViewerCenterTarget): MapBounds {
     default:
       return WORLD_MAP_BOUNDS;
   }
+}
+
+export function getRegionsCenterTarget(
+  regions: readonly MapRegionName[],
+): MapViewerCenterTarget {
+  if (regions.includes("world")) {
+    return { region: "world", type: "region" };
+  }
+
+  const singleRegion = regions.length === 1 ? regions.at(0) : undefined;
+
+  if (singleRegion !== undefined) {
+    return { region: singleRegion, type: "region" };
+  }
+
+  const combinedBounds = getCombinedRegionBounds(regions);
+
+  if (combinedBounds === undefined) {
+    return { region: "world", type: "region" };
+  }
+
+  return { bounds: combinedBounds, type: "bounds" };
+}
+
+function getCombinedRegionBounds(
+  regions: readonly MapRegionName[],
+): MapBounds | undefined {
+  const regionBoundsList = regions.flatMap((region) => {
+    const regionBounds = MAP_REGIONS.find(
+      (mapRegion) => mapRegion.name === region,
+    )?.bounds;
+
+    return regionBounds === undefined ? [] : [regionBounds];
+  });
+  const firstBounds = regionBoundsList.at(0);
+
+  if (firstBounds === undefined) {
+    return undefined;
+  }
+
+  return regionBoundsList.reduce(
+    (combinedBounds, bounds) => ({
+      maxX: Math.max(combinedBounds.maxX, bounds.maxX),
+      maxY: Math.max(combinedBounds.maxY, bounds.maxY),
+      minX: Math.min(combinedBounds.minX, bounds.minX),
+      minY: Math.min(combinedBounds.minY, bounds.minY),
+    }),
+    firstBounds,
+  );
 }
 
 export function getMapViewerCenterTargetKey(

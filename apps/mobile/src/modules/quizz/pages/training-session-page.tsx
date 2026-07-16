@@ -54,7 +54,7 @@ export function TrainingSessionPage() {
     () => getTrainingSessionOptionsStorageValue({ options: quizzOptions }),
     [quizzOptions],
   );
-  const answerRegion = quizzOptions.regions.at(0) ?? "world";
+  const answerRegions = quizzOptions.regions;
   const {
     currentQuestion,
     isComplete,
@@ -120,7 +120,7 @@ export function TrainingSessionPage() {
       ) : (
         <TrainingSessionQuestionContent
           answerDifficulty={quizzOptions.answerDifficulty}
-          answerRegion={answerRegion}
+          answerRegions={answerRegions}
           currentQuestion={currentQuestion}
           currentQuestionKey={currentQuestionKey}
           isInfiniteMode={isInfiniteModeSession}
@@ -135,7 +135,7 @@ export function TrainingSessionPage() {
 
 interface TrainingSessionQuestionContentProps {
   answerDifficulty: AnswerDifficulty;
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   currentQuestion: QuizzCurrentQuestion;
   currentQuestionKey: string;
   isInfiniteMode: boolean;
@@ -146,7 +146,7 @@ interface TrainingSessionQuestionContentProps {
 
 function TrainingSessionQuestionContent({
   answerDifficulty,
-  answerRegion,
+  answerRegions,
   currentQuestion,
   currentQuestionKey,
   isInfiniteMode,
@@ -168,7 +168,7 @@ function TrainingSessionQuestionContent({
         <PageContent className="gap-4 px-6 pb-8 pt-4">
           <TrainingSessionQuestionBlocks
             answerDifficulty={answerDifficulty}
-            answerRegion={answerRegion}
+            answerRegions={answerRegions}
             currentQuestion={currentQuestion}
             isInfiniteMode={isInfiniteMode}
             onAnswerSubmit={onAnswerSubmit}
@@ -191,7 +191,7 @@ function TrainingSessionQuestionContent({
       <PageContent className="gap-4 px-6 pb-8 pt-4">
         <TrainingSessionQuestionBlocks
           answerDifficulty={answerDifficulty}
-          answerRegion={answerRegion}
+          answerRegions={answerRegions}
           currentQuestion={currentQuestion}
           isInfiniteMode={isInfiniteMode}
           onAnswerSubmit={onAnswerSubmit}
@@ -205,7 +205,7 @@ function TrainingSessionQuestionContent({
 
 interface TrainingSessionQuestionBlocksProps {
   answerDifficulty: AnswerDifficulty;
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   currentQuestion: QuizzCurrentQuestion;
   isInfiniteMode: boolean;
   onAnswerSubmit: (answer: QuizzAnswerSubmission) => void;
@@ -215,7 +215,7 @@ interface TrainingSessionQuestionBlocksProps {
 
 function TrainingSessionQuestionBlocks({
   answerDifficulty,
-  answerRegion,
+  answerRegions,
   currentQuestion,
   isInfiniteMode,
   onAnswerSubmit,
@@ -250,7 +250,7 @@ function TrainingSessionQuestionBlocks({
       <QuizzQuestionCard
         answerDifficulty={answerDifficulty}
         answerFormat={currentQuestion.answerFormat}
-        answerRegion={answerRegion}
+        answerRegions={answerRegions}
         country={currentQuestion.country}
         onAnswerResolved={handleAnswerResolved}
         onAnswerSubmit={onAnswerSubmit}

@@ -11,6 +11,7 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  type LayoutChangeEvent,
   ScrollView,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
@@ -46,7 +47,7 @@ import type { QuizzAnswerSubmission } from "../hooks/use-quizz";
 import type { AnswerDifficulty } from "../utils/quizz";
 
 interface FlagAnswerContentProps {
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   country: Country;
   countryName: string;
   isDisabled: boolean;
@@ -126,11 +127,11 @@ interface EasyFlagAnswerMetrics {
 }
 
 interface GetEasyFlagAnswerMetricsParams {
-  screenWidth: number;
+  containerWidth: number;
 }
 
 interface GetEasyFlagAnswerCountriesParams {
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   country: Country;
   geoLang: SupportedGeoLanguage;
 }
@@ -156,13 +157,13 @@ const FLAG_ANSWER_ICON_WIDTH_REDUCTION = 12;
 const FLAG_ANSWER_LIST_HEIGHT = 248;
 const FLAG_ANSWER_ROW_OVERSCAN = 3;
 const FLAG_ANSWER_SCROLL_THROTTLE_MS = 16;
-const EASY_FLAG_ANSWER_COLUMN_GAP = 10;
-const EASY_FLAG_ANSWER_COLUMNS = 2;
-const EASY_FLAG_ANSWER_FLAG_MAX_WIDTH = 144;
-const EASY_FLAG_ANSWER_FLAG_WIDTH_REDUCTION = 16;
-const EASY_FLAG_ANSWER_HORIZONTAL_PADDING = 104;
-const EASY_FLAG_ANSWER_ITEM_MAX_WIDTH = 168;
-const EASY_FLAG_ANSWER_OPTION_COUNT = 4;
+const EASY_FLAG_ANSWER_COLUMN_GAP = 8;
+const EASY_FLAG_ANSWER_COLUMNS = 4;
+const EASY_FLAG_ANSWER_FLAG_MAX_WIDTH = 84;
+const EASY_FLAG_ANSWER_ITEM_HORIZONTAL_INSET = 16;
+const EASY_FLAG_ANSWER_ITEM_VERTICAL_INSET = 12;
+const EASY_FLAG_ANSWER_ITEM_MAX_WIDTH = 96;
+const EASY_FLAG_ANSWER_OPTION_COUNT = 8;
 const EASY_FLAG_ANSWER_ROW_GAP = 10;
 const FLAG_ANSWER_CORRECT_FLAG_WIDTH = 48;
 const FLAG_ANSWER_CORRECT_FLAG_HEIGHT = Math.round(
@@ -233,28 +234,29 @@ function getFlagAnswerGridMetrics({
 }
 
 function getEasyFlagAnswerMetrics({
-  screenWidth,
+  containerWidth,
 }: GetEasyFlagAnswerMetricsParams): EasyFlagAnswerMetrics {
-  const contentWidth = Math.max(
-    1,
-    screenWidth - EASY_FLAG_ANSWER_HORIZONTAL_PADDING,
-  );
+  const availableWidth = Math.max(1, containerWidth);
   const itemWidth = Math.min(
     EASY_FLAG_ANSWER_ITEM_MAX_WIDTH,
     Math.max(
       1,
       Math.floor(
-        (contentWidth - EASY_FLAG_ANSWER_COLUMN_GAP) / EASY_FLAG_ANSWER_COLUMNS,
+        (availableWidth -
+          EASY_FLAG_ANSWER_COLUMN_GAP * (EASY_FLAG_ANSWER_COLUMNS - 1)) /
+          EASY_FLAG_ANSWER_COLUMNS,
       ),
     ),
   );
   const flagWidth = Math.max(
     1,
-    Math.min(EASY_FLAG_ANSWER_FLAG_MAX_WIDTH, itemWidth - 12) -
-      EASY_FLAG_ANSWER_FLAG_WIDTH_REDUCTION,
+    Math.min(
+      EASY_FLAG_ANSWER_FLAG_MAX_WIDTH,
+      itemWidth - EASY_FLAG_ANSWER_ITEM_HORIZONTAL_INSET,
+    ),
   );
   const flagHeight = Math.round(flagWidth / FLAG_ANSWER_ICON_ASPECT_RATIO);
-  const itemHeight = flagHeight + 12;
+  const itemHeight = flagHeight + EASY_FLAG_ANSWER_ITEM_VERTICAL_INSET;
 
   return {
     flagHeight,
@@ -262,6 +264,16 @@ function getEasyFlagAnswerMetrics({
     itemHeight,
     itemWidth,
   };
+}
+
+function getEasyFlagAnswerGridHeight(itemHeight: number) {
+  const rowCount = Math.ceil(
+    EASY_FLAG_ANSWER_OPTION_COUNT / EASY_FLAG_ANSWER_COLUMNS,
+  );
+
+  return (
+    itemHeight * rowCount + EASY_FLAG_ANSWER_ROW_GAP * Math.max(0, rowCount - 1)
+  );
 }
 
 function getFlagAnswerCountries({
@@ -275,7 +287,7 @@ function getFlagAnswerCountries({
 }
 
 function getEasyFlagAnswerCountries({
-  answerRegion,
+  answerRegions,
   country,
   geoLang,
 }: GetEasyFlagAnswerCountriesParams): readonly FlagAnswerCountry[] {
@@ -286,7 +298,7 @@ function getEasyFlagAnswerCountries({
   }
 
   const selectedDistractorCountries = getEasyDistractorCountries({
-    answerRegion,
+    answerRegions,
     country,
   }).flatMap((distractorCountry) =>
     toFlagAnswerCountry({ country: distractorCountry, geoLang }),
@@ -296,12 +308,12 @@ function getEasyFlagAnswerCountries({
 }
 
 interface GetEasyDistractorCountriesParams {
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   country: Country;
 }
 
 function getEasyDistractorCountries({
-  answerRegion,
+  answerRegions,
   country,
 }: GetEasyDistractorCountriesParams): readonly Country[] {
   const distractorCount = EASY_FLAG_ANSWER_OPTION_COUNT - 1;
@@ -311,7 +323,7 @@ function getEasyDistractorCountries({
       candidateCountry.code !== country.code,
   );
   const regionCountries = otherCountries.filter((candidateCountry) =>
-    candidateCountry.regions.includes(answerRegion),
+    answerRegions.some((region) => candidateCountry.regions.includes(region)),
   );
   const selectedRegionCountries = shuffle(regionCountries).slice(
     0,
@@ -361,9 +373,17 @@ function filterFlagAnswerCountries({
     return countries;
   }
 
-  return countries.filter((country) =>
+  const matchingCountries = countries.filter((country) =>
     hasSelectedFlagColors({ country, selectedColors }),
   );
+  const exactColorCountries = matchingCountries.filter((country) =>
+    hasExactFlagColors({ country, selectedColors }),
+  );
+  const additionalColorCountries = matchingCountries.filter(
+    (country) => !hasExactFlagColors({ country, selectedColors }),
+  );
+
+  return [...exactColorCountries, ...additionalColorCountries];
 }
 
 function hasSelectedFlagColors({
@@ -371,6 +391,13 @@ function hasSelectedFlagColors({
   selectedColors,
 }: HasSelectedFlagColorsParams) {
   return selectedColors.every((color) => country.colors.includes(color));
+}
+
+function hasExactFlagColors({
+  country,
+  selectedColors,
+}: HasSelectedFlagColorsParams) {
+  return country.colors.every((color) => selectedColors.includes(color));
 }
 
 function getVisibleFlagAnswerRows({
@@ -429,7 +456,7 @@ function getFlagAnswerRows({
 
 export function QuizzFlagAnswer({
   answerDifficulty,
-  answerRegion,
+  answerRegions,
   country,
   countryName,
   isDisabled,
@@ -438,7 +465,7 @@ export function QuizzFlagAnswer({
   shouldShowCorrectAnswer,
 }: QuizzFlagAnswerProps) {
   const flagAnswerProps = {
-    answerRegion,
+    answerRegions,
     country,
     countryName,
     isDisabled,
@@ -589,7 +616,7 @@ function HardFlagAnswer({
 }
 
 function EasyFlagAnswer({
-  answerRegion,
+  answerRegions,
   country,
   countryName,
   isDisabled,
@@ -601,16 +628,24 @@ function EasyFlagAnswer({
   const { geoLang } = useGeoLangStore();
   const { width } = useWindowDimensions();
   const answerContentWidth = Math.min(width, PAGE_CONTENT_MAX_WIDTH);
+  const [gridWidth, setGridWidth] = useState<number | null>(null);
   const [selectedCountryCode, setSelectedCountryCode] = useState<string | null>(
     null,
   );
   const flagAnswerMetrics = useMemo(
-    () => getEasyFlagAnswerMetrics({ screenWidth: answerContentWidth }),
-    [answerContentWidth],
+    () =>
+      getEasyFlagAnswerMetrics({
+        containerWidth: gridWidth ?? answerContentWidth,
+      }),
+    [answerContentWidth, gridWidth],
+  );
+  const reservedGridHeight = useMemo(
+    () => getEasyFlagAnswerGridHeight(flagAnswerMetrics.itemHeight),
+    [flagAnswerMetrics.itemHeight],
   );
   const flagCountries = useMemo(
-    () => getEasyFlagAnswerCountries({ answerRegion, country, geoLang }),
-    [answerRegion, country, geoLang],
+    () => getEasyFlagAnswerCountries({ answerRegions, country, geoLang }),
+    [answerRegions, country, geoLang],
   );
   const hasSelectedCountry = selectedCountryCode !== null;
   const isAnswerButtonDisabled =
@@ -631,6 +666,10 @@ function EasyFlagAnswer({
 
   const handleCountryPress = useCallback((nextCountryCode: string) => {
     setSelectedCountryCode(nextCountryCode);
+  }, []);
+
+  const handleGridLayout = useCallback((event: LayoutChangeEvent) => {
+    setGridWidth(event.nativeEvent.layout.width);
   }, []);
 
   const handleConfirm = useCallback(() => {
@@ -657,14 +696,21 @@ function EasyFlagAnswer({
           shouldUseHighResolutionFlag
         />
       )}
-      <EasyFlagAnswerGrid
-        countries={flagCountries}
-        flagAnswerMetrics={flagAnswerMetrics}
-        isDisabled={isDisabled}
-        onCountryPress={handleCountryPress}
-        selectedCountryCode={selectedCountryCode}
-        shouldShowCorrectAnswer={shouldShowCorrectAnswer}
-      />
+      <View
+        onLayout={handleGridLayout}
+        style={gridWidth === null ? { minHeight: reservedGridHeight } : null}
+      >
+        {gridWidth !== null && (
+          <EasyFlagAnswerGrid
+            countries={flagCountries}
+            flagAnswerMetrics={flagAnswerMetrics}
+            isDisabled={isDisabled}
+            onCountryPress={handleCountryPress}
+            selectedCountryCode={selectedCountryCode}
+            shouldShowCorrectAnswer={shouldShowCorrectAnswer}
+          />
+        )}
+      </View>
       <HapticButton
         isDisabled={isAnswerButtonDisabled}
         onPress={handleButtonPress}

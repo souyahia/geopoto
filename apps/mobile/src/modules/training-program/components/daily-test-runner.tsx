@@ -282,7 +282,7 @@ function LessonQuizzQuestionBlocks({
       <QuizzQuestionCard
         answerDifficulty={answerDifficulty}
         answerFormat={currentQuestion.answerFormat}
-        answerRegion={answerRegion}
+        answerRegions={[answerRegion]}
         country={currentQuestion.country}
         onAnswerResolved={handleAnswerResolved}
         onAnswerSubmit={onAnswerSubmit}

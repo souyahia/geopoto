@@ -37,7 +37,7 @@ import { useStoredTrainingSessionOptions } from "../utils/training-session-optio
 import { buildTrainingSessionSearchParams } from "../utils/training-session-params";
 
 const TRAIN_FORMAT_ERROR_KEY = "train.validation.formats-must-be-different";
-const TRAIN_FORM_DEFAULT_REGION: MapRegionName = "world";
+const TRAIN_FORM_DEFAULT_REGIONS: readonly MapRegionName[] = ["world"];
 const DIFFICULTY_ANSWER_FORMATS: QuizzOptions["acceptedAnswerFormats"] = [
   "country-flag",
   "country-name",
@@ -50,7 +50,7 @@ interface TrainFormValues {
   answerDifficulty: QuizzOptions["answerDifficulty"];
   isInfiniteMode: boolean;
   selectedQuestionLimit: QuestionLimitOptionValue;
-  selectedRegion: MapRegionName;
+  selectedRegions: readonly MapRegionName[];
 }
 
 export function TrainPage() {
@@ -137,12 +137,12 @@ export function TrainPage() {
           >
             <Controller
               control={control}
-              name="selectedRegion"
+              name="selectedRegions"
               render={({ field }) => (
                 <RegionSelect
-                  selectedRegion={field.value}
-                  onSelectedRegionChange={(selectedRegion) =>
-                    field.onChange(selectedRegion)
+                  selectedRegions={field.value}
+                  onSelectedRegionsChange={(selectedRegions) =>
+                    field.onChange(selectedRegions)
                   }
                 />
               )}
@@ -307,7 +307,8 @@ function getTrainFormValuesFromQuizzOptions({
     selectedQuestionLimit: getSelectedQuestionLimit({
       limit: options.limit,
     }),
-    selectedRegion: options.regions.at(0) ?? TRAIN_FORM_DEFAULT_REGION,
+    selectedRegions:
+      options.regions.length > 0 ? options.regions : TRAIN_FORM_DEFAULT_REGIONS,
   };
 }
 
@@ -326,7 +327,7 @@ function getQuizzOptionsFromTrainFormValues({
     limit: values.isInfiniteMode
       ? undefined
       : getQuestionLimit(values.selectedQuestionLimit),
-    regions: [values.selectedRegion],
+    regions: [...values.selectedRegions],
   };
 }
 

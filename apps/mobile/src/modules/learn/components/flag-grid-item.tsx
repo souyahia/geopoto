@@ -97,37 +97,43 @@ function FlagGridItemComponent({
   );
 
   const galeriaImageUrl = useGaleriaImageUrl(flag.fullImageSource);
+  const isGaleriaReady = galeriaImageUrl !== null;
 
   return (
     <View className="items-center" style={containerStyle}>
       <View style={frameAreaStyle}>
-        <Galeria
-          hidePageIndicators
-          theme="dark"
-          urls={[galeriaImageUrl ?? flag.fullImageSource]}
+        <View
+          className="overflow-hidden border border-default"
+          style={flagStyle}
         >
-          <Galeria.Image
-            dynamicAspectRatio
-            edgeToEdge
-            onDismiss={restoreAppColorScheme}
-            onLongPress={restoreAppColorScheme}
-            style={flagStyle}
-          >
-            <View
-              className="overflow-hidden border border-default"
-              style={flagStyle}
-            >
-              <Image
-                accessibilityLabel={accessibilityLabel}
-                contentFit="fill"
-                onTouchCancel={restoreAppColorScheme}
-                onTouchStart={enableGaleriaDarkMode}
-                source={flag.thumbnailImageSource}
+          {isGaleriaReady ? (
+            <Galeria hidePageIndicators theme="dark" urls={[galeriaImageUrl]}>
+              <Galeria.Image
+                dynamicAspectRatio
+                edgeToEdge
+                onDismiss={restoreAppColorScheme}
+                onLongPress={restoreAppColorScheme}
                 style={flagStyle}
-              />
-            </View>
-          </Galeria.Image>
-        </Galeria>
+              >
+                <Image
+                  accessibilityLabel={accessibilityLabel}
+                  contentFit="fill"
+                  onTouchCancel={restoreAppColorScheme}
+                  onTouchStart={enableGaleriaDarkMode}
+                  source={flag.thumbnailImageSource}
+                  style={flagStyle}
+                />
+              </Galeria.Image>
+            </Galeria>
+          ) : (
+            <Image
+              accessibilityLabel={accessibilityLabel}
+              contentFit="fill"
+              source={flag.thumbnailImageSource}
+              style={flagStyle}
+            />
+          )}
+        </View>
       </View>
       <Text
         align="center"
