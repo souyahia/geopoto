@@ -46,7 +46,7 @@ import type { QuizzAnswerSubmission } from "../hooks/use-quizz";
 import type { AnswerDifficulty } from "../utils/quizz";
 
 interface FlagAnswerContentProps {
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   country: Country;
   countryName: string;
   isDisabled: boolean;
@@ -130,7 +130,7 @@ interface GetEasyFlagAnswerMetricsParams {
 }
 
 interface GetEasyFlagAnswerCountriesParams {
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   country: Country;
   geoLang: SupportedGeoLanguage;
 }
@@ -275,7 +275,7 @@ function getFlagAnswerCountries({
 }
 
 function getEasyFlagAnswerCountries({
-  answerRegion,
+  answerRegions,
   country,
   geoLang,
 }: GetEasyFlagAnswerCountriesParams): readonly FlagAnswerCountry[] {
@@ -286,7 +286,7 @@ function getEasyFlagAnswerCountries({
   }
 
   const selectedDistractorCountries = getEasyDistractorCountries({
-    answerRegion,
+    answerRegions,
     country,
   }).flatMap((distractorCountry) =>
     toFlagAnswerCountry({ country: distractorCountry, geoLang }),
@@ -296,12 +296,12 @@ function getEasyFlagAnswerCountries({
 }
 
 interface GetEasyDistractorCountriesParams {
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   country: Country;
 }
 
 function getEasyDistractorCountries({
-  answerRegion,
+  answerRegions,
   country,
 }: GetEasyDistractorCountriesParams): readonly Country[] {
   const distractorCount = EASY_FLAG_ANSWER_OPTION_COUNT - 1;
@@ -311,7 +311,7 @@ function getEasyDistractorCountries({
       candidateCountry.code !== country.code,
   );
   const regionCountries = otherCountries.filter((candidateCountry) =>
-    candidateCountry.regions.includes(answerRegion),
+    answerRegions.some((region) => candidateCountry.regions.includes(region)),
   );
   const selectedRegionCountries = shuffle(regionCountries).slice(
     0,
@@ -429,7 +429,7 @@ function getFlagAnswerRows({
 
 export function QuizzFlagAnswer({
   answerDifficulty,
-  answerRegion,
+  answerRegions,
   country,
   countryName,
   isDisabled,
@@ -438,7 +438,7 @@ export function QuizzFlagAnswer({
   shouldShowCorrectAnswer,
 }: QuizzFlagAnswerProps) {
   const flagAnswerProps = {
-    answerRegion,
+    answerRegions,
     country,
     countryName,
     isDisabled,
@@ -589,7 +589,7 @@ function HardFlagAnswer({
 }
 
 function EasyFlagAnswer({
-  answerRegion,
+  answerRegions,
   country,
   countryName,
   isDisabled,
@@ -609,8 +609,8 @@ function EasyFlagAnswer({
     [answerContentWidth],
   );
   const flagCountries = useMemo(
-    () => getEasyFlagAnswerCountries({ answerRegion, country, geoLang }),
-    [answerRegion, country, geoLang],
+    () => getEasyFlagAnswerCountries({ answerRegions, country, geoLang }),
+    [answerRegions, country, geoLang],
   );
   const hasSelectedCountry = selectedCountryCode !== null;
   const isAnswerButtonDisabled =

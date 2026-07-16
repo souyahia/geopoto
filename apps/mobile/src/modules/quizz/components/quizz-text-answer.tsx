@@ -35,7 +35,7 @@ const EASY_TEXT_ANSWER_OPTION_COUNT = 4;
 
 interface TextAnswerContentProps {
   answerFormat: TextAnswerFormat;
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   correctAnswer: string;
   country: Country;
   isDisabled: boolean;
@@ -51,7 +51,7 @@ interface QuizzTextAnswerProps extends TextAnswerContentProps {
 export function QuizzTextAnswer({
   answerDifficulty,
   answerFormat,
-  answerRegion,
+  answerRegions,
   correctAnswer,
   country,
   isDisabled,
@@ -61,7 +61,7 @@ export function QuizzTextAnswer({
 }: QuizzTextAnswerProps) {
   const textAnswerProps = {
     answerFormat,
-    answerRegion,
+    answerRegions,
     correctAnswer,
     country,
     isDisabled,
@@ -200,7 +200,7 @@ function HardTextAnswer({
 
 function EasyTextAnswer({
   answerFormat,
-  answerRegion,
+  answerRegions,
   correctAnswer,
   country,
   isDisabled,
@@ -215,11 +215,11 @@ function EasyTextAnswer({
     () =>
       getEasyTextAnswerOptions({
         answerFormat,
-        answerRegion,
+        answerRegions,
         country,
         geoLang,
       }),
-    [answerFormat, answerRegion, country, geoLang],
+    [answerFormat, answerRegions, country, geoLang],
   );
   const hasSelectedValue = selectedValue !== null;
   const isAnswerButtonDisabled =
@@ -374,21 +374,21 @@ function getEasyTextAnswerOptionClassName({
 
 interface GetEasyTextAnswerOptionsParams {
   answerFormat: TextAnswerFormat;
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   country: Country;
   geoLang: SupportedGeoLanguage;
 }
 
 function getEasyTextAnswerOptions({
   answerFormat,
-  answerRegion,
+  answerRegions,
   country,
   geoLang,
 }: GetEasyTextAnswerOptionsParams): readonly string[] {
   const correctValue = getTextAnswerValue({ answerFormat, country, geoLang });
   const distractorValues = getEasyTextDistractorValues({
     answerFormat,
-    answerRegion,
+    answerRegions,
     correctValue,
     country,
     geoLang,
@@ -399,7 +399,7 @@ function getEasyTextAnswerOptions({
 
 interface GetEasyTextDistractorValuesParams {
   answerFormat: TextAnswerFormat;
-  answerRegion: MapRegionName;
+  answerRegions: readonly MapRegionName[];
   correctValue: string;
   country: Country;
   geoLang: SupportedGeoLanguage;
@@ -407,7 +407,7 @@ interface GetEasyTextDistractorValuesParams {
 
 function getEasyTextDistractorValues({
   answerFormat,
-  answerRegion,
+  answerRegions,
   correctValue,
   country,
   geoLang,
@@ -420,10 +420,13 @@ function getEasyTextDistractorValues({
       candidateCountry.code !== country.code,
   );
   const regionCountries = otherCountries.filter((candidateCountry) =>
-    candidateCountry.regions.includes(answerRegion),
+    answerRegions.some((region) => candidateCountry.regions.includes(region)),
   );
   const fallbackCountries = otherCountries.filter(
-    (candidateCountry) => !candidateCountry.regions.includes(answerRegion),
+    (candidateCountry) =>
+      !answerRegions.some((region) =>
+        candidateCountry.regions.includes(region),
+      ),
   );
   const orderedCandidates = [
     ...shuffle(regionCountries),

@@ -59,10 +59,12 @@
     "title": "Quiz casuale",
     "settings": "Impostazioni",
     "region": {
-      "title": "Regione",
-      "description": "Concentra la sessione su una regione della mappa.",
-      "select-label": "Regione di allenamento",
-      "placeholder": "Seleziona una regione"
+      "title": "Regioni",
+      "description": "Concentra la sessione su una o più regioni della mappa.",
+      "select-label": "Regioni di allenamento",
+      "placeholder": "Seleziona regioni",
+      "all": "Tutte le regioni",
+      "selected": "{{count}} selezionate"
     },
     "question-formats": {
       "title": "Formati delle domande",

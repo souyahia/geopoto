@@ -59,10 +59,12 @@
     "title": "Zufallsquiz",
     "settings": "Einstellungen",
     "region": {
-      "title": "Region",
-      "description": "Richte die Sitzung auf eine Kartenregion aus.",
-      "select-label": "Trainingsregion",
-      "placeholder": "Region auswählen"
+      "title": "Regionen",
+      "description": "Richte die Sitzung auf eine oder mehrere Kartenregionen aus.",
+      "select-label": "Trainingsregionen",
+      "placeholder": "Regionen auswählen",
+      "all": "Alle Regionen",
+      "selected": "{{count}} ausgewählt"
     },
     "question-formats": {
       "title": "Frageformate",

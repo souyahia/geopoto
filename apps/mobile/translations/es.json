@@ -59,10 +59,12 @@
     "title": "Quiz aleatorio",
     "settings": "Ajustes",
     "region": {
-      "title": "Región",
-      "description": "Centra la sesión en una región del mapa.",
-      "select-label": "Región de entrenamiento",
-      "placeholder": "Selecciona una región"
+      "title": "Regiones",
+      "description": "Centra la sesión en una o varias regiones del mapa.",
+      "select-label": "Regiones de entrenamiento",
+      "placeholder": "Selecciona regiones",
+      "all": "Todas las regiones",
+      "selected": "{{count}} seleccionadas"
     },
     "question-formats": {
       "title": "Formatos de pregunta",

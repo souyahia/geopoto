@@ -26,12 +26,15 @@ interface BuildTrainingSessionSearchParamsParams {
 export function buildTrainingSessionSearchParams({
   options,
 }: BuildTrainingSessionSearchParamsParams): Record<string, string> {
-  const region = options.regions.at(0) ?? DEFAULT_TRAINING_SESSION_REGION;
+  const regions =
+    options.regions.length > 0
+      ? options.regions.join(",")
+      : DEFAULT_TRAINING_SESSION_REGION;
   const baseParams = {
     answerDifficulty: options.answerDifficulty,
     answerFormats: options.acceptedAnswerFormats.join(","),
     questionFormats: options.acceptedQuestionFormats.join(","),
-    region,
+    regions,
   };
 
   if (options.isInfiniteMode) {
@@ -58,7 +61,9 @@ interface GetTrainingSessionOptionsFromParamsParams {
 export function getTrainingSessionOptionsFromParams({
   params,
 }: GetTrainingSessionOptionsFromParamsParams): QuizzOptions {
-  const region = parseRegionParam(getStringParam(params.region));
+  const regions = parseRegionsParam(
+    getStringParam(params.regions) ?? getStringParam(params.region),
+  );
   const acceptedQuestionFormats = parseQuizzFormatsParam({
     allowedFormats: QUIZZ_FORMATS,
     fallbackFormats: QUIZZ_FORMATS,
@@ -82,7 +87,7 @@ export function getTrainingSessionOptionsFromParams({
     limit: isInfiniteMode
       ? undefined
       : parseLimitParam(getStringParam(params.limit)),
-    regions: [region],
+    regions,
   } satisfies QuizzOptions;
 
   if (!hasQuizzFormatConflict(parsedOptions)) {
@@ -103,12 +108,18 @@ function getStringParam(value: readonly string[] | string | undefined) {
   return value;
 }
 
-function parseRegionParam(value: string | undefined): MapRegionName {
-  if (isMapRegionName(value)) {
-    return value;
+function parseRegionsParam(value: string | undefined): MapRegionName[] {
+  if (value === undefined) {
+    return [DEFAULT_TRAINING_SESSION_REGION];
   }
 
-  return DEFAULT_TRAINING_SESSION_REGION;
+  const regions = value.split(",").filter(isMapRegionName);
+
+  if (regions.length === 0) {
+    return [DEFAULT_TRAINING_SESSION_REGION];
+  }
+
+  return regions;
 }
 
 interface ParseQuizzFormatsParamParams {
