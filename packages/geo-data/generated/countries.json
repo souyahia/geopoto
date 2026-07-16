@@ -8,6 +8,9 @@
       "it": "Andorra la Vella",
       "pt": "Andorra-a-Velha"
     },
+    "capitalAliases": {
+      "es": ["Andorra la Vella"]
+    },
     "code": "AD",
     "continent": "europe",
     "countryPressArea": {
@@ -39,6 +42,9 @@
       "it": "Andorra",
       "pt": "Andorra"
     },
+    "nameAliases": {
+      "es": ["Principado de Andorra"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -49,6 +55,11 @@
       "fr": "Abou Dabi",
       "it": "Abu Dhabi",
       "pt": "Abu Dhabi"
+    },
+    "capitalAliases": {
+      "es": ["Abu Dabi"],
+      "fr": ["Abu Dhabi", "Abou Dhabi"],
+      "pt": ["Abu Dabi"]
     },
     "code": "AE",
     "continent": "asia",
@@ -75,7 +86,7 @@
     "nameAliases": {
       "de": ["VAE"],
       "en": ["UAE", "Emirates"],
-      "es": ["EAU"],
+      "es": ["EAU", "Emiratos Arabes"],
       "fr": ["EAU"],
       "it": ["EAU"],
       "pt": ["EAU"]
@@ -90,6 +101,9 @@
       "fr": "Kaboul",
       "it": "Kabul",
       "pt": "Cabul"
+    },
+    "capitalAliases": {
+      "fr": ["Kabul"]
     },
     "code": "AF",
     "continent": "asia",
@@ -123,6 +137,12 @@
       "fr": "Saint John's",
       "it": "Saint John's",
       "pt": "São João"
+    },
+    "capitalAliases": {
+      "de": ["St. John's"],
+      "en": ["St. John's"],
+      "es": ["Saint John's", "San Juan"],
+      "pt": ["Saint John's"]
     },
     "code": "AG",
     "continent": "north-america",
@@ -166,6 +186,9 @@
       "it": "Tirana",
       "pt": "Tirana"
     },
+    "capitalAliases": {
+      "en": ["Tiranë"]
+    },
     "code": "AL",
     "continent": "europe",
     "map": {
@@ -198,6 +221,14 @@
       "fr": "Erevan",
       "it": "Erevan",
       "pt": "Erevã"
+    },
+    "capitalAliases": {
+      "de": ["Eriwan", "Yerevan"],
+      "en": ["Erevan"],
+      "es": ["Yereván"],
+      "fr": ["Yerevan"],
+      "it": ["Yerevan"],
+      "pt": ["Erevan", "Yerevan"]
     },
     "code": "AM",
     "continent": "asia",
@@ -298,6 +329,12 @@
       "it": "Vienna",
       "pt": "Viena"
     },
+    "capitalAliases": {
+      "en": ["Wien"],
+      "es": ["Vienna"],
+      "fr": ["Vienna"],
+      "it": ["Wien"]
+    },
     "code": "AT",
     "continent": "europe",
     "map": {
@@ -320,6 +357,9 @@
       "it": "Austria",
       "pt": "Áustria"
     },
+    "nameAliases": {
+      "de": ["Oesterreich"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -330,6 +370,9 @@
       "fr": "Canberra",
       "it": "Canberra",
       "pt": "Camberra"
+    },
+    "capitalAliases": {
+      "pt": ["Canberra"]
     },
     "code": "AU",
     "continent": "oceania",
@@ -364,6 +407,10 @@
       "it": "Baku",
       "pt": "Baku"
     },
+    "capitalAliases": {
+      "fr": ["Baku"],
+      "pt": ["Bacu"]
+    },
     "code": "AZ",
     "continent": "asia",
     "map": {
@@ -385,6 +432,12 @@
       "fr": "Azerbaïdjan",
       "it": "Azerbaijan",
       "pt": "Azerbeijão"
+    },
+    "nameAliases": {
+      "de": ["Azerbaidschan"],
+      "es": ["Azerbaijan"],
+      "it": ["Azerbaigian"],
+      "pt": ["Azerbaijão"]
     },
     "regions": ["world", "asia"]
   },
@@ -420,8 +473,10 @@
       "pt": "Bósnia e Herzegovina"
     },
     "nameAliases": {
-      "de": ["Bosnien"],
+      "de": ["Bosnien", "Bosnien-Herzegowina"],
+      "en": ["Bosnia", "Bosnia-Herzegovina"],
       "es": ["Bosnia"],
+      "fr": ["Bosnie"],
       "it": ["Bosnia"],
       "pt": ["Bosnia"]
     },
@@ -478,6 +533,14 @@
       "it": "Dacca",
       "pt": "Daca"
     },
+    "capitalAliases": {
+      "de": ["Dacca"],
+      "en": ["Dacca"],
+      "es": ["Dhaka", "Dacca"],
+      "fr": ["Dhaka"],
+      "it": ["Dhaka"],
+      "pt": ["Dhaka", "Dacca"]
+    },
     "code": "BD",
     "continent": "asia",
     "map": {
@@ -500,6 +563,9 @@
       "it": "Bangladesh",
       "pt": "Bangladesh"
     },
+    "nameAliases": {
+      "pt": ["Bangladeche"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -510,6 +576,11 @@
       "fr": "Bruxelles",
       "it": "Bruxelles",
       "pt": "Bruxelas"
+    },
+    "capitalAliases": {
+      "de": ["Bruessel"],
+      "en": ["Bruxelles"],
+      "it": ["Brussels"]
     },
     "code": "BE",
     "continent": "europe",
@@ -544,6 +615,10 @@
       "it": "Ouagadougou",
       "pt": "Uagadugu"
     },
+    "capitalAliases": {
+      "es": ["Ouagadougou"],
+      "pt": ["Ouagadougou"]
+    },
     "code": "BF",
     "continent": "africa",
     "map": {
@@ -565,6 +640,14 @@
       "fr": "Burkina Faso",
       "it": "Burkina Faso",
       "pt": "Burkina Faso"
+    },
+    "nameAliases": {
+      "de": ["Obervolta"],
+      "en": ["Upper Volta"],
+      "es": ["Alto Volta"],
+      "fr": ["Burkina", "Haute-Volta"],
+      "it": ["Alto Volta"],
+      "pt": ["Burquina Faso"]
     },
     "regions": ["world", "africa"]
   },
@@ -641,6 +724,11 @@
       "it": "Bahrein",
       "pt": "Bahrein"
     },
+    "nameAliases": {
+      "es": ["Baréin"],
+      "it": ["Bahrain"],
+      "pt": ["Barém", "Bahrain"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -651,6 +739,10 @@
       "fr": "Gitega",
       "it": "Gitega",
       "pt": "Guitega"
+    },
+    "capitalAliases": {
+      "es": ["Gitega"],
+      "pt": ["Gitega"]
     },
     "code": "BI",
     "continent": "africa",
@@ -707,6 +799,14 @@
       "it": "Benin",
       "pt": "Benin"
     },
+    "nameAliases": {
+      "de": ["Dahomey"],
+      "en": ["Dahomey"],
+      "es": ["Dahomey"],
+      "fr": ["Dahomey"],
+      "it": ["Dahomey"],
+      "pt": ["Benim"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -750,8 +850,11 @@
       "pt": "Brunei"
     },
     "nameAliases": {
+      "de": ["Brunei Darussalam"],
       "en": ["Brunei Darussalam"],
-      "fr": ["Brunei Darussalam"]
+      "es": ["Brunéi Darussalam"],
+      "fr": ["Brunei Darussalam"],
+      "it": ["Brunei Darussalam"]
     },
     "regions": ["world", "asia"]
   },
@@ -763,6 +866,12 @@
       "fr": "Sucre",
       "it": "Sucre",
       "pt": "Sucre"
+    },
+    "capitalAliases": {
+      "de": ["La Paz"],
+      "en": ["La Paz"],
+      "es": ["La Paz"],
+      "fr": ["La Paz"]
     },
     "code": "BO",
     "continent": "south-america",
@@ -785,6 +894,9 @@
       "fr": "Bolivie",
       "it": "Bolivia",
       "pt": "Bolívia"
+    },
+    "nameAliases": {
+      "es": ["Estado Plurinacional de Bolivia"]
     },
     "regions": ["world", "south-america"]
   },
@@ -819,6 +931,9 @@
       "it": "Brasile",
       "pt": "Brasil"
     },
+    "nameAliases": {
+      "es": ["Brazil"]
+    },
     "regions": ["world", "south-america"]
   },
   {
@@ -829,6 +944,9 @@
       "fr": "Nassau",
       "it": "Nassau",
       "pt": "Nassau"
+    },
+    "capitalAliases": {
+      "es": ["Nassau"]
     },
     "code": "BS",
     "continent": "north-america",
@@ -861,6 +979,9 @@
       "it": "Bahamas",
       "pt": "Bahamas"
     },
+    "nameAliases": {
+      "en": ["The Bahamas"]
+    },
     "regions": ["world", "north-america", "caribbean"]
   },
   {
@@ -871,6 +992,12 @@
       "fr": "Thimphou",
       "it": "Thimphu",
       "pt": "Thimbu"
+    },
+    "capitalAliases": {
+      "de": ["Thimbu"],
+      "es": ["Thimphu"],
+      "fr": ["Thimphu"],
+      "pt": ["Thimphu"]
     },
     "code": "BT",
     "continent": "asia",
@@ -927,6 +1054,11 @@
       "it": "Botswana",
       "pt": "Botswana"
     },
+    "nameAliases": {
+      "de": ["Botsuana"],
+      "es": ["Botsuana"],
+      "pt": ["Botsuana"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -961,7 +1093,12 @@
       "pt": "Bielorússia"
     },
     "nameAliases": {
-      "de": ["Belarus"]
+      "de": ["Belarus", "Weissrussland"],
+      "en": ["Belorussia", "Byelorussia"],
+      "es": ["Belarús"],
+      "fr": ["Bélarus"],
+      "it": ["Belarus"],
+      "pt": ["Belarus"]
     },
     "regions": ["world", "europe"]
   },
@@ -996,6 +1133,9 @@
       "it": "Belize",
       "pt": "Belize"
     },
+    "nameAliases": {
+      "en": ["British Honduras"]
+    },
     "regions": ["world", "north-america"]
   },
   {
@@ -1006,6 +1146,9 @@
       "fr": "Ottawa",
       "it": "Ottawa",
       "pt": "Ottawa"
+    },
+    "capitalAliases": {
+      "pt": ["Otava"]
     },
     "code": "CA",
     "continent": "north-america",
@@ -1040,6 +1183,10 @@
       "it": "Kinshasa",
       "pt": "Quinxassa"
     },
+    "capitalAliases": {
+      "es": ["Kinshasa"],
+      "pt": ["Kinshasa"]
+    },
     "code": "CD",
     "continent": "africa",
     "map": {
@@ -1063,27 +1210,41 @@
       "pt": "República Democrática do Congo"
     },
     "nameAliases": {
-      "de": ["DR Kongo", "Demokratische Republik Kongo", "Kongo-Kinshasa"],
-      "en": ["DRC", "Democratic Republic of the Congo", "Congo Kinshasa"],
+      "de": [
+        "DR Kongo",
+        "Demokratische Republik Kongo",
+        "Kongo-Kinshasa",
+        "Zaire"
+      ],
+      "en": [
+        "DRC",
+        "Democratic Republic of the Congo",
+        "Congo Kinshasa",
+        "Democratic Republic of Congo",
+        "Zaire"
+      ],
       "es": [
         "RDC",
         "RD Congo",
         "Congo Kinsasa",
-        "Republica Democratica del Congo"
+        "Republica Democratica del Congo",
+        "Zaire"
       ],
       "fr": [
         "République Démocratique du Congo",
         "RD Congo",
         "RDC",
-        "Congo Kinshasa"
+        "Congo Kinshasa",
+        "Zaïre"
       ],
       "it": [
         "RDC",
         "RD Congo",
         "Repubblica Democratica del Congo",
-        "Congo Kinshasa"
+        "Congo Kinshasa",
+        "Zaire"
       ],
-      "pt": ["RDC", "RD Congo", "Congo Kinshasa"]
+      "pt": ["RDC", "RD Congo", "Congo Kinshasa", "Zaire"]
     },
     "regions": ["world", "africa"]
   },
@@ -1120,7 +1281,8 @@
     },
     "nameAliases": {
       "en": ["CAR"],
-      "fr": ["Centrafrique"]
+      "fr": ["Centrafrique", "République d'Afrique Centrale"],
+      "it": ["Centrafrica"]
     },
     "regions": ["world", "africa"]
   },
@@ -1132,6 +1294,9 @@
       "fr": "Brazzaville",
       "it": "Brazzaville",
       "pt": "Brazavile"
+    },
+    "capitalAliases": {
+      "pt": ["Brazzaville"]
     },
     "code": "CG",
     "continent": "africa",
@@ -1157,7 +1322,7 @@
     },
     "nameAliases": {
       "de": ["Republik Kongo", "Kongo-Brazzaville"],
-      "en": ["Congo Brazzaville", "Congo Republic"],
+      "en": ["Congo Brazzaville", "Congo Republic", "Republic of Congo"],
       "es": ["Congo Brazzaville", "Republica del Congo"],
       "fr": ["République du Congo", "Congo Brazzaville"],
       "it": ["Repubblica del Congo", "Congo Brazzaville"],
@@ -1173,6 +1338,10 @@
       "fr": "Berne",
       "it": "Berna",
       "pt": "Berna"
+    },
+    "capitalAliases": {
+      "en": ["Berne"],
+      "fr": ["Bern"]
     },
     "code": "CH",
     "continent": "europe",
@@ -1196,6 +1365,9 @@
       "it": "Svizzera",
       "pt": "Suíça"
     },
+    "nameAliases": {
+      "fr": ["Confédération Suisse"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -1206,6 +1378,10 @@
       "fr": "Yamoussoukro",
       "it": "Yamoussoukro",
       "pt": "Yamoussoukro"
+    },
+    "capitalAliases": {
+      "es": ["Yamoussoukro", "Abiyán", "Abidjan"],
+      "pt": ["Iamussucro"]
     },
     "code": "CI",
     "continent": "africa",
@@ -1230,7 +1406,11 @@
       "pt": "Costa do Marfim"
     },
     "nameAliases": {
-      "en": ["Cote d'Ivoire"]
+      "de": ["Côte d'Ivoire", "Elfenbeinkueste"],
+      "en": ["Cote d'Ivoire"],
+      "es": ["Côte d'Ivoire"],
+      "it": ["Côte d'Ivoire"],
+      "pt": ["Cote d'Ivoire"]
     },
     "regions": ["world", "africa"]
   },
@@ -1242,6 +1422,13 @@
       "fr": "Santiago",
       "it": "Santiago del Cile",
       "pt": "Santiago"
+    },
+    "capitalAliases": {
+      "de": ["Santiago"],
+      "en": ["Santiago de Chile"],
+      "es": ["Santiago"],
+      "it": ["Santiago"],
+      "pt": ["Santiago do Chile"]
     },
     "code": "CL",
     "continent": "south-america",
@@ -1276,6 +1463,10 @@
       "it": "Yaoundé",
       "pt": "Iaundé"
     },
+    "capitalAliases": {
+      "es": ["Yaoundé"],
+      "pt": ["Yaoundé"]
+    },
     "code": "CM",
     "continent": "africa",
     "map": {
@@ -1298,6 +1489,9 @@
       "it": "Camerun",
       "pt": "Camarões"
     },
+    "nameAliases": {
+      "en": ["Cameroun"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -1310,9 +1504,11 @@
       "pt": "Pequim"
     },
     "capitalAliases": {
+      "de": ["Beijing"],
       "en": ["Peking"],
       "es": ["Beijing"],
       "fr": ["Beijing"],
+      "it": ["Beijing"],
       "pt": ["Beijing"]
     },
     "code": "CN",
@@ -1336,6 +1532,13 @@
       "fr": "Chine",
       "it": "Cina",
       "pt": "China"
+    },
+    "nameAliases": {
+      "de": ["Volksrepublik China", "VR China"],
+      "en": ["People's Republic of China", "PRC"],
+      "es": ["República Popular China"],
+      "fr": ["République Populaire de Chine"],
+      "pt": ["República Popular da China"]
     },
     "regions": ["world", "asia"]
   },
@@ -1381,6 +1584,9 @@
       "it": "San José",
       "pt": "San José"
     },
+    "capitalAliases": {
+      "pt": ["São José"]
+    },
     "code": "CR",
     "continent": "north-america",
     "map": {
@@ -1414,6 +1620,12 @@
       "it": "L'Avana",
       "pt": "Havana"
     },
+    "capitalAliases": {
+      "de": ["Havana"],
+      "en": ["La Habana"],
+      "fr": ["Havane", "Havana"],
+      "it": ["Avana", "Havana"]
+    },
     "code": "CU",
     "continent": "north-america",
     "map": {
@@ -1435,6 +1647,9 @@
       "fr": "Cuba",
       "it": "Cuba",
       "pt": "Cuba"
+    },
+    "nameAliases": {
+      "de": ["Cuba"]
     },
     "regions": ["world", "north-america", "caribbean"]
   },
@@ -1479,9 +1694,11 @@
       "pt": "Cabo Verde"
     },
     "nameAliases": {
-      "de": ["Cabo Verde"],
+      "de": ["Cabo Verde", "Kapverden"],
       "en": ["Cabo Verde"],
-      "fr": ["Cap Vert"]
+      "es": ["Cape Verde"],
+      "fr": ["Cap Vert", "Cabo Verde"],
+      "it": ["Cabo Verde"]
     },
     "regions": ["world", "africa"]
   },
@@ -1493,6 +1710,10 @@
       "fr": "Nicosie",
       "it": "Nicosia",
       "pt": "Nicósia"
+    },
+    "capitalAliases": {
+      "de": ["Nicosia"],
+      "en": ["Lefkosia"]
     },
     "code": "CY",
     "continent": "europe",
@@ -1526,6 +1747,9 @@
       "fr": "Prague",
       "it": "Praga",
       "pt": "Praga"
+    },
+    "capitalAliases": {
+      "en": ["Praha"]
     },
     "code": "CZ",
     "continent": "europe",
@@ -1590,6 +1814,12 @@
       "it": "Germania",
       "pt": "Alemanha"
     },
+    "nameAliases": {
+      "de": ["Bundesrepublik Deutschland", "BRD"],
+      "en": ["Deutschland", "Federal Republic of Germany"],
+      "es": ["RFA", "República Federal de Alemania"],
+      "fr": ["RFA", "Deutschland"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -1600,6 +1830,12 @@
       "fr": "Djibouti",
       "it": "Gibuti",
       "pt": "Djibouti"
+    },
+    "capitalAliases": {
+      "de": ["Djibouti"],
+      "es": ["Yibuti", "Djibouti"],
+      "it": ["Djibouti"],
+      "pt": ["Jibuti"]
     },
     "code": "DJ",
     "continent": "africa",
@@ -1623,6 +1859,12 @@
       "it": "Gibuti",
       "pt": "Djibouti"
     },
+    "nameAliases": {
+      "de": ["Djibouti"],
+      "es": ["Yibuti"],
+      "it": ["Djibouti"],
+      "pt": ["Jibuti"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -1633,6 +1875,13 @@
       "fr": "Copenhague",
       "it": "Copenaghen",
       "pt": "Copenhaga"
+    },
+    "capitalAliases": {
+      "en": ["Kobenhavn"],
+      "es": ["Copenhagen"],
+      "fr": ["Copenhagen"],
+      "it": ["Copenhagen"],
+      "pt": ["Copenhague"]
     },
     "code": "DK",
     "continent": "europe",
@@ -1655,6 +1904,9 @@
       "fr": "Danemark",
       "it": "Danimarca",
       "pt": "Dinamarca"
+    },
+    "nameAliases": {
+      "de": ["Daenemark"]
     },
     "regions": ["world", "europe"],
     "outlyingTerritoryCodes": ["FO", "GL"]
@@ -1709,6 +1961,10 @@
       "fr": "Saint-Domingue",
       "it": "Santo Domingo",
       "pt": "São Domingos"
+    },
+    "capitalAliases": {
+      "fr": ["Santo Domingo"],
+      "pt": ["Santo Domingo"]
     },
     "code": "DO",
     "continent": "north-america",
@@ -1810,6 +2066,9 @@
       "it": "Tallinn",
       "pt": "Tallinn"
     },
+    "capitalAliases": {
+      "es": ["Tallinn"]
+    },
     "code": "EE",
     "continent": "europe",
     "map": {
@@ -1843,6 +2102,12 @@
       "it": "Il Cairo",
       "pt": "Cairo"
     },
+    "capitalAliases": {
+      "es": ["Cairo"],
+      "fr": ["Caire", "Cairo"],
+      "it": ["Cairo"],
+      "pt": ["O Cairo"]
+    },
     "code": "EG",
     "continent": "africa",
     "map": {
@@ -1865,6 +2130,10 @@
       "it": "Egitto",
       "pt": "Egito"
     },
+    "nameAliases": {
+      "de": ["Aegypten"],
+      "pt": ["Egipto"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -1875,6 +2144,12 @@
       "fr": "El Aaiún",
       "it": "El Aaiún",
       "pt": "El Aaiún"
+    },
+    "capitalAliases": {
+      "en": ["Laayoune"],
+      "es": ["Laayoune", "Aaiún"],
+      "fr": ["Laâyoune"],
+      "it": ["Laayoune"]
     },
     "code": "EH",
     "continent": "africa",
@@ -1898,6 +2173,9 @@
       "it": "Sahara Occidentale",
       "pt": "Saara Ocidental"
     },
+    "nameAliases": {
+      "en": ["Sahrawi Arab Democratic Republic"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -1908,6 +2186,10 @@
       "fr": "Asmara",
       "it": "Asmara",
       "pt": "Asmara"
+    },
+    "capitalAliases": {
+      "en": ["Asmera"],
+      "es": ["Asmera"]
     },
     "code": "ER",
     "continent": "africa",
@@ -1942,6 +2224,9 @@
       "it": "Madrid",
       "pt": "Madrid"
     },
+    "capitalAliases": {
+      "pt": ["Madri"]
+    },
     "code": "ES",
     "continent": "europe",
     "map": {
@@ -1964,6 +2249,9 @@
       "it": "Spagna",
       "pt": "Espanha"
     },
+    "nameAliases": {
+      "en": ["España"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -1974,6 +2262,13 @@
       "fr": "Addis-Abeba",
       "it": "Addis Abeba",
       "pt": "Adis Abeba"
+    },
+    "capitalAliases": {
+      "de": ["Addis Ababa"],
+      "en": ["Addis Abeba"],
+      "es": ["Addis Abeba", "Addis Ababa"],
+      "fr": ["Addis Ababa"],
+      "pt": ["Addis Abeba"]
     },
     "code": "ET",
     "continent": "africa",
@@ -1997,6 +2292,11 @@
       "it": "Etiopia",
       "pt": "Etiópia"
     },
+    "nameAliases": {
+      "de": ["Aethiopien"],
+      "en": ["Abyssinia"],
+      "fr": ["Abyssinie"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -2007,6 +2307,9 @@
       "fr": "Helsinki",
       "it": "Helsinki",
       "pt": "Helsínquia"
+    },
+    "capitalAliases": {
+      "pt": ["Helsinque", "Helsinki"]
     },
     "code": "FI",
     "continent": "europe",
@@ -2072,6 +2375,13 @@
       "it": "Figi",
       "pt": "Fiji"
     },
+    "nameAliases": {
+      "de": ["Fiji"],
+      "es": ["Fiji"],
+      "fr": ["Îles Fidji"],
+      "it": ["Fiji"],
+      "pt": ["Ilhas Fiji"]
+    },
     "regions": ["world", "oceania"]
   },
   {
@@ -2082,6 +2392,9 @@
       "fr": "Palikir",
       "it": "Palikir",
       "pt": "Paliquir"
+    },
+    "capitalAliases": {
+      "pt": ["Palikir"]
     },
     "code": "FM",
     "continent": "oceania",
@@ -2113,6 +2426,13 @@
       "fr": "Micronésie",
       "it": "Micronesia",
       "pt": "Micronésia"
+    },
+    "nameAliases": {
+      "de": ["Föderierte Staaten von Mikronesien"],
+      "en": ["Federated States of Micronesia", "FSM"],
+      "es": ["Estados Federados de Micronesia"],
+      "fr": ["États fédérés de Micronésie"],
+      "pt": ["Estados Federados da Micronésia"]
     },
     "regions": ["world", "oceania"]
   },
@@ -2181,6 +2501,9 @@
       "it": "Gabon",
       "pt": "Gabão"
     },
+    "nameAliases": {
+      "de": ["Gabon"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -2191,6 +2514,9 @@
       "fr": "Londres",
       "it": "Londra",
       "pt": "Londres"
+    },
+    "capitalAliases": {
+      "es": ["London"]
     },
     "code": "GB",
     "continent": "europe",
@@ -2215,12 +2541,17 @@
       "pt": "Reino Unido"
     },
     "nameAliases": {
-      "de": ["Großbritannien", "UK"],
-      "en": ["UK", "Britain", "Great Britain"],
-      "es": ["RU", "UK", "Gran Bretana"],
+      "de": ["Großbritannien", "UK", "Grossbritannien"],
+      "en": [
+        "UK",
+        "Britain",
+        "Great Britain",
+        "United Kingdom of Great Britain and Northern Ireland"
+      ],
+      "es": ["RU", "UK", "Gran Bretana", "Inglaterra"],
       "fr": ["UK", "Grande-Bretagne"],
-      "it": ["Gran Bretagna"],
-      "pt": ["RU"]
+      "it": ["Gran Bretagna", "UK"],
+      "pt": ["RU", "Grã-Bretanha", "UK"]
     },
     "regions": ["world", "europe"]
   },
@@ -2232,6 +2563,12 @@
       "fr": "Saint-Georges",
       "it": "Saint George's",
       "pt": "São Jorge"
+    },
+    "capitalAliases": {
+      "de": ["Saint George's"],
+      "en": ["Saint George's"],
+      "es": ["Saint George's", "San Jorge"],
+      "pt": ["Saint George's"]
     },
     "code": "GD",
     "continent": "north-america",
@@ -2264,6 +2601,9 @@
       "it": "Grenada",
       "pt": "Granada"
     },
+    "nameAliases": {
+      "es": ["Granada"]
+    },
     "regions": ["world", "north-america", "caribbean"]
   },
   {
@@ -2274,6 +2614,13 @@
       "fr": "Tbilissi",
       "it": "Tbilisi",
       "pt": "Tiblíssi"
+    },
+    "capitalAliases": {
+      "de": ["Tbilissi", "Tbilisi"],
+      "en": ["Tiflis"],
+      "es": ["Tbilisi"],
+      "fr": ["Tbilisi"],
+      "pt": ["Tbilisi", "Tiflis"]
     },
     "code": "GE",
     "continent": "asia",
@@ -2308,6 +2655,10 @@
       "it": "Accra",
       "pt": "Acra"
     },
+    "capitalAliases": {
+      "es": ["Accra"],
+      "pt": ["Accra"]
+    },
     "code": "GH",
     "continent": "africa",
     "map": {
@@ -2329,6 +2680,9 @@
       "fr": "Ghana",
       "it": "Ghana",
       "pt": "Gana"
+    },
+    "nameAliases": {
+      "en": ["Gold Coast"]
     },
     "regions": ["world", "africa"]
   },
@@ -2363,6 +2717,9 @@
       "it": "Gambia",
       "pt": "Gâmbia"
     },
+    "nameAliases": {
+      "en": ["The Gambia"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -2373,6 +2730,10 @@
       "fr": "Conakry",
       "it": "Conakry",
       "pt": "Conacri"
+    },
+    "capitalAliases": {
+      "es": ["Conakry"],
+      "pt": ["Conakry"]
     },
     "code": "GN",
     "continent": "africa",
@@ -2396,6 +2757,10 @@
       "it": "Guinea",
       "pt": "Guiné"
     },
+    "nameAliases": {
+      "fr": ["Guinée-Conakry"],
+      "pt": ["Guiné-Conacri"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -2406,6 +2771,14 @@
       "fr": "Ciudad de la Paz",
       "it": "Ciudad de la Paz",
       "pt": "Ciudad de la Paz"
+    },
+    "capitalAliases": {
+      "de": ["Malabo"],
+      "en": ["Malabo", "Oyala"],
+      "es": ["Malabo"],
+      "fr": ["Malabo"],
+      "it": ["Malabo"],
+      "pt": ["Malabo", "Oyala"]
     },
     "code": "GQ",
     "continent": "africa",
@@ -2428,6 +2801,9 @@
       "fr": "Guinée équatoriale",
       "it": "Guinea Equatoriale",
       "pt": "Guiné Equatorial"
+    },
+    "nameAliases": {
+      "de": ["Aequatorialguinea"]
     },
     "regions": ["world", "africa"]
   },
@@ -2462,6 +2838,9 @@
       "it": "Grecia",
       "pt": "Grécia"
     },
+    "nameAliases": {
+      "en": ["Hellas"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -2472,6 +2851,12 @@
       "fr": "Guatemala",
       "it": "Città del Guatemala",
       "pt": "Cidade da Guatemala"
+    },
+    "capitalAliases": {
+      "en": ["Ciudad de Guatemala"],
+      "es": ["Guatemala"],
+      "fr": ["Ciudad de Guatemala", "Guatemala City"],
+      "it": ["Guatemala City"]
     },
     "code": "GT",
     "continent": "north-america",
@@ -2506,6 +2891,9 @@
       "it": "Bissau",
       "pt": "Bissau"
     },
+    "capitalAliases": {
+      "es": ["Bissau"]
+    },
     "code": "GW",
     "continent": "africa",
     "map": {
@@ -2527,6 +2915,9 @@
       "fr": "Guinée-Bissau",
       "it": "Guinea-Bissau",
       "pt": "Guiné-Bissau"
+    },
+    "nameAliases": {
+      "es": ["Guinea-Bissau"]
     },
     "regions": ["world", "africa"]
   },
@@ -2560,6 +2951,10 @@
       "fr": "Guyana",
       "it": "Guyana",
       "pt": "Guiana"
+    },
+    "nameAliases": {
+      "en": ["British Guiana"],
+      "pt": ["Guyana"]
     },
     "regions": ["world", "south-america"]
   },
@@ -2605,6 +3000,10 @@
       "it": "Zagabria",
       "pt": "Zagreb"
     },
+    "capitalAliases": {
+      "it": ["Zagreb"],
+      "pt": ["Zagrebe"]
+    },
     "code": "HR",
     "continent": "europe",
     "map": {
@@ -2637,6 +3036,10 @@
       "fr": "Port-au-Prince",
       "it": "Port-au-Prince",
       "pt": "Porto Príncipe"
+    },
+    "capitalAliases": {
+      "es": ["Port-au-Prince"],
+      "pt": ["Port-au-Prince"]
     },
     "code": "HT",
     "continent": "north-america",
@@ -2671,6 +3074,9 @@
       "it": "Budapest",
       "pt": "Budapeste"
     },
+    "capitalAliases": {
+      "pt": ["Budapest"]
+    },
     "code": "HU",
     "continent": "europe",
     "map": {
@@ -2703,6 +3109,13 @@
       "fr": "Jakarta",
       "it": "Giacarta",
       "pt": "Jacarta"
+    },
+    "capitalAliases": {
+      "de": ["Djakarta"],
+      "en": ["Djakarta"],
+      "es": ["Jakarta"],
+      "it": ["Jakarta"],
+      "pt": ["Jakarta"]
     },
     "code": "ID",
     "continent": "asia",
@@ -2737,6 +3150,10 @@
       "it": "Dublino",
       "pt": "Dublin"
     },
+    "capitalAliases": {
+      "it": ["Dublin"],
+      "pt": ["Dublim"]
+    },
     "code": "IE",
     "continent": "europe",
     "map": {
@@ -2759,6 +3176,11 @@
       "it": "Irlanda",
       "pt": "Irlanda"
     },
+    "nameAliases": {
+      "en": ["Republic of Ireland", "Eire"],
+      "es": ["Eire"],
+      "fr": ["République d'Irlande", "Éire"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -2769,6 +3191,9 @@
       "fr": "Jérusalem",
       "it": "Gerusalemme",
       "pt": "Jerusalém"
+    },
+    "capitalAliases": {
+      "es": ["Jerusalem"]
     },
     "code": "IL",
     "continent": "asia",
@@ -2803,6 +3228,14 @@
       "it": "Nuova Delhi",
       "pt": "Nova Deli"
     },
+    "capitalAliases": {
+      "de": ["New Delhi", "Delhi"],
+      "en": ["Delhi"],
+      "es": ["Nueva Deli", "New Delhi"],
+      "fr": ["Delhi"],
+      "it": ["New Delhi", "Delhi"],
+      "pt": ["Nova Delhi"]
+    },
     "code": "IN",
     "continent": "asia",
     "map": {
@@ -2825,6 +3258,9 @@
       "it": "India",
       "pt": "Índia"
     },
+    "nameAliases": {
+      "en": ["Bharat"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -2835,6 +3271,12 @@
       "fr": "Bagdad",
       "it": "Baghdad",
       "pt": "Bagdá"
+    },
+    "capitalAliases": {
+      "de": ["Baghdad"],
+      "es": ["Baghdad"],
+      "fr": ["Baghdad"],
+      "pt": ["Bagdad", "Bagdade"]
     },
     "code": "IQ",
     "continent": "asia",
@@ -2858,6 +3300,11 @@
       "it": "Iraq",
       "pt": "Iraque"
     },
+    "nameAliases": {
+      "de": ["Iraq"],
+      "es": ["Iraq"],
+      "fr": ["Iraq"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -2868,6 +3315,13 @@
       "fr": "Téhéran",
       "it": "Teheran",
       "pt": "Teerão"
+    },
+    "capitalAliases": {
+      "de": ["Tehran"],
+      "en": ["Teheran"],
+      "fr": ["Tehran"],
+      "it": ["Tehran"],
+      "pt": ["Teerã", "Tehran", "Teheran"]
     },
     "code": "IR",
     "continent": "asia",
@@ -2892,7 +3346,11 @@
       "pt": "Irão"
     },
     "nameAliases": {
-      "pt": ["Ira"]
+      "de": ["Persien"],
+      "en": ["Persia"],
+      "es": ["Persia"],
+      "fr": ["Perse"],
+      "pt": ["Ira", "Pérsia"]
     },
     "regions": ["world", "asia"]
   },
@@ -2904,6 +3362,10 @@
       "fr": "Reykjavik",
       "it": "Reykjavík",
       "pt": "Reykjavík"
+    },
+    "capitalAliases": {
+      "es": ["Reykjavik", "Reykiavik"],
+      "pt": ["Reiquiavique"]
     },
     "code": "IS",
     "continent": "europe",
@@ -2938,6 +3400,9 @@
       "it": "Roma",
       "pt": "Roma"
     },
+    "capitalAliases": {
+      "en": ["Roma"]
+    },
     "code": "IT",
     "continent": "europe",
     "map": {
@@ -2959,6 +3424,9 @@
       "fr": "Italie",
       "it": "Italia",
       "pt": "Itália"
+    },
+    "nameAliases": {
+      "en": ["Italia"]
     },
     "regions": ["world", "europe"]
   },
@@ -2993,6 +3461,9 @@
       "it": "Giamaica",
       "pt": "Jamaica"
     },
+    "nameAliases": {
+      "de": ["Jamaica"]
+    },
     "regions": ["world", "north-america", "caribbean"]
   },
   {
@@ -3003,6 +3474,10 @@
       "fr": "Amman",
       "it": "Amman",
       "pt": "Amã"
+    },
+    "capitalAliases": {
+      "es": ["Amman"],
+      "pt": ["Amman"]
     },
     "code": "JO",
     "continent": "asia",
@@ -3037,6 +3512,13 @@
       "it": "Tokyo",
       "pt": "Tóquio"
     },
+    "capitalAliases": {
+      "de": ["Tokyo"],
+      "en": ["Tokio"],
+      "es": ["Tokyo"],
+      "it": ["Tokio"],
+      "pt": ["Tokyo"]
+    },
     "code": "JP",
     "continent": "asia",
     "map": {
@@ -3058,6 +3540,9 @@
       "fr": "Japon",
       "it": "Giappone",
       "pt": "Japão"
+    },
+    "nameAliases": {
+      "en": ["Nippon", "Nihon"]
     },
     "regions": ["world", "asia"]
   },
@@ -3092,6 +3577,11 @@
       "it": "Kenya",
       "pt": "Quénia"
     },
+    "nameAliases": {
+      "de": ["Kenya"],
+      "es": ["Kenya"],
+      "it": ["Kenia"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -3102,6 +3592,14 @@
       "fr": "Bichkek",
       "it": "Biškek",
       "pt": "Bisqueque"
+    },
+    "capitalAliases": {
+      "de": ["Bishkek"],
+      "en": ["Frunze"],
+      "es": ["Bishkek"],
+      "fr": ["Bishkek"],
+      "it": ["Bishkek"],
+      "pt": ["Bishkek", "Bichkek"]
     },
     "code": "KG",
     "continent": "asia",
@@ -3125,6 +3623,14 @@
       "it": "Kirghizistan",
       "pt": "Quirguistão"
     },
+    "nameAliases": {
+      "de": ["Kirgistan", "Kirgisien"],
+      "en": ["Kyrgyz Republic"],
+      "es": ["Kirguistán", "Kirguizstán"],
+      "fr": ["Kirghizie"],
+      "it": ["Kirghizia"],
+      "pt": ["Quirguízia"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -3135,6 +3641,9 @@
       "fr": "Phnom Penh",
       "it": "Phnom Penh",
       "pt": "Phnom Penh"
+    },
+    "capitalAliases": {
+      "es": ["Phnom Penh"]
     },
     "code": "KH",
     "continent": "asia",
@@ -3158,6 +3667,11 @@
       "it": "Cambogia",
       "pt": "Camboja"
     },
+    "nameAliases": {
+      "en": ["Kampuchea"],
+      "es": ["Cambodia", "Kampuchea"],
+      "it": ["Kampuchea"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -3168,6 +3682,14 @@
       "fr": "Tarawa-Sud",
       "it": "Tarawa Sud",
       "pt": "Tarawa do Sul"
+    },
+    "capitalAliases": {
+      "de": ["Tarawa"],
+      "en": ["Tarawa"],
+      "es": ["Tarawa", "South Tarawa"],
+      "fr": ["Tarawa"],
+      "it": ["Tarawa"],
+      "pt": ["Tarawa"]
     },
     "code": "KI",
     "continent": "oceania",
@@ -3242,6 +3764,11 @@
       "it": "Comore",
       "pt": "Comores"
     },
+    "nameAliases": {
+      "es": ["Islas Comoras"],
+      "it": ["Isole Comore"],
+      "pt": ["Comoros", "Ilhas Comores"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -3285,7 +3812,16 @@
       "pt": "São Cristóvão e Nevis"
     },
     "nameAliases": {
-      "fr": ["Saint-Kitts-et-Nevis"]
+      "de": ["Saint Kitts und Nevis"],
+      "en": ["Saint Christopher and Nevis", "St. Kitts and Nevis"],
+      "es": [
+        "Saint Kitts y Nevis",
+        "San Cristóbal y Nevis",
+        "Saint Kitts and Nevis"
+      ],
+      "fr": ["Saint-Kitts-et-Nevis"],
+      "it": ["San Cristoforo e Nevis"],
+      "pt": ["São Cristóvão e Neves", "Saint Kitts e Nevis"]
     },
     "regions": ["world", "north-america", "caribbean"]
   },
@@ -3297,6 +3833,11 @@
       "fr": "Pyongyang",
       "it": "Pyongyang",
       "pt": "Pyongyang"
+    },
+    "capitalAliases": {
+      "de": ["Pjoengjang", "Pyongyang"],
+      "es": ["Pyongyang"],
+      "pt": ["Pionguiangue"]
     },
     "code": "KP",
     "continent": "asia",
@@ -3320,6 +3861,10 @@
       "it": "Corea del Nord",
       "pt": "Coreia do Norte"
     },
+    "nameAliases": {
+      "en": ["DPRK", "Democratic People's Republic of Korea"],
+      "fr": ["RPDC"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -3330,6 +3875,11 @@
       "fr": "Séoul",
       "it": "Seul",
       "pt": "Seul"
+    },
+    "capitalAliases": {
+      "es": ["Seoul"],
+      "it": ["Seoul"],
+      "pt": ["Seoul"]
     },
     "code": "KR",
     "continent": "asia",
@@ -3353,6 +3903,12 @@
       "it": "Corea del Sud",
       "pt": "Coreia do Sul"
     },
+    "nameAliases": {
+      "de": ["Suedkorea"],
+      "en": ["Republic of Korea", "ROK"],
+      "fr": ["République de Corée"],
+      "pt": ["República da Coreia"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -3363,6 +3919,13 @@
       "fr": "Koweït",
       "it": "Al Kuwait",
       "pt": "Kuwait"
+    },
+    "capitalAliases": {
+      "de": ["Kuwait-Stadt"],
+      "es": ["Kuwait", "Al Kuwait"],
+      "fr": ["Kuwait City"],
+      "it": ["Kuwait City"],
+      "pt": ["Coveite", "Cidade do Kuwait"]
     },
     "code": "KW",
     "continent": "asia",
@@ -3386,6 +3949,11 @@
       "it": "Kuwait",
       "pt": "Kuwait"
     },
+    "nameAliases": {
+      "de": ["Kuweit"],
+      "fr": ["Kuwait"],
+      "pt": ["Coveite"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -3396,6 +3964,13 @@
       "fr": "Astana",
       "it": "Astana",
       "pt": "Astana"
+    },
+    "capitalAliases": {
+      "de": ["Nur-Sultan"],
+      "en": ["Nur-Sultan"],
+      "fr": ["Nur-Sultan", "Noursoultan"],
+      "it": ["Nur-Sultan"],
+      "pt": ["Nur-Sultan"]
     },
     "code": "KZ",
     "continent": "asia",
@@ -3419,6 +3994,9 @@
       "it": "Kazakistan",
       "pt": "Cazaquistão"
     },
+    "nameAliases": {
+      "es": ["Kazajstán", "Kazakhstan"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -3429,6 +4007,10 @@
       "fr": "Vientiane",
       "it": "Vientiane",
       "pt": "Vienciana"
+    },
+    "capitalAliases": {
+      "es": ["Vientiane"],
+      "pt": ["Vientiane"]
     },
     "code": "LA",
     "continent": "asia",
@@ -3452,6 +4034,9 @@
       "it": "Laos",
       "pt": "Laos"
     },
+    "nameAliases": {
+      "en": ["Lao PDR"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -3462,6 +4047,10 @@
       "fr": "Beyrouth",
       "it": "Beirut",
       "pt": "Beirute"
+    },
+    "capitalAliases": {
+      "en": ["Beyrouth"],
+      "pt": ["Beirut"]
     },
     "code": "LB",
     "continent": "asia",
@@ -3527,6 +4116,10 @@
       "it": "Santa Lucia",
       "pt": "Santa Lúcia"
     },
+    "nameAliases": {
+      "de": ["Saint Lucia"],
+      "en": ["St. Lucia"]
+    },
     "regions": ["world", "north-america", "caribbean"]
   },
   {
@@ -3580,6 +4173,14 @@
       "it": "Sri Jayawardenapura Kotte",
       "pt": "Kotte"
     },
+    "capitalAliases": {
+      "de": ["Colombo", "Kotte"],
+      "en": ["Colombo", "Kotte"],
+      "es": ["Colombo", "Kotte"],
+      "fr": ["Colombo"],
+      "it": ["Colombo", "Kotte"],
+      "pt": ["Colombo", "Sri Jayawardenapura Kotte"]
+    },
     "code": "LK",
     "continent": "asia",
     "map": {
@@ -3601,6 +4202,13 @@
       "fr": "Sri Lanka",
       "it": "Sri Lanka",
       "pt": "Sri Lanka"
+    },
+    "nameAliases": {
+      "de": ["Ceylon"],
+      "en": ["Ceylon"],
+      "es": ["Ceilán", "Ceylan"],
+      "fr": ["Ceylan"],
+      "pt": ["Ceilão"]
     },
     "regions": ["world", "asia"]
   },
@@ -3668,6 +4276,10 @@
       "it": "Lesotho",
       "pt": "Lesoto"
     },
+    "nameAliases": {
+      "es": ["Lesoto"],
+      "pt": ["Lesotho"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -3678,6 +4290,10 @@
       "fr": "Vilnius",
       "it": "Vilnius",
       "pt": "Vilnius"
+    },
+    "capitalAliases": {
+      "es": ["Vilnius"],
+      "pt": ["Vilna"]
     },
     "code": "LT",
     "continent": "europe",
@@ -3712,6 +4328,11 @@
       "it": "Lussemburgo",
       "pt": "Luxemburgo"
     },
+    "capitalAliases": {
+      "de": ["Luxemburg-Stadt", "Luxembourg"],
+      "en": ["Luxembourg City"],
+      "fr": ["Luxembourg-Ville"]
+    },
     "code": "LU",
     "continent": "europe",
     "map": {
@@ -3733,6 +4354,9 @@
       "fr": "Luxembourg",
       "it": "Lussemburgo",
       "pt": "Luxemburgo"
+    },
+    "nameAliases": {
+      "de": ["Luxembourg"]
     },
     "regions": ["world", "europe"]
   },
@@ -3778,6 +4402,9 @@
       "it": "Tripoli",
       "pt": "Trípoli"
     },
+    "capitalAliases": {
+      "de": ["Tripoli"]
+    },
     "code": "LY",
     "continent": "africa",
     "map": {
@@ -3810,6 +4437,9 @@
       "fr": "Rabat",
       "it": "Rabat",
       "pt": "Rabat"
+    },
+    "capitalAliases": {
+      "pt": ["Rabate"]
     },
     "code": "MA",
     "continent": "africa",
@@ -3844,6 +4474,10 @@
       "it": "Monaco Vecchia",
       "pt": "Monaco-Ville"
     },
+    "capitalAliases": {
+      "en": ["Monaco City"],
+      "fr": ["Monaco"]
+    },
     "code": "MC",
     "continent": "europe",
     "countryPressArea": {
@@ -3875,6 +4509,9 @@
       "it": "Principato di Monaco",
       "pt": "Mónaco"
     },
+    "nameAliases": {
+      "it": ["Monaco"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -3885,6 +4522,12 @@
       "fr": "Chișinău",
       "it": "Chișinău",
       "pt": "Chișinău"
+    },
+    "capitalAliases": {
+      "de": ["Chișinău", "Kischinjow"],
+      "en": ["Kishinev"],
+      "es": ["Kishinev", "Kishinov"],
+      "pt": ["Quixinau", "Kishinev"]
     },
     "code": "MD",
     "continent": "europe",
@@ -3909,7 +4552,11 @@
       "pt": "Moldávia"
     },
     "nameAliases": {
-      "de": ["Moldau"]
+      "de": ["Moldau", "Republik Moldau"],
+      "es": ["Moldova"],
+      "fr": ["Moldova"],
+      "it": ["Moldova"],
+      "pt": ["Moldova"]
     },
     "regions": ["world", "europe"]
   },
@@ -3921,6 +4568,9 @@
       "fr": "Podgorica",
       "it": "Podgorica",
       "pt": "Podgorica"
+    },
+    "capitalAliases": {
+      "en": ["Titograd"]
     },
     "code": "ME",
     "continent": "europe",
@@ -3954,6 +4604,14 @@
       "fr": "Antananarivo",
       "it": "Antananarivo",
       "pt": "Antananarivo"
+    },
+    "capitalAliases": {
+      "de": ["Tananarive"],
+      "en": ["Tananarive"],
+      "es": ["Tananarive"],
+      "fr": ["Tananarive"],
+      "it": ["Tananarive"],
+      "pt": ["Tananarive"]
     },
     "code": "MG",
     "continent": "africa",
@@ -4030,6 +4688,10 @@
       "it": "Skopje",
       "pt": "Skopje"
     },
+    "capitalAliases": {
+      "es": ["Skopje", "Skoplje"],
+      "pt": ["Escópia"]
+    },
     "code": "MK",
     "continent": "europe",
     "map": {
@@ -4053,7 +4715,12 @@
       "pt": "Macedónia do Norte"
     },
     "nameAliases": {
-      "it": ["Macedonia"]
+      "de": ["Mazedonien"],
+      "en": ["Macedonia", "FYROM"],
+      "es": ["Macedonia", "North Macedonia"],
+      "fr": ["Macédoine"],
+      "it": ["Macedonia"],
+      "pt": ["Macedónia"]
     },
     "regions": ["world", "europe"]
   },
@@ -4065,6 +4732,9 @@
       "fr": "Bamako",
       "it": "Bamako",
       "pt": "Bamako"
+    },
+    "capitalAliases": {
+      "pt": ["Bamaco"]
     },
     "code": "ML",
     "continent": "africa",
@@ -4100,7 +4770,10 @@
       "pt": "Naypyidaw"
     },
     "capitalAliases": {
-      "es": ["Naypyidaw"]
+      "de": ["Nay Pyi Taw"],
+      "en": ["Nay Pyi Taw"],
+      "es": ["Naypyidaw", "Nay Pyi Taw"],
+      "pt": ["Nay Pyi Taw"]
     },
     "code": "MM",
     "continent": "asia",
@@ -4144,7 +4817,12 @@
       "pt": "Ulã Bator"
     },
     "capitalAliases": {
-      "en": ["Ulaanbaatar"]
+      "de": ["Ulan-Bator"],
+      "en": ["Ulaanbaatar"],
+      "es": ["Ulaanbaatar"],
+      "fr": ["Ulaanbaatar", "Ulan Bator"],
+      "it": ["Ulaanbaatar"],
+      "pt": ["Ulan Bator", "Ulaanbaatar"]
     },
     "code": "MN",
     "continent": "asia",
@@ -4179,6 +4857,10 @@
       "it": "Nouakchott",
       "pt": "Nouakchott"
     },
+    "capitalAliases": {
+      "es": ["Nouakchott"],
+      "pt": ["Nuaquechote"]
+    },
     "code": "MR",
     "continent": "africa",
     "map": {
@@ -4211,6 +4893,12 @@
       "fr": "La Valette",
       "it": "La Valletta",
       "pt": "Valeta"
+    },
+    "capitalAliases": {
+      "es": ["La Valletta", "Valletta"],
+      "fr": ["Valette", "Valletta"],
+      "it": ["Valletta"],
+      "pt": ["Valletta"]
     },
     "code": "MT",
     "continent": "europe",
@@ -4254,6 +4942,9 @@
       "it": "Port Louis",
       "pt": "Port Louis"
     },
+    "capitalAliases": {
+      "pt": ["Porto Luís"]
+    },
     "code": "MU",
     "continent": "africa",
     "countryPressArea": {
@@ -4284,6 +4975,11 @@
       "fr": "Île Maurice",
       "it": "Mauritius",
       "pt": "Maurício"
+    },
+    "nameAliases": {
+      "es": ["Isla Mauricio", "Mauritius"],
+      "fr": ["Maurice"],
+      "pt": ["Maurícia", "Ilhas Maurício"]
     },
     "regions": ["world", "africa"]
   },
@@ -4327,6 +5023,10 @@
       "it": "Maldive",
       "pt": "Maldivas"
     },
+    "nameAliases": {
+      "es": ["Islas Maldivas"],
+      "pt": ["Ilhas Maldivas"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -4337,6 +5037,10 @@
       "fr": "Lilongwe",
       "it": "Lilongwe",
       "pt": "Lilongué"
+    },
+    "capitalAliases": {
+      "es": ["Lilongwe"],
+      "pt": ["Lilongwe"]
     },
     "code": "MW",
     "continent": "africa",
@@ -4360,6 +5064,11 @@
       "it": "Malawi",
       "pt": "Malawi"
     },
+    "nameAliases": {
+      "en": ["Nyasaland"],
+      "es": ["Malaui"],
+      "pt": ["Maláui"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -4370,6 +5079,14 @@
       "fr": "Mexico",
       "it": "Città del Messico",
       "pt": "Cidade do México"
+    },
+    "capitalAliases": {
+      "de": ["Mexico-Stadt", "Ciudad de México"],
+      "en": ["Ciudad de Mexico", "CDMX"],
+      "es": ["CDMX", "DF", "México DF"],
+      "fr": ["Ciudad de México", "Mexico City"],
+      "it": ["Mexico City", "Ciudad de México"],
+      "pt": ["Ciudad de México"]
     },
     "code": "MX",
     "continent": "north-america",
@@ -4393,6 +5110,9 @@
       "it": "Messico",
       "pt": "México"
     },
+    "nameAliases": {
+      "de": ["Mexico"]
+    },
     "regions": ["world", "north-america"]
   },
   {
@@ -4403,6 +5123,9 @@
       "fr": "Kuala Lumpur",
       "it": "Kuala Lumpur",
       "pt": "Kuala Lumpur"
+    },
+    "capitalAliases": {
+      "es": ["Putrajaya"]
     },
     "code": "MY",
     "continent": "asia",
@@ -4426,6 +5149,9 @@
       "it": "Malesia",
       "pt": "Malásia"
     },
+    "nameAliases": {
+      "es": ["Malaysia"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -4436,6 +5162,9 @@
       "fr": "Maputo",
       "it": "Maputo",
       "pt": "Maputo"
+    },
+    "capitalAliases": {
+      "en": ["Lourenço Marques"]
     },
     "code": "MZ",
     "continent": "africa",
@@ -4470,6 +5199,9 @@
       "it": "Windhoek",
       "pt": "Windhoek"
     },
+    "capitalAliases": {
+      "de": ["Windhuk"]
+    },
     "code": "NA",
     "continent": "africa",
     "map": {
@@ -4491,6 +5223,9 @@
       "fr": "Namibie",
       "it": "Namibia",
       "pt": "Namíbia"
+    },
+    "nameAliases": {
+      "en": ["South West Africa"]
     },
     "regions": ["world", "africa"]
   },
@@ -4602,6 +5337,9 @@
       "it": "Amsterdam",
       "pt": "Amesterdão"
     },
+    "capitalAliases": {
+      "pt": ["Amsterdã", "Amsterdam", "Amsterdão"]
+    },
     "code": "NL",
     "continent": "europe",
     "map": {
@@ -4626,7 +5364,7 @@
     },
     "nameAliases": {
       "de": ["Holland"],
-      "en": ["Holland"],
+      "en": ["Holland", "The Netherlands"],
       "es": ["Holanda"],
       "fr": ["Hollande"],
       "it": ["Olanda"],
@@ -4677,6 +5415,13 @@
       "fr": "Katmandou",
       "it": "Katmandu",
       "pt": "Catmandu"
+    },
+    "capitalAliases": {
+      "de": ["Katmandu"],
+      "es": ["Kathmandu"],
+      "fr": ["Kathmandu"],
+      "it": ["Kathmandu"],
+      "pt": ["Kathmandu", "Katmandu"]
     },
     "code": "NP",
     "continent": "asia",
@@ -4775,6 +5520,10 @@
       "it": "Nuova Zelanda",
       "pt": "Nova Zelândia"
     },
+    "nameAliases": {
+      "en": ["Aotearoa", "NZ"],
+      "es": ["Nueva Zelandia", "New Zealand"]
+    },
     "regions": ["world", "oceania"]
   },
   {
@@ -4785,6 +5534,13 @@
       "fr": "Mascate",
       "it": "Mascate",
       "pt": "Mascate"
+    },
+    "capitalAliases": {
+      "de": ["Muscat"],
+      "es": ["Muscat"],
+      "fr": ["Muscat"],
+      "it": ["Muscat"],
+      "pt": ["Muscat"]
     },
     "code": "OM",
     "continent": "asia",
@@ -4818,6 +5574,14 @@
       "fr": "Panama",
       "it": "Panama",
       "pt": "Cidade do Panamá"
+    },
+    "capitalAliases": {
+      "de": ["Panama City"],
+      "en": ["Ciudad de Panama"],
+      "es": ["Panamá", "Panama City"],
+      "fr": ["Panama City", "Ciudad de Panama"],
+      "it": ["Panama City"],
+      "pt": ["Ciudad de Panamá"]
     },
     "code": "PA",
     "continent": "north-america",
@@ -4885,6 +5649,10 @@
       "it": "Port Moresby",
       "pt": "Port Moresby"
     },
+    "capitalAliases": {
+      "es": ["Port Moresby"],
+      "pt": ["Porto Moresby"]
+    },
     "code": "PG",
     "continent": "oceania",
     "map": {
@@ -4907,6 +5675,9 @@
       "it": "Papua Nuova Guinea",
       "pt": "Papua Nova Guiné"
     },
+    "nameAliases": {
+      "en": ["PNG"]
+    },
     "regions": ["world", "oceania"]
   },
   {
@@ -4917,6 +5688,10 @@
       "fr": "Manille",
       "it": "Manila",
       "pt": "Manila"
+    },
+    "capitalAliases": {
+      "fr": ["Manila"],
+      "pt": ["Manilha"]
     },
     "code": "PH",
     "continent": "asia",
@@ -4940,6 +5715,10 @@
       "it": "Filippine",
       "pt": "Filipinas"
     },
+    "nameAliases": {
+      "en": ["The Philippines", "Republic of the Philippines"],
+      "es": ["Philippines"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -4950,6 +5729,9 @@
       "fr": "Islamabad",
       "it": "Islamabad",
       "pt": "Islamabad"
+    },
+    "capitalAliases": {
+      "pt": ["Islamabade"]
     },
     "code": "PK",
     "continent": "asia",
@@ -4984,6 +5766,10 @@
       "it": "Varsavia",
       "pt": "Varsóvia"
     },
+    "capitalAliases": {
+      "en": ["Warszawa"],
+      "es": ["Warszawa", "Warsaw"]
+    },
     "code": "PL",
     "continent": "europe",
     "map": {
@@ -5017,6 +5803,10 @@
       "it": "Ramallah",
       "pt": "Ramallah"
     },
+    "capitalAliases": {
+      "es": ["Ramallah"],
+      "pt": ["Ramala"]
+    },
     "code": "PS",
     "continent": "asia",
     "map": {
@@ -5039,6 +5829,12 @@
       "it": "Palestina",
       "pt": "Palestina"
     },
+    "nameAliases": {
+      "de": ["Palaestina"],
+      "en": ["State of Palestine"],
+      "es": ["Estado de Palestina"],
+      "fr": ["État de Palestine"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -5049,6 +5845,10 @@
       "fr": "Lisbonne",
       "it": "Lisbona",
       "pt": "Lisboa"
+    },
+    "capitalAliases": {
+      "en": ["Lisboa"],
+      "es": ["Lisbon"]
     },
     "code": "PT",
     "continent": "europe",
@@ -5116,6 +5916,7 @@
       "pt": "Palau"
     },
     "nameAliases": {
+      "es": ["Palaos"],
       "fr": ["Palaos", "Palau"]
     },
     "regions": ["world", "oceania"]
@@ -5128,6 +5929,9 @@
       "fr": "Asuncion",
       "it": "Asunción",
       "pt": "Assunção"
+    },
+    "capitalAliases": {
+      "pt": ["Asunción"]
     },
     "code": "PY",
     "continent": "south-america",
@@ -5185,7 +5989,9 @@
       "pt": "Catar"
     },
     "nameAliases": {
-      "es": ["Qatar"]
+      "de": ["Qatar"],
+      "es": ["Qatar"],
+      "pt": ["Qatar"]
     },
     "regions": ["world", "asia"]
   },
@@ -5197,6 +6003,11 @@
       "fr": "Bucarest",
       "it": "Bucarest",
       "pt": "Bucareste"
+    },
+    "capitalAliases": {
+      "en": ["Bucuresti"],
+      "es": ["Bucharest"],
+      "it": ["Bucharest"]
     },
     "code": "RO",
     "continent": "europe",
@@ -5220,6 +6031,10 @@
       "it": "Romania",
       "pt": "Roménia"
     },
+    "nameAliases": {
+      "de": ["Rumaenien"],
+      "es": ["Romania"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -5230,6 +6045,11 @@
       "fr": "Belgrade",
       "it": "Belgrado",
       "pt": "Belgrado"
+    },
+    "capitalAliases": {
+      "en": ["Beograd"],
+      "es": ["Belgrade"],
+      "it": ["Belgrade"]
     },
     "code": "RS",
     "continent": "europe",
@@ -5264,6 +6084,12 @@
       "it": "Mosca",
       "pt": "Moscovo"
     },
+    "capitalAliases": {
+      "en": ["Moskva"],
+      "es": ["Moscow", "Moscova"],
+      "it": ["Moscow", "Moskva"],
+      "pt": ["Moscou"]
+    },
     "code": "RU",
     "continent": "europe",
     "map": {
@@ -5286,6 +6112,14 @@
       "it": "Russia",
       "pt": "Rússia"
     },
+    "nameAliases": {
+      "de": ["Russische Föderation"],
+      "en": ["Russian Federation"],
+      "es": ["Russia", "Federación Rusa"],
+      "fr": ["Fédération de Russie"],
+      "it": ["Federazione Russa"],
+      "pt": ["Federação Russa"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -5296,6 +6130,9 @@
       "fr": "Kigali",
       "it": "Kigali",
       "pt": "Quigali"
+    },
+    "capitalAliases": {
+      "pt": ["Kigali"]
     },
     "code": "RW",
     "continent": "africa",
@@ -5319,6 +6156,11 @@
       "it": "Ruanda",
       "pt": "Ruanda"
     },
+    "nameAliases": {
+      "de": ["Rwanda"],
+      "es": ["Rwanda"],
+      "it": ["Rwanda"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -5329,6 +6171,13 @@
       "fr": "Riyad",
       "it": "Riad",
       "pt": "Riade"
+    },
+    "capitalAliases": {
+      "de": ["Riyadh"],
+      "es": ["Riyadh"],
+      "fr": ["Riyadh"],
+      "it": ["Riyadh"],
+      "pt": ["Riad", "Riyadh"]
     },
     "code": "SA",
     "continent": "asia",
@@ -5351,6 +6200,10 @@
       "fr": "Arabie Saoudite",
       "it": "Arabia Saudita",
       "pt": "Arábia Saudita"
+    },
+    "nameAliases": {
+      "en": ["KSA", "Kingdom of Saudi Arabia"],
+      "es": ["Arabia Saudita"]
     },
     "regions": ["world", "asia"]
   },
@@ -5394,6 +6247,10 @@
       "it": "Isole Salomone",
       "pt": "Ilhas Salomão"
     },
+    "nameAliases": {
+      "de": ["Salomoninseln"],
+      "fr": ["Salomon"]
+    },
     "regions": ["world", "oceania"]
   },
   {
@@ -5404,6 +6261,9 @@
       "fr": "Victoria",
       "it": "Victoria",
       "pt": "Victoria"
+    },
+    "capitalAliases": {
+      "pt": ["Vitória"]
     },
     "code": "SC",
     "continent": "africa",
@@ -5436,6 +6296,9 @@
       "it": "Seychelles",
       "pt": "Seicheles"
     },
+    "nameAliases": {
+      "pt": ["Seychelles"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -5446,6 +6309,12 @@
       "fr": "Khartoum",
       "it": "Khartum",
       "pt": "Cartum"
+    },
+    "capitalAliases": {
+      "de": ["Khartum"],
+      "es": ["Khartoum", "Kartum"],
+      "it": ["Khartoum"],
+      "pt": ["Khartoum", "Khartum"]
     },
     "code": "SD",
     "continent": "africa",
@@ -5480,6 +6349,10 @@
       "it": "Stoccolma",
       "pt": "Estocolmo"
     },
+    "capitalAliases": {
+      "es": ["Stockholm"],
+      "pt": ["Stockholm"]
+    },
     "code": "SE",
     "continent": "europe",
     "map": {
@@ -5513,6 +6386,10 @@
       "it": "Singapore",
       "pt": "Singapura"
     },
+    "capitalAliases": {
+      "de": ["Singapore"],
+      "pt": ["Singapore"]
+    },
     "code": "SG",
     "continent": "asia",
     "countryPressArea": {
@@ -5544,6 +6421,11 @@
       "it": "Singapore",
       "pt": "Singapura"
     },
+    "nameAliases": {
+      "de": ["Singapore"],
+      "es": ["Singapore"],
+      "pt": ["Singapore"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -5554,6 +6436,11 @@
       "fr": "Ljubljana",
       "it": "Lubiana",
       "pt": "Liubliana"
+    },
+    "capitalAliases": {
+      "es": ["Ljubljana"],
+      "it": ["Ljubljana"],
+      "pt": ["Ljubljana"]
     },
     "code": "SI",
     "continent": "europe",
@@ -5588,6 +6475,9 @@
       "it": "Bratislava",
       "pt": "Bratislava"
     },
+    "capitalAliases": {
+      "de": ["Pressburg"]
+    },
     "code": "SK",
     "continent": "europe",
     "map": {
@@ -5609,6 +6499,11 @@
       "fr": "Slovaquie",
       "it": "Slovacchia",
       "pt": "Eslováquia"
+    },
+    "nameAliases": {
+      "de": ["Slowakische Republik"],
+      "en": ["Slovak Republic"],
+      "es": ["Eslovaquia", "Slovakia"]
     },
     "regions": ["world", "europe"]
   },
@@ -5643,6 +6538,10 @@
       "it": "Sierra Leone",
       "pt": "Serra Leoa"
     },
+    "nameAliases": {
+      "es": ["Sierra Leona"],
+      "pt": ["Sierra Leone"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -5653,6 +6552,10 @@
       "fr": "Saint-Marin",
       "it": "Città di San Marino",
       "pt": "San Marino"
+    },
+    "capitalAliases": {
+      "it": ["San Marino"],
+      "pt": ["São Marinho"]
     },
     "code": "SM",
     "continent": "europe",
@@ -5685,6 +6588,9 @@
       "it": "San Marino",
       "pt": "San Marino"
     },
+    "nameAliases": {
+      "pt": ["São Marinho"]
+    },
     "regions": ["world", "europe"]
   },
   {
@@ -5695,6 +6601,9 @@
       "fr": "Dakar",
       "it": "Dakar",
       "pt": "Dacar"
+    },
+    "capitalAliases": {
+      "pt": ["Dakar"]
     },
     "code": "SN",
     "continent": "africa",
@@ -5728,6 +6637,13 @@
       "fr": "Mogadiscio",
       "it": "Mogadiscio",
       "pt": "Mogadixo"
+    },
+    "capitalAliases": {
+      "de": ["Mogadishu"],
+      "es": ["Mogadishu"],
+      "fr": ["Mogadishu"],
+      "it": ["Mogadishu"],
+      "pt": ["Mogadíscio", "Mogadishu"]
     },
     "code": "SO",
     "continent": "africa",
@@ -5784,6 +6700,13 @@
       "it": "Suriname",
       "pt": "Suriname"
     },
+    "nameAliases": {
+      "de": ["Surinam"],
+      "en": ["Surinam", "Dutch Guiana"],
+      "es": ["Suriname"],
+      "fr": ["Suriname"],
+      "pt": ["Surinam"]
+    },
     "regions": ["world", "south-america"]
   },
   {
@@ -5794,6 +6717,11 @@
       "fr": "Djouba",
       "it": "Giuba",
       "pt": "Juba"
+    },
+    "capitalAliases": {
+      "es": ["Juba"],
+      "fr": ["Juba"],
+      "it": ["Juba"]
     },
     "code": "SS",
     "continent": "africa",
@@ -5817,6 +6745,10 @@
       "it": "Sudan del sud",
       "pt": "Sudão do Sul"
     },
+    "nameAliases": {
+      "de": ["Suedsudan"],
+      "es": ["South Sudan"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -5827,6 +6759,9 @@
       "fr": "São Tomé",
       "it": "São Tomé",
       "pt": "São Tomé"
+    },
+    "capitalAliases": {
+      "es": ["Sao Tomé"]
     },
     "code": "ST",
     "continent": "africa",
@@ -5858,6 +6793,9 @@
       "fr": "São Tomé et Príncipe",
       "it": "São Tomé e Príncipe",
       "pt": "São Tomé e Príncipe"
+    },
+    "nameAliases": {
+      "es": ["Sao Tomé y Príncipe"]
     },
     "regions": ["world", "africa"]
   },
@@ -5892,6 +6830,9 @@
       "it": "El Salvador",
       "pt": "El Salvador"
     },
+    "nameAliases": {
+      "fr": ["El Salvador"]
+    },
     "regions": ["world", "north-america"]
   },
   {
@@ -5902,6 +6843,10 @@
       "fr": "Damas",
       "it": "Damasco",
       "pt": "Damasco"
+    },
+    "capitalAliases": {
+      "es": ["Damascus"],
+      "it": ["Damascus"]
     },
     "code": "SY",
     "continent": "asia",
@@ -5925,6 +6870,9 @@
       "it": "Siria",
       "pt": "Síria"
     },
+    "nameAliases": {
+      "en": ["Syrian Arab Republic"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -5935,6 +6883,11 @@
       "fr": "Mbabane",
       "it": "Mbabane",
       "pt": "Mebabane"
+    },
+    "capitalAliases": {
+      "es": ["Lobamba"],
+      "it": ["Lobamba"],
+      "pt": ["Mbabane"]
     },
     "code": "SZ",
     "continent": "africa",
@@ -5959,7 +6912,7 @@
       "pt": "Eswatini"
     },
     "nameAliases": {
-      "de": ["Swasiland"],
+      "de": ["Swasiland", "Swaziland"],
       "en": ["Swaziland"],
       "es": ["Suazilandia", "Esuatini"],
       "fr": ["Swaziland"],
@@ -5976,6 +6929,10 @@
       "fr": "N'Djaména",
       "it": "N'Djamena",
       "pt": "Jamena"
+    },
+    "capitalAliases": {
+      "es": ["N'Djamena", "Ndyamena"],
+      "pt": ["N'Djamena"]
     },
     "code": "TD",
     "continent": "africa",
@@ -5998,6 +6955,9 @@
       "fr": "Tchad",
       "it": "Ciad",
       "pt": "Chade"
+    },
+    "nameAliases": {
+      "it": ["Chad"]
     },
     "regions": ["world", "africa"]
   },
@@ -6043,6 +7003,10 @@
       "it": "Bangkok",
       "pt": "Banguecoque"
     },
+    "capitalAliases": {
+      "en": ["Krung Thep"],
+      "pt": ["Bangkok", "Bangcoc"]
+    },
     "code": "TH",
     "continent": "asia",
     "map": {
@@ -6065,6 +7029,13 @@
       "it": "Tailandia",
       "pt": "Tailândia"
     },
+    "nameAliases": {
+      "en": ["Siam"],
+      "es": ["Thailand", "Siam"],
+      "fr": ["Siam"],
+      "it": ["Thailandia"],
+      "pt": ["Sião"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -6075,6 +7046,13 @@
       "fr": "Douchanbé",
       "it": "Dušanbe",
       "pt": "Duchambe"
+    },
+    "capitalAliases": {
+      "de": ["Dushanbe"],
+      "es": ["Dushanbe"],
+      "fr": ["Dushanbe"],
+      "it": ["Dushanbe"],
+      "pt": ["Dushanbe"]
     },
     "code": "TJ",
     "continent": "asia",
@@ -6097,6 +7075,9 @@
       "fr": "Tadjikistan",
       "it": "Tagikistan",
       "pt": "Tajiquistão"
+    },
+    "nameAliases": {
+      "es": ["Tadyikistán"]
     },
     "regions": ["world", "asia"]
   },
@@ -6134,8 +7115,9 @@
     "nameAliases": {
       "de": ["Timor-Leste"],
       "en": ["East Timor"],
-      "es": ["Timor-Leste"],
+      "es": ["Timor-Leste", "Timor Este"],
       "fr": ["Timor-Leste"],
+      "it": ["Timor Leste", "Timor Orientale"],
       "pt": ["Timor Oriental"]
     },
     "regions": ["world", "asia"]
@@ -6148,6 +7130,14 @@
       "fr": "Achgabat",
       "it": "Aşgabat",
       "pt": "Asgabate"
+    },
+    "capitalAliases": {
+      "de": ["Aschgabat", "Ashgabat"],
+      "en": ["Ashkhabad"],
+      "es": ["Ashgabat", "Ashjabad"],
+      "fr": ["Ashgabat"],
+      "it": ["Ashgabat"],
+      "pt": ["Ashgabat"]
     },
     "code": "TM",
     "continent": "asia",
@@ -6171,6 +7161,9 @@
       "it": "Turkmenistan",
       "pt": "Turquemenistão"
     },
+    "nameAliases": {
+      "pt": ["Turcomenistão"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -6181,6 +7174,9 @@
       "fr": "Tunis",
       "it": "Tunisi",
       "pt": "Tunes"
+    },
+    "capitalAliases": {
+      "pt": ["Tunis"]
     },
     "code": "TN",
     "continent": "africa",
@@ -6203,6 +7199,9 @@
       "fr": "Tunisie",
       "it": "Tunisia",
       "pt": "Tunísia"
+    },
+    "nameAliases": {
+      "es": ["Tunisia"]
     },
     "regions": ["world", "africa"]
   },
@@ -6257,6 +7256,10 @@
       "it": "Ankara",
       "pt": "Ancara"
     },
+    "capitalAliases": {
+      "en": ["Angora"],
+      "pt": ["Ankara"]
+    },
     "code": "TR",
     "continent": "asia",
     "map": {
@@ -6279,6 +7282,12 @@
       "it": "Turchia",
       "pt": "Turquia"
     },
+    "nameAliases": {
+      "de": ["Tuerkei"],
+      "en": ["Türkiye"],
+      "es": ["Türkiye"],
+      "fr": ["Türkiye"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -6289,6 +7298,11 @@
       "fr": "Port-d'Espagne",
       "it": "Port of Spain",
       "pt": "Port of Spain"
+    },
+    "capitalAliases": {
+      "es": ["Port of Spain"],
+      "fr": ["Port of Spain"],
+      "pt": ["Porto de Espanha"]
     },
     "code": "TT",
     "continent": "north-america",
@@ -6320,6 +7334,11 @@
       "fr": "Trinité-et-Tobago",
       "it": "Trinidad e Tobago",
       "pt": "Trinidade e Tobago"
+    },
+    "nameAliases": {
+      "en": ["Trinidad"],
+      "fr": ["Trinidad et Tobago"],
+      "pt": ["Trinidad e Tobago"]
     },
     "regions": ["world", "north-america", "caribbean"]
   },
@@ -6374,6 +7393,9 @@
       "it": "Dodoma",
       "pt": "Dodoma"
     },
+    "capitalAliases": {
+      "es": ["Dar es Salaam"]
+    },
     "code": "TZ",
     "continent": "africa",
     "map": {
@@ -6396,6 +7418,9 @@
       "it": "Tanzania",
       "pt": "Tanzânia"
     },
+    "nameAliases": {
+      "de": ["Tanzania"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -6408,8 +7433,11 @@
       "pt": "Kiev"
     },
     "capitalAliases": {
+      "de": ["Kyiv", "Kiev", "Kyjiw"],
+      "en": ["Kiev"],
       "es": ["Kyiv"],
       "fr": ["Kyiv"],
+      "it": ["Kyiv"],
       "pt": ["Kyiv"]
     },
     "code": "UA",
@@ -6445,6 +7473,9 @@
       "it": "Kampala",
       "pt": "Campala"
     },
+    "capitalAliases": {
+      "pt": ["Kampala"]
+    },
     "code": "UG",
     "continent": "africa",
     "map": {
@@ -6478,6 +7509,14 @@
       "it": "Washington",
       "pt": "Washington, D.C."
     },
+    "capitalAliases": {
+      "de": ["Washington"],
+      "en": ["Washington"],
+      "es": ["Washington"],
+      "fr": ["Washington DC"],
+      "it": ["Washington DC"],
+      "pt": ["Washington"]
+    },
     "code": "US",
     "continent": "north-america",
     "map": {
@@ -6501,11 +7540,11 @@
       "pt": "Estados Unidos"
     },
     "nameAliases": {
-      "de": ["USA", "Vereinigte Staaten von Amerika", "Amerika"],
+      "de": ["USA", "Vereinigte Staaten von Amerika", "Amerika", "US"],
       "en": ["USA", "US", "United States of America", "America"],
-      "es": ["EEUU", "USA", "Estados Unidos de America"],
+      "es": ["EEUU", "USA", "Estados Unidos de America", "United States"],
       "fr": ["USA", "États-Unis d'Amérique", "Amérique"],
-      "it": ["USA", "Stati Uniti"],
+      "it": ["USA", "Stati Uniti", "America"],
       "pt": ["EUA", "USA", "Estados Unidos da America"]
     },
     "regions": ["world", "north-america"],
@@ -6553,6 +7592,12 @@
       "it": "Tashkent",
       "pt": "Tasquente"
     },
+    "capitalAliases": {
+      "de": ["Tashkent"],
+      "es": ["Tashkent"],
+      "fr": ["Tashkent"],
+      "pt": ["Tashkent"]
+    },
     "code": "UZ",
     "continent": "asia",
     "map": {
@@ -6575,6 +7620,9 @@
       "it": "Uzbekistan",
       "pt": "Uzbequistão"
     },
+    "nameAliases": {
+      "de": ["Uzbekistan"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -6585,6 +7633,10 @@
       "fr": "Vatican",
       "it": "Città del Vaticano",
       "pt": "Vaticano"
+    },
+    "capitalAliases": {
+      "de": ["Vatikan"],
+      "es": ["Vaticano"]
     },
     "code": "VA",
     "continent": "europe",
@@ -6618,9 +7670,12 @@
       "pt": "Cidade do Vaticano"
     },
     "nameAliases": {
+      "de": ["Vatikan", "Vatikanstaat"],
       "en": ["Vatican", "Holy See"],
-      "fr": ["Vatican", "Saint-Siège"],
-      "it": ["Vaticano", "Santa Sede"]
+      "es": ["Vaticano", "Santa Sede"],
+      "fr": ["Vatican", "Saint-Siège", "État de la Cité du Vatican"],
+      "it": ["Vaticano", "Santa Sede"],
+      "pt": ["Santa Sé", "Vaticano"]
     },
     "regions": ["world", "europe"]
   },
@@ -6663,6 +7718,13 @@
       "fr": "Saint-Vincent-et-les-Grenadines",
       "it": "Saint Vincent e Grenadine",
       "pt": "São Vincente e Granadinas"
+    },
+    "nameAliases": {
+      "de": ["Saint Vincent und die Grenadinen"],
+      "en": ["St. Vincent and the Grenadines"],
+      "es": ["San Vicente y las Granadinas", "Saint Vincent y las Granadinas"],
+      "it": ["San Vincenzo e Grenadine"],
+      "pt": ["São Vicente e Granadinas", "Saint Vincent e Granadinas"]
     },
     "regions": ["world", "north-america", "caribbean"]
   },
@@ -6744,6 +7806,9 @@
       "it": "Port Vila",
       "pt": "Porto Vila"
     },
+    "capitalAliases": {
+      "pt": ["Port Vila"]
+    },
     "code": "VU",
     "continent": "oceania",
     "countryPressArea": {
@@ -6774,6 +7839,9 @@
       "fr": "Vanuatu",
       "it": "Vanuatu",
       "pt": "Vanuatu"
+    },
+    "nameAliases": {
+      "en": ["New Hebrides"]
     },
     "regions": ["world", "oceania"]
   },
@@ -6817,6 +7885,12 @@
       "it": "Samoa",
       "pt": "Samoa"
     },
+    "nameAliases": {
+      "en": ["Western Samoa"],
+      "es": ["Samoa Occidental"],
+      "fr": ["Samoa Occidentales"],
+      "pt": ["Samoa Ocidental"]
+    },
     "regions": ["world", "oceania"]
   },
   {
@@ -6827,6 +7901,12 @@
       "fr": "Pristina",
       "it": "Pristina",
       "pt": "Pristina"
+    },
+    "capitalAliases": {
+      "en": ["Prishtina"],
+      "es": ["Prishtina"],
+      "fr": ["Prishtina"],
+      "it": ["Prishtina"]
     },
     "code": "XK",
     "continent": "europe",
@@ -6849,6 +7929,9 @@
       "fr": "Kosovo",
       "it": "Kosovo",
       "pt": "Kosovo"
+    },
+    "nameAliases": {
+      "pt": ["Cosovo"]
     },
     "regions": ["world", "europe"]
   },
@@ -6906,6 +7989,10 @@
       "it": "Sana'a",
       "pt": "Sana"
     },
+    "capitalAliases": {
+      "es": ["Sanaa"],
+      "pt": ["Sanaa"]
+    },
     "code": "YE",
     "continent": "asia",
     "map": {
@@ -6928,6 +8015,10 @@
       "it": "Yemen",
       "pt": "Iémen"
     },
+    "nameAliases": {
+      "de": ["Yemen"],
+      "pt": ["Yemen"]
+    },
     "regions": ["world", "asia"]
   },
   {
@@ -6938,6 +8029,12 @@
       "fr": "Pretoria",
       "it": "Pretoria",
       "pt": "Pretória"
+    },
+    "capitalAliases": {
+      "en": ["Cape Town", "Bloemfontein"],
+      "es": ["Ciudad del Cabo", "Bloemfontein"],
+      "fr": ["Le Cap", "Cape Town", "Bloemfontein"],
+      "pt": ["Cidade do Cabo", "Bloemfontein"]
     },
     "code": "ZA",
     "continent": "africa",
@@ -6961,6 +8058,10 @@
       "it": "Sud Africa",
       "pt": "África do Sul"
     },
+    "nameAliases": {
+      "de": ["Suedafrika"],
+      "es": ["South Africa"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -6971,6 +8072,9 @@
       "fr": "Lusaka",
       "it": "Lusaka",
       "pt": "Lusaca"
+    },
+    "capitalAliases": {
+      "pt": ["Lusaka"]
     },
     "code": "ZM",
     "continent": "africa",
@@ -6994,6 +8098,10 @@
       "it": "Zambia",
       "pt": "Zâmbia"
     },
+    "nameAliases": {
+      "de": ["Zambia"],
+      "en": ["Northern Rhodesia"]
+    },
     "regions": ["world", "africa"]
   },
   {
@@ -7004,6 +8112,10 @@
       "fr": "Harare",
       "it": "Harare",
       "pt": "Harare"
+    },
+    "capitalAliases": {
+      "en": ["Salisbury"],
+      "fr": ["Salisbury"]
     },
     "code": "ZW",
     "continent": "africa",
@@ -7026,6 +8138,13 @@
       "fr": "Zimbabwe",
       "it": "Zimbabwe",
       "pt": "Zimbabwe"
+    },
+    "nameAliases": {
+      "de": ["Zimbabwe"],
+      "en": ["Rhodesia"],
+      "es": ["Zimbabwe"],
+      "fr": ["Rhodésie"],
+      "pt": ["Zimbábue"]
     },
     "regions": ["world", "africa"]
   }
