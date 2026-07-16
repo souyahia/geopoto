@@ -36,37 +36,46 @@ export function BackroomsPage() {
       <BackroomsThemeSelector />
       {palestineFlagImageSource !== null && palestineFlagSize !== null ? (
         <View className="items-center gap-2 py-4">
-          <Galeria
-            urls={[palestineFlagGaleriaUrl ?? palestineFlagImageSource]}
-            theme="dark"
+          <View
+            className="border border-default"
+            style={{
+              height: palestineFlagSize.height,
+              width: palestineFlagSize.width,
+            }}
           >
-            <Galeria.Image
-              dynamicAspectRatio
-              edgeToEdge
-              onDismiss={restoreAppColorScheme}
-              onLongPress={restoreAppColorScheme}
-            >
-              <View
-                className="border border-default"
+            {palestineFlagGaleriaUrl !== null ? (
+              <Galeria urls={[palestineFlagGaleriaUrl]} theme="dark">
+                <Galeria.Image
+                  dynamicAspectRatio
+                  edgeToEdge
+                  onDismiss={restoreAppColorScheme}
+                  onLongPress={restoreAppColorScheme}
+                >
+                  <Image
+                    accessibilityLabel="Palestine flag"
+                    contentFit="contain"
+                    onTouchCancel={restoreAppColorScheme}
+                    onTouchStart={enableGaleriaDarkMode}
+                    source={palestineFlagImageSource}
+                    style={{
+                      height: palestineFlagSize.height,
+                      width: palestineFlagSize.width,
+                    }}
+                  />
+                </Galeria.Image>
+              </Galeria>
+            ) : (
+              <Image
+                accessibilityLabel="Palestine flag"
+                contentFit="contain"
+                source={palestineFlagImageSource}
                 style={{
                   height: palestineFlagSize.height,
                   width: palestineFlagSize.width,
                 }}
-              >
-                <Image
-                  accessibilityLabel="Palestine flag"
-                  contentFit="contain"
-                  onTouchCancel={restoreAppColorScheme}
-                  onTouchStart={enableGaleriaDarkMode}
-                  source={palestineFlagImageSource}
-                  style={{
-                    height: palestineFlagSize.height,
-                    width: palestineFlagSize.width,
-                  }}
-                />
-              </View>
-            </Galeria.Image>
-          </Galeria>
+              />
+            )}
+          </View>
           <Text type="body-sm" color="muted">
             Palestine
           </Text>
